@@ -9,11 +9,10 @@ branches:
 script:
   - hexo generate # generate static files
 deploy:
-  provider: master
+  provider: pages
   skip_cleanup: true
   github_token: ${GH_TOKEN}  # Set in the settings page of your repository, as a secure variable
   keep_history: true
   local-dir: public
-  target_branch: gh-pages 
   on:
     branch: master
