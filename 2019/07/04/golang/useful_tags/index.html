@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    
+    <title>
+        tags | 做瓷器的金刚钻
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <link rel="shortcut icon" href="/images/favicon.svg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <script id="hexo-configurations">
+    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
+  </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="page-container">
+
+    <header class="page-header">
+        <div class="header-progress"></div>
+    </header>
+
+    <main class="page-main">
+
+        <div class="page-main-content">
+
+            <div class="page-main-content-top">
+                <header class="header-wrapper">
+
+    <div class="header-content">
+
+        <a class="logo-title" href="/">
+            做瓷器的金刚钻
+        </a>
+
+        <ul class="menu-list">
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/"
+                    >
+                        主页
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/archives"
+                    >
+                        ARCHIVES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/about"
+                    >
+                        ABOUT
+                    </a>
+                </li>
+            
+        </ul>
+
+        <div class="menu-bar">
+            <div class="menu-bar-middle"></div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/">主页</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+            </div>
+
+            <div class="page-main-content-middle">
+
+                <main class="main-content normal-code-theme">
+
+                    
+                        <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <h3><a class="title-hover-animation">tags</a></h3>
+        </div>
+
+        <div class="meta-info">
+            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa fa-calendar-o"></i> 2019-07-05 02:03:48
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa fa-folder"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa fa-tags"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/tags/golang/">golang</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+    
+    
+</div>
+
+        </div>
+
+        <div class="article-content markdown-body">
+            <h1 id="tags-标签在golang-中有什么作用？"><a href="#tags-标签在golang-中有什么作用？" class="headerlink" title="tags 标签在golang 中有什么作用？"></a>tags 标签在golang 中有什么作用？</h1><p>字段标记允许您将元信息附加到可以使用反射获取的字段上。通常，它用于提供有关如何将结构域编码为另一种格式（或从另一种格式存储（或从数据库中检索））的转换信息，但是您可以使用它存储想要存储的任何元信息，这些元信息既可以用于另一种包装或供您自己使用。</p>
+<a id="more"></a>
+
+<blockquote>
+<p><code>key</code> 通常表示包，<code>json</code>这个<code>key</code>就表示<code>encoding/json</code>这个包</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="keyword">string</span> <span class="string">`json:"name" xml:"name"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果在 <code>tag</code>中传递多个信息的<code>value</code>，通常使用<code>,</code>进行分隔，</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="keyword">string</span> <span class="string">`json:"name" xml:"name"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>通常用破折号 <code>-</code> 表示将字段从<code>value</code>中排除</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="keyword">string</span> <span class="string">`json:"-,"`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="使用反射访问自定义标签"><a href="#使用反射访问自定义标签" class="headerlink" title="使用反射访问自定义标签"></a>使用反射访问自定义标签</h1><p>可以使用反射<code>reflect</code>来访问结构字段的标记值。基本上，我们需要获取<code>Type</code>的结构，然后可以使用<code>Type.Field(i int)</code>或<code>Type.FieldByName(name string)</code>查询字段。这些方法返回的值<code>StructField</code>描述/表示一个<code>struct</code>字段；并且<code>StructField.Tag</code>是<code>StructTag</code>描述/表示标记值的类型值。</p>
+<p>以前我们谈论过“惯例”。这种约定意味着，如果你遵循它，你可以使用<code>StructTag.Get(key string)</code>它解析变量的值，并返回该方法<code>&quot;value&quot;</code>的<code>key</code>指定。该公约实施/内置到这个<code>Get()</code>方法。如果您不遵循约定，<code>Get()</code>将无法解析<code>key:&quot;value&quot;</code>对并找到您要查找的内容。这也不是问题，但是您需要实现自己的解析逻辑。</p>
+<p>还有<code>StructTag.Lookup()</code>（在Go 1.7中添加了），它类似于，<code>Get()</code>但是将不包含给定键的标签与将空字符串与给定键相关联的标签区分开”。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name  <span class="keyword">string</span> <span class="string">`mytag:"MyName"`</span></span><br><span class="line">    Email <span class="keyword">string</span> <span class="string">`mytag:"MyEmail"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u := User&#123;<span class="string">"Bob"</span>, <span class="string">"bob@mycompany.com"</span>&#125;</span><br><span class="line">t := reflect.TypeOf(u)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> _, fieldName := <span class="keyword">range</span> []<span class="keyword">string</span>&#123;<span class="string">"Name"</span>, <span class="string">"Email"</span>&#125; &#123;</span><br><span class="line">    field, found := t.FieldByName(fieldName)</span><br><span class="line">    <span class="keyword">if</span> !found &#123;</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Printf(<span class="string">"\nField: User.%s\n"</span>, fieldName)</span><br><span class="line">    fmt.Printf(<span class="string">"\tWhole tag value : %q\n"</span>, field.Tag)</span><br><span class="line">    fmt.Printf(<span class="string">"\tValue of 'mytag': %q\n"</span>, field.Tag.Get(<span class="string">"mytag"</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>输出：</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Field: User.Name</span><br><span class="line">    Whole tag value : <span class="string">"mytag:\"MyName\""</span></span><br><span class="line">    Value of <span class="string">'mytag'</span>: <span class="string">"MyName"</span></span><br><span class="line"></span><br><span class="line">Field: User.Email</span><br><span class="line">    Whole tag value : <span class="string">"mytag:\"MyEmail\""</span></span><br><span class="line">    Value of <span class="string">'mytag'</span>: <span class="string">"MyEmail"</span></span><br></pre></td></tr></table></figure>
+        </div>
+
+        <div class="article-nav">
+            
+                <div class="article-prev">
+                    <a class="prev btn"
+                       rel="prev"
+                       href="/2019/07/04/design_pattern/python/Visitor_Pattern/"
+                    >
+                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">访问者模式python实现</span><span class="post-nav-item">Prev posts</span>
+                    </a>
+                </div>
+            
+            
+                <div class="article-next">
+                    <a class="next btn"
+                       rel="next"
+                       href="/2019/07/04/http/header/"
+                    >
+                        <span class="post-nav-title-item">http 的header</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
+            
+        </div>
+
+        <div class="comment-container">
+            <div class="comments-container">
+    
+        
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <div id="gitalk-container"></div>
+    <script>
+        const gitalk = new Gitalk({
+            clientID: 'c2072d06f1a2f2c5d6f2',
+            clientSecret: '429efb33ae5e4f3157ed2bb9a0c0028c9f7d71c3',
+            repo: 'chazyu1996.github.io',
+            owner: 'chazyu1996',
+            admin: ['chazyu1996'],
+            id: location.pathname,
+            language: 'zh-cn'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+    
+</div>
+        </div>
+    </div>
+</div>
+
+
+                    
+
+                </main>
+
+            </div>
+
+            <div class="page-main-content-bottom">
+                <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy; 2020 <i class="fa fa-heart-o"></i> <a href="/">ChazYu</a>
+        </div>
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a
+                    href="https://github.com/XPoet/hexo-theme-ils" target="_blank">ILS v2.0.1</a>
+        </div>
+        
+    </div>
+</footer>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="sidebar-tools">
+        <div class="tools-container">
+    <ul class="tools-list">
+        
+            <li class="search popup-trigger">
+                <i class="fa fa-search"></i>
+            </li>
+            
+<script src="/js/local-search.js"></script>
+
+        
+        <li class="mode-toggle">
+            <i class="fa fa-moon-o"></i>
+        </li>
+        
+        <li class="page-aside-toggle">
+            <i class="fa fa-bars"></i>
+        </li>
+        
+            <li class="scroll-to-top">
+                <i class="fa fa-caret-up"></i>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+
+
+    <!-- page aside -->
+    <aside class="page-aside">
+        
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#tags-标签在golang-中有什么作用？"><span class="nav-number">1.</span> <span class="nav-text">tags 标签在golang 中有什么作用？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用反射访问自定义标签"><span class="nav-number">2.</span> <span class="nav-text">使用反射访问自定义标签</span></a></li></ol>
+    </div>
+</div>
+        
+    </aside>
+
+</div>
+
+
+
+
+    <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-icon">
+            <i class="fa fa-search"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/main.js"></script>
+<script src="/js/header-shrink.js"></script>
+<script src="/js/toggle-mode.js"></script>
+
+
+
+    
+<script src="/js/scroll-to-top.js"></script>
+
+
+
+
+
+    
+        
+<script src="/js/code-copy.js"></script>
+
+    
+
+    
+        
+<script src="/lib/anime.min.js"></script>
+<script src="/js/toc.js"></script>
+
+    
+
+    
+<script src="/js/post.js"></script>
+
+
+
+
+</body>
+</html>

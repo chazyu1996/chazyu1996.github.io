@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    
+    <title>
+        OSI七层协议模型、TCP/IP四层模型 | 做瓷器的金刚钻
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <link rel="shortcut icon" href="/images/favicon.svg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <script id="hexo-configurations">
+    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
+  </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="page-container">
+
+    <header class="page-header">
+        <div class="header-progress"></div>
+    </header>
+
+    <main class="page-main">
+
+        <div class="page-main-content">
+
+            <div class="page-main-content-top">
+                <header class="header-wrapper">
+
+    <div class="header-content">
+
+        <a class="logo-title" href="/">
+            做瓷器的金刚钻
+        </a>
+
+        <ul class="menu-list">
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/"
+                    >
+                        主页
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/archives"
+                    >
+                        ARCHIVES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/about"
+                    >
+                        ABOUT
+                    </a>
+                </li>
+            
+        </ul>
+
+        <div class="menu-bar">
+            <div class="menu-bar-middle"></div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/">主页</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+            </div>
+
+            <div class="page-main-content-middle">
+
+                <main class="main-content normal-code-theme">
+
+                    
+                        <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <h3><a class="title-hover-animation">OSI七层协议模型、TCP/IP四层模型</a></h3>
+        </div>
+
+        <div class="meta-info">
+            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa fa-calendar-o"></i> 2019-07-05 02:03:20
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa fa-folder"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa fa-tags"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/tags/network/">network</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+    
+    
+</div>
+
+        </div>
+
+        <div class="article-content markdown-body">
+            <h1 id="OSI七层协议模型、TCP-IP四层模型"><a href="#OSI七层协议模型、TCP-IP四层模型" class="headerlink" title="OSI七层协议模型、TCP/IP四层模型"></a>OSI七层协议模型、TCP/IP四层模型</h1><a id="more"></a>
+
+<h3 id="OSI七层和TCP-IP四层的关系"><a href="#OSI七层和TCP-IP四层的关系" class="headerlink" title="OSI七层和TCP/IP四层的关系"></a>OSI七层和TCP/IP四层的关系</h3><ol>
+<li>OSI引入了服务、接口、协议、分层的概念，TCP/IP借鉴了OSI的这些概念建立TCP/IP模型。</li>
+<li>OSI先有模型，后有协议，先有标准，后进行实践；而TCP/IP则相反，先有协议和应用再提出了模型，且是参照的OSI模型。</li>
+<li>OSI是一种理论下的模型，而TCP/IP已被广泛使用，成为网络互联事实上的标准。</li>
+</ol>
+<blockquote>
+<p>TCP：transmission control protocol 传输控制协议<br>UDP：user data protocol 用户数据报协议</p>
+</blockquote>
+<table>
+    <thead>
+        <tr>
+            <th>OSI 七层网络模型 </th>
+            <th>TCP/IP 四层概念模型 </th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>应用层（Application）</td>
+            <td rowspan="3">应用层 </td>
+            <td>HTTP、TFTP, FTP, NFS, WAIS、SMTP </td>
+        </tr>
+        <tr>
+            <td>表示层（Presentation）</td>
+            <td>Telnet, Rlogin, SNMP, Gopher </td>
+        </tr>
+        <tr>
+            <td>会话层（Session）</td>
+            <td>SMTP, DNS </td>
+        </tr>
+        <tr>
+            <td>传输层（Transport）</td>
+            <td>传输层 </td>
+            <td> TCP, UDP</td>
+        </tr>
+        <tr>
+            <td>网络层（Network）</td>
+            <td> 网络层</td>
+            <td> IP, ICMP, ARP, RARP, AKP, UUCP</td>
+        </tr>
+        <tr>
+            <td>数据链路层（Data Link）</td>
+            <td rowspan="2">数据链路层 </td>
+            <td> FDDI, Ethernet, Arpanet, PDN, SLIP, PPP</td>
+        </tr>
+        <tr>
+            <td>物理层（Physical）</td>
+            <td>IEEE 802.1A, IEEE 802.2到IEEE 802.11 </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h3 id="OSI七层协议模型"><a href="#OSI七层协议模型" class="headerlink" title="OSI七层协议模型"></a>OSI七层协议模型</h3><p>七层结构记忆方法：应、表、会、传、网、数、物</p>
+<p>应用层协议需要掌握的是：HTTP（Hyper text transfer protocol）、FTP（file transfer protocol）、SMTP（simple mail transfer rotocol）、POP3（post office protocol 3）、IMAP4（Internet mail access protocol）</p>
+<p><img src="/images/network/%E5%9B%BE1.jpeg" alt="图 1 "></p>
+<h3 id="TCP-IP四层模型"><a href="#TCP-IP四层模型" class="headerlink" title="TCP/IP四层模型"></a>TCP/IP四层模型</h3><p><img src="/images/network/%E5%9B%BE2.jpeg" alt="图 2 "></p>
+<h4 id="数据包说明"><a href="#数据包说明" class="headerlink" title="数据包说明"></a>数据包说明</h4><p><img src="/images/network/%E5%9B%BE3.gif" alt="图 3 "><br><img src="/images/network/%E5%9B%BE4.jpeg" alt="图 4 "></p>
+
+        </div>
+
+        <div class="article-nav">
+            
+                <div class="article-prev">
+                    <a class="prev btn"
+                       rel="prev"
+                       href="/2019/07/04/leetcode/14/"
+                    >
+                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">14.最长公共前缀</span><span class="post-nav-item">Prev posts</span>
+                    </a>
+                </div>
+            
+            
+                <div class="article-next">
+                    <a class="next btn"
+                       rel="next"
+                       href="/2019/07/04/linux/git/"
+                    >
+                        <span class="post-nav-title-item">Git</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
+            
+        </div>
+
+        <div class="comment-container">
+            <div class="comments-container">
+    
+        
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <div id="gitalk-container"></div>
+    <script>
+        const gitalk = new Gitalk({
+            clientID: 'c2072d06f1a2f2c5d6f2',
+            clientSecret: '429efb33ae5e4f3157ed2bb9a0c0028c9f7d71c3',
+            repo: 'chazyu1996.github.io',
+            owner: 'chazyu1996',
+            admin: ['chazyu1996'],
+            id: location.pathname,
+            language: 'zh-cn'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+    
+</div>
+        </div>
+    </div>
+</div>
+
+
+                    
+
+                </main>
+
+            </div>
+
+            <div class="page-main-content-bottom">
+                <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy; 2020 <i class="fa fa-heart-o"></i> <a href="/">ChazYu</a>
+        </div>
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a
+                    href="https://github.com/XPoet/hexo-theme-ils" target="_blank">ILS v2.0.1</a>
+        </div>
+        
+    </div>
+</footer>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="sidebar-tools">
+        <div class="tools-container">
+    <ul class="tools-list">
+        
+            <li class="search popup-trigger">
+                <i class="fa fa-search"></i>
+            </li>
+            
+<script src="/js/local-search.js"></script>
+
+        
+        <li class="mode-toggle">
+            <i class="fa fa-moon-o"></i>
+        </li>
+        
+        <li class="page-aside-toggle">
+            <i class="fa fa-bars"></i>
+        </li>
+        
+            <li class="scroll-to-top">
+                <i class="fa fa-caret-up"></i>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+
+
+    <!-- page aside -->
+    <aside class="page-aside">
+        
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OSI七层协议模型、TCP-IP四层模型"><span class="nav-number">1.</span> <span class="nav-text">OSI七层协议模型、TCP&#x2F;IP四层模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OSI七层和TCP-IP四层的关系"><span class="nav-number">1.0.1.</span> <span class="nav-text">OSI七层和TCP&#x2F;IP四层的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OSI七层协议模型"><span class="nav-number">1.0.2.</span> <span class="nav-text">OSI七层协议模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-IP四层模型"><span class="nav-number">1.0.3.</span> <span class="nav-text">TCP&#x2F;IP四层模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据包说明"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">数据包说明</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        
+    </aside>
+
+</div>
+
+
+
+
+    <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-icon">
+            <i class="fa fa-search"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/main.js"></script>
+<script src="/js/header-shrink.js"></script>
+<script src="/js/toggle-mode.js"></script>
+
+
+
+    
+<script src="/js/scroll-to-top.js"></script>
+
+
+
+
+
+    
+        
+<script src="/js/code-copy.js"></script>
+
+    
+
+    
+        
+<script src="/lib/anime.min.js"></script>
+<script src="/js/toc.js"></script>
+
+    
+
+    
+<script src="/js/post.js"></script>
+
+
+
+
+</body>
+</html>

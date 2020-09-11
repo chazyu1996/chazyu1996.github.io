@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    
+    <title>
+        HTTPS工作流程 | 做瓷器的金刚钻
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <link rel="shortcut icon" href="/images/favicon.svg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <script id="hexo-configurations">
+    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
+  </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="page-container">
+
+    <header class="page-header">
+        <div class="header-progress"></div>
+    </header>
+
+    <main class="page-main">
+
+        <div class="page-main-content">
+
+            <div class="page-main-content-top">
+                <header class="header-wrapper">
+
+    <div class="header-content">
+
+        <a class="logo-title" href="/">
+            做瓷器的金刚钻
+        </a>
+
+        <ul class="menu-list">
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/"
+                    >
+                        主页
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/archives"
+                    >
+                        ARCHIVES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/about"
+                    >
+                        ABOUT
+                    </a>
+                </li>
+            
+        </ul>
+
+        <div class="menu-bar">
+            <div class="menu-bar-middle"></div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/">主页</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+            </div>
+
+            <div class="page-main-content-middle">
+
+                <main class="main-content normal-code-theme">
+
+                    
+                        <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <h3><a class="title-hover-animation">HTTPS工作流程</a></h3>
+        </div>
+
+        <div class="meta-info">
+            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa fa-calendar-o"></i> 2019-07-05 02:04:01
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa fa-folder"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa fa-tags"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/tags/network/">network</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+    
+    
+</div>
+
+        </div>
+
+        <div class="article-content markdown-body">
+            <h1 id="普及-HTTPS工作流程"><a href="#普及-HTTPS工作流程" class="headerlink" title="(普及)HTTPS工作流程"></a>(普及)HTTPS工作流程</h1><a id="more"></a>
+
+<h3 id="简单回顾"><a href="#简单回顾" class="headerlink" title="简单回顾"></a>简单回顾</h3><p>在前面两篇博客中介绍了密码相关的一些基本工具，包括（对称密码，公钥密码，密码散列函数，混合密码系统，消息认证码码，数字签名，伪随机数，数字证书）这几个。其中它们之间也是互相依赖的，我们来简单的梳理一下它们的依赖关系。</p>
+<ul>
+<li>对称密码：无。</li>
+<li>公钥密码：无。</li>
+<li>密码散列函数：无。</li>
+<li>伪随机数：可以利用密码散列函数来实现，也可以不使用。</li>
+<li>混合密码系统：对称密码 + 公钥密码 + 密码散列函数。</li>
+<li>消息认证码：密码散列函数 + 对称密码。</li>
+<li>数字签名：密码散列函数 + 公钥密码。</li>
+<li>数字证书：公钥密码 + 数字签名。</li>
+</ul>
+<p>这篇要介绍的HTTPS，则把以上这些全都派上场了。</p>
+<h3 id="HTTPS-简史"><a href="#HTTPS-简史" class="headerlink" title="HTTPS 简史"></a>HTTPS 简史</h3><p>在早期HTTP诞生的这几年间，1990年~1994年，HTTP作为一个应用层协议，它是这样工作的:</p>
+<p><img src="/images/network/http%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F.png" alt="http工作模式"></p>
+<p>后来网景公司开发了SSL（Secure Sockets Layer）技术，然后它就变成了这样的HTTP，也就是HTTPS了：</p>
+<p><img src="/images/network/https%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F.png" alt="https工作模式"></p>
+<p>后来爆发了与IE的世纪大战，网景败北，SSL移交给了IETF（Internat Engineering Task Force）互联网工程任务组，标准化之后变成了现在的TLS，现在一般会把它们两个放在一起称为SSL/TLS。本篇并不关注SSL/TLS具体是如何工作的，只是抽象的解释下HTTPS的一个工作流程。</p>
+<h3 id="HTTPS-工作流程"><a href="#HTTPS-工作流程" class="headerlink" title="HTTPS 工作流程"></a>HTTPS 工作流程</h3><p><img src="/images/network/https%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png" alt="https工作流程"></p>
+<ol>
+<li>Client发起一个HTTPS（https:/demo.linianhui.dev）的请求，根据RFC2818的规定，Client知道需要连接Server的443（默认）端口。</li>
+<li>Server把事先配置好的公钥证书（public key certificate）返回给客户端。</li>
+<li>Client验证公钥证书：比如是否在有效期内，证书的用途是不是匹配Client请求的站点，是不是在CRL吊销列表里面，它的上一级证书是否有效，这是一个递归的过程，直到验证到根证书（操作系统内置的Root证书或者Client内置的Root证书）。如果验证通过则继续，不通过则显示警告信息。</li>
+<li>Client使用伪随机数生成器生成加密所使用的会话密钥，然后用证书的公钥加密这个会话密钥，发给Server。</li>
+<li>Server使用自己的私钥（private key）解密这个消息，得到会话密钥。至此，Client和Server双方都持有了相同的会话密钥。</li>
+<li>Server使用会话密钥加密“明文内容A”，发送给Client。</li>
+<li>Client使用会话密钥解密响应的密文，得到“明文内容A”。</li>
+<li>Client再次发起HTTPS的请求，使用会话密钥加密请求的“明文内容B”，然后Server使用会话密钥解密密文，得到“明文内容B”。</li>
+</ol>
+<p>具体的格式可以参考MDN的一个说明<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format。" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format。</a></p>
+<p>以上只是一个抽象的HTTPS的一个工作流程，实际上SSL/TLS所做的工作远不止这这些，更详细的解释请参考这篇文章：<a href="https://infoq.cn/article/HTTPS-Connection-Jeff-Moser" target="_blank" rel="noopener">https://infoq.cn/article/HTTPS-Connection-Jeff-Moser</a></p>
+<p>如有错误之处，欢迎指正！</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><blockquote>
+<p>SSL/TLS：<a href="https://en.wikipedia.org/wiki/Transport_Layer_Security" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Transport_Layer_Security</a></p>
+</blockquote>
+<blockquote>
+<p>IETF：<a href="https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force</a></p>
+</blockquote>
+<blockquote>
+<p>HTTPS：<a href="https://en.wikipedia.org/wiki/HTTPS" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/HTTPS</a></p>
+</blockquote>
+<blockquote>
+<p>HTTPS 连接最初的若干毫秒：<a href="http://www.infoq.com/cn/articles/HTTPS-Connection-Jeff-Moser" target="_blank" rel="noopener">http://www.infoq.com/cn/articles/HTTPS-Connection-Jeff-Moser</a></p>
+</blockquote>
+<blockquote>
+<p>HTTPS on Stack Overflow: The End of a Long Road：<a href="https://nickcraver.com/blog/2017/05/22/https-on-stack-overflow/" target="_blank" rel="noopener">https://nickcraver.com/blog/2017/05/22/https-on-stack-overflow/</a></p>
+</blockquote>
+<blockquote>
+<p>SSL/TLS部署最佳实践：<a href="https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices" target="_blank" rel="noopener">https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices</a></p>
+</blockquote>
+<blockquote>
+<p>HTTP Over TLS：<a href="https://tools.ietf.org/html/rfc2818" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc2818</a></p>
+</blockquote>
+<blockquote>
+<p>SSLKEYLOGFILE：<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format" target="_blank" rel="noopener">https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format</a></p>
+</blockquote>
+
+        </div>
+
+        <div class="article-nav">
+            
+                <div class="article-prev">
+                    <a class="prev btn"
+                       rel="prev"
+                       href="/2019/07/04/network/tcp_ip_connect/"
+                    >
+                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">TCP/IP 协议三次握手和四次挥手</span><span class="post-nav-item">Prev posts</span>
+                    </a>
+                </div>
+            
+            
+                <div class="article-next">
+                    <a class="next btn"
+                       rel="next"
+                       href="/2019/07/04/leetcode/38/"
+                    >
+                        <span class="post-nav-title-item">38.报数</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
+            
+        </div>
+
+        <div class="comment-container">
+            <div class="comments-container">
+    
+        
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <div id="gitalk-container"></div>
+    <script>
+        const gitalk = new Gitalk({
+            clientID: 'c2072d06f1a2f2c5d6f2',
+            clientSecret: '429efb33ae5e4f3157ed2bb9a0c0028c9f7d71c3',
+            repo: 'chazyu1996.github.io',
+            owner: 'chazyu1996',
+            admin: ['chazyu1996'],
+            id: location.pathname,
+            language: 'zh-cn'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+    
+</div>
+        </div>
+    </div>
+</div>
+
+
+                    
+
+                </main>
+
+            </div>
+
+            <div class="page-main-content-bottom">
+                <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy; 2020 <i class="fa fa-heart-o"></i> <a href="/">ChazYu</a>
+        </div>
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a
+                    href="https://github.com/XPoet/hexo-theme-ils" target="_blank">ILS v2.0.1</a>
+        </div>
+        
+    </div>
+</footer>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="sidebar-tools">
+        <div class="tools-container">
+    <ul class="tools-list">
+        
+            <li class="search popup-trigger">
+                <i class="fa fa-search"></i>
+            </li>
+            
+<script src="/js/local-search.js"></script>
+
+        
+        <li class="mode-toggle">
+            <i class="fa fa-moon-o"></i>
+        </li>
+        
+        <li class="page-aside-toggle">
+            <i class="fa fa-bars"></i>
+        </li>
+        
+            <li class="scroll-to-top">
+                <i class="fa fa-caret-up"></i>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+
+
+    <!-- page aside -->
+    <aside class="page-aside">
+        
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#普及-HTTPS工作流程"><span class="nav-number">1.</span> <span class="nav-text">(普及)HTTPS工作流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单回顾"><span class="nav-number">1.0.1.</span> <span class="nav-text">简单回顾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS-简史"><span class="nav-number">1.0.2.</span> <span class="nav-text">HTTPS 简史</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS-工作流程"><span class="nav-number">1.0.3.</span> <span class="nav-text">HTTPS 工作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">1.0.4.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        
+    </aside>
+
+</div>
+
+
+
+
+    <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-icon">
+            <i class="fa fa-search"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/main.js"></script>
+<script src="/js/header-shrink.js"></script>
+<script src="/js/toggle-mode.js"></script>
+
+
+
+    
+<script src="/js/scroll-to-top.js"></script>
+
+
+
+
+
+    
+        
+<script src="/js/code-copy.js"></script>
+
+    
+
+    
+        
+<script src="/lib/anime.min.js"></script>
+<script src="/js/toc.js"></script>
+
+    
+
+    
+<script src="/js/post.js"></script>
+
+
+
+
+</body>
+</html>

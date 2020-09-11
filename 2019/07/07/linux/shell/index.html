@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    
+    <title>
+        Shell技巧 | 做瓷器的金刚钻
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <link rel="shortcut icon" href="/images/favicon.svg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <script id="hexo-configurations">
+    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
+  </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="page-container">
+
+    <header class="page-header">
+        <div class="header-progress"></div>
+    </header>
+
+    <main class="page-main">
+
+        <div class="page-main-content">
+
+            <div class="page-main-content-top">
+                <header class="header-wrapper">
+
+    <div class="header-content">
+
+        <a class="logo-title" href="/">
+            做瓷器的金刚钻
+        </a>
+
+        <ul class="menu-list">
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/"
+                    >
+                        主页
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/archives"
+                    >
+                        ARCHIVES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/about"
+                    >
+                        ABOUT
+                    </a>
+                </li>
+            
+        </ul>
+
+        <div class="menu-bar">
+            <div class="menu-bar-middle"></div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/">主页</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+            </div>
+
+            <div class="page-main-content-middle">
+
+                <main class="main-content normal-code-theme">
+
+                    
+                        <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <h3><a class="title-hover-animation">Shell技巧</a></h3>
+        </div>
+
+        <div class="meta-info">
+            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa fa-calendar-o"></i> 2019-07-08 02:02:56
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa fa-folder"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa fa-tags"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/tags/linux/">linux</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+    
+    
+</div>
+
+        </div>
+
+        <div class="article-content markdown-body">
+            <a id="more"></a>
+
+<h1 id="入参和默认变量"><a href="#入参和默认变量" class="headerlink" title="入参和默认变量"></a>入参和默认变量</h1><p>对于shell脚本而言，有些内容是专门用于处理参数的，他们都有特定的含义 ，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;root&#x2F;test.sh arg1 arg2</span><br><span class="line">$0  # 脚本名</span><br><span class="line">$1  # 第一个参数</span><br><span class="line">$2  # 第二个参数</span><br><span class="line">$#  # 脚本后面跟的参数个数</span><br><span class="line">$@  # 所有参数，并且可以被遍历</span><br><span class="line">$*  # 所有参数，且作为整体，和$*很像，但是有区别</span><br><span class="line">$$  # 当前脚本的进程ID</span><br><span class="line">$?  # 上一条命令的退出状态</span><br></pre></td></tr></table></figure>
+
+<h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><p>给变量赋值，使用等号即可，但是<em>等号两边千万不要有空格</em>，等号右边有空格的字符串也必须用引号引起来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arg1&#x3D;&quot;hello world&quot;  # 直接赋值</span><br><span class="line">unset arg1   # 取消赋值</span><br><span class="line">echo &quot;para1 is $arg1&quot;  # 调用变量</span><br><span class="line">echo &quot;para1 is $&#123;arg1&#125;&quot;  #调用变量</span><br></pre></td></tr></table></figure>
+
+<h1 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">a&#x3D;&#96;ls&#96;  # 直接执行</span><br><span class="line"># 或</span><br><span class="line">a&#x3D;$(a)</span><br><span class="line"></span><br><span class="line"># 计算</span><br><span class="line">echo &quot;1+1&#x3D;$((1+1))&quot;</span><br><span class="line"></span><br><span class="line"># 引用单条执行结果</span><br><span class="line">a&#x3D;&quot;ls&quot;</span><br><span class="line">echo &quot;$($a)&quot;</span><br><span class="line"></span><br><span class="line"># 引用多个执行结果</span><br><span class="line">a&#x3D;&quot;ls;pwd&quot;</span><br><span class="line">echo &quot;$(eval $a)&quot;  # 使用了eval，将a的内容都作为命令来执行。</span><br></pre></td></tr></table></figure>
+
+<h1 id="条件分支"><a href="#条件分支" class="headerlink" title="条件分支"></a>条件分支</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">if [ $? -eq 0 ];</span><br><span class="line">then</span><br><span class="line">    eho &quot;success&quot;</span><br><span class="line">elif [ $? -eq 1 ];</span><br><span class="line">then</span><br><span class="line">    echo &quot;failed,code is 1&quot;</span><br><span class="line">else</span><br><span class="line">    echo &quot;other code&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">name&#x3D;&quot;aa&quot;</span><br><span class="line">case $name in</span><br><span class="line">    &quot;aa&quot;)</span><br><span class="line">    echo &quot;name is aa&quot;</span><br><span class="line">    ;;</span><br><span class="line">    &quot;&quot;)</span><br><span class="line">    echo &quot;name is null&quot;</span><br><span class="line">    ;;</span><br><span class="line">    &quot;bb&quot;)</span><br><span class="line">    echo &quot;name is bb&quot;</span><br><span class="line">    ;;</span><br><span class="line">    *)</span><br><span class="line">    echo &quot;name is other&quot;</span><br><span class="line">    ;;</span><br><span class="line">esac</span><br><span class="line"></span><br><span class="line"># 多条件</span><br><span class="line"># -o或者||表示或。这里也有一些常见的条件判定。</span><br><span class="line">if [ 10 -gt 5 -o 10 -gt 4 ];then</span><br><span class="line">    echo &quot;10&gt;5 or 10&gt;4&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ 10 -gt 5 ] || [ 10 -gt 4 ];then</span><br><span class="line">    echo &quot;10&gt;5 or 10&gt;4&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><blockquote>
+<p>-o or 或者，同||<br>-a and 与，同&amp;&amp;<br>! 非</p>
+</blockquote>
+<h3 id="整数判断"><a href="#整数判断" class="headerlink" title="整数判断"></a>整数判断</h3><blockquote>
+<p>-eq 两数是否相等<br>-ne 两数是否不等<br>-gt 前者是否大于后者（greater then）<br>-lt 前面是否小于后者（less than）<br>-ge 前者是否大于等于后者（greater then or equal）<br>-le 前者是否小于等于后者（less than or equal）</p>
+</blockquote>
+<h3 id="字符串判断str1-exp-str2"><a href="#字符串判断str1-exp-str2" class="headerlink" title="字符串判断str1 exp str2"></a>字符串判断str1 exp str2</h3><blockquote>
+<p>-z “$str1” str1是否为空字符串<br>-n “$str1” str1是否不是空字符串<br>“$str1” == “$str2” str1是否与str2相等<br>“$str1” != “$str2” str1是否与str2不等<br>“$str1” =~ “str2” str1是否包含str2</p>
+</blockquote>
+<h3 id="文件目录判断：filename"><a href="#文件目录判断：filename" class="headerlink" title="文件目录判断：filename"></a>文件目录判断：filename</h3><blockquote>
+<p>-f $filename 是否为文件<br>-e $filename 是否存在<br>-d $filename 是否为目录<br>-s $filename 文件存在且不为空<br>! -s $filename 文件是否为空</p>
+</blockquote>
+<h1 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#遍历输出脚本的参数</span><br><span class="line">for i in $@;do</span><br><span class="line">    echo $i</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for ((i &#x3D; 0 ; i &lt; 10 ; i++ ));do</span><br><span class="line">    echo $i</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for i in &#123;1..5&#125;;do</span><br><span class="line">    echo &quot;Welcome $i&quot;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">while[&quot;$ans&quot;!&#x3D;&quot;yes&quot;]</span><br><span class="line">do</span><br><span class="line">    read -p &quot;please input yes to exit loop:&quot; ans</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ans&#x3D;yes</span><br><span class="line">until[ $ans !&#x3D;&quot;yes&quot;]</span><br><span class="line">do</span><br><span class="line">    read -p &quot;please input yes to exit loop:&quot; ans</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for i in&#123;5..15..3&#125;;do</span><br><span class="line">    echo &quot;number is $i&quot;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">myfunc()&#123;</span><br><span class="line">    echo &quot;hello world $1&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function myfunc()&#123;</span><br><span class="line">    echo &quot;hello world $1&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h1><p>通常函数的return返回值只支持0-255</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function myfunc()&#123;</span><br><span class="line">    local myresult&#x3D;&#39;some value&#39;</span><br><span class="line">    echo $myresult</span><br><span class="line">&#125;</span><br><span class="line">val&#x3D;$(myfunc) #val的值为some value</span><br></pre></td></tr></table></figure>
+
+<p>通过return的方式适用于判断函数的执行是否成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function myfunc()&#123;</span><br><span class="line">    #do something</span><br><span class="line">    return0</span><br><span class="line">&#125;</span><br><span class="line">if myfunc;then</span><br><span class="line">    echo &quot;success&quot;</span><br><span class="line">else</span><br><span class="line">    echo &quot;failed&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"># 这是一行注释</span><br><span class="line">:&#39;</span><br><span class="line">这是</span><br><span class="line">多行</span><br><span class="line">注释</span><br><span class="line">&#39;</span><br><span class="line">ls</span><br><span class="line">:&lt;&lt;EOF</span><br><span class="line">这也可以</span><br><span class="line">达到</span><br><span class="line">多行注释</span><br><span class="line">的目的</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h1 id="日志保存"><a href="#日志保存" class="headerlink" title="日志保存"></a>日志保存</h1><h3 id="方式一，将标准输出保存到文件中，打印标准错误："><a href="#方式一，将标准输出保存到文件中，打印标准错误：" class="headerlink" title="方式一，将标准输出保存到文件中，打印标准错误："></a>方式一，将标准输出保存到文件中，打印标准错误：</h3><blockquote>
+<p><code>./test.sh &gt; log.dat</code><br>这种情况下，如果命令执行出错，错误将会打印到控制台。所以如果你在程序中调用，这样将不会讲错误信息保存在日志中。</p>
+</blockquote>
+<h3 id="方式二，标准输出和标准错误都保存到日志文件中："><a href="#方式二，标准输出和标准错误都保存到日志文件中：" class="headerlink" title="方式二，标准输出和标准错误都保存到日志文件中："></a>方式二，标准输出和标准错误都保存到日志文件中：</h3><blockquote>
+<p><code>./test.sh &gt; log.dat 2&gt;&amp;1</code></p>
+</blockquote>
+<h3 id="方式三，保存日志文件的同时，也输出到控制台："><a href="#方式三，保存日志文件的同时，也输出到控制台：" class="headerlink" title="方式三，保存日志文件的同时，也输出到控制台："></a>方式三，保存日志文件的同时，也输出到控制台：</h3><blockquote>
+<p><code>./test.sh |tee log.dat</code></p>
+</blockquote>
+<h1 id="脚本执行"><a href="#脚本执行" class="headerlink" title="脚本执行"></a>脚本执行</h1><blockquote>
+<p><code>./test.sh</code> 直接执行<br><code>sh test.sh</code>  在子进程中执行<br><code>sh -x test.sh</code>  debug模式，会在终端打印执行到命令，适合调试<br><code>source test.sh</code> test.sh在父进程中执行<br><code>. test.sh</code> 不需要赋予执行权限，临时执行</p>
+</blockquote>
+<h1 id="脚本退出码"><a href="#脚本退出码" class="headerlink" title="脚本退出码"></a>脚本退出码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">function myfun()&#123;</span><br><span class="line">if[ $# -lt 2 ]</span><br><span class="line">then</span><br><span class="line">    echo &quot;para num error&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line">echo &quot;ok&quot;</span><br><span class="line">exit 2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if[ $# -lt 1 ]</span><br><span class="line">then</span><br><span class="line">    echo &quot;para num error&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">returnVal&#x3D;&#96;myfun aa&#96;</span><br><span class="line">echo &quot;end shell&quot;</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+
+<p>这里需要特别注意的一点是，使用 returnVal=`myfun aa`</p>
+<p>这样的句子执行函数，即便函数里面有exit，它也不会退出脚本执行，而只是会退出该函数，这是因为exit是退出当前进程，而这种方式执行函数，相当于fork了一个子进程，因此不会退出当前脚本。最终结果就会看到，无论你的函数参数是什么最后end shell都会打印。</p>
+
+        </div>
+
+        <div class="article-nav">
+            
+                <div class="article-prev">
+                    <a class="prev btn"
+                       rel="prev"
+                       href="/2019/07/17/golang/go_base/"
+                    >
+                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">Go 基础</span><span class="post-nav-item">Prev posts</span>
+                    </a>
+                </div>
+            
+            
+                <div class="article-next">
+                    <a class="next btn"
+                       rel="next"
+                       href="/2019/07/04/python/python_sort/"
+                    >
+                        <span class="post-nav-title-item">python实现排序算法</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
+            
+        </div>
+
+        <div class="comment-container">
+            <div class="comments-container">
+    
+        
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <div id="gitalk-container"></div>
+    <script>
+        const gitalk = new Gitalk({
+            clientID: 'c2072d06f1a2f2c5d6f2',
+            clientSecret: '429efb33ae5e4f3157ed2bb9a0c0028c9f7d71c3',
+            repo: 'chazyu1996.github.io',
+            owner: 'chazyu1996',
+            admin: ['chazyu1996'],
+            id: location.pathname,
+            language: 'zh-cn'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+    
+</div>
+        </div>
+    </div>
+</div>
+
+
+                    
+
+                </main>
+
+            </div>
+
+            <div class="page-main-content-bottom">
+                <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy; 2020 <i class="fa fa-heart-o"></i> <a href="/">ChazYu</a>
+        </div>
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a
+                    href="https://github.com/XPoet/hexo-theme-ils" target="_blank">ILS v2.0.1</a>
+        </div>
+        
+    </div>
+</footer>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="sidebar-tools">
+        <div class="tools-container">
+    <ul class="tools-list">
+        
+            <li class="search popup-trigger">
+                <i class="fa fa-search"></i>
+            </li>
+            
+<script src="/js/local-search.js"></script>
+
+        
+        <li class="mode-toggle">
+            <i class="fa fa-moon-o"></i>
+        </li>
+        
+        <li class="page-aside-toggle">
+            <i class="fa fa-bars"></i>
+        </li>
+        
+            <li class="scroll-to-top">
+                <i class="fa fa-caret-up"></i>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+
+
+    <!-- page aside -->
+    <aside class="page-aside">
+        
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#入参和默认变量"><span class="nav-number">1.</span> <span class="nav-text">入参和默认变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#变量"><span class="nav-number">2.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#执行命令"><span class="nav-number">3.</span> <span class="nav-text">执行命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#条件分支"><span class="nav-number">4.</span> <span class="nav-text">条件分支</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#条件"><span class="nav-number">4.0.1.</span> <span class="nav-text">条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整数判断"><span class="nav-number">4.0.2.</span> <span class="nav-text">整数判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串判断str1-exp-str2"><span class="nav-number">4.0.3.</span> <span class="nav-text">字符串判断str1 exp str2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件目录判断：filename"><span class="nav-number">4.0.4.</span> <span class="nav-text">文件目录判断：filename</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#循环"><span class="nav-number">5.</span> <span class="nav-text">循环</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#返回值"><span class="nav-number">7.</span> <span class="nav-text">返回值</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注释"><span class="nav-number">8.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志保存"><span class="nav-number">9.</span> <span class="nav-text">日志保存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方式一，将标准输出保存到文件中，打印标准错误："><span class="nav-number">9.0.1.</span> <span class="nav-text">方式一，将标准输出保存到文件中，打印标准错误：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方式二，标准输出和标准错误都保存到日志文件中："><span class="nav-number">9.0.2.</span> <span class="nav-text">方式二，标准输出和标准错误都保存到日志文件中：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方式三，保存日志文件的同时，也输出到控制台："><span class="nav-number">9.0.3.</span> <span class="nav-text">方式三，保存日志文件的同时，也输出到控制台：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#脚本执行"><span class="nav-number">10.</span> <span class="nav-text">脚本执行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#脚本退出码"><span class="nav-number">11.</span> <span class="nav-text">脚本退出码</span></a></li></ol>
+    </div>
+</div>
+        
+    </aside>
+
+</div>
+
+
+
+
+    <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-icon">
+            <i class="fa fa-search"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/main.js"></script>
+<script src="/js/header-shrink.js"></script>
+<script src="/js/toggle-mode.js"></script>
+
+
+
+    
+<script src="/js/scroll-to-top.js"></script>
+
+
+
+
+
+    
+        
+<script src="/js/code-copy.js"></script>
+
+    
+
+    
+        
+<script src="/lib/anime.min.js"></script>
+<script src="/js/toc.js"></script>
+
+    
+
+    
+<script src="/js/post.js"></script>
+
+
+
+
+</body>
+</html>

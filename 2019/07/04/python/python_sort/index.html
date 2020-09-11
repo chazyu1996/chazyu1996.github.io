@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    
+    <title>
+        python实现排序算法 | 做瓷器的金刚钻
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <link rel="shortcut icon" href="/images/favicon.svg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <script id="hexo-configurations">
+    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
+  </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="page-container">
+
+    <header class="page-header">
+        <div class="header-progress"></div>
+    </header>
+
+    <main class="page-main">
+
+        <div class="page-main-content">
+
+            <div class="page-main-content-top">
+                <header class="header-wrapper">
+
+    <div class="header-content">
+
+        <a class="logo-title" href="/">
+            做瓷器的金刚钻
+        </a>
+
+        <ul class="menu-list">
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/"
+                    >
+                        主页
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/archives"
+                    >
+                        ARCHIVES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/about"
+                    >
+                        ABOUT
+                    </a>
+                </li>
+            
+        </ul>
+
+        <div class="menu-bar">
+            <div class="menu-bar-middle"></div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/">主页</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+            </div>
+
+            <div class="page-main-content-middle">
+
+                <main class="main-content normal-code-theme">
+
+                    
+                        <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <h3><a class="title-hover-animation">python实现排序算法</a></h3>
+        </div>
+
+        <div class="meta-info">
+            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa fa-calendar-o"></i> 2019-07-05 02:05:19
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa fa-folder"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa fa-tags"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/tags/python/">python</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+    
+    
+</div>
+
+        </div>
+
+        <div class="article-content markdown-body">
+            <p>常见的八大排序算法，他们之间关系如下：</p>
+<a id="more"></a>
+
+<p><img src="/images/python/sort_1.jpg" alt="sort_1"></p>
+<p>性能比较</p>
+<p><img src="/images/python/sort_2.jpg" alt="sort_2"></p>
+<h2 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h2><p><img src="/images/python/sort_3.gif" alt="sort_3"></p>
+<p>直接插入排序的核心思想就是：将数组中的所有元素依次跟前面已经排好的元素相比较，如果选择的元素比已排序的元素小，则交换，直到全部元素都比较过。</p>
+<p>因此，从上面的描述中我们可以发现，直接插入排序可以用两个循环完成：</p>
+<ol>
+<li><p>第一层循环：遍历待比较的所有数组元素</p>
+</li>
+<li><p>第二层循环：将本轮选择的元素(selected)与已经排好序的元素(ordered)相比较。如果：selected &gt; ordered，那么将二者交换</p>
+</li>
+</ol>
+<blockquote>
+<p>代码实现：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insert_sort</span><span class="params">(L)</span>:</span></span><br><span class="line">    <span class="comment"># 遍历数组中的所有元素，其中0号索引元素默认已排序，因此用1开始</span></span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">1</span>,len(L)):</span><br><span class="line">    <span class="comment"># 将该元素与已排序好的前序数组依次比较，如果该元素小，则交换</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(x<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">if</span> L[i]&gt;L[i+<span class="number">1</span>]:</span><br><span class="line">                temp=L[i+<span class="number">1</span>]</span><br><span class="line">                L[i+<span class="number">1</span>]=L[i]</span><br><span class="line">                L[i]=temp</span><br></pre></td></tr></table></figure>
+
+<h2 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h2><p><img src="/images/python/sort_4.png" alt="sort_4"></p>
+<p>希尔排序的算法思想：将待排序数组按照步长gap进行分组，然后将每组的元素利用直接插入排序的方法进行排序；每次将gap折半减小，循环上述操作；当gap=1时，利用直接插入，完成排序。</p>
+<p>同样的：从上面的描述中我们可以发现：希尔排序的总体实现应该由三个循环完成：</p>
+<ol>
+<li>第一层循环：将gap依次折半，对序列进行分组，直到gap=1</li>
+<li>第二、三层循环：也即直接插入排序所需要的两次循环。具体描述见上。</li>
+</ol>
+<blockquote>
+<p>代码实现：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insert_shell</span><span class="params">(L)</span>:</span></span><br><span class="line">    gap=(int)(len(L)/<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">while</span> gap&gt;=<span class="number">1</span>:</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> range(gap,len(L)):</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(x-gap,<span class="number">-1</span>,-gap):</span><br><span class="line">                <span class="keyword">if</span> L[i]&gt;L[i+gap]:</span><br><span class="line">                    temp=L[i+gap]</span><br><span class="line">                    L[i+gap]=L[i]</span><br><span class="line">                    L[i]=temp</span><br><span class="line">        gap=(int)(gap/<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="简单选择排序"><a href="#简单选择排序" class="headerlink" title="简单选择排序"></a>简单选择排序</h2><p><img src="/images/python/sort_5.gif" alt="sort_5"></p>
+<p>简单选择排序的基本思想：比较+交换。</p>
+<ol>
+<li>从待排序序列中，找到关键字最小的元素；</li>
+<li>如果最小元素不是待排序序列的第一个元素，将其和第一个元素互换；</li>
+<li>从余下的 N - 1 个元素中，找出关键字最小的元素，重复(1)、(2)步，直到排序结束。</li>
+</ol>
+<p>因此我们可以发现，简单选择排序也是通过两层循环实现。</p>
+<p>第一层循环：依次遍历序列当中的每一个元素</p>
+<p>第二层循环：将遍历得到的当前元素依次与余下的元素进行比较，符合最小元素的条件，则交换。</p>
+<blockquote>
+<p>代码实现：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select_sort</span><span class="params">(L)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>,len(L)):</span><br><span class="line">        mininum = L[x]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(x+<span class="number">1</span>,len(L)):</span><br><span class="line">            <span class="keyword">if</span> L[i]&lt;mininum:</span><br><span class="line">                temp=L[i]</span><br><span class="line">                L[i]=mininum</span><br><span class="line">                mininum=temp</span><br><span class="line">        L[x]=mininum</span><br></pre></td></tr></table></figure>
+
+<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><ul>
+<li>堆的概念：</li>
+</ul>
+<p>堆：本质是一种数组对象。特别重要的一点性质：任意的叶子节点小于（或大于）它所有的父节点。对此，又分为大顶堆和小顶堆，大顶堆要求节点的元素都要大于其孩子，小顶堆要求节点元素都小于其左右孩子，两者对左右孩子的大小关系不做任何要求。</p>
+<p>利用堆排序，就是基于大顶堆或者小顶堆的一种排序方法。下面，我们通过大顶堆来实现。</p>
+<ul>
+<li>基本思想：</li>
+</ul>
+<p>堆排序可以按照以下步骤来完成：</p>
+<ol>
+<li>首先将序列构建称为大顶堆（这样满足了大顶堆那条性质：位于根节点的元素一定是当前序列的最大值）；<br><img src="/images/python/sort_6.png" alt="sort_6"></li>
+<li>取出当前大顶堆的根节点，将其与序列末尾元素进行交换（此时：序列末尾的元素为已排序的最大值；由于交换了元素，当前位于根节点的堆并不一定满足大顶堆的性质）；</li>
+<li>对交换后的n-1个序列元素进行调整，使其满足大顶堆的性质；<br><img src="/images/python/sort_7.png" alt="sort_7"></li>
+<li>重复2.3步骤，直至堆中只有1个元素为止。</li>
+</ol>
+<blockquote>
+<p>代码实现：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取左叶子节点</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">LEFT</span><span class="params">(i)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>*i+<span class="number">1</span></span><br><span class="line"><span class="comment"># 获取右叶子节点</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">RIGHT</span><span class="params">(i)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>*i+<span class="number">2</span></span><br><span class="line"><span class="comment"># 调整大顶堆</span></span><br><span class="line"><span class="comment"># L待调整序列， length 序列长度 i需要调整的节点</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">adjust_max_heap</span><span class="params">(L,length,i)</span>:</span></span><br><span class="line">    <span class="comment"># 定义一个int值保存当前序列最大值的下标</span></span><br><span class="line">    largest=i</span><br><span class="line">    <span class="comment"># 执行循环：</span></span><br><span class="line">    <span class="comment"># 1.寻找最大值的下标</span></span><br><span class="line">    <span class="comment"># 2.最大值与父节点交换</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment"># 获取序列左右叶子节点的下标</span></span><br><span class="line">        left=LEFT(i)</span><br><span class="line">        right=RIGHT(i)</span><br><span class="line">        <span class="comment"># 当左叶子节点的下标小于序列长度并且右叶子节点的值大于父节点时，将左叶子节点的下标值赋值给largest</span></span><br><span class="line">        <span class="keyword">if</span> (left&lt;length) <span class="keyword">and</span> (L[left]&gt;L[i]):</span><br><span class="line">            largest=left</span><br><span class="line">            print(<span class="string">'左叶子节点'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            largest=i</span><br><span class="line">        <span class="comment"># 当右叶子节点的下标小于序列长度并且右叶子节点的值大于父节点时，将右叶子节点的下标值赋值给largest</span></span><br><span class="line">        <span class="keyword">if</span> (right&lt;length) abd (L[right]&gt;L[largest]):</span><br><span class="line">            largest=right</span><br><span class="line">            print(<span class="string">'右叶子节点'</span>)</span><br><span class="line">        <span class="comment"># 如果largest不等于i，说明当前的父节点不是最大值，需要交换值</span></span><br><span class="line">        <span class="keyword">if</span> largest!= i:</span><br><span class="line">            temp=L[i]:</span><br><span class="line">            L[i]=L[largest]</span><br><span class="line">            L[largest]=temp</span><br><span class="line">            i=largest</span><br><span class="line">            print(largest)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"><span class="comment"># 建立大顶堆</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_max_heap</span><span class="params">(L)</span>:</span></span><br><span class="line">    length=len(L)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range((length<span class="number">-1</span>)/<span class="number">2</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">        adjust_max_heap(L,length,x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 堆排序</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">heap_sort</span><span class="params">(L)</span>:</span></span><br><span class="line">    <span class="comment"># 先建立大顶堆，保证最大值位于根节点，并且父节点的值大于叶子节点</span></span><br><span class="line">    build_max_heap(L)</span><br><span class="line">    <span class="comment"># 当前堆中序列的长度，初始化为序列的长度</span></span><br><span class="line">    i=len(L)</span><br><span class="line">    <span class="comment"># 执行循环：</span></span><br><span class="line">    <span class="comment"># 1.每次取出堆顶元素置于序列的最后(len-1,len-2,len-3...)</span></span><br><span class="line">    <span class="comment"># 2.调整堆，使其继续满足大顶堆的性质，注意实时修改堆中序列的长度</span></span><br><span class="line">    <span class="keyword">while</span> i&gt;<span class="number">0</span>:</span><br><span class="line">        temp=L[i<span class="number">-1</span>]</span><br><span class="line">        L[i<span class="number">-1</span>]=L[<span class="number">0</span>]</span><br><span class="line">        L[<span class="number">0</span>]=temp</span><br><span class="line">        <span class="comment"># 堆中序列长度减1</span></span><br><span class="line">        i=i<span class="number">-1</span></span><br><span class="line">        <span class="comment"># 调整大顶堆</span></span><br><span class="line">        adjust_max_heap(L,i,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p><img src="/images/python/sort_8.gif" alt="sort_8"></p>
+<ol>
+<li>将序列当中的左右元素，依次比较，保证右边的元素始终大于左边的元素（ 第一轮结束后，序列最后一个元素一定是当前序列的最大值）；</li>
+<li>对序列当中剩下的n-1个元素再次执行步骤1。</li>
+<li>对于长度为n的序列，一共需要执行n-1轮比较（利用while循环可以减少执行次数）。</li>
+</ol>
+<blockquote>
+<p>代码实现</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubble_sort</span><span class="params">(L)</span>:</span></span><br><span class="line">    length=len(L)</span><br><span class="line">    <span class="comment"># 序列长度为length，需要执行length-1轮交换</span></span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">1</span>,length):</span><br><span class="line">    <span class="comment"># 每一轮交换，都将序列当中的左右元素进行比较</span></span><br><span class="line">    <span class="comment"># 每轮交换中，由于序列最后的元素一定是最大的，因此每轮循环到序列未排序的位置即可</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,length-x):</span><br><span class="line">            <span class="keyword">if</span> L[i]&gt;L[i+<span class="number">1</span>]:</span><br><span class="line">                temp=L[i]</span><br><span class="line">                L[i]=L[i+<span class="number">1</span>]</span><br><span class="line">                L[i+<span class="number">1</span>]=temp</span><br></pre></td></tr></table></figure>
+
+<h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p><img src="/images/python/sort_9.gif" alt="sort_9"></p>
+<p>快速排序的基本思想：挖坑填数+分治法</p>
+<ol>
+<li>从序列当中选择一个基准数(pivot)，在这里我们选择序列当中第一个数最为基准数；</li>
+<li>将序列当中的所有数依次遍历，比基准数大的位于其右侧，比基准数小的位于其左侧；</li>
+<li>重复步骤1.2，直到所有子集当中只有一个元素为止。用伪代码描述如下：<ol>
+<li>i =L; j = R; 将基准数挖出形成第一个坑a[i]。</li>
+<li>j–由后向前找比它小的数，找到后挖出此数填前一个坑a[i]中。</li>
+<li>i++由前向后找比它大的数，找到后也挖出此数填到前一个坑a[j]中。</li>
+<li>再重复执行2，3二步，直到i==j，将基准数填入a[i]中</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>代码实现</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(L,start,end)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> start&lt;end:</span><br><span class="line">        i,j,pivot=start,end,L[start]</span><br><span class="line">        <span class="keyword">while</span> i&lt;j:</span><br><span class="line">            <span class="comment"># 从右开始向左寻找第一个小于pivot的值</span></span><br><span class="line">            <span class="keyword">while</span> (i&lt;j) <span class="keyword">and</span> (L[j]&gt;=pivot):</span><br><span class="line">                j-=<span class="number">1</span></span><br><span class="line">            <span class="comment"># 将小于pivot的值移到左边</span></span><br><span class="line">            <span class="keyword">if</span> i&lt;j:</span><br><span class="line">                L[i]=L[j]</span><br><span class="line">                i+=<span class="number">1</span></span><br><span class="line">            <span class="comment"># 从左向右寻找第一个大于pivot的值</span></span><br><span class="line">            <span class="keyword">while</span> i&lt;j <span class="keyword">and</span> L[i]&lt;pivot:</span><br><span class="line">                i+=<span class="number">1</span></span><br><span class="line">            <span class="comment"># 将大于pivot的值移到右边</span></span><br><span class="line">            <span class="keyword">if</span> i&lt;j:</span><br><span class="line">                L[i]=L[j]</span><br><span class="line">                j-=<span class="number">1</span></span><br><span class="line">            <span class="comment"># 循环结束后，说明i=j，此时左边值全部小于pivot，右边的值全部大于pivot</span></span><br><span class="line">            <span class="comment"># pivot的位置移动正确，那么此时只需要对左右两侧的序列调用此函数进一步排序即可</span></span><br><span class="line">            <span class="comment"># 递归调用函数 依次对左侧序列 从0到i-1 右侧序列 从i-1到结束</span></span><br><span class="line">        L[i]=pivot</span><br><span class="line">        <span class="comment"># 左侧序列继续排序</span></span><br><span class="line">        quick_sort(L,start,i<span class="number">-1</span>)</span><br><span class="line">        <span class="comment"># 右侧序列继续排序</span></span><br><span class="line">        quick_sort(L,i+<span class="number">1</span>,end)</span><br></pre></td></tr></table></figure>
+
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p><img src="/images/python/sort_10.gif" alt="sort_10"></p>
+<p>归并排序是建立在归并操作上的一种有效的排序算法，该算法是采用分治法的一个典型的应用。它的基本操作是：将已有的子序列合并，达到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。</p>
+<p>归并排序其实要做两件事：</p>
+<ol>
+<li>分解：将序列每次折半拆分</li>
+<li>合并：将划分后的序列段两两排序合并</li>
+</ol>
+<p>因此，归并排序实际上就是两个操作，拆分+合并</p>
+<p>如何合并？</p>
+<p>L[first…mid]为第一段，L[mid+1…last]为第二段，并且两端已经有序，现在我们要将两端合成达到L[first…last]并且也有序。</p>
+<ol>
+<li>首先依次从第一段与第二段中取出元素比较，将较小的元素赋值给temp[]</li>
+<li>重复执行上一步，当某一段赋值结束，则将另一段剩下的元素赋值给temp[]</li>
+<li>此时将temp[]中的元素复制给L[]，则得到的L[first…last]有序</li>
+</ol>
+<p>如何分解？</p>
+<p>在这里，我们采用递归的方法，首先将待排序列分成A,B两组；然后重复对A、B序列分组；直到分组后组内只有一个元素，此时我们认为组内所有元素有序，则分组结束。</p>
+<h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><p><img src="/images/python/sort_11.gif" alt="sort_11"></p>
+<p>基数排序：通过序列中各个元素的值，对排序的N个元素进行若干趟的“分配”与“收集”来实现排序。</p>
+<ol>
+<li>分配：我们将L[i]中的元素取出，首先确定其个位上的数字，根据该数字分配到与之序号相同的桶中</li>
+<li>收集：当序列中所有的元素都分配到对应的桶中，再按照顺序依次将桶中的元素收集形成新的一个待排序列L[ ]</li>
+</ol>
+<p>对新形成的序列L[]重复执行分配和收集元素中的十位、百位…直到分配完该序列中的最高位，则排序结束。<br>根据上述“基数排序”的展示，我们可以清楚的看到整个实现的过程。</p>
+
+        </div>
+
+        <div class="article-nav">
+            
+                <div class="article-prev">
+                    <a class="prev btn"
+                       rel="prev"
+                       href="/2019/07/07/linux/shell/"
+                    >
+                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">Shell技巧</span><span class="post-nav-item">Prev posts</span>
+                    </a>
+                </div>
+            
+            
+                <div class="article-next">
+                    <a class="next btn"
+                       rel="next"
+                       href="/2019/07/04/python/python_magic_func/"
+                    >
+                        <span class="post-nav-title-item">python 魔法方法</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
+            
+        </div>
+
+        <div class="comment-container">
+            <div class="comments-container">
+    
+        
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <div id="gitalk-container"></div>
+    <script>
+        const gitalk = new Gitalk({
+            clientID: 'c2072d06f1a2f2c5d6f2',
+            clientSecret: '429efb33ae5e4f3157ed2bb9a0c0028c9f7d71c3',
+            repo: 'chazyu1996.github.io',
+            owner: 'chazyu1996',
+            admin: ['chazyu1996'],
+            id: location.pathname,
+            language: 'zh-cn'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+    
+</div>
+        </div>
+    </div>
+</div>
+
+
+                    
+
+                </main>
+
+            </div>
+
+            <div class="page-main-content-bottom">
+                <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy; 2020 <i class="fa fa-heart-o"></i> <a href="/">ChazYu</a>
+        </div>
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a
+                    href="https://github.com/XPoet/hexo-theme-ils" target="_blank">ILS v2.0.1</a>
+        </div>
+        
+    </div>
+</footer>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="sidebar-tools">
+        <div class="tools-container">
+    <ul class="tools-list">
+        
+            <li class="search popup-trigger">
+                <i class="fa fa-search"></i>
+            </li>
+            
+<script src="/js/local-search.js"></script>
+
+        
+        <li class="mode-toggle">
+            <i class="fa fa-moon-o"></i>
+        </li>
+        
+        <li class="page-aside-toggle">
+            <i class="fa fa-bars"></i>
+        </li>
+        
+            <li class="scroll-to-top">
+                <i class="fa fa-caret-up"></i>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+
+
+    <!-- page aside -->
+    <aside class="page-aside">
+        
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#直接插入排序"><span class="nav-number">1.</span> <span class="nav-text">直接插入排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#希尔排序"><span class="nav-number">2.</span> <span class="nav-text">希尔排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单选择排序"><span class="nav-number">3.</span> <span class="nav-text">简单选择排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆排序"><span class="nav-number">4.</span> <span class="nav-text">堆排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#冒泡排序"><span class="nav-number">5.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速排序"><span class="nav-number">6.</span> <span class="nav-text">快速排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#归并排序"><span class="nav-number">7.</span> <span class="nav-text">归并排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基数排序"><span class="nav-number">8.</span> <span class="nav-text">基数排序</span></a></li></ol>
+    </div>
+</div>
+        
+    </aside>
+
+</div>
+
+
+
+
+    <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-icon">
+            <i class="fa fa-search"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/main.js"></script>
+<script src="/js/header-shrink.js"></script>
+<script src="/js/toggle-mode.js"></script>
+
+
+
+    
+<script src="/js/scroll-to-top.js"></script>
+
+
+
+
+
+    
+        
+<script src="/js/code-copy.js"></script>
+
+    
+
+    
+        
+<script src="/lib/anime.min.js"></script>
+<script src="/js/toc.js"></script>
+
+    
+
+    
+<script src="/js/post.js"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    
+    <title>
+        做瓷器的金刚钻
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <link rel="shortcut icon" href="/images/favicon.svg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <script id="hexo-configurations">
+    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
+  </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="page-container">
+
+    <header class="page-header">
+        <div class="header-progress"></div>
+    </header>
+
+    <main class="page-main">
+
+        <div class="page-main-content">
+
+            <div class="page-main-content-top">
+                <header class="header-wrapper">
+
+    <div class="header-content">
+
+        <a class="logo-title" href="/">
+            做瓷器的金刚钻
+        </a>
+
+        <ul class="menu-list">
+            
+                <li class="menu-item">
+                    <a class="active"
+                       href="/"
+                    >
+                        主页
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/archives"
+                    >
+                        ARCHIVES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/about"
+                    >
+                        ABOUT
+                    </a>
+                </li>
+            
+        </ul>
+
+        <div class="menu-bar">
+            <div class="menu-bar-middle"></div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item">
+                    <a class="active"
+                       href="/">主页</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+            </div>
+
+            <div class="page-main-content-middle">
+
+                <main class="main-content normal-code-theme">
+
+                    
+                        <div class="home-content-container fade-in-down-animation">
+    <ul class="home-article-list">
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2020/09/08/k8s/what_happen_apply_yaml/">
+                        
+                        pod 的创建过程
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="pod的创建过程"><a href="#pod的创建过程" class="headerlink" title="pod的创建过程"></a>pod的创建过程</h1><p>kubernetes 中各个组件都是以 <code>watch</code> 的方式从<code>kube-apiserver</code>中获取信息。当然，这其中也用到了<code>informer</code>的缓存机制</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2020-09-08</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/kubernetes/">kubernetes</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2020/09/08/k8s/what_happen_apply_yaml/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2020/07/29/interview/Database/">
+                        
+                        数据库
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><ul>
+<li>数据库基础<ul>
+<li><a href="#事务的概念和特性">事务的概念和特性？</a></li>
+<li><a href="#会出现哪些并发一致性问题">会出现哪些并发一致性问题？</a></li>
+<li><a href="#数据库的四种隔离级别">数据库的四种隔离级别？</a></li>
+<li><a href="#什么是乐观锁和悲观锁">什么是乐观锁和悲观锁？</a></li>
+<li><a href="#常见的封锁类型">常见的封锁类型？</a></li>
+<li><a href="#什么是三级封锁协议">什么是三级封锁协议？</a></li>
+<li><a href="#什么是两段锁协议">什么是两段锁协议？</a></li>
+<li><a href="#什么是-mvcc">什么是 MVCC？</a></li>
+<li><a href="#数据库的范式">数据库的范式？</a></li>
+<li><a href="#列举几种表连接方式">列举几种表连接方式？</a></li>
+<li><a href="#什么是存储过程有哪些优缺点">什么是存储过程？有哪些优缺点？</a></li>
+<li><a href="#DropDeleteTruncate的区别">Drop/Delete/Truncate的区别？</a></li>
+<li><a href="#什么是视图什么是游标">什么是视图？什么是游标？</a></li>
+</ul>
+</li>
+<li>MySQL<ul>
+<li><a href="#数据库索引的实现原理b树">数据库索引的实现原理（B+树）</a></li>
+<li><a href="#使用索引的优点">使用索引的优点</a></li>
+<li><a href="#哪些情况下索引会失效">哪些情况下索引会失效？</a></li>
+<li><a href="#在哪些地方适合创建索引">在哪些地方适合创建索引？</a></li>
+<li><a href="#索引的分类">索引的分类？</a></li>
+<li><a href="#MySQL的两种存储引擎-InnoDB-和-MyISAM-的区别">MySQL的两种存储引擎 InnoDB 和 MyISAM 的区别？</a></li>
+<li><a href="#如何优化数据库">如何优化数据库？</a></li>
+<li><a href="#什么是主从复制实现原理是什么">什么是主从复制？实现原理是什么？</a></li>
+</ul>
+</li>
+<li>NoSQL/Redis<ul>
+<li><a href="关系型数据库和非关系型数据库的区别">关系型数据库和非关系型数据库的区别？</a></li>
+</ul>
+</li>
+<li><a href="#参考">参考</a></li>
+</ul>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2020-07-29</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                                    <li>&gt; <a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/interview/">interview</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2020/07/29/interview/Database/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2020/07/29/interview/Operating_Systems/">
+                        
+                        操作系统
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><ul>
+<li>进程和线程<ul>
+<li><a href="#进程和线程有什么区别">进程和线程有什么区别？</a></li>
+<li><a href="#进程间通信有哪些方式">进程间通信有哪些方式？</a></li>
+<li><a href="#进程同步问题">进程同步问题</a></li>
+<li><a href="#进程有哪几种状态">进程有哪几种状态？</a></li>
+<li><a href="#进程调度策略有哪些">进程调度策略有哪些？</a></li>
+<li><a href="#什么是僵尸进程">什么是僵尸进程？</a></li>
+<li><a href="#线程同步有哪些方式">线程同步有哪些方式？</a></li>
+<li><a href="#什么是协程">什么是协程？</a></li>
+<li><a href="#什么是IO多路复用怎么实现">什么是IO多路复用？怎么实现？</a></li>
+<li><a href="#什么是用户态和内核态">什么是用户态和内核态？</a></li>
+</ul>
+</li>
+<li>死锁<ul>
+<li><a href="#什么是死锁">什么是死锁？</a></li>
+<li><a href="#死锁产生的必要条件">死锁产生的必要条件？</a></li>
+<li><a href="#死锁有哪些处理方法">死锁有哪些处理方法？</a></li>
+</ul>
+</li>
+<li>内存管理<ul>
+<li><a href="#分页和分段有什么区别">分页和分段有什么区别？</a></li>
+<li><a href="#什么是虚拟内存">什么是虚拟内存？</a></li>
+<li><a href="#有哪些页面置换算法">有哪些页面置换算法？</a></li>
+</ul>
+</li>
+<li><a href="#磁盘调度">磁盘调度</a></li>
+<li><a href="#参考">参考</a></li>
+</ul>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2020-07-29</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                                    <li>&gt; <a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/interview/">interview</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2020/07/29/interview/Operating_Systems/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2020/07/29/others/cncf/">
+                        
+                        云原生
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="云原生"><a href="#云原生" class="headerlink" title="云原生"></a>云原生</h1><p>云原生，作为这个时期最热门的名词，在微服务的驱动下，更加加速了他的发展。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2020-07-29</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                                    <li>&gt; <a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E6%A6%82%E5%BF%B5%E6%8F%8F%E8%BF%B0/">概念描述</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/CNCF/">CNCF</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2020/07/29/others/cncf/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2020/07/29/interview/network/">
+                        
+                        计算机网络
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h1><!-- GFM-TOC -->
+<ul>
+<li>传输层：TCP和UDP<ul>
+<li><a href="#什么是三次握手-three-way-handshake">什么是三次握手？</a></li>
+<li><a href="#什么是四次挥手">什么是四次挥手？</a></li>
+<li><a href="#TCP如何实现流量控制">TCP如何实现流量控制？</a></li>
+<li><a href="#TCP的拥塞控制是怎么实现的">TCP的拥塞控制是怎么实现的？</a></li>
+<li><a href="#TCP与UDP的区别">TCP与UDP的区别</a></li>
+<li><a href="#TCP如何保证传输的可靠性">TCP如何保证传输的可靠性</a></li>
+<li><a href="#什么是TCP粘包"><del>什么是TCP粘包？</del></a></li>
+</ul>
+</li>
+<li>应用层：HTTP和HTTPS<ul>
+<li><a href="#HTTP和HTTPS有什么区别">HTTP和HTTPS有什么区别？</a></li>
+<li><a href="#GET与POST的区别">GET与POST的区别？</a></li>
+<li><a href="#Session与Cookie的区别">Session与Cookie的区别？</a></li>
+<li><a href="#从输入网址到获得页面的过程-越详细越好">从输入网址到获得页面的过程 (越详细越好)？</a></li>
+<li><a href="#HTTP请求有哪些常见状态码">HTTP请求有哪些常见状态码？</a></li>
+<li><a href="#什么是RIP-Routing-Information-Protocol-距离矢量路由协议-算法是什么">什么是RIP (距离矢量路由协议)?</a></li>
+</ul>
+</li>
+<li><a href="#计算机网络体系结构">计算机网络体系结构</a></li>
+<li>网络层协议<ul>
+<li><a href="#IP地址的分类">IP地址的分类？</a></li>
+<li><a href="#什么叫划分子网">什么叫划分子网？</a></li>
+<li><a href="#什么是ARP协议-Address-Resolution-Protocol">什么是ARP协议？</a></li>
+<li><a href="#什么是NAT-Network-Address-Translation-网络地址转换">什么是NAT (网络地址转换)？</a></li>
+</ul>
+</li>
+<li><a href="#参考">参考</a><!-- GFM-TOC -->
+
+</li>
+</ul>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2020-07-29</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                                    <li>&gt; <a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/interview/">interview</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2020/07/29/interview/network/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2020/07/29/interview/Python/">
+                        
+                        Python
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><ul>
+<li><a href="#什么是-Python-生成器">什么是 Python 生成器？</a></li>
+<li><a href="#什么是-Python-迭代器">什么是 Python 迭代器？</a></li>
+<li><a href="#list-和-tuple-有什么区别">list 和 tuple 有什么区别？</a></li>
+<li><a href="#Python-中的-list-和-dict-是怎么实现的">Python 中的 list 和 dict 是怎么实现的？</a></li>
+<li><a href="#Python-中使用多线程可以达到多核CPU一起使用吗">Python 中使用多线程可以达到多核CPU一起使用吗？</a></li>
+<li><a href="#什么是装饰器">什么是装饰器？</a></li>
+<li><a href="#Python-如何进行内存管理">Python 如何进行内存管理？</a></li>
+<li><a href="#Python-中的垃圾回收机制">Python 中的垃圾回收机制？</a></li>
+<li><a href="#什么是-lambda-表达式">什么是 lambda 表达式？</a></li>
+<li><a href="#什么是深拷贝和浅拷贝">什么是深拷贝和浅拷贝？</a></li>
+<li><a href="#双等于和-is-有什么区别">双等于和 is 有什么区别？</a></li>
+<li><a href="#其它-Python-知识点">其它 Python 知识点</a></li>
+<li><a href="#参考">参考</a></li>
+</ul>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2020-07-29</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                                    <li>&gt; <a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/interview/">interview</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2020/07/29/interview/Python/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2020/07/29/interview/Design_Pattern/">
+                        
+                        设计模式
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><h2 id="设计模式是什么"><a href="#设计模式是什么" class="headerlink" title="设计模式是什么"></a>设计模式是什么</h2><p>设计模式是一个通过定义、使用、测试去解决特定问题的方法，是针对软件设计中在给定条件下会重复性发生的问题而提出的一种通用性的可重用解决方案，设计模式不是可以直接转化为代码的完整设计，它是用于描述在不同情况下解决问题的通用方案。</p>
+<h2 id="设计模式的作用"><a href="#设计模式的作用" class="headerlink" title="设计模式的作用"></a>设计模式的作用</h2><p>设计模式通过提供经过验证的行之有效的开发范式加快开发过程，预防重大的隐患问题，提高代码可读性。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2020-07-29</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                                    <li>&gt; <a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/interview/">interview</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2020/07/29/interview/Design_Pattern/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2020/07/20/mysql/affair/">
+                        
+                        事务
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <p>事务是指对系统进行的一组操作，为了保证系统的完整性，事务需要具有ACID特性</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2020-07-21</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/mysql/">mysql</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2020/07/20/mysql/affair/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+    </ul>
+
+    <div class="home-paginator">
+        <div class="paginator">
+    
+
+    
+        <a class="next btn"
+           href="/page/2/"
+        >Next</a>
+    
+</div>
+
+    </div>
+</div>
+
+
+                    
+
+                </main>
+
+            </div>
+
+            <div class="page-main-content-bottom">
+                <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy; 2020 <i class="fa fa-heart-o"></i> <a href="/">ChazYu</a>
+        </div>
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a
+                    href="https://github.com/XPoet/hexo-theme-ils" target="_blank">ILS v2.0.1</a>
+        </div>
+        
+    </div>
+</footer>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="sidebar-tools">
+        <div class="tools-container">
+    <ul class="tools-list">
+        
+            <li class="search popup-trigger">
+                <i class="fa fa-search"></i>
+            </li>
+            
+<script src="/js/local-search.js"></script>
+
+        
+        <li class="mode-toggle">
+            <i class="fa fa-moon-o"></i>
+        </li>
+        
+        <li class="page-aside-toggle">
+            <i class="fa fa-bars"></i>
+        </li>
+        
+            <li class="scroll-to-top">
+                <i class="fa fa-caret-up"></i>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+
+
+    <!-- page aside -->
+    <aside class="page-aside">
+        
+    </aside>
+
+</div>
+
+
+
+
+    <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-icon">
+            <i class="fa fa-search"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/main.js"></script>
+<script src="/js/header-shrink.js"></script>
+<script src="/js/toggle-mode.js"></script>
+
+
+
+    
+<script src="/js/scroll-to-top.js"></script>
+
+
+
+
+
+
+</body>
+</html>

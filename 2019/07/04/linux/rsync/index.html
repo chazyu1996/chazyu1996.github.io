@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    
+    <title>
+        rsync同步工具的使用 | 做瓷器的金刚钻
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <link rel="shortcut icon" href="/images/favicon.svg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <script id="hexo-configurations">
+    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
+  </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="page-container">
+
+    <header class="page-header">
+        <div class="header-progress"></div>
+    </header>
+
+    <main class="page-main">
+
+        <div class="page-main-content">
+
+            <div class="page-main-content-top">
+                <header class="header-wrapper">
+
+    <div class="header-content">
+
+        <a class="logo-title" href="/">
+            做瓷器的金刚钻
+        </a>
+
+        <ul class="menu-list">
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/"
+                    >
+                        主页
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/archives"
+                    >
+                        ARCHIVES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/about"
+                    >
+                        ABOUT
+                    </a>
+                </li>
+            
+        </ul>
+
+        <div class="menu-bar">
+            <div class="menu-bar-middle"></div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/">主页</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+            </div>
+
+            <div class="page-main-content-middle">
+
+                <main class="main-content normal-code-theme">
+
+                    
+                        <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <h3><a class="title-hover-animation">rsync同步工具的使用</a></h3>
+        </div>
+
+        <div class="meta-info">
+            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa fa-calendar-o"></i> 2019-07-05 02:03:48
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa fa-folder"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa fa-tags"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/tags/linux/">linux</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+    
+    
+</div>
+
+        </div>
+
+        <div class="article-content markdown-body">
+            <h1 id="Linux-命令行中rsync-介绍"><a href="#Linux-命令行中rsync-介绍" class="headerlink" title="Linux 命令行中rsync 介绍"></a>Linux 命令行中rsync 介绍</h1><p>rsync 因其切割算法，及增量对比的优势，在文件同步中应用极为广泛</p>
+<a id="more"></a>
+
+<h2 id="增量算法"><a href="#增量算法" class="headerlink" title="增量算法"></a>增量算法</h2><p>rsync 可以在 同步的过程中，将一个大文件，分割成n个块，通过对块的同步，及校验，完成传输。</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>在遇到jar包、apk包等情况中，可以将其复制，在进行rsync增量同步，可以大大缩短时间</p>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><blockquote>
+<p>-v, –verbose                  详细模式输出<br>-q, –quiet                       精简输出模式<br>-c, –checksum               打开校验开关，强制对文件传输进行校验<br>-a, –archive                   归档模式，表示以递归方式传输文件，并保持所有文件属性，等于-rlptgoD<br>-r, –recursive                 对子目录以递归模式处理<br>-R, –relative                  使用相对路径信息<br>-b, –backup                  创建备份，也就是对于目的已经存在有同样的文件名时，将老的文件重新命名为<del>filename。可以使用–suffix选项来指定不同的备份文件前缀。<br>–backup-dir                  将备份文件(如</del>filename)存放在在目录下。<br>-suffix=SUFFIX             定义备份文件前缀<br>-u, –update                   仅仅进行更新，也就是跳过所有已经存在于DST，并且文件时间晚于要备份的文件。(不覆盖更新的文件)<br>-l, –links                         保留软链结<br>-L, –copy-links              想对待常规文件一样处理软链结<br>–copy-unsafe-links        仅仅拷贝指向SRC路径目录树以外的链结<br>–safe-links                     忽略指向SRC路径目录树以外的链结<br>-H, –hard-links              保留硬链结<br>-p, –perms                    保持文件权限<br>-o, –owner                    保持文件属主信息<br>-g, –group                     保持文件属组信息<br>-D, –devices                 保持设备文件信息<br>-t, –times                      保持文件时间信息<br>-S, –sparse                   对稀疏文件进行特殊处理以节省DST的空间<br>-n, –dry-run                  现实哪些文件将被传输<br>-W, –whole-file             拷贝文件，不进行增量检测<br>-x, –one-file-system      不要跨越文件系统边界<br>-B, –block-size=SIZE   检验算法使用的块尺寸，默认是700字节<br>-e, –rsh=COMMAND 指定使用rsh、ssh方式进行数据同步<br>–rsync-path=PATH      指定远程服务器上的rsync命令所在路径信息<br>-C, –cvs-exclude          使用和CVS一样的方法自动忽略文件，用来排除那些不希望传输的文件<br>–existing                      仅仅更新那些已经存在于DST的文件，而不备份那些新创建的文件<br>–delete                         删除那些DST中SRC没有的文件<br>–delete-excluded          同样删除接收端那些被该选项指定排除的文件<br>–delete-after                传输结束以后再删除<br>–ignore-errors             及时出现IO错误也进行删除<br>–max-delete=NUM     最多删除NUM个文件<br>–partial                        保留那些因故没有完全传输的文件，以是加快随后的再次传输<br>–force                          强制删除目录，即使不为空<br>–numeric-ids                不将数字的用户和组ID匹配为用户名和组名<br>–timeout=TIME IP       超时时间，单位为秒<br>-I, –ignore-times          不跳过那些有同样的时间和长度的文件<br>–size-only                    当决定是否要备份文件时，仅仅察看文件大小而不考虑文件时间<br>–modify-window=NUM 决定文件是否时间相同时使用的时间戳窗口，默认为0<br>-T –temp-dir=DIR      在DIR中创建临时文件<br>–compare-dest=DIR   同样比较DIR中的文件来决定是否需要备份<br>-P 等同于 –partial<br>–progress                    显示备份过程<br>-z, –compress             对备份的文件在传输时进行压缩处理<br>–exclude=PATTERN  指定排除不需要传输的文件模式<br>–include=PATTERN   指定不排除而需要传输的文件模式<br>–exclude-from=FILE   排除FILE中指定模式的文件<br>–include-from=FILE   不排除FILE指定模式匹配的文件<br>–version                      打印版本信息<br>–address                     绑定到特定的地址<br>–config=FILE             指定其他的配置文件，不使用默认的rsyncd.conf文件<br>–port=PORT              指定其他的rsync服务端口<br>–blocking-io               对远程shell使用阻塞IO<br>-stats                           给出某些文件的传输状态<br>–progress                   在传输时现实传输过程<br>–log-format=formAT  指定日志文件格式<br>–password-file=FILE 从FILE中得到密码<br>–bwlimit=KBPS         限制I/O带宽，KBytes per second<br>-h, –help                    显示帮助信息</p>
+</blockquote>
+
+        </div>
+
+        <div class="article-nav">
+            
+                <div class="article-prev">
+                    <a class="prev btn"
+                       rel="prev"
+                       href="/2019/07/04/leetcode/20/"
+                    >
+                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">20.有效的括号</span><span class="post-nav-item">Prev posts</span>
+                    </a>
+                </div>
+            
+            
+                <div class="article-next">
+                    <a class="next btn"
+                       rel="next"
+                       href="/2019/07/04/leetcode/2/"
+                    >
+                        <span class="post-nav-title-item">2.两数相加</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
+            
+        </div>
+
+        <div class="comment-container">
+            <div class="comments-container">
+    
+        
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <div id="gitalk-container"></div>
+    <script>
+        const gitalk = new Gitalk({
+            clientID: 'c2072d06f1a2f2c5d6f2',
+            clientSecret: '429efb33ae5e4f3157ed2bb9a0c0028c9f7d71c3',
+            repo: 'chazyu1996.github.io',
+            owner: 'chazyu1996',
+            admin: ['chazyu1996'],
+            id: location.pathname,
+            language: 'zh-cn'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+    
+</div>
+        </div>
+    </div>
+</div>
+
+
+                    
+
+                </main>
+
+            </div>
+
+            <div class="page-main-content-bottom">
+                <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy; 2020 <i class="fa fa-heart-o"></i> <a href="/">ChazYu</a>
+        </div>
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a
+                    href="https://github.com/XPoet/hexo-theme-ils" target="_blank">ILS v2.0.1</a>
+        </div>
+        
+    </div>
+</footer>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="sidebar-tools">
+        <div class="tools-container">
+    <ul class="tools-list">
+        
+            <li class="search popup-trigger">
+                <i class="fa fa-search"></i>
+            </li>
+            
+<script src="/js/local-search.js"></script>
+
+        
+        <li class="mode-toggle">
+            <i class="fa fa-moon-o"></i>
+        </li>
+        
+        <li class="page-aside-toggle">
+            <i class="fa fa-bars"></i>
+        </li>
+        
+            <li class="scroll-to-top">
+                <i class="fa fa-caret-up"></i>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+
+
+    <!-- page aside -->
+    <aside class="page-aside">
+        
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-命令行中rsync-介绍"><span class="nav-number">1.</span> <span class="nav-text">Linux 命令行中rsync 介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#增量算法"><span class="nav-number">1.1.</span> <span class="nav-text">增量算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景"><span class="nav-number">1.2.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">1.3.</span> <span class="nav-text">参数</span></a></li></ol></li></ol>
+    </div>
+</div>
+        
+    </aside>
+
+</div>
+
+
+
+
+    <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-icon">
+            <i class="fa fa-search"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/main.js"></script>
+<script src="/js/header-shrink.js"></script>
+<script src="/js/toggle-mode.js"></script>
+
+
+
+    
+<script src="/js/scroll-to-top.js"></script>
+
+
+
+
+
+    
+        
+<script src="/js/code-copy.js"></script>
+
+    
+
+    
+        
+<script src="/lib/anime.min.js"></script>
+<script src="/js/toc.js"></script>
+
+    
+
+    
+<script src="/js/post.js"></script>
+
+
+
+
+</body>
+</html>
