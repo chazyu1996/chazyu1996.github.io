@@ -111,6 +111,91 @@
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
+                    <a href="/2020/07/29/interview/Database/">
+                        
+                        数据库
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><ul>
+<li>数据库基础<ul>
+<li><a href="#事务的概念和特性">事务的概念和特性？</a></li>
+<li><a href="#会出现哪些并发一致性问题">会出现哪些并发一致性问题？</a></li>
+<li><a href="#数据库的四种隔离级别">数据库的四种隔离级别？</a></li>
+<li><a href="#什么是乐观锁和悲观锁">什么是乐观锁和悲观锁？</a></li>
+<li><a href="#常见的封锁类型">常见的封锁类型？</a></li>
+<li><a href="#什么是三级封锁协议">什么是三级封锁协议？</a></li>
+<li><a href="#什么是两段锁协议">什么是两段锁协议？</a></li>
+<li><a href="#什么是-mvcc">什么是 MVCC？</a></li>
+<li><a href="#数据库的范式">数据库的范式？</a></li>
+<li><a href="#列举几种表连接方式">列举几种表连接方式？</a></li>
+<li><a href="#什么是存储过程有哪些优缺点">什么是存储过程？有哪些优缺点？</a></li>
+<li><a href="#DropDeleteTruncate的区别">Drop/Delete/Truncate的区别？</a></li>
+<li><a href="#什么是视图什么是游标">什么是视图？什么是游标？</a></li>
+</ul>
+</li>
+<li>MySQL<ul>
+<li><a href="#数据库索引的实现原理b树">数据库索引的实现原理（B+树）</a></li>
+<li><a href="#使用索引的优点">使用索引的优点</a></li>
+<li><a href="#哪些情况下索引会失效">哪些情况下索引会失效？</a></li>
+<li><a href="#在哪些地方适合创建索引">在哪些地方适合创建索引？</a></li>
+<li><a href="#索引的分类">索引的分类？</a></li>
+<li><a href="#MySQL的两种存储引擎-InnoDB-和-MyISAM-的区别">MySQL的两种存储引擎 InnoDB 和 MyISAM 的区别？</a></li>
+<li><a href="#如何优化数据库">如何优化数据库？</a></li>
+<li><a href="#什么是主从复制实现原理是什么">什么是主从复制？实现原理是什么？</a></li>
+</ul>
+</li>
+<li>NoSQL/Redis<ul>
+<li><a href="关系型数据库和非关系型数据库的区别">关系型数据库和非关系型数据库的区别？</a></li>
+</ul>
+</li>
+<li><a href="#参考">参考</a></li>
+</ul>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2020-07-29</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                                    <li>&gt; <a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/interview/">interview</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2020/07/29/interview/Database/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
                     <a href="/2020/07/20/mysql/affair/">
                         
                         事务
@@ -378,18 +463,15 @@
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
-                    <a href="/2019/11/25/design_pattern/python/Builder_Pattern/">
+                    <a href="/2019/11/25/design_pattern/python/Chain_of_Responsibility_Pattern/">
                         
-                        建造者模式python实现
+                        责任链模式python实现
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        <h1 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>建造者模式（生成器模式、Buidler Pattern）和抽象工厂模式的目的都是用来创建复杂的对象，但是创建的过程是截然不同的。</p>
-<ul>
-<li>在抽象工厂模式中，抽象出了创建方法，使用者只能按照预定好的步骤新创建一个对象。</li>
-<li>在建造者模式中，使用者可以按照自己的想法，在合理的范围内定制自己所需要的对象。
+                        <h1 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>为请求创建了一个接收者对象的链。这种模式给予请求的类型，对请求的发送者和接收者进行解耦。这种类型的设计模式属于行为型模式。</p>
                     
                 </div>
 
@@ -427,7 +509,7 @@
                         
                     </div>
                     
-                    <a href="/2019/11/25/design_pattern/python/Builder_Pattern/">Read more <i class="fa fa-angle-right"></i></a>
+                    <a href="/2019/11/25/design_pattern/python/Chain_of_Responsibility_Pattern/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         
@@ -482,60 +564,6 @@
                     </div>
                     
                     <a href="/2019/11/25/design_pattern/python/Composite_Pattern/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                <h3 class="home-article-title">
-                    <a href="/2019/11/25/design_pattern/python/Command_Pattern/">
-                        
-                        命令模式python实现
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <h1 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>一种数据驱动的设计模式，它属于行为型模式。请求以命令的形式包裹在对象中，并传给调用对象。调用对象寻找可以处理该命令的合适的对象，并把该命令传给相应的对象，该对象执行命令。</p>
-<p>“行为请求者”与“行为实现者”通常呈现一种“紧耦合”。但在某些场合，比如要对行为进行“记录、撤销/重做、事务”等处理，这种无法抵御变化的紧耦合是不合适的。在这种情况下，如何将“行为请求者”与“行为实现者”解耦？将一组行为抽象为对象，实现二者之间的松耦合。</p>
-                    
-                </div>
-
-                <div class="home-article-meta-info">
-                    <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-11-25</span>
-                        
-                            
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li>
-                                
-                            </ul>
-                            </span>
-                            
-                            
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/python/">python</a>
-                                    </li>
-                                
-                                    <li>
-                                        | <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2019/11/25/design_pattern/python/Command_Pattern/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    
+    <title>
+        kube-scheduler 源码阅读 | 做瓷器的金刚钻
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <link rel="shortcut icon" href="/images/favicon.svg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <script id="hexo-configurations">
+    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
+  </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+<div class="page-container">
+
+    <header class="page-header">
+        <div class="header-progress"></div>
+    </header>
+
+    <main class="page-main">
+
+        <div class="page-main-content">
+
+            <div class="page-main-content-top">
+                <header class="header-wrapper">
+
+    <div class="header-content">
+
+        <a class="logo-title" href="/">
+            做瓷器的金刚钻
+        </a>
+
+        <ul class="menu-list">
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/"
+                    >
+                        主页
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/archives"
+                    >
+                        ARCHIVES
+                    </a>
+                </li>
+            
+                <li class="menu-item">
+                    <a class=""
+                       href="/about"
+                    >
+                        ABOUT
+                    </a>
+                </li>
+            
+        </ul>
+
+        <div class="menu-bar">
+            <div class="menu-bar-middle"></div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/">主页</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+            </div>
+
+            <div class="page-main-content-middle">
+
+                <main class="main-content normal-code-theme">
+
+                    
+                        <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <h3><a class="title-hover-animation">kube-scheduler 源码阅读</a></h3>
+        </div>
+
+        <div class="meta-info">
+            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa fa-calendar-o"></i> 2020-09-14 20:21:52
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa fa-folder"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa fa-tags"></i>
+            <ul>
+                
+                    <li>
+                        <a href="/tags/kubernetes/">kubernetes</a>
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+    
+    
+</div>
+
+        </div>
+
+        <div class="article-content markdown-body">
+            <h1 id="kube-scheduler"><a href="#kube-scheduler" class="headerlink" title="kube-scheduler"></a>kube-scheduler</h1><p>自动调度是云原生最重要的环节之一，kube-scheduler是Kubernetes中的关键模块，扮演管家的角色遵从一套机制为Pod提供调度服务，例如基于资源的公平调度、调度Pod到指定节点、或者通信频繁的Pod调度到同一节点等。</p>
+<a id="more"></a>
+
+<p>容器调度本身是一件比较复杂的事，因为要确保以下几个目标：</p>
+<ol>
+<li>公平性：在调度Pod时需要公平的进行决策，每个节点都有被分配资源的机会，调度器需要对不同节点的使用作出平衡决策。</li>
+<li>资源高效利用：最大化群集所有资源的利用率，使有限的CPU、内存等资源服务尽可能更多的Pod。</li>
+<li>效率问题：能快速的完成对大批量Pod的调度工作，在集群规模扩增的情况下，依然保证调度过程的性能。</li>
+<li>灵活性：在实际运作中，用户往往希望Pod的调度策略是可控的，从而处理大量复杂的实际问题。因此平台要允许多个调度器并行工作，同时支持自定义调度器。</li>
+</ol>
+<p>为达到上述目标，kube-scheduler通过结合Node资源、负载情况、数据位置等各种因素进行调度判断，确保在满足场景需求的同时将Pod分配到最优节点。</p>
+<h2 id="预选和优选"><a href="#预选和优选" class="headerlink" title="预选和优选"></a>预选和优选</h2><p>kube-scheduler的根本工作任务是根据各种调度算法将Pod绑定（bind）到最合适的工作节点，整个调度流程分为两个阶段：预选策略（Predicates）和优选策略（Priorities）。</p>
+<p>预选（Predicates）：输入是所有节点，输出是满足预选条件的节点。kube-scheduler根据预选策略过滤掉不满足策略的Nodes。例如，如果某节点的资源不足或者不满足预选策略的条件如“Node的label必须与Pod的Selector一致”时则无法通过预选。<br>优选（Priorities）：输入是预选阶段筛选出的节点，优选会根据优先策略为通过预选的Nodes进行打分排名，选择得分最高的Node。例如，资源越富裕、负载越小的Node可能具有越高的排名。</p>
+<p>通俗点说，调度的过程就是在回答两个问题：1. 候选有哪些？2. 其中最适合的是哪个？</p>
+<p>值得一提的是，如果在预选阶段没有节点满足条件，Pod会一直处在Pending状态直到出现满足的节点，在此期间调度器会不断的进行重试。</p>
+<h3 id="预选策略（Predicates）"><a href="#预选策略（Predicates）" class="headerlink" title="预选策略（Predicates）"></a>预选策略（Predicates）</h3><h4 id="基于存储卷数量的判断"><a href="#基于存储卷数量的判断" class="headerlink" title="基于存储卷数量的判断"></a>基于存储卷数量的判断</h4><blockquote>
+<p>MaxEBSVolumeCount：确保已挂载的EBS存储卷数量不超过设置的最大值（默认39），调度器会检查直接或及间接使用这种类型存储的PVC，累加总数，如果卷数目超过设最大值限制，则不能调度新Pod到这个节点上。</p>
+</blockquote>
+<blockquote>
+<p>MaxGCEPDVolumeCount：同上，确保已挂载的GCE存储卷数量不超过预设的最大值（默认16）。</p>
+</blockquote>
+<blockquote>
+<p>MaxAzureDiskVolumeCount：同上，确保已挂载的Azure存储卷不超过设置的最大值（默认16）。</p>
+</blockquote>
+<h4 id="基于资源压力状态的判断"><a href="#基于资源压力状态的判断" class="headerlink" title="基于资源压力状态的判断"></a>基于资源压力状态的判断</h4><blockquote>
+<p>CheckNodeMemoryPressure：判断节点是否已经进入到内存压力状态，如果是则只允许调度内存为0标记的Pod。</p>
+</blockquote>
+<blockquote>
+<p>CheckNodeDiskPressure：判断节点是否已经进入到磁盘压力状态，如果是，则不能调度新的Pod。</p>
+</blockquote>
+<h4 id="基于卷冲突的判断"><a href="#基于卷冲突的判断" class="headerlink" title="基于卷冲突的判断"></a>基于卷冲突的判断</h4><blockquote>
+<p>NoDiskConflict：卷冲突判断，即如果该节点已经挂载了某个卷，其它同样使用相同卷的Pod将不能再调度到该节点。</p>
+</blockquote>
+<blockquote>
+<p>NoVolumeZoneConflict：对于给定的某块区域，判断如果在此区域的节点上部署Pod是否存在卷冲突。</p>
+</blockquote>
+<blockquote>
+<p>NoVolumeNodeConflict：对于某个指定节点，检查如果在此节点上部署Pod是否存在卷冲突。</p>
+</blockquote>
+<h4 id="基于约束关系的判断"><a href="#基于约束关系的判断" class="headerlink" title="基于约束关系的判断"></a>基于约束关系的判断</h4><blockquote>
+<p>MatchNodeSelector：检查节点标签（label）是否匹配Pod指定的nodeSelector，是则通过预选。</p>
+</blockquote>
+<blockquote>
+<p>MatchInterPodAffinity：根据Pod之间的亲和性做判断。</p>
+</blockquote>
+<blockquote>
+<p>PodToleratesNodeTaints：排斥性关系，即判断Pod不允许被调度到哪些节点。这里涉及到两个概念Taints（污点）和Toleration（容忍）。Node可以定义一或多个Taint，Pod可以定义一或多个Toleration，对于具有某个Taint的节点，只有遇到能容忍它的（即带有对应Toleration的）Pod，才允许Pod被调度到此节点，从而避免Pod被分配到不合适的节点。</p>
+</blockquote>
+<h4 id="基于适合性的判断"><a href="#基于适合性的判断" class="headerlink" title="基于适合性的判断"></a>基于适合性的判断</h4><blockquote>
+<p>PodFitsResources：检查节点是否有足够资源（如CPU、内存、GPU等）满足Pod的运行需求。</p>
+</blockquote>
+<blockquote>
+<p>PodFitsHostPorts：检查Pod容器所需的HostPort是否已被节点上其它容器或服务占用。如果已被占用，则禁止Pod调度到该节点。</p>
+</blockquote>
+<blockquote>
+<p>PodFitsHost：检查Pod指定的NodeName是否匹配当前节点。</p>
+</blockquote>
+<h3 id="优选策略（Priorities）"><a href="#优选策略（Priorities）" class="headerlink" title="优选策略（Priorities）"></a>优选策略（Priorities）</h3><p>优选过程会根据优选策略对每个候选节点进行打分，最终把Pod调度到分值最高的节点。kube-scheduler用一组优先级函数处理每个通过预选的节点，每个函数返回0-10的分数，各个函数有不同权重，最终得分是所有优先级函数的加权和，即节点得分的计算公式为</p>
+<p>$FinalNodeScore =\sum Weight_i \times PriorityFunc_i$</p>
+<p>代码中大部分采用字典的形式进行传输，所以需要一个映射关系，<code>pkg/scheduler/framework/plugins/registry.go</code>文件中记录了默认算法的名称映射关系。</p>
+<p>优选的优先级函数包括: </p>
+<h4 id="Name-noderesources-BalancedAllocationName-Weight-1"><a href="#Name-noderesources-BalancedAllocationName-Weight-1" class="headerlink" title="{Name: noderesources.BalancedAllocationName, Weight: 1}"></a>{Name: noderesources.BalancedAllocationName, Weight: 1}</h4><p>CPU和内存使用率越接近的节点权重越高。该策略均衡了节点CPU和内存的配比，尽量选择在部署Pod后各项资源更均衡的机器。</p>
+<h4 id="Name-imagelocality-Name-Weight-1"><a href="#Name-imagelocality-Name-Weight-1" class="headerlink" title="{Name: imagelocality.Name, Weight: 1}"></a>{Name: imagelocality.Name, Weight: 1}</h4><p>尽量调度到Pod所需镜像的节点。检查Node是否存在Pod所需镜像：如果不存在，返回0分；如果存在，则镜像越大得分越高</p>
+<h4 id="Name-interpodaffinity-Name-Weight-1"><a href="#Name-interpodaffinity-Name-Weight-1" class="headerlink" title="{Name: interpodaffinity.Name, Weight: 1}"></a>{Name: interpodaffinity.Name, Weight: 1}</h4><p>叠加该节点已调度的每个Pod的权重，权重可配置文件里设定，通常亲和性越强的Pod权重越高，如果Pod满足要求则将加到权重和，具有最高权重和的节点是最优的。</p>
+<h4 id="Name-noderesources-LeastAllocatedName-Weight-1"><a href="#Name-noderesources-LeastAllocatedName-Weight-1" class="headerlink" title="{Name: noderesources.LeastAllocatedName, Weight: 1}"></a>{Name: noderesources.LeastAllocatedName, Weight: 1}</h4><p>尽量将Pod调度到计算资源占用比较小的Node上，这里涉及两种计算资源：内存和CPU</p>
+<h4 id="Name-nodeaffinity-Name-Weight-1"><a href="#Name-nodeaffinity-Name-Weight-1" class="headerlink" title="{Name: nodeaffinity.Name, Weight: 1}"></a>{Name: nodeaffinity.Name, Weight: 1}</h4><p>nodeselector 按照节点选择器选择</p>
+<h4 id="Name-nodepreferavoidpods-Name-Weight-10000"><a href="#Name-nodepreferavoidpods-Name-Weight-10000" class="headerlink" title="{Name: nodepreferavoidpods.Name, Weight: 10000}"></a>{Name: nodepreferavoidpods.Name, Weight: 10000}</h4><p>避免将ReplicationController或ReplicaSet调度到节点。如果Pod由RC或者RS的Controller调度，则得分为0，不对最终加权得分产生影响；如果不是，则总分为100000，意味着覆盖其他策略，直接决定最优节点。</p>
+<h4 id="Name-podtopologyspread-Name-Weight-2"><a href="#Name-podtopologyspread-Name-Weight-2" class="headerlink" title="{Name: podtopologyspread.Name, Weight: 2}"></a>{Name: podtopologyspread.Name, Weight: 2}</h4><p>拓扑约束</p>
+<h4 id="Name-tainttoleration-Name-Weight-1"><a href="#Name-tainttoleration-Name-Weight-1" class="headerlink" title="{Name: tainttoleration.Name, Weight: 1}"></a>{Name: tainttoleration.Name, Weight: 1}</h4><p>污点容忍</p>
+
+        </div>
+
+        <div class="article-nav">
+            
+            
+                <div class="article-next">
+                    <a class="next btn"
+                       rel="next"
+                       href="/2020/09/13/linux/cgroup/"
+                    >
+                        <span class="post-nav-title-item">Linux资源管理之cgroups简介</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
+            
+        </div>
+
+        <div class="comment-container">
+            <div class="comments-container">
+    
+        
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <div id="gitalk-container"></div>
+    <script>
+        const gitalk = new Gitalk({
+            clientID: 'c2072d06f1a2f2c5d6f2',
+            clientSecret: '429efb33ae5e4f3157ed2bb9a0c0028c9f7d71c3',
+            repo: 'chazyu1996.github.io',
+            owner: 'chazyu1996',
+            admin: ['chazyu1996'],
+            id: location.pathname,
+            language: 'zh-cn'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+    
+</div>
+        </div>
+    </div>
+</div>
+
+
+                    
+
+                </main>
+
+            </div>
+
+            <div class="page-main-content-bottom">
+                <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy; 2020 <i class="fa fa-heart-o"></i> <a href="/">ChazYu</a>
+        </div>
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a
+                    href="https://github.com/XPoet/hexo-theme-ils" target="_blank">ILS v2.0.1</a>
+        </div>
+        
+    </div>
+</footer>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="sidebar-tools">
+        <div class="tools-container">
+    <ul class="tools-list">
+        
+            <li class="search popup-trigger">
+                <i class="fa fa-search"></i>
+            </li>
+            
+<script src="/js/local-search.js"></script>
+
+        
+        <li class="mode-toggle">
+            <i class="fa fa-moon-o"></i>
+        </li>
+        
+        <li class="page-aside-toggle">
+            <i class="fa fa-bars"></i>
+        </li>
+        
+            <li class="scroll-to-top">
+                <i class="fa fa-caret-up"></i>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+
+
+    <!-- page aside -->
+    <aside class="page-aside">
+        
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#kube-scheduler"><span class="nav-number">1.</span> <span class="nav-text">kube-scheduler</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#预选和优选"><span class="nav-number">1.1.</span> <span class="nav-text">预选和优选</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预选策略（Predicates）"><span class="nav-number">1.1.1.</span> <span class="nav-text">预选策略（Predicates）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基于存储卷数量的判断"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">基于存储卷数量的判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于资源压力状态的判断"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">基于资源压力状态的判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于卷冲突的判断"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">基于卷冲突的判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于约束关系的判断"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">基于约束关系的判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于适合性的判断"><span class="nav-number">1.1.1.5.</span> <span class="nav-text">基于适合性的判断</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优选策略（Priorities）"><span class="nav-number">1.1.2.</span> <span class="nav-text">优选策略（Priorities）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Name-noderesources-BalancedAllocationName-Weight-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">{Name: noderesources.BalancedAllocationName, Weight: 1}</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Name-imagelocality-Name-Weight-1"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">{Name: imagelocality.Name, Weight: 1}</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Name-interpodaffinity-Name-Weight-1"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">{Name: interpodaffinity.Name, Weight: 1}</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Name-noderesources-LeastAllocatedName-Weight-1"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">{Name: noderesources.LeastAllocatedName, Weight: 1}</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Name-nodeaffinity-Name-Weight-1"><span class="nav-number">1.1.2.5.</span> <span class="nav-text">{Name: nodeaffinity.Name, Weight: 1}</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Name-nodepreferavoidpods-Name-Weight-10000"><span class="nav-number">1.1.2.6.</span> <span class="nav-text">{Name: nodepreferavoidpods.Name, Weight: 10000}</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Name-podtopologyspread-Name-Weight-2"><span class="nav-number">1.1.2.7.</span> <span class="nav-text">{Name: podtopologyspread.Name, Weight: 2}</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Name-tainttoleration-Name-Weight-1"><span class="nav-number">1.1.2.8.</span> <span class="nav-text">{Name: tainttoleration.Name, Weight: 1}</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        
+    </aside>
+
+</div>
+
+
+
+
+    <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-icon">
+            <i class="fa fa-search"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/js/main.js"></script>
+<script src="/js/header-shrink.js"></script>
+<script src="/js/toggle-mode.js"></script>
+
+
+
+    
+<script src="/js/scroll-to-top.js"></script>
+
+
+
+
+
+    
+        
+<script src="/js/code-copy.js"></script>
+
+    
+
+    
+        
+<script src="/lib/anime.min.js"></script>
+<script src="/js/toc.js"></script>
+
+    
+
+    
+<script src="/js/post.js"></script>
+
+
+
+
+</body>
+</html>
