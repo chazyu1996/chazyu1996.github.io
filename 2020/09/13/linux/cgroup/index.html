@@ -151,13 +151,6 @@
         <div class="article-content markdown-body">
             <h1 id="Linux资源管理之cgroups简介"><a href="#Linux资源管理之cgroups简介" class="headerlink" title="Linux资源管理之cgroups简介"></a>Linux资源管理之cgroups简介</h1><h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>cgroups 是Linux内核提供的一种可以限制单个进程或者多个进程所使用资源的机制，可以对 cpu，内存等资源实现精细化的控制，目前越来越火的轻量级容器 Docker 就使用了 cgroups 提供的资源限制能力来完成cpu，内存等部分的资源控制。</p>
 <p>另外，开发者也可以使用 cgroups 提供的精细化控制能力，限制某一个或者某一组进程的资源使用。比如在一个既部署了前端 web 服务，也部署了后端计算模块的八核服务器上，可以使用 cgroups 限制 web server 仅可以使用其中的六个核，把剩下的两个核留给后端计算模块。</p>
-<p>本文从以下四个方面描述一下 cgroups 的原理及用法：</p>
-<ol>
-<li>cgroups 的概念及原理</li>
-<li>cgroups 文件系统概念及原理</li>
-<li>cgroups 使用方法介绍</li>
-<li>cgroups 实践中的例子</li>
-</ol>
 <a id="more"></a>
 
 <h2 id="概念及原理"><a href="#概念及原理" class="headerlink" title="概念及原理"></a>概念及原理</h2><h3 id="cgroups子系统"><a href="#cgroups子系统" class="headerlink" title="cgroups子系统"></a>cgroups子系统</h3><p>cgroups 的全称是control groups，cgroups为每种可以控制的资源定义了一个子系统。典型的子系统介绍如下：</p>
