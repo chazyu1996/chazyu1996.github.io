@@ -1,6 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Linux资源管理之cgroups简介</title>
+    <url>/2020/09/13/linux/cgroup/</url>
+    <content><![CDATA[<h1 id="Linux资源管理之cgroups简介"><a href="#Linux资源管理之cgroups简介" class="headerlink" title="Linux资源管理之cgroups简介"></a>Linux资源管理之cgroups简介</h1><h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>cgroups 是Linux内核提供的一种可以限制单个进程或者多个进程所使用资源的机制，可以对 cpu，内存等资源实现精细化的控制，目前越来越火的轻量级容器 Docker 就使用了 cgroups 提供的资源限制能力来完成cpu，内存等部分的资源控制。</p>
+<p>另外，开发者也可以使用 cgroups 提供的精细化控制能力，限制某一个或者某一组进程的资源使用。比如在一个既部署了前端 web 服务，也部署了后端计算模块的八核服务器上，可以使用 cgroups 限制 web server 仅可以使用其中的六个核，把剩下的两个核留给后端计算模块。</p>
+<p>本文从以下四个方面描述一下 cgroups 的原理及用法：</p>
+<ol>
+<li>cgroups 的概念及原理</li>
+<li>cgroups 文件系统概念及原理</li>
+<li>cgroups 使用方法介绍</li>
+<li>cgroups 实践中的例子</li>
+</ol>
+<a id="more"></a>
+
+<h2 id="概念及原理"><a href="#概念及原理" class="headerlink" title="概念及原理"></a>概念及原理</h2><h3 id="cgroups子系统"><a href="#cgroups子系统" class="headerlink" title="cgroups子系统"></a>cgroups子系统</h3><p>cgroups 的全称是control groups，cgroups为每种可以控制的资源定义了一个子系统。典型的子系统介绍如下：</p>
+<ol>
+<li>cpu 子系统，主要限制进程的 cpu 使用率。</li>
+<li>cpuacct 子系统，可以统计 cgroups 中的进程的 cpu 使用报告。</li>
+<li>cpuset 子系统，可以为 cgroups 中的进程分配单独的 cpu 节点或者内存节点。</li>
+<li>memory 子系统，可以限制进程的 memory 使用量。</li>
+<li>blkio 子系统，可以限制进程的块设备 io。</li>
+<li>devices 子系统，可以控制进程能够访问某些设备。</li>
+<li>net_cls 子系统，可以标记 cgroups 中进程的网络数据包，然后可以使用 tc 模块（traffic control）对数据包进行控制。</li>
+<li>freezer 子系统，可以挂起或者恢复 cgroups 中的进程。</li>
+<li>ns 子系统，可以使不同 cgroups 下面的进程使用不同的 namespace。</li>
+</ol>
+<p>这里面每一个子系统都需要与内核的其他模块配合来完成资源的控制，比如对 cpu 资源的限制是通过进程调度模块根据 cpu 子系统的配置来完成的；对内存资源的限制则是内存模块根据 memory 子系统的配置来完成的，而对网络数据包的控制则需要 Traffic Control 子系统来配合完成。本文不会讨论内核是如何使用每一个子系统来实现资源的限制，而是重点放在内核是如何把 cgroups 对资源进行限制的配置有效的组织起来的，和内核如何把cgroups 配置和进程进行关联的，以及内核是如何通过 cgroups 文件系统把cgroups的功能暴露给用户态的。</p>
+<h3 id="cgroups-层级结构（Hierarchy）"><a href="#cgroups-层级结构（Hierarchy）" class="headerlink" title="cgroups 层级结构（Hierarchy）"></a>cgroups 层级结构（Hierarchy）</h3><p>内核使用 cgroup 结构体来表示一个 control group 对某一个或者某几个 cgroups 子系统的资源限制。cgroup 结构体可以组织成一颗树的形式，每一棵cgroup 结构体组成的树称之为一个 cgroups 层级结构。cgroups层级结构可以 attach 一个或者几个 cgroups 子系统，当前层级结构可以对其 attach 的 cgroups 子系统进行资源的限制。每一个 cgroups 子系统只能被 attach 到一个 cpu 层级结构中。</p>
+<p><img src="/images/linux/cgroup/cgroup1.png" alt="cgroups"></p>
+<p>比如上图表示两个cgroups层级结构，每一个层级结构中是一颗树形结构，树的每一个节点是一个 cgroup 结构体（比如cpu_cgrp, memory_cgrp)。第一个 cgroups 层级结构 attach 了 cpu 子系统和 cpuacct 子系统， 当前 cgroups 层级结构中的 cgroup 结构体就可以对 cpu 的资源进行限制，并且对进程的 cpu 使用情况进行统计。 第二个 cgroups 层级结构 attach 了 memory 子系统，当前 cgroups 层级结构中的 cgroup 结构体就可以对 memory 的资源进行限制。</p>
+<p>在每一个 cgroups 层级结构中，每一个节点（cgroup 结构体）可以设置对资源不同的限制权重。比如上图中 cgrp1 组中的进程可以使用60%的 cpu 时间片，而 cgrp2 组中的进程可以使用20%的 cpu 时间片。</p>
+<h3 id="cgroups与进程"><a href="#cgroups与进程" class="headerlink" title="cgroups与进程"></a>cgroups与进程</h3><p>上面的小节提到了内核使用 cgroups 子系统对系统的资源进行限制，也提到了 cgroups 子系统需要 attach 到 cgroups 层级结构中来对进程进行资源控制。本小节重点关注一下内核是如何把进程与 cgroups 层级结构联系起来的。</p>
+<p>在创建了 cgroups 层级结构中的节点（cgroup 结构体）之后，可以把进程加入到某一个节点的控制任务列表中，一个节点的控制列表中的所有进程都会受到当前节点的资源限制。同时某一个进程也可以被加入到不同的 cgroups 层级结构的节点中，因为不同的 cgroups 层级结构可以负责不同的系统资源。所以说进程和 cgroup 结构体是一个多对多的关系。c</p>
+<p><img src="/images/linux/cgroup/cgroup2.png" alt="cgroups"></p>
+<p>上面这个图从整体结构上描述了进程与 cgroups 之间的关系。最下面的<code>P</code>代表一个进程。每一个进程的描述符中有一个指针指向了一个辅助数据结构<code>css_set</code>（cgroups subsystem set）。 指向某一个<code>css_set</code>的进程会被加入到当前<code>css_set</code>的进程链表中。一个进程只能隶属于一个<code>css_set</code>，一个<code>css_set</code>可以包含多个进程，隶属于同一<code>css_set</code>的进程受到同一个<code>css_set</code>所关联的资源限制。</p>
+<p>上图中的”M×N Linkage”说明的是<code>css_set</code>通过辅助数据结构可以与 cgroups 节点进行多对多的关联。但是 cgroups 的实现不允许<code>css_set</code>同时关联同一个cgroups层级结构下多个节点。 这是因为 cgroups 对同一种资源不允许有多个限制配置。</p>
+<p>一个<code>css_set</code>关联多个 cgroups 层级结构的节点时，表明需要对当前<code>css_set</code>下的进程进行多种资源的控制。而一个 cgroups 节点关联多个<code>css_set</code>时，表明多个<code>css_set</code>下的进程列表受到同一份资源的相同限制。</p>
+<h3 id="cgroups文件系统"><a href="#cgroups文件系统" class="headerlink" title="cgroups文件系统"></a>cgroups文件系统</h3><p>Linux 使用了多种数据结构在内核中实现了 cgroups 的配置，关联了进程和 cgroups 节点，那么 Linux 又是如何让用户态的进程使用到 cgroups 的功能呢？ Linux内核有一个很强大的模块叫 VFS (Virtual File System)。 VFS 能够把具体文件系统的细节隐藏起来，给用户态进程提供一个统一的文件系统 API 接口。 cgroups 也是通过 VFS 把功能暴露给用户态的，cgroups 与 VFS 之间的衔接部分称之为 cgroups 文件系统。下面先介绍一下 VFS 的基础知识，然后再介绍下 cgroups 文件系统的实现。</p>
+<h4 id="VFS"><a href="#VFS" class="headerlink" title="VFS"></a>VFS</h4><p>VFS 是一个内核抽象层，能够隐藏具体文件系统的实现细节，从而给用户态进程提供一套统一的 API 接口。VFS 使用了一种通用文件系统的设计，具体的文件系统只要实现了 VFS 的设计接口，就能够注册到 VFS 中，从而使内核可以读写这种文件系统。 这很像面向对象设计中的抽象类与子类之间的关系，抽象类负责对外接口的设计，子类负责具体的实现。其实，VFS本身就是用 c 语言实现的一套面向对象的接口。</p>
+<p>VFS 通用文件模型中包含以下四种元数据结构：</p>
+<ol>
+<li>超级块对象(superblock object)，用于存放已经注册的文件系统的信息。比如ext2，ext3等这些基础的磁盘文件系统，还有用于读写socket的socket文件系统，以及当前的用于读写cgroups配置信息的 cgroups 文件系统等。</li>
+<li>索引节点对象(inode object)，用于存放具体文件的信息。对于一般的磁盘文件系统而言，inode 节点中一般会存放文件在硬盘中的存储块等信息；对于socket文件系统，inode会存放socket的相关属性，而对于cgroups这样的特殊文件系统，inode会存放与 cgroup 节点相关的属性信息。这里面比较重要的一个部分是一个叫做 inode_operations 的结构体，这个结构体定义了在具体文件系统中创建文件，删除文件等的具体实现。</li>
+<li>文件对象(file object)，一个文件对象表示进程内打开的一个文件，文件对象是存放在进程的文件描述符表里面的。同样这个文件中比较重要的部分是一个叫 file_operations 的结构体，这个结构体描述了具体的文件系统的读写实现。当进程在某一个文件描述符上调用读写操作时，实际调用的是 file_operations 中定义的方法。 对于普通的磁盘文件系统，file_operations 中定义的就是普通的块设备读写操作；对于socket文件系统，file_operations 中定义的就是 socket 对应的 send/recv 等操作；而对于cgroups这样的特殊文件系统，file_operations 中定义的就是操作 cgroup 结构体等具体的实现。</li>
+<li>目录项对象(dentry object)，在每个文件系统中，内核在查找某一个路径中的文件时，会为内核路径上的每一个分量都生成一个目录项对象，通过目录项对象能够找到对应的 inode 对象，目录项对象一般会被缓存，从而提高内核查找速度。</li>
+</ol>
+<h4 id="cgroups文件系统的实现"><a href="#cgroups文件系统的实现" class="headerlink" title="cgroups文件系统的实现"></a>cgroups文件系统的实现</h4><p>基于 VFS 实现的文件系统,都必须实现 VFS 通用文件模型定义的这些对象，并实现这些对象中定义的部分函数。cgroup 文件系统也不例外,下面来看一下 cgroups 中这些对象的定义。</p>
+<p>首先看一下 cgroups 文件系统类型的结构体：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">file_system_type</span> <span class="title">cgroup_fs_type</span> = &#123;</span></span><br><span class="line">        .name = <span class="string">"cgroup"</span>,</span><br><span class="line">        .mount = cgroup_mount,</span><br><span class="line">        .kill_sb = cgroup_kill_sb,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这里面两个函数分别代表安装和卸载某一个 cgroup 文件系统所需要执行的函数。每次把某一个 cgroups 子系统安装到某一个装载点的时候，cgroup_mount 方法就会被调用，这个方法会生成一个 cgroups_root（cgroups层级结构的根）并封装成超级快对象。</p>
+<p>然后看一下 cgroups 超级块对象定义的操作：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">super_operations</span> <span class="title">cgroup_ops</span> = &#123;</span></span><br><span class="line">        .statfs = simple_statfs,</span><br><span class="line">        .drop_inode = generic_delete_inode,</span><br><span class="line">        .show_options = cgroup_show_options,</span><br><span class="line">        .remount_fs = cgroup_remount,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这里只有部分函数的实现，这是因为对于特定的文件系统而言，所支持的操作可能仅是 super_operations 中所定义操作的一个子集，比如说对于块设备上的文件对象，肯定是支持类似 fseek 的查找某个位置的操作，但是对于 socket 或者 cgroups 这样特殊的文件系统，就不支持这样的操作。</p>
+<p>同样简单看下 cgroups 文件系统对 inode 对象和 file 对象定义的特殊实现函数：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">inode_operations</span> <span class="title">cgroup_dir_inode_operations</span> = &#123;</span></span><br><span class="line">        .lookup = cgroup_lookup,</span><br><span class="line">        .<span class="built_in">mkdir</span> = cgroup_mkdir,</span><br><span class="line">        .<span class="built_in">rmdir</span> = cgroup_rmdir,</span><br><span class="line">        .rename = cgroup_rename,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">file_operations</span> <span class="title">cgroup_file_operations</span> = &#123;</span></span><br><span class="line">        .<span class="built_in">read</span> = cgroup_file_read,</span><br><span class="line">        .<span class="built_in">write</span> = cgroup_file_write,</span><br><span class="line">        .llseek = generic_file_llseek,</span><br><span class="line">        .<span class="built_in">open</span> = cgroup_file_open,</span><br><span class="line">        .<span class="built_in">release</span> = cgroup_file_release,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>本文并不去研究这些函数的代码实现是什么样的，但是从这些代码可以推断出，cgroups 通过实现 VFS 的通用文件系统模型，把维护 cgroups 层级结构的细节，隐藏在 cgroups 文件系统的这些实现函数中。</p>
+<p>从另一个方面说，用户在用户态对 cgroups 文件系统的操作，通过 VFS 转化为对 cgroups 层级结构的维护。通过这样的方式，内核把 cgroups 的功能暴露给了用户态的进程。</p>
+<h2 id="cgroups使用方法"><a href="#cgroups使用方法" class="headerlink" title="cgroups使用方法."></a>cgroups使用方法.</h2><h3 id="cgroups文件系统挂载"><a href="#cgroups文件系统挂载" class="headerlink" title="cgroups文件系统挂载"></a>cgroups文件系统挂载</h3><p>Linux中，用户可以使用mount命令挂载 cgroups 文件系统，格式为: <code>mount -t cgroup -o subsystems name /cgroup/name</code>，其中 subsystems 表示需要挂载的 cgroups 子系统， /cgroup/name 表示挂载点，如上文所提，这条命令同时在内核中创建了一个cgroups 层级结构。</p>
+<p>比如挂载 cpuset, cpu, cpuacct, memory 4个subsystem到/cgroup/cpu_and_mem 目录下，就可以使用 <code>mount -t cgroup -o remount,cpu,cpuset,memory cpu_and_mem /cgroup/cpu_and_mem</code></p>
+<p>在centos下面，在使用<code>yum install libcgroup</code>安装了cgroups模块之后，在 /etc/cgconfig.conf 文件中会自动生成 cgroups 子系统的挂载点:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">mount &#123;</span><br><span class="line">    cpuset  = /cgroup/cpuset;</span><br><span class="line">    cpu = /cgroup/cpu;</span><br><span class="line">    cpuacct = /cgroup/cpuacct;</span><br><span class="line">    memory  = /cgroup/memory;</span><br><span class="line">    devices = /cgroup/devices;</span><br><span class="line">    freezer = /cgroup/freezer;</span><br><span class="line">    net_cls = /cgroup/net_cls;</span><br><span class="line">    blkio   = /cgroup/blkio;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的每一条配置都等价于展开的 mount 命令，例如<code>mount -t cgroup -o cpuset cpuset /cgroup/cpuset</code>。这样系统启动之后会自动把这些子系统挂载到相应的挂载点上。</p>
+<h3 id="子节点和进程"><a href="#子节点和进程" class="headerlink" title="子节点和进程"></a>子节点和进程</h3><p>挂载某一个 cgroups 子系统到挂载点之后，就可以通过在挂载点下面建立文件夹或者使用cgcreate命令的方法创建 cgroups 层级结构中的节点。比如通过命令<code>cgcreate -t sankuai:sankuai -g cpu:test</code>就可以在 cpu 子系统下建立一个名为 test 的节点。结果如下所示：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@idx cpu]# ls</span><br><span class="line">cgroup.event_control  cgroup.procs  cpu.cfs_period_us  cpu.cfs_quota_us  cpu.rt_period_us   cpu.rt_runtime_us  cpu.shares  cpu.stat  lxc  notify_on_release  release_agent  tasks  test</span><br></pre></td></tr></table></figure>
+
+<p>然后可以通过写入需要的值到 test 下面的不同文件，来配置需要限制的资源。每个子系统下面都可以进行多种不同的配置，需要配置的参数各不相同，详细的参数设置需要参考 cgroups 手册。使用 cgset 命令也可以设置 cgroups 子系统的参数，格式为 <code>cgset -r parameter=value path_to_cgroup</code>。</p>
+<p>当需要删除某一个 cgroups 节点的时候，可以使用 cgdelete 命令，比如要删除上述的 test 节点，可以使用 <code>cgdelete -r cpu:test</code>命令进行删除</p>
+<p>把进程加入到 cgroups 子节点也有多种方法，可以直接把 pid 写入到子节点下面的 task 文件中。也可以通过 cgclassify 添加进程，格式为 <code>cgclassify -g subsystems:path_to_cgroup pidlist</code>，也可以直接使用 cgexec 在某一个 cgroups 下启动进程，格式为<code>gexec -g subsystems:path_to_cgroup command arguments</code>.</p>
+<h2 id="实践中的例子"><a href="#实践中的例子" class="headerlink" title="实践中的例子"></a>实践中的例子</h2><p>相信大多数人都没有读过 Docker 的源代码，但是通过这篇文章，可以估计 Docker 在实现不同的 Container 之间资源隔离和控制的时候，是可以创建比较复杂的 cgroups 节点和配置文件来完成的。然后对于同一个 Container 中的进程，可以把这些进程 PID 添加到同一组 cgroups 子节点中已达到对这些进程进行同样的资源限制。</p>
+<p>通过各大互联网公司在网上的技术文章，也可以看到很多公司的云平台都是基于 cgroups 技术搭建的，其实也都是把进程分组，然后把整个进程组添加到同一组 cgroups 节点中，受到同样的资源限制。</p>
+<p>笔者所在的广告组，有一部分任务是给合作的广告投放网站生成“商品信息”，广告投放网站使用这些信息，把广告投放在他们各自的网站上。但是有时候会有恶意的爬虫过来爬取商品信息，所以我们生成了另外“一小份”数据供优先级较低的用户下载，这时候基本能够区分开大部分恶意爬虫。对于这样的“一小份”数据，对及时更新的要求不高，生成商品信息又是一个比较费资源的任务，所以我们把这个任务的cpu资源使用率限制在了50%。</p>
+<p>首先在 cpu 子系统下面创建了一个 halfapi 的子节点：<code>cgcreate abc:abc -g cpu:halfapi</code>。</p>
+<p>然后在配置文件中写入配置数据：<code>echo 50000 &gt; /cgroup/cpu/halfapi/cpu.cfs_quota_us</code>。<code>cpu.cfs_quota_us</code>中的默认值是100000，写入50000表示只能使用50%的 cpu 运行时间。</p>
+<p>最后在这个cgroups中启动这个任务：<code>cgexec -g &quot;cpu:/halfapi&quot; php halfapi.php half &gt;/dev/null 2&gt;&amp;1</code></p>
+<p>在 cgroups 引入内核之前，想要完成上述的对某一个进程的 cpu 使用率进行限制，只能通过 nice 命令调整进程的优先级，或者 cpulimit 命令限制进程使用进程的 cpu 使用率。但是这些命令的缺点是无法限制一个进程组的资源使用限制，也就无法完成 Docker 或者其他云平台所需要的这一类轻型容器的资源限制要求。</p>
+<p>同样，在 cgroups 之前，想要完成对某一个或者某一组进程的物理内存使用率的限制，几乎是不可能完成的。使用 cgroups 提供的功能，可以轻易的限制系统内某一组服务的物理内存占用率。 对于网络包，设备访问或者io资源的控制，cgroups 同样提供了之前所无法完成的精细化控制。</p>
+]]></content>
+      <categories>
+        <category>技术文章</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pod 的创建过程</title>
     <url>/2020/09/08/k8s/what_happen_apply_yaml/</url>
     <content><![CDATA[<h1 id="pod的创建过程"><a href="#pod的创建过程" class="headerlink" title="pod的创建过程"></a>pod的创建过程</h1><p>kubernetes 中各个组件都是以 <code>watch</code> 的方式从<code>kube-apiserver</code>中获取信息。当然，这其中也用到了<code>informer</code>的缓存机制</p>
@@ -427,492 +515,6 @@
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> <a href="https://www.cnblogs.com/wenxiaofei/p/9853682.html" target="_blank" rel="noopener">史上最全的数据库面试题，不看绝对后悔 – 博客园</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>技术文章</category>
-        <category>面试题</category>
-      </categories>
-      <tags>
-        <tag>interview</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>操作系统</title>
-    <url>/2020/07/29/interview/Operating_Systems/</url>
-    <content><![CDATA[<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><ul>
-<li>进程和线程<ul>
-<li><a href="#进程和线程有什么区别">进程和线程有什么区别？</a></li>
-<li><a href="#进程间通信有哪些方式">进程间通信有哪些方式？</a></li>
-<li><a href="#进程同步问题">进程同步问题</a></li>
-<li><a href="#进程有哪几种状态">进程有哪几种状态？</a></li>
-<li><a href="#进程调度策略有哪些">进程调度策略有哪些？</a></li>
-<li><a href="#什么是僵尸进程">什么是僵尸进程？</a></li>
-<li><a href="#线程同步有哪些方式">线程同步有哪些方式？</a></li>
-<li><a href="#什么是协程">什么是协程？</a></li>
-<li><a href="#什么是IO多路复用怎么实现">什么是IO多路复用？怎么实现？</a></li>
-<li><a href="#什么是用户态和内核态">什么是用户态和内核态？</a></li>
-</ul>
-</li>
-<li>死锁<ul>
-<li><a href="#什么是死锁">什么是死锁？</a></li>
-<li><a href="#死锁产生的必要条件">死锁产生的必要条件？</a></li>
-<li><a href="#死锁有哪些处理方法">死锁有哪些处理方法？</a></li>
-</ul>
-</li>
-<li>内存管理<ul>
-<li><a href="#分页和分段有什么区别">分页和分段有什么区别？</a></li>
-<li><a href="#什么是虚拟内存">什么是虚拟内存？</a></li>
-<li><a href="#有哪些页面置换算法">有哪些页面置换算法？</a></li>
-</ul>
-</li>
-<li><a href="#磁盘调度">磁盘调度</a></li>
-<li><a href="#参考">参考</a></li>
-</ul>
-<a id="more"></a>
-
-<hr>
-<h3 id="进程和线程有什么区别？"><a href="#进程和线程有什么区别？" class="headerlink" title="进程和线程有什么区别？"></a>进程和线程有什么区别？</h3><ul>
-<li>进程（Process）是系统进行资源分配和调度的基本单位，线程（Thread）是CPU调度和分派的基本单位；</li>
-<li>线程依赖于进程而存在，一个进程至少有一个线程；</li>
-<li>进程有自己的独立地址空间，线程共享所属进程的地址空间；</li>
-<li>进程是拥有系统资源的一个独立单位，而线程自己基本上不拥有系统资源，只拥有一点在运行中必不可少的资源(如程序计数器,一组寄存器和栈)，和其他线程共享本进程的相关资源如内存、I/O、cpu等；</li>
-<li>在进程切换时，涉及到整个当前进程CPU环境的保存环境的设置以及新被调度运行的CPU环境的设置，而线程切换只需保存和设置少量的寄存器的内容，并不涉及存储器管理方面的操作，可见，进程切换的开销远大于线程切换的开销；</li>
-<li>线程之间的通信更方便，同一进程下的线程共享全局变量等数据，而进程之间的通信需要以进程间通信(IPC)的方式进行；</li>
-<li>多线程程序只要有一个线程崩溃，整个程序就崩溃了，但多进程程序中一个进程崩溃并不会对其它进程造成影响，因为进程有自己的独立地址空间，因此多进程更加健壮</li>
-</ul>
-<p>进程操作代码实现，可以参考：<a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017628290184064" target="_blank" rel="noopener">多进程 - 廖雪峰的官方网站</a></p>
-<h5 id="同一进程中的线程可以共享哪些数据？"><a href="#同一进程中的线程可以共享哪些数据？" class="headerlink" title="同一进程中的线程可以共享哪些数据？"></a>同一进程中的线程可以共享哪些数据？</h5><details>
-<summary>展开</summary>
-
-<ul>
-<li>进程代码段</li>
-<li>进程的公有数据（全局变量、静态变量…）</li>
-<li>进程打开的文件描述符</li>
-<li>进程的当前目录</li>
-<li>信号处理器/信号处理函数：对收到的信号的处理方式</li>
-<li>进程ID与进程组ID</details>
-
-</li>
-</ul>
-<h5 id="线程独占哪些资源？"><a href="#线程独占哪些资源？" class="headerlink" title="线程独占哪些资源？"></a>线程独占哪些资源？</h5><details>
-<summary>展开</summary>
-
-<ul>
-<li>线程ID</li>
-<li>一组寄存器的值</li>
-<li>线程自身的栈（堆是共享的）</li>
-<li>错误返回码：线程可能会产生不同的错误返回码，一个线程的错误返回码不应该被其它线程修改；</li>
-<li>信号掩码/信号屏蔽字(Signal mask)：表示是否屏蔽/阻塞相应的信号（SIGKILL,SIGSTOP除外）</details>
-
-</li>
-</ul>
-<h3 id="进程间通信有哪些方式？"><a href="#进程间通信有哪些方式？" class="headerlink" title="进程间通信有哪些方式？"></a>进程间通信有哪些方式？</h3><ol>
-<li>管道(Pipe)<details>
-<summary>展开</summary>
-</li>
-</ol>
-<ul>
-<li>管道是半双工的，数据只能向一个方向流动；需要双方通信时，需要建立起两个管道；</li>
-<li>一个进程向管道中写的内容被管道另一端的进程读出。写入的内容每次都添加在管道缓冲区的末尾，并且每次都是从缓冲区的头部读出数据；</li>
-<li>只能用于父子进程或者兄弟进程之间(具有亲缘关系的进程)</details>
-</li>
-</ul>
-<ol start="2">
-<li>命名管道</li>
-<li>消息队列</li>
-<li>信号(Signal)</li>
-<li>共享内存</li>
-<li>信号量(Semaphore)：初始化操作、P操作、V操作；P操作：信号量-1，检测是否小于0，小于则进程进入阻塞状态；V操作：信号量+1，若小于等于0，则从队列中唤醒一个等待的进程进入就绪态</li>
-<li>套接字(Socket)</li>
-</ol>
-<p>更详细的可以参考（待整理）：</p>
-<ul>
-<li><a href="https://imageslr.github.io/2020/02/26/ipc.html" target="_blank" rel="noopener">https://imageslr.github.io/2020/02/26/ipc.html</a></li>
-<li><a href="https://www.jianshu.com/p/c1015f5ffa74" target="_blank" rel="noopener">https://www.jianshu.com/p/c1015f5ffa74</a></li>
-</ul>
-<h3 id="进程同步问题"><a href="#进程同步问题" class="headerlink" title="进程同步问题"></a>进程同步问题</h3><blockquote>
-<p>进程的同步是目的，而进程间通信是实现进程同步的手段</p>
-</blockquote>
-<details>
-<summary>管程 Monitor</summary>
-
-<p>管程将共享变量以及对这些共享变量的操作封装起来，形成一个具有一定接口的功能模块，这样只能通过管程提供的某个过程才能访问管程中的资源。进程只能互斥地使用管程，使用完之后必须释放管程并唤醒入口等待队列中的进程。</p>
-<p>当一个进程试图进入管程时，在<strong>入口等待队列</strong>等待。若P进程唤醒了Q进程，则Q进程先执行，P在<strong>紧急等待队列</strong>中等待。（<strong>HOARE管程</strong>）</p>
-<p>wait操作：执行wait操作的进程进入条件变量链末尾，唤醒紧急等待队列或者入口队列中的进程；signal操作：唤醒条件变量链中的进程，自己进入紧急等待队列，若条件变量链为空，则继续执行。（<strong>HOARE管程</strong>）</p>
-<p><strong>MESA管程</strong>：将HOARE中的signal换成了notify（或者broadcast通知所有满足条件的），进行通知而不是立马交换管程的使用权，在合适的时候，条件队列首位的进程可以进入，进入之前必须用while检查条件是否合适。优点：没有额外的进程切换</p>
-</details>
-
-<details>
-<summary>生产者-消费者问题</summary>
-
-<blockquote>
-<p>问题描述：使用一个缓冲区来存放数据，只有缓冲区没有满，生产者才可以写入数据；只有缓冲区不为空，消费者才可以读出数据</p>
-</blockquote>
-<p>代码实现：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 伪代码描述 </span></span><br><span class="line"><span class="comment">// 定义信号量 full记录缓冲区物品数量 empty代表缓冲区空位数量 mutex为互斥量</span></span><br><span class="line">semaphore full = <span class="number">0</span>, empty = n, mutex = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生产者进程</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">producer</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">   	  P(empty);</span><br><span class="line">	  P(mutex);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// 生产者进行生产</span></span><br><span class="line">   	</span><br><span class="line">   	  V(mutex);</span><br><span class="line">   	  V(full);</span><br><span class="line"> 	&#125; <span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">consumer</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">	  P(full);</span><br><span class="line">	  P(mutex);</span><br><span class="line"></span><br><span class="line">    	<span class="comment">// 消费者进行消费</span></span><br><span class="line"></span><br><span class="line">	  V(mutex);</span><br><span class="line">	  V(empty);</span><br><span class="line"> 	&#125; <span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</details>
-
-<details>
-<summary>哲学家就餐问题</summary>
-
-<blockquote>
-<p>问题描述：有五位哲学家围绕着餐桌坐，每一位哲学家要么思考，要么吃饭。为了吃饭，哲学家必须拿起两双筷子（分别放于左右两端）不幸的是，筷子的数量和哲学家相等，所以每只筷子必须由两位哲学家共享。</p>
-</blockquote>
-<p>代码实现：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 5  <span class="comment">// number of philosopher</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LEFT (i + N - 1)%N <span class="comment">// number of i's left neighbors</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RIGHT (i + 1)%N <span class="comment">// number of i's right neighbors</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> THINKING 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HUNGRY 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EATING 2</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> semaphore;</span><br><span class="line"><span class="keyword">int</span> state[N]; <span class="comment">// array to keep track of everyone's state</span></span><br><span class="line">semaphore mutex = <span class="number">1</span>; <span class="comment">// mutual exclusion of critical region</span></span><br><span class="line">semaphore s[N]; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">philosopher</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (TRUE) &#123;</span><br><span class="line">		think();</span><br><span class="line">		take_forks(i);</span><br><span class="line">		eat();</span><br><span class="line">		put_forks(i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">take_forks</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	down(&amp;mutex); <span class="comment">// enter critical region</span></span><br><span class="line">	state[i] = HUNGRY; <span class="comment">// record that i is hungry</span></span><br><span class="line">	test_forks(i); <span class="comment">// try to acquire two forks</span></span><br><span class="line">	up(&amp;mutex); <span class="comment">// exit critical region</span></span><br><span class="line">	down(&amp;s[i]); <span class="comment">// block if forks are not acquired</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">put_forks</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	down(&amp;mutex); <span class="comment">// enter critical region</span></span><br><span class="line">	state[i] = THINKING; <span class="comment">// record that has finished eating</span></span><br><span class="line">	test_forks(LEFT); <span class="comment">// see if left neighbor can now eat</span></span><br><span class="line">	test_forks(RIGHT); <span class="comment">// see if right neighbor can now eat</span></span><br><span class="line">	up(&amp;mutex); <span class="comment">// exit critical region</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_forks</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (state[i] == HUNGRY &amp;&amp; state[LEFT] != EATING &amp;&amp; state[RIGHT] != EATING) &#123;</span><br><span class="line">		state[i] = EATING;</span><br><span class="line">		up(&amp;s[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</details>
-
-<details>
-<summary>读者-写者问题</summary>
-
-
-</details>
-
-<h5 id="临界区的概念？"><a href="#临界区的概念？" class="headerlink" title="临界区的概念？"></a>临界区的概念？</h5><details>
-<summary>展开</summary>
-
-<p>各个进程中对临界资源（互斥资源/共享变量，一次只能给一个进程使用）进行操作的程序片段</p>
-</details>
-
-<h5 id="同步与互斥的概念？"><a href="#同步与互斥的概念？" class="headerlink" title="同步与互斥的概念？"></a>同步与互斥的概念？</h5><details>
-<summary>展开</summary>
-
-<ul>
-<li>同步：多个进程因为合作而使得进程的执行有一定的先后顺序。比如某个进程需要另一个进程提供的消息，获得消息之前进入阻塞态；</li>
-<li>互斥：多个进程在同一时刻只有一个进程能进入临界区</details>
-
-</li>
-</ul>
-<h5 id="并发、并行、异步的区别？"><a href="#并发、并行、异步的区别？" class="headerlink" title="并发、并行、异步的区别？"></a>并发、并行、异步的区别？</h5><details>
-<summary>展开</summary>
-
-<p>并发：在一个时间段中同时有多个程序在运行，但其实任一时刻，只有一个程序在CPU上运行，宏观上的并发是通过不断的切换实现的；</p>
-<p>多线程：并发运行的一段代码。是实现异步的手段</p>
-<p>并行（和串行相比）：在多CPU系统中，多个程序无论宏观还是微观上都是同时执行的</p>
-<p>异步（和同步相比）：同步是顺序执行，异步是在等待某个资源的时候继续做自己的事</p>
-</details>
-
-<h3 id="进程有哪几种状态？"><a href="#进程有哪几种状态？" class="headerlink" title="进程有哪几种状态？"></a>进程有哪几种状态？</h3><p><img src="/images/interview/20191202090217863_1873.png" alt="Process State"></p>
-<ul>
-<li>就绪状态：进程已获得除处理机以外的所需资源，等待分配处理机资源</li>
-<li>运行状态：占用处理机资源运行，处于此状态的进程数小于等于CPU数</li>
-<li>阻塞状态： 进程等待某种条件，在条件满足之前无法执行</li>
-</ul>
-<h3 id="进程调度策略有哪些？"><a href="#进程调度策略有哪些？" class="headerlink" title="进程调度策略有哪些？"></a>进程调度策略有哪些？</h3><ol>
-<li><strong>批处理系统</strong>：</li>
-</ol>
-<details>
-<summary>先来先服务 first-come first-serverd（FCFS）</summary>
-
-<p>按照请求的顺序进行调度。非抢占式，开销小，无饥饿问题，响应时间不确定（可能很慢）；</p>
-<p>对短进程不利，对IO密集型进程不利。</p>
-</details>
-
-<details>
-<summary>最短作业优先 shortest job first（SJF）</summary>
-
-<p>按估计运行时间最短的顺序进行调度。非抢占式，吞吐量高，开销可能较大，可能导致饥饿问题；</p>
-<p>对短进程提供好的响应时间，对长进程不利。</p>
-</details>
-
-<details>
-<summary>最短剩余时间优先 shortest remaining time next（SRTN）</summary>
-
-<p>按剩余运行时间的顺序进行调度。(最短作业优先的抢占式版本)。吞吐量高，开销可能较大，提供好的响应时间；</p>
-<p>可能导致饥饿问题，对长进程不利。</p>
-</details>
-
-<details>
-<summary>最高响应比优先 Highest Response Ratio Next（HRRN）</summary>
-
-<p>响应比 = 1+ 等待时间/处理时间。同时考虑了等待时间的长短和估计需要的执行时间长短，很好的平衡了长短进程。非抢占，吞吐量高，开销可能较大，提供好的响应时间，无饥饿问题。</p>
-</details>
-
-<ol start="2">
-<li><strong>交互式系统</strong><br>交互式系统有大量的用户交互操作，在该系统中调度算法的目标是快速地进行响应。</li>
-</ol>
-<details>
-<summary>时间片轮转 Round Robin</summary>
-
-<p>将所有就绪进程按 FCFS 的原则排成一个队列，用完时间片的进程排到队列最后。抢占式（时间片用完时），开销小，无饥饿问题，为短进程提供好的响应时间；</p>
-<p>若时间片小，进程切换频繁，吞吐量低；若时间片太长，实时性得不到保证。</p>
-</details>
-
-<details>
-<summary>优先级调度算法</summary>
-
-<p>为每个进程分配一个优先级，按优先级进行调度。为了防止低优先级的进程永远等不到调度，可以随着时间的推移增加等待进程的优先级。</p>
-</details>
-
-<details>
-<summary>多级反馈队列调度算法 Multilevel Feedback Queue</summary>
-
-<p>设置多个就绪队列1、2、3…，优先级递减，时间片递增。只有等到优先级更高的队列为空时才会调度当前队列中的进程。如果进程用完了当前队列的时间片还未执行完，则会被移到下一队列。</p>
-<p>抢占式（时间片用完时），开销可能较大，对IO型进程有利，可能会出现饥饿问题。</p>
-</details>
-
-<h5 id="什么叫优先级反转？如何解决？"><a href="#什么叫优先级反转？如何解决？" class="headerlink" title="什么叫优先级反转？如何解决？"></a>什么叫优先级反转？如何解决？</h5><details>
-<summary>展开</summary>
-
-<p>高优先级的进程等待被一个低优先级进程占用的资源时，就会出现优先级反转，即优先级较低的进程比优先级较高的进程先执行。</p>
-<p>解决方法：</p>
-<ul>
-<li>优先级天花板(priority ceiling)：当任务申请某资源时，把该任务的优先级提升到可访问这个资源的所有任务中的最高优先级，这个优先级称为该资源的优先级天花板。简单易行。</li>
-<li>优先级继承(priority inheritance)：当任务A申请共享资源S时，如果S正在被任务C使用，通过比较任务C与自身的优先级，如发现任务C的优先级小于自身的优先级，则将任务C的优先级提升到自身的优先级，任务C释放资源S后，再恢复任务C的原优先级。</details>
-
-</li>
-</ul>
-<h3 id="什么是僵尸进程？"><a href="#什么是僵尸进程？" class="headerlink" title="什么是僵尸进程？"></a>什么是僵尸进程？</h3><p>一个子进程结束后，它的父进程并没有等待它（调用wait或者waitpid），那么这个子进程将成为一个僵尸进程。僵尸进程是一个已经死亡的进程，但是并没有真正被销毁。它已经放弃了几乎所有内存空间，没有任何可执行代码，也不能被调度，仅仅在进程表中保留一个位置，记载该进程的进程ID、终止状态以及资源利用信息(CPU时间，内存使用量等等)供父进程收集，除此之外，僵尸进程不再占有任何内存空间。这个僵尸进程可能会一直留在系统中直到系统重启。</p>
-<p>危害：占用进程号，而系统所能使用的进程号是有限的；占用内存。</p>
-<p>以下情况不会产生僵尸进程：</p>
-<ul>
-<li>该进程的父进程先结束了。每个进程结束的时候，系统都会扫描是否存在子进程，如果有则用Init进程接管，成为该进程的父进程，并且会调用wait等待其结束。</li>
-<li>父进程调用wait或者waitpid等待子进程结束（需要每隔一段时间查询子进程是否结束）。wait系统调用会使父进程暂停执行，直到它的一个子进程结束为止。waitpid则可以加入<code>WNOHANG</code>(wait-no-hang)选项，如果没有发现结束的子进程，就会立即返回，不会将调用waitpid的进程阻塞。同时，waitpid还可以选择是等待任一子进程（同wait），还是等待指定pid的子进程，还是等待同一进程组下的任一子进程，还是等待组ID等于pid的任一子进程；</li>
-<li>子进程结束时，系统会产生<code>SIGCHLD</code>(signal-child)信号，可以注册一个信号处理函数，在该函数中调用waitpid，等待所有结束的子进程（注意：一般都需要循环调用waitpid，因为在信号处理函数开始执行之前，可能已经有多个子进程结束了，而信号处理函数只执行一次，所以要循环调用将所有结束的子进程回收）；</li>
-<li>也可以用<code>signal(SIGCLD, SIG_IGN)</code>(signal-ignore)通知内核，表示忽略<code>SIGCHLD</code>信号，那么子进程结束后，内核会进行回收。</li>
-</ul>
-<h5 id="什么是孤儿进程？"><a href="#什么是孤儿进程？" class="headerlink" title="什么是孤儿进程？"></a>什么是孤儿进程？</h5><details>
-<summary>展开</summary>
-
-<p>一个父进程已经结束了，但是它的子进程还在运行，那么这些子进程将成为孤儿进程。孤儿进程会被Init（进程ID为1）接管，当这些孤儿进程结束时由Init完成状态收集工作。</p>
-</details>
-
-<h3 id="线程同步有哪些方式？"><a href="#线程同步有哪些方式？" class="headerlink" title="线程同步有哪些方式？"></a>线程同步有哪些方式？</h3><blockquote>
-<p>为什么需要线程同步：线程有时候会和其他线程共享一些资源，比如内存、数据库等。当多个线程同时读写同一份共享资源的时候，可能会发生冲突。因此需要线程的同步，多个线程按顺序访问资源。</p>
-</blockquote>
-<ul>
-<li><strong>互斥量</strong> Mutex：互斥量是内核对象，只有拥有互斥对象的线程才有访问互斥资源的权限。因为互斥对象只有一个，所以可以保证互斥资源不会被多个线程同时访问；当前拥有互斥对象的线程处理完任务后必须将互斥对象交出，以便其他线程访问该资源；</li>
-<li><strong>信号量</strong> Semaphore：信号量是内核对象，它允许同一时刻多个线程访问同一资源，但是需要控制同一时刻访问此资源的最大线程数量。信号量对象保存了<strong>最大资源计数</strong>和<strong>当前可用资源计数</strong>，每增加一个线程对共享资源的访问，当前可用资源计数就减1，只要当前可用资源计数大于0，就可以发出信号量信号，如果为0，则将线程放入一个队列中等待。线程处理完共享资源后，应在离开的同时通过<code>ReleaseSemaphore</code>函数将当前可用资源数加1。如果信号量的取值只能为0或1，那么信号量就成为了互斥量；</li>
-<li><strong>事件</strong> Event：允许一个线程在处理完一个任务后，主动唤醒另外一个线程执行任务。事件分为手动重置事件和自动重置事件。手动重置事件被设置为激发状态后，会唤醒所有等待的线程，而且一直保持为激发状态，直到程序重新把它设置为未激发状态。自动重置事件被设置为激发状态后，会唤醒<strong>一个</strong>等待中的线程，然后自动恢复为未激发状态。</li>
-<li><strong>临界区</strong> Critical Section：任意时刻只允许一个线程对临界资源进行访问。拥有临界区对象的线程可以访问该临界资源，其它试图访问该资源的线程将被挂起，直到临界区对象被释放。</li>
-</ul>
-<h5 id="互斥量和临界区有什么区别？"><a href="#互斥量和临界区有什么区别？" class="headerlink" title="互斥量和临界区有什么区别？"></a>互斥量和临界区有什么区别？</h5><details>
-<summary>展开</summary>
-
-<p>互斥量是可以命名的，可以用于不同进程之间的同步；而临界区只能用于同一进程中线程的同步。创建互斥量需要的资源更多，因此临界区的优势是速度快，节省资源。</p>
-</details>
-
-<h3 id="什么是协程？"><a href="#什么是协程？" class="headerlink" title="什么是协程？"></a>什么是协程？</h3><p>协程是一种用户态的轻量级线程，协程的调度完全由用户控制。协程拥有自己的寄存器上下文和栈。协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的时候，恢复先前保存的寄存器上下文和栈，直接操作栈则基本没有内核切换的开销，可以不加锁的访问全局变量，所以上下文的切换非常快。</p>
-<h5 id="协程多与线程进行比较？"><a href="#协程多与线程进行比较？" class="headerlink" title="协程多与线程进行比较？"></a>协程多与线程进行比较？</h5><details>
-<summary>展开</summary>
-
-<ol>
-<li><p>一个线程可以拥有多个协程，一个进程也可以单独拥有多个协程，这样python中则能使用多核CPU。</p>
-</li>
-<li><p>线程进程都是同步机制，而协程则是异步</p>
-</li>
-<li><p>协程能保留上一次调用时的状态，每次过程重入时，就相当于进入上一次调用的状态</p>
-</details>
-
-</li>
-</ol>
-<h3 id="什么是IO多路复用？怎么实现？"><a href="#什么是IO多路复用？怎么实现？" class="headerlink" title="什么是IO多路复用？怎么实现？"></a>什么是IO多路复用？怎么实现？</h3><p>IO多路复用（IO Multiplexing）是指单个进程/线程就可以同时处理多个IO请求。</p>
-<p>实现原理：用户将想要监视的文件描述符（File Descriptor）添加到select/poll/epoll函数中，由内核监视，函数阻塞。一旦有文件描述符就绪（读就绪或写就绪），或者超时（设置timeout），函数就会返回，然后该进程可以进行相应的读/写操作。</p>
-<details>
-<summary>select/poll/epoll三者的区别？</summary>
-
-<ul>
-<li><code>select</code>：将文件描述符放入一个集合中，调用select时，将这个集合从用户空间拷贝到内核空间（缺点1：每次都要复制，<strong>开销大</strong>），由内核根据就绪状态修改该集合的内容。（缺点2）<strong>集合大小有限制</strong>，32位机默认是1024（64位：2048）；采用水平触发机制。select函数返回后，需要通过遍历这个集合，找到就绪的文件描述符（缺点3：<strong>轮询的方式效率较低</strong>），当文件描述符的数量增加时，效率会线性下降；</li>
-<li><code>poll</code>：和select几乎没有区别，区别在于文件描述符的存储方式不同，poll采用链表的方式存储，没有最大存储数量的限制；</li>
-<li><code>epoll</code>：通过内核和用户空间共享内存，避免了不断复制的问题；支持的同时连接数上限很高（1G左右的内存支持10W左右的连接数）；文件描述符就绪时，采用回调机制，避免了轮询（回调函数将就绪的描述符添加到一个链表中，执行epoll_wait时，返回这个链表）；支持水平触发和边缘触发，采用边缘触发机制时，只有活跃的描述符才会触发回调函数。</li>
-</ul>
-<p>总结，区别主要在于：</p>
-<ul>
-<li>一个线程/进程所能打开的最大连接数</li>
-<li>文件描述符传递方式（是否复制）</li>
-<li>水平触发 or 边缘触发</li>
-<li>查询就绪的描述符时的效率（是否轮询）</details>
-
-</li>
-</ul>
-<details>
-<summary>什么时候使用select/poll，什么时候使用epoll？</summary>
-
-<p>当连接数较多并且有很多的不活跃连接时，epoll的效率比其它两者高很多；但是当连接数较少并且都十分活跃的情况下，由于epoll需要很多回调，因此性能可能低于其它两者。</p>
-</details>
-
-<details>
-<summary>什么是文件描述符？</summary>
-
-<p>文件描述符在形式上是一个非负整数。实际上，它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。</p>
-<p>内核通过文件描述符来访问文件。文件描述符指向一个文件。</p>
-</details>
-
-<h5 id="什么是水平触发？什么是边缘触发？"><a href="#什么是水平触发？什么是边缘触发？" class="headerlink" title="什么是水平触发？什么是边缘触发？"></a>什么是水平触发？什么是边缘触发？</h5><details>
-<summary>展开</summary>
-
-<ul>
-<li>水平触发（LT，Level Trigger）模式下，只要一个文件描述符就绪，就会触发通知，如果用户程序没有一次性把数据读写完，下次还会通知；</li>
-<li>边缘触发（ET，Edge Trigger）模式下，当描述符从未就绪变为就绪时通知一次，之后不会再通知，直到再次从未就绪变为就绪（缓冲区从不可读/写变为可读/写）。</li>
-<li>区别：边缘触发效率更高，减少了被重复触发的次数，函数不会返回大量用户程序可能不需要的文件描述符。</li>
-<li>为什么边缘触发一定要用非阻塞（non-block）IO：避免由于一个描述符的阻塞读/阻塞写操作让处理其它描述符的任务出现饥饿状态。</details>
-
-</li>
-</ul>
-<h5 id="有哪些常见的IO模型？"><a href="#有哪些常见的IO模型？" class="headerlink" title="有哪些常见的IO模型？"></a>有哪些常见的IO模型？</h5><details>
-<summary>展开</summary>
-
-<ul>
-<li>同步阻塞IO（Blocking IO）：用户线程发起IO读/写操作之后，线程阻塞，直到可以开始处理数据；对CPU资源的利用率不够；</li>
-<li>同步非阻塞IO（Non-blocking IO）：发起IO请求之后可以立即返回，如果没有就绪的数据，需要不断地发起IO请求直到数据就绪；不断重复请求消耗了大量的CPU资源；</li>
-<li>IO多路复用</li>
-<li>异步IO（Asynchronous IO）：用户线程发出IO请求之后，继续执行，由内核进行数据的读取并放在用户指定的缓冲区内，在IO完成之后通知用户线程直接使用。</details>
-
-</li>
-</ul>
-<h3 id="什么是用户态和内核态？"><a href="#什么是用户态和内核态？" class="headerlink" title="什么是用户态和内核态？"></a>什么是用户态和内核态？</h3><p>为了限制不同程序的访问能力，防止一些程序访问其它程序的内存数据，CPU划分了用户态和内核态两个权限等级。</p>
-<ul>
-<li>用户态只能受限地访问内存，且不允许访问外围设备，没有占用CPU的能力，CPU资源可以被其它程序获取；</li>
-<li>内核态可以访问内存所有数据以及外围设备，也可以进行程序的切换。</li>
-</ul>
-<p>所有用户程序都运行在用户态，但有时需要进行一些内核态的操作，比如从硬盘或者键盘读数据，这时就需要进行系统调用，使用<strong>陷阱指令</strong>，CPU切换到内核态，执行相应的服务，再切换为用户态并返回系统调用的结果。</p>
-<h5 id="为什么要分用户态和内核态？"><a href="#为什么要分用户态和内核态？" class="headerlink" title="为什么要分用户态和内核态？"></a>为什么要分用户态和内核态？</h5><details>
-<summary>展开</summary>
-
-<p>（我自己的见解：）</p>
-<ul>
-<li>安全性：防止用户程序恶意或者不小心破坏系统/内存/硬件资源；</li>
-<li>封装性：用户程序不需要实现更加底层的代码；</li>
-<li>利于调度：如果多个用户程序都在等待键盘输入，这时就需要进行调度；统一交给操作系统调度更加方便。</details>
-
-</li>
-</ul>
-<h5 id="如何从用户态切换到内核态？"><a href="#如何从用户态切换到内核态？" class="headerlink" title="如何从用户态切换到内核态？"></a>如何从用户态切换到内核态？</h5><details>
-<summary>展开</summary>
-
-<ul>
-<li>系统调用：比如读取命令行输入。本质上还是通过中断实现</li>
-<li>用户程序发生异常时：比如缺页异常</li>
-<li>外围设备的中断：外围设备完成用户请求的操作之后，会向CPU发出中断信号，这时CPU会转去处理对应的中断处理程序</details>
-
-</li>
-</ul>
-<h3 id="什么是死锁？"><a href="#什么是死锁？" class="headerlink" title="什么是死锁？"></a>什么是死锁？</h3><p>在两个或者多个并发进程中，每个进程持有某种资源而又等待其它进程释放它们现在保持着的资源，在未改变这种状态之前都不能向前推进，称这一组进程产生了死锁(deadlock)。</p>
-<h3 id="死锁产生的必要条件？"><a href="#死锁产生的必要条件？" class="headerlink" title="死锁产生的必要条件？"></a>死锁产生的必要条件？</h3><ul>
-<li><strong>互斥</strong>：一个资源一次只能被一个进程使用；</li>
-<li><strong>占有并等待</strong>：一个进程至少占有一个资源，并在等待另一个被其它进程占用的资源；</li>
-<li><strong>非抢占</strong>：已经分配给一个进程的资源不能被强制性抢占，只能由进程完成任务之后自愿释放；</li>
-<li><strong>循环等待</strong>：若干进程之间形成一种头尾相接的环形等待资源关系，该环路中的每个进程都在等待下一个进程所占有的资源。</li>
-</ul>
-<h3 id="死锁有哪些处理方法？"><a href="#死锁有哪些处理方法？" class="headerlink" title="死锁有哪些处理方法？"></a>死锁有哪些处理方法？</h3><details>
-<summary>鸵鸟策略</summary>
-
-<p>直接忽略死锁。因为解决死锁问题的代价很高，因此鸵鸟策略这种不采取任务措施的方案会获得更高的性能。当发生死锁时不会对用户造成多大影响，或发生死锁的概率很低，可以采用鸵鸟策略。</p>
-</details>
-
-<details>
-<summary>死锁预防</summary>
-
-<p>基本思想是破坏形成死锁的四个必要条件：</p>
-<ul>
-<li>破坏互斥条件：允许某些资源同时被多个进程访问。但是有些资源本身并不具有这种属性，因此这种方案实用性有限；</li>
-<li>破坏占有并等待条件：<ul>
-<li>实行资源预先分配策略（当一个进程开始运行之前，必须一次性向系统申请它所需要的全部资源，否则不运行）；</li>
-<li>或者只允许进程在没有占用资源的时候才能申请资源（申请资源前先释放占有的资源）；</li>
-<li>缺点：很多时候无法预知一个进程所需的全部资源；同时，会降低资源利用率，降低系统的并发性；</li>
-</ul>
-</li>
-<li>破坏非抢占条件：允许进程强行抢占被其它进程占有的资源。会降低系统性能；</li>
-<li>破坏循环等待条件：对所有资源统一编号，所有进程对资源的请求必须按照序号递增的顺序提出，即只有占有了编号较小的资源才能申请编号较大的资源。这样避免了占有大号资源的进程去申请小号资源。</details>
-
-</li>
-</ul>
-<details>
-<summary>死锁避免</summary>
-
-<p>动态地检测资源分配状态，以确保系统处于安全状态，只有处于安全状态时才会进行资源的分配。所谓安全状态是指：即使所有进程突然请求需要的所有资源，也能存在某种对进程的资源分配顺序，使得每一个进程运行完毕。</p>
-<blockquote>
-<p>银行家算法</p>
-</blockquote>
-</details>
-
-<details>
-<summary>死锁解除</summary>
-
-<blockquote>
-<p>如何检测死锁：检测有向图是否存在环；或者使用类似死锁避免的检测算法。</p>
-</blockquote>
-<p>死锁解除的方法：</p>
-<ul>
-<li>利用抢占：挂起某些进程，并抢占它的资源。但应防止某些进程被长时间挂起而处于饥饿状态；</li>
-<li>利用回滚：让某些进程回退到足以解除死锁的地步，进程回退时自愿释放资源。要求系统保持进程的历史信息，设置还原点；</li>
-<li>利用杀死进程：强制杀死某些进程直到死锁解除为止，可以按照优先级进行。</details>
-
-</li>
-</ul>
-<h3 id="分页和分段有什么区别？"><a href="#分页和分段有什么区别？" class="headerlink" title="分页和分段有什么区别？"></a>分页和分段有什么区别？</h3><ul>
-<li>页式存储：用户空间划分为大小相等的部分称为页（page），内存空间划分为同样大小的区域称为页框，分配时以页为单位，按进程需要的页数分配，逻辑上相邻的页物理上不一定相邻；</li>
-<li>段式存储：用户进程地址空间按照自身逻辑关系划分为若干个段（segment）（如代码段，数据段，堆栈段），内存空间被动态划分为长度不同的区域，分配时以段为单位，每段在内存中占据连续空间，各段可以不相邻；</li>
-<li>段页式存储：用户进程先按段划分，段内再按页划分，内存划分和分配按页。</li>
-</ul>
-<p>区别：</p>
-<ul>
-<li>目的不同：分页的目的是管理内存，用于虚拟内存以获得更大的地址空间；分段的目的是满足用户的需要，使程序和数据可以被划分为逻辑上独立的地址空间；</li>
-<li>大小不同：段的大小不固定，由其所完成的功能决定；页的大小固定，由系统决定；</li>
-<li>地址空间维度不同：分段是二维地址空间（段号+段内偏移），分页是一维地址空间（每个进程一个页表/多级页表，通过一个逻辑地址就能找到对应的物理地址）；</li>
-<li>分段便于信息的保护和共享；分页的共享收到限制；</li>
-<li>碎片：分段没有内碎片，但会产生外碎片；分页没有外碎片，但会产生内碎片（一个页填不满）</li>
-</ul>
-<h3 id="什么是虚拟内存？"><a href="#什么是虚拟内存？" class="headerlink" title="什么是虚拟内存？"></a>什么是虚拟内存？</h3><p>每个程序都拥有自己的地址空间，这个地址空间被分成大小相等的页，这些页被映射到物理内存；但不需要所有的页都在物理内存中，当程序引用到不在物理内存中的页时，由操作系统将缺失的部分装入物理内存。这样，对于程序来说，逻辑上似乎有很大的内存空间，只是实际上有一部分是存储在磁盘上，因此叫做虚拟内存。</p>
-<p>虚拟内存的优点是让程序可以获得更多的可用内存。</p>
-<h5 id="如何进行地址空间到物理内存的映射？"><a href="#如何进行地址空间到物理内存的映射？" class="headerlink" title="如何进行地址空间到物理内存的映射？"></a>如何进行地址空间到物理内存的映射？</h5><details>
-<summary>展开</summary>
-
-<p><strong>内存管理单元</strong>（MMU）管理着逻辑地址和物理地址的转换，其中的页表（Page table）存储着页（逻辑地址）和页框（物理内存空间）的映射表，页表中还包含包含有效位（是在内存还是磁盘）、访问位（是否被访问过）、修改位（内存中是否被修改过）、保护位（只读还是可读写）。逻辑地址：页号+页内地址（偏移）；每个进程一个页表，放在内存，页表起始地址在PCB/寄存器中。</p>
-</details>
-
-<h3 id="有哪些页面置换算法？"><a href="#有哪些页面置换算法？" class="headerlink" title="有哪些页面置换算法？"></a>有哪些页面置换算法？</h3><p>在程序运行过程中，如果要访问的页面不在内存中，就发生缺页中断从而将该页调入内存中。此时如果内存已无空闲空间，系统必须从内存中调出一个页面到磁盘中来腾出空间。页面置换算法的主要目标是使页面置换频率最低（也可以说缺页率最低）。</p>
-<ul>
-<li><strong>最佳页面置换算法</strong>OPT（Optimal replacement algorithm）：置换以后不需要或者最远的将来才需要的页面，是一种理论上的算法，是最优策略；</li>
-<li><strong>先进先出</strong>FIFO：置换在内存中驻留时间最长的页面。缺点：有可能将那些经常被访问的页面也被换出，从而使缺页率升高；</li>
-<li><strong>第二次机会算法</strong>SCR：按FIFO选择某一页面，若其访问位为1，给第二次机会，并将访问位置0；</li>
-<li><strong>时钟算法</strong> Clock：SCR中需要将页面在链表中移动（第二次机会的时候要将这个页面从链表头移到链表尾），时钟算法使用环形链表，再使用一个指针指向最老的页面，避免了移动页面的开销；</li>
-<li><strong>最近未使用算法</strong>NRU（Not Recently Used）：检查访问位R、修改位M，优先置换R=M=0，其次是（R=0, M=1）；</li>
-<li><strong>最近最少使用算法</strong>LRU（Least Recently Used）：置换出未使用时间最长的一页；实现方式：维护时间戳，或者维护一个所有页面的链表。当一个页面被访问时，将这个页面移到链表表头。这样就能保证链表表尾的页面是最近最久未访问的。</li>
-<li><strong>最不经常使用算法</strong>NFU：置换出访问次数最少的页面</li>
-</ul>
-<details>
-<summary>局部性原理</summary>
-
-<ul>
-<li>时间上：最近被访问的页在不久的将来还会被访问；</li>
-<li>空间上：内存中被访问的页周围的页也很可能被访问。</details>
-
-</li>
-</ul>
-<details>
-<summary>什么是颠簸现象</summary>
-
-<p>颠簸本质上是指频繁的页调度行为。进程发生缺页中断时必须置换某一页。然而，其他所有的页都在使用，它置换一个页，但又立刻再次需要这个页。因此会不断产生缺页中断，导致整个系统的效率急剧下降，这种现象称为颠簸。内存颠簸的解决策略包括：</p>
-<ul>
-<li>修改页面置换算法；</li>
-<li>降低同时运行的程序的数量；</li>
-<li>终止该进程或增加物理内存容量。</details>
-
-</li>
-</ul>
-<h3 id="磁盘调度"><a href="#磁盘调度" class="headerlink" title="磁盘调度"></a>磁盘调度</h3><p>过程：磁头（找到对应的盘面）；磁道（一个盘面上的同心圆环，寻道时间）；扇区（旋转时间）。为减小寻道时间的调度算法：</p>
-<ul>
-<li>先来先服务</li>
-<li>最短寻道时间优先</li>
-<li>电梯算法：电梯总是保持一个方向运行，直到该方向没有请求为止，然后改变运行方向。</li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://www.jianshu.com/p/c1015f5ffa74" target="_blank" rel="noopener">进程间通信IPC – 简书</a></li>
-<li><a href="https://blog.csdn.net/justloveyou_/article/details/78304294" target="_blank" rel="noopener">面试/笔试第二弹 —— 操作系统面试问题集锦 - CSDN博客</a></li>
-<li><a href="https://segmentfault.com/a/1190000018970361" target="_blank" rel="noopener">线程同步与并发 - - SegmentFault</a></li>
-<li><a href="http://baijiahao.baidu.com/s?id=1641172494287388070&wfr=spider&for=pc" target="_blank" rel="noopener">彻底搞懂epoll高效运行的原理</a></li>
-<li><a href="https://www.cnblogs.com/lirong21/p/4213028.html" target="_blank" rel="noopener">用户态与内核态的切换</a></li>
-</ul>
-<h3 id="待完成"><a href="#待完成" class="headerlink" title="待完成"></a>待完成</h3><ul>
-<li><input disabled="" type="checkbox"> IPC</li>
-<li><input disabled="" type="checkbox"> 进程同步问题：生产者-消费者问题…</li>
-<li><input disabled="" type="checkbox"> 银行家算法</li>
-<li><input disabled="" type="checkbox"> 文件与文件系统、文件管理？<div>
-<img src="/images/interview/20191202162008435_14938.png" width=540px></img>
-</div>
-</li>
 </ul>
 ]]></content>
       <categories>
@@ -2017,6 +1619,492 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
       </tags>
   </entry>
   <entry>
+    <title>操作系统</title>
+    <url>/2020/07/29/interview/Operating_Systems/</url>
+    <content><![CDATA[<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><ul>
+<li>进程和线程<ul>
+<li><a href="#进程和线程有什么区别">进程和线程有什么区别？</a></li>
+<li><a href="#进程间通信有哪些方式">进程间通信有哪些方式？</a></li>
+<li><a href="#进程同步问题">进程同步问题</a></li>
+<li><a href="#进程有哪几种状态">进程有哪几种状态？</a></li>
+<li><a href="#进程调度策略有哪些">进程调度策略有哪些？</a></li>
+<li><a href="#什么是僵尸进程">什么是僵尸进程？</a></li>
+<li><a href="#线程同步有哪些方式">线程同步有哪些方式？</a></li>
+<li><a href="#什么是协程">什么是协程？</a></li>
+<li><a href="#什么是IO多路复用怎么实现">什么是IO多路复用？怎么实现？</a></li>
+<li><a href="#什么是用户态和内核态">什么是用户态和内核态？</a></li>
+</ul>
+</li>
+<li>死锁<ul>
+<li><a href="#什么是死锁">什么是死锁？</a></li>
+<li><a href="#死锁产生的必要条件">死锁产生的必要条件？</a></li>
+<li><a href="#死锁有哪些处理方法">死锁有哪些处理方法？</a></li>
+</ul>
+</li>
+<li>内存管理<ul>
+<li><a href="#分页和分段有什么区别">分页和分段有什么区别？</a></li>
+<li><a href="#什么是虚拟内存">什么是虚拟内存？</a></li>
+<li><a href="#有哪些页面置换算法">有哪些页面置换算法？</a></li>
+</ul>
+</li>
+<li><a href="#磁盘调度">磁盘调度</a></li>
+<li><a href="#参考">参考</a></li>
+</ul>
+<a id="more"></a>
+
+<hr>
+<h3 id="进程和线程有什么区别？"><a href="#进程和线程有什么区别？" class="headerlink" title="进程和线程有什么区别？"></a>进程和线程有什么区别？</h3><ul>
+<li>进程（Process）是系统进行资源分配和调度的基本单位，线程（Thread）是CPU调度和分派的基本单位；</li>
+<li>线程依赖于进程而存在，一个进程至少有一个线程；</li>
+<li>进程有自己的独立地址空间，线程共享所属进程的地址空间；</li>
+<li>进程是拥有系统资源的一个独立单位，而线程自己基本上不拥有系统资源，只拥有一点在运行中必不可少的资源(如程序计数器,一组寄存器和栈)，和其他线程共享本进程的相关资源如内存、I/O、cpu等；</li>
+<li>在进程切换时，涉及到整个当前进程CPU环境的保存环境的设置以及新被调度运行的CPU环境的设置，而线程切换只需保存和设置少量的寄存器的内容，并不涉及存储器管理方面的操作，可见，进程切换的开销远大于线程切换的开销；</li>
+<li>线程之间的通信更方便，同一进程下的线程共享全局变量等数据，而进程之间的通信需要以进程间通信(IPC)的方式进行；</li>
+<li>多线程程序只要有一个线程崩溃，整个程序就崩溃了，但多进程程序中一个进程崩溃并不会对其它进程造成影响，因为进程有自己的独立地址空间，因此多进程更加健壮</li>
+</ul>
+<p>进程操作代码实现，可以参考：<a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017628290184064" target="_blank" rel="noopener">多进程 - 廖雪峰的官方网站</a></p>
+<h5 id="同一进程中的线程可以共享哪些数据？"><a href="#同一进程中的线程可以共享哪些数据？" class="headerlink" title="同一进程中的线程可以共享哪些数据？"></a>同一进程中的线程可以共享哪些数据？</h5><details>
+<summary>展开</summary>
+
+<ul>
+<li>进程代码段</li>
+<li>进程的公有数据（全局变量、静态变量…）</li>
+<li>进程打开的文件描述符</li>
+<li>进程的当前目录</li>
+<li>信号处理器/信号处理函数：对收到的信号的处理方式</li>
+<li>进程ID与进程组ID</details>
+
+</li>
+</ul>
+<h5 id="线程独占哪些资源？"><a href="#线程独占哪些资源？" class="headerlink" title="线程独占哪些资源？"></a>线程独占哪些资源？</h5><details>
+<summary>展开</summary>
+
+<ul>
+<li>线程ID</li>
+<li>一组寄存器的值</li>
+<li>线程自身的栈（堆是共享的）</li>
+<li>错误返回码：线程可能会产生不同的错误返回码，一个线程的错误返回码不应该被其它线程修改；</li>
+<li>信号掩码/信号屏蔽字(Signal mask)：表示是否屏蔽/阻塞相应的信号（SIGKILL,SIGSTOP除外）</details>
+
+</li>
+</ul>
+<h3 id="进程间通信有哪些方式？"><a href="#进程间通信有哪些方式？" class="headerlink" title="进程间通信有哪些方式？"></a>进程间通信有哪些方式？</h3><ol>
+<li>管道(Pipe)<details>
+<summary>展开</summary>
+</li>
+</ol>
+<ul>
+<li>管道是半双工的，数据只能向一个方向流动；需要双方通信时，需要建立起两个管道；</li>
+<li>一个进程向管道中写的内容被管道另一端的进程读出。写入的内容每次都添加在管道缓冲区的末尾，并且每次都是从缓冲区的头部读出数据；</li>
+<li>只能用于父子进程或者兄弟进程之间(具有亲缘关系的进程)</details>
+</li>
+</ul>
+<ol start="2">
+<li>命名管道</li>
+<li>消息队列</li>
+<li>信号(Signal)</li>
+<li>共享内存</li>
+<li>信号量(Semaphore)：初始化操作、P操作、V操作；P操作：信号量-1，检测是否小于0，小于则进程进入阻塞状态；V操作：信号量+1，若小于等于0，则从队列中唤醒一个等待的进程进入就绪态</li>
+<li>套接字(Socket)</li>
+</ol>
+<p>更详细的可以参考（待整理）：</p>
+<ul>
+<li><a href="https://imageslr.github.io/2020/02/26/ipc.html" target="_blank" rel="noopener">https://imageslr.github.io/2020/02/26/ipc.html</a></li>
+<li><a href="https://www.jianshu.com/p/c1015f5ffa74" target="_blank" rel="noopener">https://www.jianshu.com/p/c1015f5ffa74</a></li>
+</ul>
+<h3 id="进程同步问题"><a href="#进程同步问题" class="headerlink" title="进程同步问题"></a>进程同步问题</h3><blockquote>
+<p>进程的同步是目的，而进程间通信是实现进程同步的手段</p>
+</blockquote>
+<details>
+<summary>管程 Monitor</summary>
+
+<p>管程将共享变量以及对这些共享变量的操作封装起来，形成一个具有一定接口的功能模块，这样只能通过管程提供的某个过程才能访问管程中的资源。进程只能互斥地使用管程，使用完之后必须释放管程并唤醒入口等待队列中的进程。</p>
+<p>当一个进程试图进入管程时，在<strong>入口等待队列</strong>等待。若P进程唤醒了Q进程，则Q进程先执行，P在<strong>紧急等待队列</strong>中等待。（<strong>HOARE管程</strong>）</p>
+<p>wait操作：执行wait操作的进程进入条件变量链末尾，唤醒紧急等待队列或者入口队列中的进程；signal操作：唤醒条件变量链中的进程，自己进入紧急等待队列，若条件变量链为空，则继续执行。（<strong>HOARE管程</strong>）</p>
+<p><strong>MESA管程</strong>：将HOARE中的signal换成了notify（或者broadcast通知所有满足条件的），进行通知而不是立马交换管程的使用权，在合适的时候，条件队列首位的进程可以进入，进入之前必须用while检查条件是否合适。优点：没有额外的进程切换</p>
+</details>
+
+<details>
+<summary>生产者-消费者问题</summary>
+
+<blockquote>
+<p>问题描述：使用一个缓冲区来存放数据，只有缓冲区没有满，生产者才可以写入数据；只有缓冲区不为空，消费者才可以读出数据</p>
+</blockquote>
+<p>代码实现：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 伪代码描述 </span></span><br><span class="line"><span class="comment">// 定义信号量 full记录缓冲区物品数量 empty代表缓冲区空位数量 mutex为互斥量</span></span><br><span class="line">semaphore full = <span class="number">0</span>, empty = n, mutex = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生产者进程</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">producer</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">   	  P(empty);</span><br><span class="line">	  P(mutex);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// 生产者进行生产</span></span><br><span class="line">   	</span><br><span class="line">   	  V(mutex);</span><br><span class="line">   	  V(full);</span><br><span class="line"> 	&#125; <span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">consumer</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">	  P(full);</span><br><span class="line">	  P(mutex);</span><br><span class="line"></span><br><span class="line">    	<span class="comment">// 消费者进行消费</span></span><br><span class="line"></span><br><span class="line">	  V(mutex);</span><br><span class="line">	  V(empty);</span><br><span class="line"> 	&#125; <span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</details>
+
+<details>
+<summary>哲学家就餐问题</summary>
+
+<blockquote>
+<p>问题描述：有五位哲学家围绕着餐桌坐，每一位哲学家要么思考，要么吃饭。为了吃饭，哲学家必须拿起两双筷子（分别放于左右两端）不幸的是，筷子的数量和哲学家相等，所以每只筷子必须由两位哲学家共享。</p>
+</blockquote>
+<p>代码实现：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 5  <span class="comment">// number of philosopher</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LEFT (i + N - 1)%N <span class="comment">// number of i's left neighbors</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RIGHT (i + 1)%N <span class="comment">// number of i's right neighbors</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> THINKING 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HUNGRY 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EATING 2</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> semaphore;</span><br><span class="line"><span class="keyword">int</span> state[N]; <span class="comment">// array to keep track of everyone's state</span></span><br><span class="line">semaphore mutex = <span class="number">1</span>; <span class="comment">// mutual exclusion of critical region</span></span><br><span class="line">semaphore s[N]; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">philosopher</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (TRUE) &#123;</span><br><span class="line">		think();</span><br><span class="line">		take_forks(i);</span><br><span class="line">		eat();</span><br><span class="line">		put_forks(i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">take_forks</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	down(&amp;mutex); <span class="comment">// enter critical region</span></span><br><span class="line">	state[i] = HUNGRY; <span class="comment">// record that i is hungry</span></span><br><span class="line">	test_forks(i); <span class="comment">// try to acquire two forks</span></span><br><span class="line">	up(&amp;mutex); <span class="comment">// exit critical region</span></span><br><span class="line">	down(&amp;s[i]); <span class="comment">// block if forks are not acquired</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">put_forks</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	down(&amp;mutex); <span class="comment">// enter critical region</span></span><br><span class="line">	state[i] = THINKING; <span class="comment">// record that has finished eating</span></span><br><span class="line">	test_forks(LEFT); <span class="comment">// see if left neighbor can now eat</span></span><br><span class="line">	test_forks(RIGHT); <span class="comment">// see if right neighbor can now eat</span></span><br><span class="line">	up(&amp;mutex); <span class="comment">// exit critical region</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_forks</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (state[i] == HUNGRY &amp;&amp; state[LEFT] != EATING &amp;&amp; state[RIGHT] != EATING) &#123;</span><br><span class="line">		state[i] = EATING;</span><br><span class="line">		up(&amp;s[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</details>
+
+<details>
+<summary>读者-写者问题</summary>
+
+
+</details>
+
+<h5 id="临界区的概念？"><a href="#临界区的概念？" class="headerlink" title="临界区的概念？"></a>临界区的概念？</h5><details>
+<summary>展开</summary>
+
+<p>各个进程中对临界资源（互斥资源/共享变量，一次只能给一个进程使用）进行操作的程序片段</p>
+</details>
+
+<h5 id="同步与互斥的概念？"><a href="#同步与互斥的概念？" class="headerlink" title="同步与互斥的概念？"></a>同步与互斥的概念？</h5><details>
+<summary>展开</summary>
+
+<ul>
+<li>同步：多个进程因为合作而使得进程的执行有一定的先后顺序。比如某个进程需要另一个进程提供的消息，获得消息之前进入阻塞态；</li>
+<li>互斥：多个进程在同一时刻只有一个进程能进入临界区</details>
+
+</li>
+</ul>
+<h5 id="并发、并行、异步的区别？"><a href="#并发、并行、异步的区别？" class="headerlink" title="并发、并行、异步的区别？"></a>并发、并行、异步的区别？</h5><details>
+<summary>展开</summary>
+
+<p>并发：在一个时间段中同时有多个程序在运行，但其实任一时刻，只有一个程序在CPU上运行，宏观上的并发是通过不断的切换实现的；</p>
+<p>多线程：并发运行的一段代码。是实现异步的手段</p>
+<p>并行（和串行相比）：在多CPU系统中，多个程序无论宏观还是微观上都是同时执行的</p>
+<p>异步（和同步相比）：同步是顺序执行，异步是在等待某个资源的时候继续做自己的事</p>
+</details>
+
+<h3 id="进程有哪几种状态？"><a href="#进程有哪几种状态？" class="headerlink" title="进程有哪几种状态？"></a>进程有哪几种状态？</h3><p><img src="/images/interview/20191202090217863_1873.png" alt="Process State"></p>
+<ul>
+<li>就绪状态：进程已获得除处理机以外的所需资源，等待分配处理机资源</li>
+<li>运行状态：占用处理机资源运行，处于此状态的进程数小于等于CPU数</li>
+<li>阻塞状态： 进程等待某种条件，在条件满足之前无法执行</li>
+</ul>
+<h3 id="进程调度策略有哪些？"><a href="#进程调度策略有哪些？" class="headerlink" title="进程调度策略有哪些？"></a>进程调度策略有哪些？</h3><ol>
+<li><strong>批处理系统</strong>：</li>
+</ol>
+<details>
+<summary>先来先服务 first-come first-serverd（FCFS）</summary>
+
+<p>按照请求的顺序进行调度。非抢占式，开销小，无饥饿问题，响应时间不确定（可能很慢）；</p>
+<p>对短进程不利，对IO密集型进程不利。</p>
+</details>
+
+<details>
+<summary>最短作业优先 shortest job first（SJF）</summary>
+
+<p>按估计运行时间最短的顺序进行调度。非抢占式，吞吐量高，开销可能较大，可能导致饥饿问题；</p>
+<p>对短进程提供好的响应时间，对长进程不利。</p>
+</details>
+
+<details>
+<summary>最短剩余时间优先 shortest remaining time next（SRTN）</summary>
+
+<p>按剩余运行时间的顺序进行调度。(最短作业优先的抢占式版本)。吞吐量高，开销可能较大，提供好的响应时间；</p>
+<p>可能导致饥饿问题，对长进程不利。</p>
+</details>
+
+<details>
+<summary>最高响应比优先 Highest Response Ratio Next（HRRN）</summary>
+
+<p>响应比 = 1+ 等待时间/处理时间。同时考虑了等待时间的长短和估计需要的执行时间长短，很好的平衡了长短进程。非抢占，吞吐量高，开销可能较大，提供好的响应时间，无饥饿问题。</p>
+</details>
+
+<ol start="2">
+<li><strong>交互式系统</strong><br>交互式系统有大量的用户交互操作，在该系统中调度算法的目标是快速地进行响应。</li>
+</ol>
+<details>
+<summary>时间片轮转 Round Robin</summary>
+
+<p>将所有就绪进程按 FCFS 的原则排成一个队列，用完时间片的进程排到队列最后。抢占式（时间片用完时），开销小，无饥饿问题，为短进程提供好的响应时间；</p>
+<p>若时间片小，进程切换频繁，吞吐量低；若时间片太长，实时性得不到保证。</p>
+</details>
+
+<details>
+<summary>优先级调度算法</summary>
+
+<p>为每个进程分配一个优先级，按优先级进行调度。为了防止低优先级的进程永远等不到调度，可以随着时间的推移增加等待进程的优先级。</p>
+</details>
+
+<details>
+<summary>多级反馈队列调度算法 Multilevel Feedback Queue</summary>
+
+<p>设置多个就绪队列1、2、3…，优先级递减，时间片递增。只有等到优先级更高的队列为空时才会调度当前队列中的进程。如果进程用完了当前队列的时间片还未执行完，则会被移到下一队列。</p>
+<p>抢占式（时间片用完时），开销可能较大，对IO型进程有利，可能会出现饥饿问题。</p>
+</details>
+
+<h5 id="什么叫优先级反转？如何解决？"><a href="#什么叫优先级反转？如何解决？" class="headerlink" title="什么叫优先级反转？如何解决？"></a>什么叫优先级反转？如何解决？</h5><details>
+<summary>展开</summary>
+
+<p>高优先级的进程等待被一个低优先级进程占用的资源时，就会出现优先级反转，即优先级较低的进程比优先级较高的进程先执行。</p>
+<p>解决方法：</p>
+<ul>
+<li>优先级天花板(priority ceiling)：当任务申请某资源时，把该任务的优先级提升到可访问这个资源的所有任务中的最高优先级，这个优先级称为该资源的优先级天花板。简单易行。</li>
+<li>优先级继承(priority inheritance)：当任务A申请共享资源S时，如果S正在被任务C使用，通过比较任务C与自身的优先级，如发现任务C的优先级小于自身的优先级，则将任务C的优先级提升到自身的优先级，任务C释放资源S后，再恢复任务C的原优先级。</details>
+
+</li>
+</ul>
+<h3 id="什么是僵尸进程？"><a href="#什么是僵尸进程？" class="headerlink" title="什么是僵尸进程？"></a>什么是僵尸进程？</h3><p>一个子进程结束后，它的父进程并没有等待它（调用wait或者waitpid），那么这个子进程将成为一个僵尸进程。僵尸进程是一个已经死亡的进程，但是并没有真正被销毁。它已经放弃了几乎所有内存空间，没有任何可执行代码，也不能被调度，仅仅在进程表中保留一个位置，记载该进程的进程ID、终止状态以及资源利用信息(CPU时间，内存使用量等等)供父进程收集，除此之外，僵尸进程不再占有任何内存空间。这个僵尸进程可能会一直留在系统中直到系统重启。</p>
+<p>危害：占用进程号，而系统所能使用的进程号是有限的；占用内存。</p>
+<p>以下情况不会产生僵尸进程：</p>
+<ul>
+<li>该进程的父进程先结束了。每个进程结束的时候，系统都会扫描是否存在子进程，如果有则用Init进程接管，成为该进程的父进程，并且会调用wait等待其结束。</li>
+<li>父进程调用wait或者waitpid等待子进程结束（需要每隔一段时间查询子进程是否结束）。wait系统调用会使父进程暂停执行，直到它的一个子进程结束为止。waitpid则可以加入<code>WNOHANG</code>(wait-no-hang)选项，如果没有发现结束的子进程，就会立即返回，不会将调用waitpid的进程阻塞。同时，waitpid还可以选择是等待任一子进程（同wait），还是等待指定pid的子进程，还是等待同一进程组下的任一子进程，还是等待组ID等于pid的任一子进程；</li>
+<li>子进程结束时，系统会产生<code>SIGCHLD</code>(signal-child)信号，可以注册一个信号处理函数，在该函数中调用waitpid，等待所有结束的子进程（注意：一般都需要循环调用waitpid，因为在信号处理函数开始执行之前，可能已经有多个子进程结束了，而信号处理函数只执行一次，所以要循环调用将所有结束的子进程回收）；</li>
+<li>也可以用<code>signal(SIGCLD, SIG_IGN)</code>(signal-ignore)通知内核，表示忽略<code>SIGCHLD</code>信号，那么子进程结束后，内核会进行回收。</li>
+</ul>
+<h5 id="什么是孤儿进程？"><a href="#什么是孤儿进程？" class="headerlink" title="什么是孤儿进程？"></a>什么是孤儿进程？</h5><details>
+<summary>展开</summary>
+
+<p>一个父进程已经结束了，但是它的子进程还在运行，那么这些子进程将成为孤儿进程。孤儿进程会被Init（进程ID为1）接管，当这些孤儿进程结束时由Init完成状态收集工作。</p>
+</details>
+
+<h3 id="线程同步有哪些方式？"><a href="#线程同步有哪些方式？" class="headerlink" title="线程同步有哪些方式？"></a>线程同步有哪些方式？</h3><blockquote>
+<p>为什么需要线程同步：线程有时候会和其他线程共享一些资源，比如内存、数据库等。当多个线程同时读写同一份共享资源的时候，可能会发生冲突。因此需要线程的同步，多个线程按顺序访问资源。</p>
+</blockquote>
+<ul>
+<li><strong>互斥量</strong> Mutex：互斥量是内核对象，只有拥有互斥对象的线程才有访问互斥资源的权限。因为互斥对象只有一个，所以可以保证互斥资源不会被多个线程同时访问；当前拥有互斥对象的线程处理完任务后必须将互斥对象交出，以便其他线程访问该资源；</li>
+<li><strong>信号量</strong> Semaphore：信号量是内核对象，它允许同一时刻多个线程访问同一资源，但是需要控制同一时刻访问此资源的最大线程数量。信号量对象保存了<strong>最大资源计数</strong>和<strong>当前可用资源计数</strong>，每增加一个线程对共享资源的访问，当前可用资源计数就减1，只要当前可用资源计数大于0，就可以发出信号量信号，如果为0，则将线程放入一个队列中等待。线程处理完共享资源后，应在离开的同时通过<code>ReleaseSemaphore</code>函数将当前可用资源数加1。如果信号量的取值只能为0或1，那么信号量就成为了互斥量；</li>
+<li><strong>事件</strong> Event：允许一个线程在处理完一个任务后，主动唤醒另外一个线程执行任务。事件分为手动重置事件和自动重置事件。手动重置事件被设置为激发状态后，会唤醒所有等待的线程，而且一直保持为激发状态，直到程序重新把它设置为未激发状态。自动重置事件被设置为激发状态后，会唤醒<strong>一个</strong>等待中的线程，然后自动恢复为未激发状态。</li>
+<li><strong>临界区</strong> Critical Section：任意时刻只允许一个线程对临界资源进行访问。拥有临界区对象的线程可以访问该临界资源，其它试图访问该资源的线程将被挂起，直到临界区对象被释放。</li>
+</ul>
+<h5 id="互斥量和临界区有什么区别？"><a href="#互斥量和临界区有什么区别？" class="headerlink" title="互斥量和临界区有什么区别？"></a>互斥量和临界区有什么区别？</h5><details>
+<summary>展开</summary>
+
+<p>互斥量是可以命名的，可以用于不同进程之间的同步；而临界区只能用于同一进程中线程的同步。创建互斥量需要的资源更多，因此临界区的优势是速度快，节省资源。</p>
+</details>
+
+<h3 id="什么是协程？"><a href="#什么是协程？" class="headerlink" title="什么是协程？"></a>什么是协程？</h3><p>协程是一种用户态的轻量级线程，协程的调度完全由用户控制。协程拥有自己的寄存器上下文和栈。协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的时候，恢复先前保存的寄存器上下文和栈，直接操作栈则基本没有内核切换的开销，可以不加锁的访问全局变量，所以上下文的切换非常快。</p>
+<h5 id="协程多与线程进行比较？"><a href="#协程多与线程进行比较？" class="headerlink" title="协程多与线程进行比较？"></a>协程多与线程进行比较？</h5><details>
+<summary>展开</summary>
+
+<ol>
+<li><p>一个线程可以拥有多个协程，一个进程也可以单独拥有多个协程，这样python中则能使用多核CPU。</p>
+</li>
+<li><p>线程进程都是同步机制，而协程则是异步</p>
+</li>
+<li><p>协程能保留上一次调用时的状态，每次过程重入时，就相当于进入上一次调用的状态</p>
+</details>
+
+</li>
+</ol>
+<h3 id="什么是IO多路复用？怎么实现？"><a href="#什么是IO多路复用？怎么实现？" class="headerlink" title="什么是IO多路复用？怎么实现？"></a>什么是IO多路复用？怎么实现？</h3><p>IO多路复用（IO Multiplexing）是指单个进程/线程就可以同时处理多个IO请求。</p>
+<p>实现原理：用户将想要监视的文件描述符（File Descriptor）添加到select/poll/epoll函数中，由内核监视，函数阻塞。一旦有文件描述符就绪（读就绪或写就绪），或者超时（设置timeout），函数就会返回，然后该进程可以进行相应的读/写操作。</p>
+<details>
+<summary>select/poll/epoll三者的区别？</summary>
+
+<ul>
+<li><code>select</code>：将文件描述符放入一个集合中，调用select时，将这个集合从用户空间拷贝到内核空间（缺点1：每次都要复制，<strong>开销大</strong>），由内核根据就绪状态修改该集合的内容。（缺点2）<strong>集合大小有限制</strong>，32位机默认是1024（64位：2048）；采用水平触发机制。select函数返回后，需要通过遍历这个集合，找到就绪的文件描述符（缺点3：<strong>轮询的方式效率较低</strong>），当文件描述符的数量增加时，效率会线性下降；</li>
+<li><code>poll</code>：和select几乎没有区别，区别在于文件描述符的存储方式不同，poll采用链表的方式存储，没有最大存储数量的限制；</li>
+<li><code>epoll</code>：通过内核和用户空间共享内存，避免了不断复制的问题；支持的同时连接数上限很高（1G左右的内存支持10W左右的连接数）；文件描述符就绪时，采用回调机制，避免了轮询（回调函数将就绪的描述符添加到一个链表中，执行epoll_wait时，返回这个链表）；支持水平触发和边缘触发，采用边缘触发机制时，只有活跃的描述符才会触发回调函数。</li>
+</ul>
+<p>总结，区别主要在于：</p>
+<ul>
+<li>一个线程/进程所能打开的最大连接数</li>
+<li>文件描述符传递方式（是否复制）</li>
+<li>水平触发 or 边缘触发</li>
+<li>查询就绪的描述符时的效率（是否轮询）</details>
+
+</li>
+</ul>
+<details>
+<summary>什么时候使用select/poll，什么时候使用epoll？</summary>
+
+<p>当连接数较多并且有很多的不活跃连接时，epoll的效率比其它两者高很多；但是当连接数较少并且都十分活跃的情况下，由于epoll需要很多回调，因此性能可能低于其它两者。</p>
+</details>
+
+<details>
+<summary>什么是文件描述符？</summary>
+
+<p>文件描述符在形式上是一个非负整数。实际上，它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。</p>
+<p>内核通过文件描述符来访问文件。文件描述符指向一个文件。</p>
+</details>
+
+<h5 id="什么是水平触发？什么是边缘触发？"><a href="#什么是水平触发？什么是边缘触发？" class="headerlink" title="什么是水平触发？什么是边缘触发？"></a>什么是水平触发？什么是边缘触发？</h5><details>
+<summary>展开</summary>
+
+<ul>
+<li>水平触发（LT，Level Trigger）模式下，只要一个文件描述符就绪，就会触发通知，如果用户程序没有一次性把数据读写完，下次还会通知；</li>
+<li>边缘触发（ET，Edge Trigger）模式下，当描述符从未就绪变为就绪时通知一次，之后不会再通知，直到再次从未就绪变为就绪（缓冲区从不可读/写变为可读/写）。</li>
+<li>区别：边缘触发效率更高，减少了被重复触发的次数，函数不会返回大量用户程序可能不需要的文件描述符。</li>
+<li>为什么边缘触发一定要用非阻塞（non-block）IO：避免由于一个描述符的阻塞读/阻塞写操作让处理其它描述符的任务出现饥饿状态。</details>
+
+</li>
+</ul>
+<h5 id="有哪些常见的IO模型？"><a href="#有哪些常见的IO模型？" class="headerlink" title="有哪些常见的IO模型？"></a>有哪些常见的IO模型？</h5><details>
+<summary>展开</summary>
+
+<ul>
+<li>同步阻塞IO（Blocking IO）：用户线程发起IO读/写操作之后，线程阻塞，直到可以开始处理数据；对CPU资源的利用率不够；</li>
+<li>同步非阻塞IO（Non-blocking IO）：发起IO请求之后可以立即返回，如果没有就绪的数据，需要不断地发起IO请求直到数据就绪；不断重复请求消耗了大量的CPU资源；</li>
+<li>IO多路复用</li>
+<li>异步IO（Asynchronous IO）：用户线程发出IO请求之后，继续执行，由内核进行数据的读取并放在用户指定的缓冲区内，在IO完成之后通知用户线程直接使用。</details>
+
+</li>
+</ul>
+<h3 id="什么是用户态和内核态？"><a href="#什么是用户态和内核态？" class="headerlink" title="什么是用户态和内核态？"></a>什么是用户态和内核态？</h3><p>为了限制不同程序的访问能力，防止一些程序访问其它程序的内存数据，CPU划分了用户态和内核态两个权限等级。</p>
+<ul>
+<li>用户态只能受限地访问内存，且不允许访问外围设备，没有占用CPU的能力，CPU资源可以被其它程序获取；</li>
+<li>内核态可以访问内存所有数据以及外围设备，也可以进行程序的切换。</li>
+</ul>
+<p>所有用户程序都运行在用户态，但有时需要进行一些内核态的操作，比如从硬盘或者键盘读数据，这时就需要进行系统调用，使用<strong>陷阱指令</strong>，CPU切换到内核态，执行相应的服务，再切换为用户态并返回系统调用的结果。</p>
+<h5 id="为什么要分用户态和内核态？"><a href="#为什么要分用户态和内核态？" class="headerlink" title="为什么要分用户态和内核态？"></a>为什么要分用户态和内核态？</h5><details>
+<summary>展开</summary>
+
+<p>（我自己的见解：）</p>
+<ul>
+<li>安全性：防止用户程序恶意或者不小心破坏系统/内存/硬件资源；</li>
+<li>封装性：用户程序不需要实现更加底层的代码；</li>
+<li>利于调度：如果多个用户程序都在等待键盘输入，这时就需要进行调度；统一交给操作系统调度更加方便。</details>
+
+</li>
+</ul>
+<h5 id="如何从用户态切换到内核态？"><a href="#如何从用户态切换到内核态？" class="headerlink" title="如何从用户态切换到内核态？"></a>如何从用户态切换到内核态？</h5><details>
+<summary>展开</summary>
+
+<ul>
+<li>系统调用：比如读取命令行输入。本质上还是通过中断实现</li>
+<li>用户程序发生异常时：比如缺页异常</li>
+<li>外围设备的中断：外围设备完成用户请求的操作之后，会向CPU发出中断信号，这时CPU会转去处理对应的中断处理程序</details>
+
+</li>
+</ul>
+<h3 id="什么是死锁？"><a href="#什么是死锁？" class="headerlink" title="什么是死锁？"></a>什么是死锁？</h3><p>在两个或者多个并发进程中，每个进程持有某种资源而又等待其它进程释放它们现在保持着的资源，在未改变这种状态之前都不能向前推进，称这一组进程产生了死锁(deadlock)。</p>
+<h3 id="死锁产生的必要条件？"><a href="#死锁产生的必要条件？" class="headerlink" title="死锁产生的必要条件？"></a>死锁产生的必要条件？</h3><ul>
+<li><strong>互斥</strong>：一个资源一次只能被一个进程使用；</li>
+<li><strong>占有并等待</strong>：一个进程至少占有一个资源，并在等待另一个被其它进程占用的资源；</li>
+<li><strong>非抢占</strong>：已经分配给一个进程的资源不能被强制性抢占，只能由进程完成任务之后自愿释放；</li>
+<li><strong>循环等待</strong>：若干进程之间形成一种头尾相接的环形等待资源关系，该环路中的每个进程都在等待下一个进程所占有的资源。</li>
+</ul>
+<h3 id="死锁有哪些处理方法？"><a href="#死锁有哪些处理方法？" class="headerlink" title="死锁有哪些处理方法？"></a>死锁有哪些处理方法？</h3><details>
+<summary>鸵鸟策略</summary>
+
+<p>直接忽略死锁。因为解决死锁问题的代价很高，因此鸵鸟策略这种不采取任务措施的方案会获得更高的性能。当发生死锁时不会对用户造成多大影响，或发生死锁的概率很低，可以采用鸵鸟策略。</p>
+</details>
+
+<details>
+<summary>死锁预防</summary>
+
+<p>基本思想是破坏形成死锁的四个必要条件：</p>
+<ul>
+<li>破坏互斥条件：允许某些资源同时被多个进程访问。但是有些资源本身并不具有这种属性，因此这种方案实用性有限；</li>
+<li>破坏占有并等待条件：<ul>
+<li>实行资源预先分配策略（当一个进程开始运行之前，必须一次性向系统申请它所需要的全部资源，否则不运行）；</li>
+<li>或者只允许进程在没有占用资源的时候才能申请资源（申请资源前先释放占有的资源）；</li>
+<li>缺点：很多时候无法预知一个进程所需的全部资源；同时，会降低资源利用率，降低系统的并发性；</li>
+</ul>
+</li>
+<li>破坏非抢占条件：允许进程强行抢占被其它进程占有的资源。会降低系统性能；</li>
+<li>破坏循环等待条件：对所有资源统一编号，所有进程对资源的请求必须按照序号递增的顺序提出，即只有占有了编号较小的资源才能申请编号较大的资源。这样避免了占有大号资源的进程去申请小号资源。</details>
+
+</li>
+</ul>
+<details>
+<summary>死锁避免</summary>
+
+<p>动态地检测资源分配状态，以确保系统处于安全状态，只有处于安全状态时才会进行资源的分配。所谓安全状态是指：即使所有进程突然请求需要的所有资源，也能存在某种对进程的资源分配顺序，使得每一个进程运行完毕。</p>
+<blockquote>
+<p>银行家算法</p>
+</blockquote>
+</details>
+
+<details>
+<summary>死锁解除</summary>
+
+<blockquote>
+<p>如何检测死锁：检测有向图是否存在环；或者使用类似死锁避免的检测算法。</p>
+</blockquote>
+<p>死锁解除的方法：</p>
+<ul>
+<li>利用抢占：挂起某些进程，并抢占它的资源。但应防止某些进程被长时间挂起而处于饥饿状态；</li>
+<li>利用回滚：让某些进程回退到足以解除死锁的地步，进程回退时自愿释放资源。要求系统保持进程的历史信息，设置还原点；</li>
+<li>利用杀死进程：强制杀死某些进程直到死锁解除为止，可以按照优先级进行。</details>
+
+</li>
+</ul>
+<h3 id="分页和分段有什么区别？"><a href="#分页和分段有什么区别？" class="headerlink" title="分页和分段有什么区别？"></a>分页和分段有什么区别？</h3><ul>
+<li>页式存储：用户空间划分为大小相等的部分称为页（page），内存空间划分为同样大小的区域称为页框，分配时以页为单位，按进程需要的页数分配，逻辑上相邻的页物理上不一定相邻；</li>
+<li>段式存储：用户进程地址空间按照自身逻辑关系划分为若干个段（segment）（如代码段，数据段，堆栈段），内存空间被动态划分为长度不同的区域，分配时以段为单位，每段在内存中占据连续空间，各段可以不相邻；</li>
+<li>段页式存储：用户进程先按段划分，段内再按页划分，内存划分和分配按页。</li>
+</ul>
+<p>区别：</p>
+<ul>
+<li>目的不同：分页的目的是管理内存，用于虚拟内存以获得更大的地址空间；分段的目的是满足用户的需要，使程序和数据可以被划分为逻辑上独立的地址空间；</li>
+<li>大小不同：段的大小不固定，由其所完成的功能决定；页的大小固定，由系统决定；</li>
+<li>地址空间维度不同：分段是二维地址空间（段号+段内偏移），分页是一维地址空间（每个进程一个页表/多级页表，通过一个逻辑地址就能找到对应的物理地址）；</li>
+<li>分段便于信息的保护和共享；分页的共享收到限制；</li>
+<li>碎片：分段没有内碎片，但会产生外碎片；分页没有外碎片，但会产生内碎片（一个页填不满）</li>
+</ul>
+<h3 id="什么是虚拟内存？"><a href="#什么是虚拟内存？" class="headerlink" title="什么是虚拟内存？"></a>什么是虚拟内存？</h3><p>每个程序都拥有自己的地址空间，这个地址空间被分成大小相等的页，这些页被映射到物理内存；但不需要所有的页都在物理内存中，当程序引用到不在物理内存中的页时，由操作系统将缺失的部分装入物理内存。这样，对于程序来说，逻辑上似乎有很大的内存空间，只是实际上有一部分是存储在磁盘上，因此叫做虚拟内存。</p>
+<p>虚拟内存的优点是让程序可以获得更多的可用内存。</p>
+<h5 id="如何进行地址空间到物理内存的映射？"><a href="#如何进行地址空间到物理内存的映射？" class="headerlink" title="如何进行地址空间到物理内存的映射？"></a>如何进行地址空间到物理内存的映射？</h5><details>
+<summary>展开</summary>
+
+<p><strong>内存管理单元</strong>（MMU）管理着逻辑地址和物理地址的转换，其中的页表（Page table）存储着页（逻辑地址）和页框（物理内存空间）的映射表，页表中还包含包含有效位（是在内存还是磁盘）、访问位（是否被访问过）、修改位（内存中是否被修改过）、保护位（只读还是可读写）。逻辑地址：页号+页内地址（偏移）；每个进程一个页表，放在内存，页表起始地址在PCB/寄存器中。</p>
+</details>
+
+<h3 id="有哪些页面置换算法？"><a href="#有哪些页面置换算法？" class="headerlink" title="有哪些页面置换算法？"></a>有哪些页面置换算法？</h3><p>在程序运行过程中，如果要访问的页面不在内存中，就发生缺页中断从而将该页调入内存中。此时如果内存已无空闲空间，系统必须从内存中调出一个页面到磁盘中来腾出空间。页面置换算法的主要目标是使页面置换频率最低（也可以说缺页率最低）。</p>
+<ul>
+<li><strong>最佳页面置换算法</strong>OPT（Optimal replacement algorithm）：置换以后不需要或者最远的将来才需要的页面，是一种理论上的算法，是最优策略；</li>
+<li><strong>先进先出</strong>FIFO：置换在内存中驻留时间最长的页面。缺点：有可能将那些经常被访问的页面也被换出，从而使缺页率升高；</li>
+<li><strong>第二次机会算法</strong>SCR：按FIFO选择某一页面，若其访问位为1，给第二次机会，并将访问位置0；</li>
+<li><strong>时钟算法</strong> Clock：SCR中需要将页面在链表中移动（第二次机会的时候要将这个页面从链表头移到链表尾），时钟算法使用环形链表，再使用一个指针指向最老的页面，避免了移动页面的开销；</li>
+<li><strong>最近未使用算法</strong>NRU（Not Recently Used）：检查访问位R、修改位M，优先置换R=M=0，其次是（R=0, M=1）；</li>
+<li><strong>最近最少使用算法</strong>LRU（Least Recently Used）：置换出未使用时间最长的一页；实现方式：维护时间戳，或者维护一个所有页面的链表。当一个页面被访问时，将这个页面移到链表表头。这样就能保证链表表尾的页面是最近最久未访问的。</li>
+<li><strong>最不经常使用算法</strong>NFU：置换出访问次数最少的页面</li>
+</ul>
+<details>
+<summary>局部性原理</summary>
+
+<ul>
+<li>时间上：最近被访问的页在不久的将来还会被访问；</li>
+<li>空间上：内存中被访问的页周围的页也很可能被访问。</details>
+
+</li>
+</ul>
+<details>
+<summary>什么是颠簸现象</summary>
+
+<p>颠簸本质上是指频繁的页调度行为。进程发生缺页中断时必须置换某一页。然而，其他所有的页都在使用，它置换一个页，但又立刻再次需要这个页。因此会不断产生缺页中断，导致整个系统的效率急剧下降，这种现象称为颠簸。内存颠簸的解决策略包括：</p>
+<ul>
+<li>修改页面置换算法；</li>
+<li>降低同时运行的程序的数量；</li>
+<li>终止该进程或增加物理内存容量。</details>
+
+</li>
+</ul>
+<h3 id="磁盘调度"><a href="#磁盘调度" class="headerlink" title="磁盘调度"></a>磁盘调度</h3><p>过程：磁头（找到对应的盘面）；磁道（一个盘面上的同心圆环，寻道时间）；扇区（旋转时间）。为减小寻道时间的调度算法：</p>
+<ul>
+<li>先来先服务</li>
+<li>最短寻道时间优先</li>
+<li>电梯算法：电梯总是保持一个方向运行，直到该方向没有请求为止，然后改变运行方向。</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://www.jianshu.com/p/c1015f5ffa74" target="_blank" rel="noopener">进程间通信IPC – 简书</a></li>
+<li><a href="https://blog.csdn.net/justloveyou_/article/details/78304294" target="_blank" rel="noopener">面试/笔试第二弹 —— 操作系统面试问题集锦 - CSDN博客</a></li>
+<li><a href="https://segmentfault.com/a/1190000018970361" target="_blank" rel="noopener">线程同步与并发 - - SegmentFault</a></li>
+<li><a href="http://baijiahao.baidu.com/s?id=1641172494287388070&wfr=spider&for=pc" target="_blank" rel="noopener">彻底搞懂epoll高效运行的原理</a></li>
+<li><a href="https://www.cnblogs.com/lirong21/p/4213028.html" target="_blank" rel="noopener">用户态与内核态的切换</a></li>
+</ul>
+<h3 id="待完成"><a href="#待完成" class="headerlink" title="待完成"></a>待完成</h3><ul>
+<li><input disabled="" type="checkbox"> IPC</li>
+<li><input disabled="" type="checkbox"> 进程同步问题：生产者-消费者问题…</li>
+<li><input disabled="" type="checkbox"> 银行家算法</li>
+<li><input disabled="" type="checkbox"> 文件与文件系统、文件管理？<div>
+<img src="/images/interview/20191202162008435_14938.png" width=540px></img>
+</div>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>技术文章</category>
+        <category>面试题</category>
+      </categories>
+      <tags>
+        <tag>interview</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>事务</title>
     <url>/2020/07/20/mysql/affair/</url>
     <content><![CDATA[<p>事务是指对系统进行的一组操作，为了保证系统的完整性，事务需要具有ACID特性</p>
@@ -2273,43 +2361,25 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
       </tags>
   </entry>
   <entry>
-    <title>外观模式python实现</title>
-    <url>/2019/11/25/design_pattern/python/Facade_Pattern/</url>
-    <content><![CDATA[<h1 id="外观模式"><a href="#外观模式" class="headerlink" title="外观模式"></a>外观模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>隐藏系统的复杂性，并向客户端提供了一个客户端可以访问系统的接口。这种类型的设计模式属于结构型模式，它向现有的系统添加一个接口，来隐藏系统的复杂性。</p>
-<a id="more"></a>
+    <title>建造者模式python实现</title>
+    <url>/2019/11/25/design_pattern/python/Builder_Pattern/</url>
+    <content><![CDATA[<h1 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>建造者模式（生成器模式、Buidler Pattern）和抽象工厂模式的目的都是用来创建复杂的对象，但是创建的过程是截然不同的。</p>
+<ul>
+<li>在抽象工厂模式中，抽象出了创建方法，使用者只能按照预定好的步骤新创建一个对象。</li>
+<li>在建造者模式中，使用者可以按照自己的想法，在合理的范围内定制自己所需要的对象。<a id="more"></a>
 
+</li>
+</ul>
 <h2 id="应用场景："><a href="#应用场景：" class="headerlink" title="应用场景："></a>应用场景：</h2><ul>
-<li>客户端不需要知道系统内部的复杂联系，整个系统只需提供一个”接待员”即可。</li>
-<li>去医院看病，可能要去挂号、门诊、划价、取药，让患者或患者家属觉得很复杂，如果有提供接待人员，只让接待人员来处理，就很方便。</li>
+<li>对象的创建步骤可以独立于创建过程的时候</li>
+<li>被创建的对象拥有不同的表现形式</li>
 </ul>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="外观模式-1"><a href="#外观模式-1" class="headerlink" title="外观模式"></a>外观模式</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">API1</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Save</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'保存数据A'</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Del</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'删除数据A'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">API2</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Save</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'保存数据B'</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Del</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'删除数据B'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Facade</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self._api1 = API1()</span><br><span class="line">        self._api2 = API2()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">SaveAll</span><span class="params">(self)</span>:</span></span><br><span class="line">        [obj.Save() <span class="keyword">for</span> obj <span class="keyword">in</span> [self._api1, self._api2]]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">DelAll</span><span class="params">(self)</span>:</span></span><br><span class="line">        [obj.Save() <span class="keyword">for</span> obj <span class="keyword">in</span> [self._api1, self._api2]]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    test = Facade()</span><br><span class="line">    test.SaveAll()</span><br><span class="line">    test.DelAll()</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">保存数据A</span></span><br><span class="line"><span class="string">保存数据B</span></span><br><span class="line"><span class="string">删除数据A</span></span><br><span class="line"><span class="string">删除数据B</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>设计模式python实现</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>责任链模式python实现</title>
-    <url>/2019/11/25/design_pattern/python/Chain_of_Responsibility_Pattern/</url>
-    <content><![CDATA[<h1 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>为请求创建了一个接收者对象的链。这种模式给予请求的类型，对请求的发送者和接收者进行解耦。这种类型的设计模式属于行为型模式。</p>
-<a id="more"></a>
-
-<h2 id="应用场景："><a href="#应用场景：" class="headerlink" title="应用场景："></a>应用场景：</h2><ul>
-<li>将多个处理方法连接成一条链条，请求将在这条链条上流动直到该链条中有一个节点可以处理该请求；通常这条链条是一个对象包含对另一个对象的引用而形成链条，每个节点有对请求的条件，当不满足条件将传递给下一个节点处理。</li>
-</ul>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="责任链模式-1"><a href="#责任链模式-1" class="headerlink" title="责任链模式"></a>责任链模式</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bases</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, obj=None)</span>:</span></span><br><span class="line">        self.obj = obj</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">screen</span><span class="params">(self, number)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(Bases)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">screen</span><span class="params">(self, number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="number">200</span> &gt; number &gt; <span class="number">100</span>:</span><br><span class="line">            print(<span class="string">"&#123;&#125; 划入A集合"</span>.format(number))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.obj.screen(number)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(Bases)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">screen</span><span class="params">(self, number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> number &gt;= <span class="number">200</span>:</span><br><span class="line">            print(<span class="string">"&#123;&#125; 划入B集合"</span>.format(number))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.obj.screen(number)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(Bases)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">screen</span><span class="params">(self, number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="number">100</span> &gt;= number:</span><br><span class="line">            print(<span class="string">"&#123;&#125; 划入C集合"</span>.format(number))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    test = [<span class="number">10</span>, <span class="number">100</span>, <span class="number">150</span>, <span class="number">200</span>, <span class="number">300</span>]</span><br><span class="line">    c = C()</span><br><span class="line">    b = B(c)</span><br><span class="line">    a = A(b)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> test:</span><br><span class="line">        a.screen(i)</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">-------------------</span></span><br><span class="line"><span class="string">10 划入C集合</span></span><br><span class="line"><span class="string">100 划入C集合</span></span><br><span class="line"><span class="string">150 划入A集合</span></span><br><span class="line"><span class="string">200 划入B集合</span></span><br><span class="line"><span class="string">300 划入B集合</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h2><ul>
-<li>一个对象中含有另一个对象的引用以此类推形成链条</li>
-<li>每个对象中应该有明确的责任划分即处理请求的条件</li>
-<li>链条的最后一节应该设计成通用请求处理，以免出现漏洞</li>
-<li>请求应该传入链条的头部</li>
-</ul>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="建造者模式-1"><a href="#建造者模式-1" class="headerlink" title="建造者模式"></a>建造者模式</h3><p>举一个栗子，我现在要买一台新版 15 寸的 Macbook Pro，打开官网发现有标准版和定制版两种可以选择。<br>所以现在有两种选择，购买标准版和购买定制版，定制版可以 SSD 升级到 1TB，可以把 CPU 升级到 2.7GHz，但是不允许升级内存到 32G，因为苹果说 32G 内存效果提升不大，还更加耗电。<br>这么一来我们就可在合理的范围内定制一台适合自己的笔记本。和购买标准版的结果一样，最后的结果都是可以获得一台新的 Macbook Pro。<br>类比到建造者模式和抽象工厂模式就是定制版和标准版。<br>总结一句话：建造者模式注重一步一步创建对象，抽象工厂模式注重一步到位创建对象。<br>建造者由 Director 和 Builder 构成，Builder 用于抽象各个对象部件的接口，Director 用于构造一个 Builder 的接口，由 Director 去指导 Builder 如何生成一个复杂对象。</p>
+<p>以购买一台 2016 款 15 寸 Macbook Pro 为背景描述一个建造者模式。</p>
+<p>我们在线购买时候 online shop 就是一个 Director，它一步一步指导我们去购买一个 Macbook Pro。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OnlineShop</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, buidler)</span>:</span></span><br><span class="line">        Macbook = namedtuple(<span class="string">'Macbook'</span>, <span class="string">'cpu memory ssd graphics'</span>)</span><br><span class="line">        self.macbook = Macbook(buidler.cpu, buidler.memory,</span><br><span class="line">                               buidler.ssd, buidler.graphics)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> str(self.macbook)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">MacbookBuilder</span><span class="params">(object)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">            self.cpu = <span class="string">'2.7GHz'</span></span><br><span class="line">            self.memory = <span class="string">'16G'</span></span><br><span class="line">            self.ssd = <span class="string">'512GB'</span></span><br><span class="line">            self.graphics = <span class="string">'Radeon Pro 455'</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">upgrade_cpu</span><span class="params">(self, cpu)</span>:</span></span><br><span class="line">            self.cpu = cpu</span><br><span class="line">            <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">upgrade_memory</span><span class="params">(self, memory)</span>:</span></span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'&#123;0&#125; is max'</span>.format(self.memory))</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">upgrade_ssd</span><span class="params">(self, ssd)</span>:</span></span><br><span class="line">            self.ssd = ssd</span><br><span class="line">            <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">upgrade_graphics</span><span class="params">(self, graphics)</span>:</span></span><br><span class="line">            self.graphics = graphics</span><br><span class="line">            <span class="keyword">return</span> self</span><br></pre></td></tr></table></figure>
+<p>OnlineShop 作为一个 Director 被客户端调用，MacbookBuilder 作为一个 Builder 是不能被客户端调用，只能被 Director 所调用，直接在类中定义另一个类，是防止被调用的简洁实现方式。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">macbook &#x3D; OnlineShop.MacbookBuilder().upgrade_cpu(&#39;2.9GHz&#39;).upgrade_ssd(&#39;2TB&#39;).upgrade_graphics(&#39;Radeon Pro 460&#39;).build_up()</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>设计模式</category>
@@ -2364,6 +2434,32 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
       </tags>
   </entry>
   <entry>
+    <title>责任链模式python实现</title>
+    <url>/2019/11/25/design_pattern/python/Chain_of_Responsibility_Pattern/</url>
+    <content><![CDATA[<h1 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>为请求创建了一个接收者对象的链。这种模式给予请求的类型，对请求的发送者和接收者进行解耦。这种类型的设计模式属于行为型模式。</p>
+<a id="more"></a>
+
+<h2 id="应用场景："><a href="#应用场景：" class="headerlink" title="应用场景："></a>应用场景：</h2><ul>
+<li>将多个处理方法连接成一条链条，请求将在这条链条上流动直到该链条中有一个节点可以处理该请求；通常这条链条是一个对象包含对另一个对象的引用而形成链条，每个节点有对请求的条件，当不满足条件将传递给下一个节点处理。</li>
+</ul>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="责任链模式-1"><a href="#责任链模式-1" class="headerlink" title="责任链模式"></a>责任链模式</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bases</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, obj=None)</span>:</span></span><br><span class="line">        self.obj = obj</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">screen</span><span class="params">(self, number)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(Bases)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">screen</span><span class="params">(self, number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="number">200</span> &gt; number &gt; <span class="number">100</span>:</span><br><span class="line">            print(<span class="string">"&#123;&#125; 划入A集合"</span>.format(number))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.obj.screen(number)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(Bases)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">screen</span><span class="params">(self, number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> number &gt;= <span class="number">200</span>:</span><br><span class="line">            print(<span class="string">"&#123;&#125; 划入B集合"</span>.format(number))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.obj.screen(number)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(Bases)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">screen</span><span class="params">(self, number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="number">100</span> &gt;= number:</span><br><span class="line">            print(<span class="string">"&#123;&#125; 划入C集合"</span>.format(number))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    test = [<span class="number">10</span>, <span class="number">100</span>, <span class="number">150</span>, <span class="number">200</span>, <span class="number">300</span>]</span><br><span class="line">    c = C()</span><br><span class="line">    b = B(c)</span><br><span class="line">    a = A(b)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> test:</span><br><span class="line">        a.screen(i)</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">-------------------</span></span><br><span class="line"><span class="string">10 划入C集合</span></span><br><span class="line"><span class="string">100 划入C集合</span></span><br><span class="line"><span class="string">150 划入A集合</span></span><br><span class="line"><span class="string">200 划入B集合</span></span><br><span class="line"><span class="string">300 划入B集合</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h2><ul>
+<li>一个对象中含有另一个对象的引用以此类推形成链条</li>
+<li>每个对象中应该有明确的责任划分即处理请求的条件</li>
+<li>链条的最后一节应该设计成通用请求处理，以免出现漏洞</li>
+<li>请求应该传入链条的头部</li>
+</ul>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>设计模式python实现</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>解释器模式python实现</title>
     <url>/2019/11/25/design_pattern/python/Interpreter_Pattern/</url>
     <content><![CDATA[<h1 id="解释器模式"><a href="#解释器模式" class="headerlink" title="解释器模式"></a>解释器模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>开发者自定义一种“有内涵”的语言（或者叫字符串），并设定相关的解释规则，输入该字符串后可以输出公认的解释，或者执行程序可以理解的动作。这种模式被用在 SQL 解析、符号处理引擎等</p>
@@ -2379,35 +2475,6 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li><p>非终结符表达式：文法中的每条规则对应于一个非终结符表达式，非终结符表达式一般是文法中的运算符或者其他关键字，比如公式R=R1+R2中，+就是非终结符，解析+的解释器就是一个非终结符表达式。非终结符表达式根据逻辑的复杂程度而增加，原则上每个文法规则都对应一个非终结符表达式。</p>
 </li>
 </ul>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>设计模式python实现</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>建造者模式python实现</title>
-    <url>/2019/11/25/design_pattern/python/Builder_Pattern/</url>
-    <content><![CDATA[<h1 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>建造者模式（生成器模式、Buidler Pattern）和抽象工厂模式的目的都是用来创建复杂的对象，但是创建的过程是截然不同的。</p>
-<ul>
-<li>在抽象工厂模式中，抽象出了创建方法，使用者只能按照预定好的步骤新创建一个对象。</li>
-<li>在建造者模式中，使用者可以按照自己的想法，在合理的范围内定制自己所需要的对象。<a id="more"></a>
-
-</li>
-</ul>
-<h2 id="应用场景："><a href="#应用场景：" class="headerlink" title="应用场景："></a>应用场景：</h2><ul>
-<li>对象的创建步骤可以独立于创建过程的时候</li>
-<li>被创建的对象拥有不同的表现形式</li>
-</ul>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="建造者模式-1"><a href="#建造者模式-1" class="headerlink" title="建造者模式"></a>建造者模式</h3><p>举一个栗子，我现在要买一台新版 15 寸的 Macbook Pro，打开官网发现有标准版和定制版两种可以选择。<br>所以现在有两种选择，购买标准版和购买定制版，定制版可以 SSD 升级到 1TB，可以把 CPU 升级到 2.7GHz，但是不允许升级内存到 32G，因为苹果说 32G 内存效果提升不大，还更加耗电。<br>这么一来我们就可在合理的范围内定制一台适合自己的笔记本。和购买标准版的结果一样，最后的结果都是可以获得一台新的 Macbook Pro。<br>类比到建造者模式和抽象工厂模式就是定制版和标准版。<br>总结一句话：建造者模式注重一步一步创建对象，抽象工厂模式注重一步到位创建对象。<br>建造者由 Director 和 Builder 构成，Builder 用于抽象各个对象部件的接口，Director 用于构造一个 Builder 的接口，由 Director 去指导 Builder 如何生成一个复杂对象。</p>
-<p>以购买一台 2016 款 15 寸 Macbook Pro 为背景描述一个建造者模式。</p>
-<p>我们在线购买时候 online shop 就是一个 Director，它一步一步指导我们去购买一个 Macbook Pro。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OnlineShop</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, buidler)</span>:</span></span><br><span class="line">        Macbook = namedtuple(<span class="string">'Macbook'</span>, <span class="string">'cpu memory ssd graphics'</span>)</span><br><span class="line">        self.macbook = Macbook(buidler.cpu, buidler.memory,</span><br><span class="line">                               buidler.ssd, buidler.graphics)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> str(self.macbook)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">MacbookBuilder</span><span class="params">(object)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">            self.cpu = <span class="string">'2.7GHz'</span></span><br><span class="line">            self.memory = <span class="string">'16G'</span></span><br><span class="line">            self.ssd = <span class="string">'512GB'</span></span><br><span class="line">            self.graphics = <span class="string">'Radeon Pro 455'</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">upgrade_cpu</span><span class="params">(self, cpu)</span>:</span></span><br><span class="line">            self.cpu = cpu</span><br><span class="line">            <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">upgrade_memory</span><span class="params">(self, memory)</span>:</span></span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'&#123;0&#125; is max'</span>.format(self.memory))</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">upgrade_ssd</span><span class="params">(self, ssd)</span>:</span></span><br><span class="line">            self.ssd = ssd</span><br><span class="line">            <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">upgrade_graphics</span><span class="params">(self, graphics)</span>:</span></span><br><span class="line">            self.graphics = graphics</span><br><span class="line">            <span class="keyword">return</span> self</span><br></pre></td></tr></table></figure>
-<p>OnlineShop 作为一个 Director 被客户端调用，MacbookBuilder 作为一个 Builder 是不能被客户端调用，只能被 Director 所调用，直接在类中定义另一个类，是防止被调用的简洁实现方式。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">macbook &#x3D; OnlineShop.MacbookBuilder().upgrade_cpu(&#39;2.9GHz&#39;).upgrade_ssd(&#39;2TB&#39;).upgrade_graphics(&#39;Radeon Pro 460&#39;).build_up()</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>设计模式</category>
@@ -2551,6 +2618,27 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 
 <p>每个工厂负责生产自己的产品也避免了我们在新增产品时需要修改工厂的代码，而只要增加相应的工厂即可。如新增一个Audi产品，只需新增一个<strong>Mouse</strong>类和<strong>MouseFactory</strong></p>
 <h3 id="抽象工厂"><a href="#抽象工厂" class="headerlink" title="抽象工厂"></a>抽象工厂</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> abc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 两种小汽车</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mercedes_C63</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""梅赛德斯 C63</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Mercedes-Benz: C63"</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BMW_M3</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""宝马 M3</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"BMW: M3"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#　两种SUV</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mercedes_G63</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""梅赛德斯 G63</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Mercedes-Benz: G63"</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BMW_X5</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""宝马 X5</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"BMW: X5"</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AbstractFactory</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""抽象工厂</span></span><br><span class="line"><span class="string">    可以生产小汽车外，还可以生产SUV</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    __metaclass__ = abc.ABCMeta</span><br><span class="line"></span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">product_car</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">product_suv</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MercedesFactory</span><span class="params">(AbstractFactory)</span>:</span></span><br><span class="line">    <span class="string">"""梅赛德斯工厂</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">product_car</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> Mercedes_C63()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">product_suv</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> Mercedes_G63()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BMWFactory</span><span class="params">(AbstractFactory)</span>:</span></span><br><span class="line">    <span class="string">"""宝马工厂</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">product_car</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> BMW_M3()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">product_suv</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> BMW_X5()</span><br><span class="line"><span class="comment"># ====================</span></span><br><span class="line">c1 = MercedesFactory().product_car()</span><br><span class="line">s1 = MercedesFactory().product_suv()</span><br><span class="line">print(c1, s1)</span><br><span class="line">s2 = BMWFactory().product_suv()</span><br><span class="line">c2 = BMWFactory().product_car()</span><br><span class="line">print(c2, s2)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>设计模式python实现</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>外观模式python实现</title>
+    <url>/2019/11/25/design_pattern/python/Facade_Pattern/</url>
+    <content><![CDATA[<h1 id="外观模式"><a href="#外观模式" class="headerlink" title="外观模式"></a>外观模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>隐藏系统的复杂性，并向客户端提供了一个客户端可以访问系统的接口。这种类型的设计模式属于结构型模式，它向现有的系统添加一个接口，来隐藏系统的复杂性。</p>
+<a id="more"></a>
+
+<h2 id="应用场景："><a href="#应用场景：" class="headerlink" title="应用场景："></a>应用场景：</h2><ul>
+<li>客户端不需要知道系统内部的复杂联系，整个系统只需提供一个”接待员”即可。</li>
+<li>去医院看病，可能要去挂号、门诊、划价、取药，让患者或患者家属觉得很复杂，如果有提供接待人员，只让接待人员来处理，就很方便。</li>
+</ul>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="外观模式-1"><a href="#外观模式-1" class="headerlink" title="外观模式"></a>外观模式</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">API1</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Save</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'保存数据A'</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Del</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'删除数据A'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">API2</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Save</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'保存数据B'</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Del</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'删除数据B'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Facade</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self._api1 = API1()</span><br><span class="line">        self._api2 = API2()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">SaveAll</span><span class="params">(self)</span>:</span></span><br><span class="line">        [obj.Save() <span class="keyword">for</span> obj <span class="keyword">in</span> [self._api1, self._api2]]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">DelAll</span><span class="params">(self)</span>:</span></span><br><span class="line">        [obj.Save() <span class="keyword">for</span> obj <span class="keyword">in</span> [self._api1, self._api2]]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    test = Facade()</span><br><span class="line">    test.SaveAll()</span><br><span class="line">    test.DelAll()</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">保存数据A</span></span><br><span class="line"><span class="string">保存数据B</span></span><br><span class="line"><span class="string">删除数据A</span></span><br><span class="line"><span class="string">删除数据B</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>设计模式</category>
@@ -4422,47 +4510,19 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
       </tags>
   </entry>
   <entry>
-    <title>38.报数</title>
-    <url>/2019/07/04/leetcode/38/</url>
-    <content><![CDATA[<p>报数序列是一个整数序列，按照其中的整数的顺序进行报数，得到下一个数。</p>
-<a id="more"></a>
-
-<p>其前五项如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1.     1</span><br><span class="line">2.     11</span><br><span class="line">3.     21</span><br><span class="line">4.     1211</span><br><span class="line">5.     111221</span><br></pre></td></tr></table></figure>
-<p><code>1</code> 被读作  “<code>one 1</code>“  (“<code>一个一</code>“) , 即 <code>11</code>。<br><code>11</code> 被读作 “<code>two 1s</code>“ (“<code>两个一</code>“）, 即 <code>21</code>。<br><code>21</code> 被读作 “<code>one 2</code>“,  “<code>one 1</code>“ （”<code>一个二</code>“ ,  “<code>一个一</code>“) , 即 <code>1211</code>。</p>
-<p>给定一个正整数 n（1 ≤ n ≤ 30），输出报数序列的第 n 项。</p>
-<p>注意：整数顺序将表示为一个字符串。</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 1</span><br><span class="line">输出: &quot;1&quot;</span><br></pre></td></tr></table></figure>
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 4</span><br><span class="line">输出: &quot;1211&quot;</span><br></pre></td></tr></table></figure>
-
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">countAndSay</span><span class="params">(n <span class="keyword">int</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> rlt []<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; n; i++ &#123;</span><br><span class="line">		<span class="keyword">if</span> i == <span class="number">0</span> &#123;</span><br><span class="line">			rlt = <span class="built_in">append</span>(rlt, <span class="string">"1"</span>)</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span> i == <span class="number">1</span> &#123;</span><br><span class="line">			rlt = <span class="built_in">append</span>(rlt, <span class="string">"11"</span>)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			preintstring := rlt[i<span class="number">-1</span>]</span><br><span class="line">			<span class="keyword">var</span> nextintstring <span class="keyword">string</span></span><br><span class="line">			temp := <span class="keyword">string</span>(preintstring[<span class="number">0</span>])</span><br><span class="line">			index := <span class="number">0</span></span><br><span class="line">			<span class="keyword">for</span> i, v := <span class="keyword">range</span> preintstring &#123;</span><br><span class="line">				<span class="keyword">if</span> i == <span class="number">0</span> &#123;</span><br><span class="line">					<span class="keyword">continue</span></span><br><span class="line">				&#125;</span><br><span class="line">				countDiffNum := <span class="number">1</span></span><br><span class="line">				<span class="keyword">if</span> <span class="keyword">string</span>(v) != temp &#123;</span><br><span class="line">					countDiffNum = i - index</span><br><span class="line">					index = i</span><br><span class="line">					nextintstring += strconv.Itoa(countDiffNum) + <span class="keyword">string</span>(temp)</span><br><span class="line">					temp = <span class="keyword">string</span>(v)</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> i == <span class="built_in">len</span>(preintstring)<span class="number">-1</span> &#123;</span><br><span class="line">					countDiffNum = i - index + <span class="number">1</span></span><br><span class="line">					index = i</span><br><span class="line">					nextintstring += strconv.Itoa(countDiffNum) + <span class="keyword">string</span>(temp)</span><br><span class="line">					temp = <span class="keyword">string</span>(v)</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">			rlt = <span class="built_in">append</span>(rlt, nextintstring)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> rlt[n<span class="number">-1</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法题解</category>
-      </categories>
-      <tags>
-        <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>4.寻找两个有序数组的中位数</title>
-    <url>/2019/07/04/leetcode/4/</url>
-    <content><![CDATA[<p>给定两个大小为 m 和 n 的有序数组 <code>nums1</code> 和 <code>nums2</code>。</p>
-<p>请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。</p>
-<p>你可以假设<code>nums1</code> 和 <code>nums2</code> 不会同时为空。</p>
+    <title>14.最长公共前缀</title>
+    <url>/2019/07/04/leetcode/14/</url>
+    <content><![CDATA[<p>编写一个函数来查找字符串数组中的最长公共前缀。</p>
+<p>如果不存在公共前缀，返回空字符串<code>&quot;&quot;</code>。</p>
 <a id="more"></a>
 
 <p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">nums1 &#x3D; [1, 3]</span><br><span class="line">nums2 &#x3D; [2]</span><br><span class="line">则中位数是 2.0</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [&quot;flower&quot;,&quot;flow&quot;,&quot;flight&quot;]</span><br><span class="line">输出: &quot;fl&quot;</span><br></pre></td></tr></table></figure>
 <p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nums1 &#x3D; [1, 2]</span><br><span class="line">nums2 &#x3D; [3, 4]</span><br><span class="line">则中位数是 (2 + 3)&#x2F;2 &#x3D; 2.5</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"sort"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findMedianSortedArrays</span><span class="params">(nums1 []<span class="keyword">int</span>, nums2 []<span class="keyword">int</span>)</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">    all := <span class="built_in">append</span>(nums1, nums2...)</span><br><span class="line">    sort.Ints(all)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(all)%<span class="number">2</span> == <span class="number">0</span> &#123;</span><br><span class="line">    a := all[<span class="built_in">len</span>(all)/<span class="number">2</span>]</span><br><span class="line">    b := all[<span class="built_in">len</span>(all)/<span class="number">2</span><span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">float64</span>(a) + <span class="keyword">float64</span>(b)) / <span class="number">2</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">float64</span>(all[(<span class="built_in">len</span>(all)<span class="number">-1</span>)/<span class="number">2</span>])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [&quot;dog&quot;,&quot;racecar&quot;,&quot;car&quot;]</span><br><span class="line">输出: &quot;&quot;</span><br><span class="line">解释: 输入不存在公共前缀。</span><br></pre></td></tr></table></figure>
+<p><strong>说明:</strong></p>
+<p>所有输入只包含小写字母 <code>a-z</code> 。</p>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">longestCommonPrefix</span><span class="params">(strs []<span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(strs)==<span class="number">1</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> strs[<span class="number">0</span>]</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span> <span class="built_in">len</span>(strs)&lt;<span class="number">1</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">	&#125;</span><br><span class="line">	defaultStr1 := strs[<span class="number">0</span>]</span><br><span class="line">	defaultStr2 := strs[<span class="number">1</span>]</span><br><span class="line">	strs = strs[<span class="number">2</span>:]</span><br><span class="line">	defaultStr:=getString(defaultStr1,defaultStr2)</span><br><span class="line">	<span class="keyword">for</span> _,value := <span class="keyword">range</span> strs&#123;</span><br><span class="line">		defaultStr=getString(defaultStr,<span class="keyword">string</span>(value))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> defaultStr</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getString</span><span class="params">(str1, str2 <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	result := <span class="string">""</span></span><br><span class="line">	rune1:=[]<span class="keyword">rune</span>(str1)</span><br><span class="line">	rune2:=[]<span class="keyword">rune</span>(str2)</span><br><span class="line">	length1 := <span class="built_in">len</span>(rune1)</span><br><span class="line">	length2 := <span class="built_in">len</span>(rune2)</span><br><span class="line">	<span class="keyword">if</span> length1 &gt; length2 &#123;</span><br><span class="line">		<span class="keyword">for</span> count, value := <span class="keyword">range</span> str2 &#123;</span><br><span class="line">			<span class="keyword">if</span> rune1[count]==value&#123;</span><br><span class="line">				result+=<span class="keyword">string</span>(value)</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> count, value := <span class="keyword">range</span> str1 &#123;</span><br><span class="line">			<span class="keyword">if</span> rune2[count]==value&#123;</span><br><span class="line">				result+=<span class="keyword">string</span>(value)</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法题解</category>
       </categories>
@@ -4706,6 +4766,27 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
       </tags>
   </entry>
   <entry>
+    <title>226. 翻转二叉树</title>
+    <url>/2019/07/04/leetcode/226/</url>
+    <content><![CDATA[<p>翻转一棵二叉树。</p>
+<a id="more"></a>
+
+<p>示例：</p>
+<p>输入：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">     4</span><br><span class="line">   &#x2F;   \</span><br><span class="line">  2     7</span><br><span class="line"> &#x2F; \   &#x2F; \</span><br><span class="line">1   3 6   9</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">     4</span><br><span class="line">   &#x2F;   \</span><br><span class="line">  7     2</span><br><span class="line"> &#x2F; \   &#x2F; \</span><br><span class="line">9   6 3   1</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 递归法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">invertTree</span><span class="params">(root *TreeNode)</span> *<span class="title">TreeNode</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> root == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">		tmpNode:=root.Left</span><br><span class="line">		root.Left=root.Right</span><br><span class="line">		root.Right=tmpNode</span><br><span class="line">		root.Left=invertTree(root.Left)</span><br><span class="line">		root.Right=invertTree(root.Right)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> root</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法题解</category>
+      </categories>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>21.合并两个有序链表</title>
     <url>/2019/07/04/leetcode/21/</url>
     <content><![CDATA[<p>将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 </p>
@@ -4715,6 +4796,49 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：1-&gt;2-&gt;4, 1-&gt;3-&gt;4</span><br><span class="line">输出：1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4</span><br></pre></td></tr></table></figure>
 
 <h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * type ListNode struct &#123;</span></span><br><span class="line"><span class="comment"> *     Val int</span></span><br><span class="line"><span class="comment"> *     Next *ListNode</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">mergeTwoLists</span><span class="params">(l1 *ListNode, l2 *ListNode)</span> *<span class="title">ListNode</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> l1 == <span class="literal">nil</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> l2</span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">if</span> l2 == <span class="literal">nil</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> l1</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> res *ListNode</span><br><span class="line">    <span class="keyword">if</span> l1.Val &gt;= l2.Val&#123;</span><br><span class="line">        res = l2</span><br><span class="line">        res.Next = mergeTwoLists(l1,l2.Next)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        res = l1</span><br><span class="line">        res.Next = mergeTwoLists(l1.Next,l2)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法题解</category>
+      </categories>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>rsync同步工具的使用</title>
+    <url>/2019/07/04/linux/rsync/</url>
+    <content><![CDATA[<h1 id="Linux-命令行中rsync-介绍"><a href="#Linux-命令行中rsync-介绍" class="headerlink" title="Linux 命令行中rsync 介绍"></a>Linux 命令行中rsync 介绍</h1><p>rsync 因其切割算法，及增量对比的优势，在文件同步中应用极为广泛</p>
+<a id="more"></a>
+
+<h2 id="增量算法"><a href="#增量算法" class="headerlink" title="增量算法"></a>增量算法</h2><p>rsync 可以在 同步的过程中，将一个大文件，分割成n个块，通过对块的同步，及校验，完成传输。</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>在遇到jar包、apk包等情况中，可以将其复制，在进行rsync增量同步，可以大大缩短时间</p>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><blockquote>
+<p>-v, –verbose                  详细模式输出<br>-q, –quiet                       精简输出模式<br>-c, –checksum               打开校验开关，强制对文件传输进行校验<br>-a, –archive                   归档模式，表示以递归方式传输文件，并保持所有文件属性，等于-rlptgoD<br>-r, –recursive                 对子目录以递归模式处理<br>-R, –relative                  使用相对路径信息<br>-b, –backup                  创建备份，也就是对于目的已经存在有同样的文件名时，将老的文件重新命名为<del>filename。可以使用–suffix选项来指定不同的备份文件前缀。<br>–backup-dir                  将备份文件(如</del>filename)存放在在目录下。<br>-suffix=SUFFIX             定义备份文件前缀<br>-u, –update                   仅仅进行更新，也就是跳过所有已经存在于DST，并且文件时间晚于要备份的文件。(不覆盖更新的文件)<br>-l, –links                         保留软链结<br>-L, –copy-links              想对待常规文件一样处理软链结<br>–copy-unsafe-links        仅仅拷贝指向SRC路径目录树以外的链结<br>–safe-links                     忽略指向SRC路径目录树以外的链结<br>-H, –hard-links              保留硬链结<br>-p, –perms                    保持文件权限<br>-o, –owner                    保持文件属主信息<br>-g, –group                     保持文件属组信息<br>-D, –devices                 保持设备文件信息<br>-t, –times                      保持文件时间信息<br>-S, –sparse                   对稀疏文件进行特殊处理以节省DST的空间<br>-n, –dry-run                  现实哪些文件将被传输<br>-W, –whole-file             拷贝文件，不进行增量检测<br>-x, –one-file-system      不要跨越文件系统边界<br>-B, –block-size=SIZE   检验算法使用的块尺寸，默认是700字节<br>-e, –rsh=COMMAND 指定使用rsh、ssh方式进行数据同步<br>–rsync-path=PATH      指定远程服务器上的rsync命令所在路径信息<br>-C, –cvs-exclude          使用和CVS一样的方法自动忽略文件，用来排除那些不希望传输的文件<br>–existing                      仅仅更新那些已经存在于DST的文件，而不备份那些新创建的文件<br>–delete                         删除那些DST中SRC没有的文件<br>–delete-excluded          同样删除接收端那些被该选项指定排除的文件<br>–delete-after                传输结束以后再删除<br>–ignore-errors             及时出现IO错误也进行删除<br>–max-delete=NUM     最多删除NUM个文件<br>–partial                        保留那些因故没有完全传输的文件，以是加快随后的再次传输<br>–force                          强制删除目录，即使不为空<br>–numeric-ids                不将数字的用户和组ID匹配为用户名和组名<br>–timeout=TIME IP       超时时间，单位为秒<br>-I, –ignore-times          不跳过那些有同样的时间和长度的文件<br>–size-only                    当决定是否要备份文件时，仅仅察看文件大小而不考虑文件时间<br>–modify-window=NUM 决定文件是否时间相同时使用的时间戳窗口，默认为0<br>-T –temp-dir=DIR      在DIR中创建临时文件<br>–compare-dest=DIR   同样比较DIR中的文件来决定是否需要备份<br>-P 等同于 –partial<br>–progress                    显示备份过程<br>-z, –compress             对备份的文件在传输时进行压缩处理<br>–exclude=PATTERN  指定排除不需要传输的文件模式<br>–include=PATTERN   指定不排除而需要传输的文件模式<br>–exclude-from=FILE   排除FILE中指定模式的文件<br>–include-from=FILE   不排除FILE指定模式匹配的文件<br>–version                      打印版本信息<br>–address                     绑定到特定的地址<br>–config=FILE             指定其他的配置文件，不使用默认的rsyncd.conf文件<br>–port=PORT              指定其他的rsync服务端口<br>–blocking-io               对远程shell使用阻塞IO<br>-stats                           给出某些文件的传输状态<br>–progress                   在传输时现实传输过程<br>–log-format=formAT  指定日志文件格式<br>–password-file=FILE 从FILE中得到密码<br>–bwlimit=KBPS         限制I/O带宽，KBytes per second<br>-h, –help                    显示帮助信息</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>技术文章</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>26.删除排序数组中的重复项</title>
+    <url>/2019/07/04/leetcode/26/</url>
+    <content><![CDATA[<p>给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。</p>
+<p>不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。</p>
+<a id="more"></a>
+
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定数组 nums &#x3D; [1,1,2], </span><br><span class="line"></span><br><span class="line">函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 </span><br><span class="line"></span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定 nums &#x3D; [0,0,1,1,1,2,2,3,3,4],</span><br><span class="line"></span><br><span class="line">函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。</span><br><span class="line"></span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
+<p>说明:</p>
+<p>为什么返回数值是整数，但输出的答案是数组呢?</p>
+<p>请注意，输入数组是以“引用”方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。</p>
+<p>你可以想象内部操作如下:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝</span><br><span class="line">int len &#x3D; removeDuplicates(nums);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 在函数里修改输入数组对于调用者是可见的。</span><br><span class="line">&#x2F;&#x2F; 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。</span><br><span class="line">for (int i &#x3D; 0; i &lt; len; i++) &#123;</span><br><span class="line">    print(nums[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">removeDuplicates</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	length := <span class="built_in">len</span>(nums)</span><br><span class="line">	<span class="keyword">if</span> length == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> (</span><br><span class="line">		i   <span class="keyword">int</span> = <span class="number">0</span></span><br><span class="line">		j   <span class="keyword">int</span> = <span class="number">1</span></span><br><span class="line">		cnt <span class="keyword">int</span> = <span class="number">1</span></span><br><span class="line">	)</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (i &lt; length &amp;&amp; j &lt; length) &#123;</span><br><span class="line">			<span class="keyword">for</span> &#123;</span><br><span class="line">				<span class="keyword">if</span> (i &lt; length &amp;&amp; j &lt; length &amp;&amp; nums[i] == nums[j]) &#123;</span><br><span class="line">					j++</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					<span class="keyword">break</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (j &lt; length &amp;&amp; i+<span class="number">1</span> &lt; length) &#123;</span><br><span class="line">				nums[i+<span class="number">1</span>] = nums[j];</span><br><span class="line">				cnt++;</span><br><span class="line">			&#125;</span><br><span class="line">			i++</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> cnt</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法题解</category>
       </categories>
@@ -4754,25 +4878,6 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
       </tags>
   </entry>
   <entry>
-    <title>rsync同步工具的使用</title>
-    <url>/2019/07/04/linux/rsync/</url>
-    <content><![CDATA[<h1 id="Linux-命令行中rsync-介绍"><a href="#Linux-命令行中rsync-介绍" class="headerlink" title="Linux 命令行中rsync 介绍"></a>Linux 命令行中rsync 介绍</h1><p>rsync 因其切割算法，及增量对比的优势，在文件同步中应用极为广泛</p>
-<a id="more"></a>
-
-<h2 id="增量算法"><a href="#增量算法" class="headerlink" title="增量算法"></a>增量算法</h2><p>rsync 可以在 同步的过程中，将一个大文件，分割成n个块，通过对块的同步，及校验，完成传输。</p>
-<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>在遇到jar包、apk包等情况中，可以将其复制，在进行rsync增量同步，可以大大缩短时间</p>
-<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><blockquote>
-<p>-v, –verbose                  详细模式输出<br>-q, –quiet                       精简输出模式<br>-c, –checksum               打开校验开关，强制对文件传输进行校验<br>-a, –archive                   归档模式，表示以递归方式传输文件，并保持所有文件属性，等于-rlptgoD<br>-r, –recursive                 对子目录以递归模式处理<br>-R, –relative                  使用相对路径信息<br>-b, –backup                  创建备份，也就是对于目的已经存在有同样的文件名时，将老的文件重新命名为<del>filename。可以使用–suffix选项来指定不同的备份文件前缀。<br>–backup-dir                  将备份文件(如</del>filename)存放在在目录下。<br>-suffix=SUFFIX             定义备份文件前缀<br>-u, –update                   仅仅进行更新，也就是跳过所有已经存在于DST，并且文件时间晚于要备份的文件。(不覆盖更新的文件)<br>-l, –links                         保留软链结<br>-L, –copy-links              想对待常规文件一样处理软链结<br>–copy-unsafe-links        仅仅拷贝指向SRC路径目录树以外的链结<br>–safe-links                     忽略指向SRC路径目录树以外的链结<br>-H, –hard-links              保留硬链结<br>-p, –perms                    保持文件权限<br>-o, –owner                    保持文件属主信息<br>-g, –group                     保持文件属组信息<br>-D, –devices                 保持设备文件信息<br>-t, –times                      保持文件时间信息<br>-S, –sparse                   对稀疏文件进行特殊处理以节省DST的空间<br>-n, –dry-run                  现实哪些文件将被传输<br>-W, –whole-file             拷贝文件，不进行增量检测<br>-x, –one-file-system      不要跨越文件系统边界<br>-B, –block-size=SIZE   检验算法使用的块尺寸，默认是700字节<br>-e, –rsh=COMMAND 指定使用rsh、ssh方式进行数据同步<br>–rsync-path=PATH      指定远程服务器上的rsync命令所在路径信息<br>-C, –cvs-exclude          使用和CVS一样的方法自动忽略文件，用来排除那些不希望传输的文件<br>–existing                      仅仅更新那些已经存在于DST的文件，而不备份那些新创建的文件<br>–delete                         删除那些DST中SRC没有的文件<br>–delete-excluded          同样删除接收端那些被该选项指定排除的文件<br>–delete-after                传输结束以后再删除<br>–ignore-errors             及时出现IO错误也进行删除<br>–max-delete=NUM     最多删除NUM个文件<br>–partial                        保留那些因故没有完全传输的文件，以是加快随后的再次传输<br>–force                          强制删除目录，即使不为空<br>–numeric-ids                不将数字的用户和组ID匹配为用户名和组名<br>–timeout=TIME IP       超时时间，单位为秒<br>-I, –ignore-times          不跳过那些有同样的时间和长度的文件<br>–size-only                    当决定是否要备份文件时，仅仅察看文件大小而不考虑文件时间<br>–modify-window=NUM 决定文件是否时间相同时使用的时间戳窗口，默认为0<br>-T –temp-dir=DIR      在DIR中创建临时文件<br>–compare-dest=DIR   同样比较DIR中的文件来决定是否需要备份<br>-P 等同于 –partial<br>–progress                    显示备份过程<br>-z, –compress             对备份的文件在传输时进行压缩处理<br>–exclude=PATTERN  指定排除不需要传输的文件模式<br>–include=PATTERN   指定不排除而需要传输的文件模式<br>–exclude-from=FILE   排除FILE中指定模式的文件<br>–include-from=FILE   不排除FILE指定模式匹配的文件<br>–version                      打印版本信息<br>–address                     绑定到特定的地址<br>–config=FILE             指定其他的配置文件，不使用默认的rsyncd.conf文件<br>–port=PORT              指定其他的rsync服务端口<br>–blocking-io               对远程shell使用阻塞IO<br>-stats                           给出某些文件的传输状态<br>–progress                   在传输时现实传输过程<br>–log-format=formAT  指定日志文件格式<br>–password-file=FILE 从FILE中得到密码<br>–bwlimit=KBPS         限制I/O带宽，KBytes per second<br>-h, –help                    显示帮助信息</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>技术文章</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2.两数相加</title>
     <url>/2019/07/04/leetcode/2/</url>
     <content><![CDATA[<p>给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。</p>
@@ -4794,40 +4899,6 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
       </tags>
   </entry>
   <entry>
-    <title>linux 使用 shadowsocket 翻墙</title>
-    <url>/2019/07/04/linux/sslocal/</url>
-    <content><![CDATA[<h1 id="linux-使用-shadowsocket-翻墙"><a href="#linux-使用-shadowsocket-翻墙" class="headerlink" title="linux 使用 shadowsocket 翻墙"></a>linux 使用 shadowsocket 翻墙</h1><p>ss-local 是 shadowsocks 的本地 socks5 服务器，如果需要使用 ss-local 提供的 socks5 代理，必须让应用程序使用 socks5 协议与之通信。但是很可惜，除了部分浏览器、软件直接支持 socks5 协议外，其它的都只支持 http 代理。因此，我们需要借助 privoxy 来将 http 代理协议转换为 socks5 代理协议，与后端的 ss-local 进行通信，与此同时我们还可以进行 gfwlist 分流操作。</p>
-<a id="more"></a>
-
-<h3 id="安装-ss-local"><a href="#安装-ss-local" class="headerlink" title="安装 ss-local"></a>安装 <code>ss-local</code></h3><p><code>pip install shadowsocks</code></p>
-<blockquote>
-<p>配置ss-local</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    "server": "1.2.3.4",          # 服务器IP</span><br><span class="line">    "server_port": 8989,          # 服务器Port</span><br><span class="line">    "method": "aes-128-cfb",      # 加密方式</span><br><span class="line">    "password": "123456",         # 端口密码</span><br><span class="line">    "local_address": "127.0.0.1", # 本地监听IP</span><br><span class="line">    "local_port": 1080,           # 本地监听Port</span><br><span class="line">    "fast_open": true,            # TCP Fast Open</span><br><span class="line">    "workers": 1                  # worker进程数量</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>启动ss-local<br><code>sslocal -c /etc/ss-local.json</code></p>
-</blockquote>
-<h3 id="安装-privoxy"><a href="#安装-privoxy" class="headerlink" title="安装 privoxy"></a>安装 <code>privoxy</code></h3><p><code>yum -y install privoxy</code></p>
-<blockquote>
-<p>配置 privoxy的config文件，配置监听端口</p>
-</blockquote>
-<blockquote>
-<p>启动privoxy</p>
-</blockquote>
-<p><code>privoxy config</code></p>
-<h3 id="在命令行配置-proxy"><a href="#在命令行配置-proxy" class="headerlink" title="在命令行配置 proxy"></a>在命令行配置 proxy</h3><blockquote>
-<p><code>export http_proxy=http://127.0.0.1:${privoxy监听端口}</code><br><code>export https_proxy=http://127.0.0.1:${privoxy监听端口}</code></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>技术文章</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>190. 颠倒二进制位</title>
     <url>/2019/07/04/leetcode/190/</url>
     <content><![CDATA[<p>颠倒给定的 32 位无符号整数的二进制位。</p>
@@ -4839,25 +4910,6 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入：11111111111111111111111111111101</span><br><span class="line">输出：10111111111111111111111111111111</span><br><span class="line">解释：输入的二进制串 11111111111111111111111111111101 表示无符号整数 4294967293，</span><br><span class="line">      因此返回 3221225471 其二进制表示形式为 10101111110010110010011101101001。</span><br></pre></td></tr></table></figure>
 
 <h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseBits</span><span class="params">(n <span class="keyword">uint32</span>)</span> <span class="title">uint32</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> ans <span class="keyword">uint32</span> = <span class="number">0</span></span><br><span class="line">	<span class="keyword">var</span> i = <span class="number">32</span></span><br><span class="line">	<span class="keyword">for</span> i &gt; <span class="number">0</span> &#123;</span><br><span class="line">		i--</span><br><span class="line">		ans &lt;&lt;= <span class="number">1</span></span><br><span class="line">		ans += n &amp; <span class="number">1</span></span><br><span class="line">		n &gt;&gt;= <span class="number">1</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ans</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法题解</category>
-      </categories>
-      <tags>
-        <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>172. 阶乘后的零</title>
-    <url>/2019/07/04/leetcode/172/</url>
-    <content><![CDATA[<p>给定一个整数 n，返回 n! 结果尾数中零的数量。</p>
-<a id="more"></a>
-
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 3</span><br><span class="line">输出: 0</span><br><span class="line">解释: 3! &#x3D; 6, 尾数中没有零。</span><br></pre></td></tr></table></figure>
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 5</span><br><span class="line">输出: 1</span><br><span class="line">解释: 5! &#x3D; 120, 尾数中有 1 个零.</span><br></pre></td></tr></table></figure>
-<p>说明: 你算法的时间复杂度应为 O(log n) 。</p>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">trailingZeroes</span><span class="params">(n <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	result := <span class="number">1</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= n; i++ &#123;</span><br><span class="line">		result *= i</span><br><span class="line">	&#125;</span><br><span class="line">	i := <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> result%<span class="number">10</span> == <span class="number">0</span> &#123;</span><br><span class="line">			i += <span class="number">1</span></span><br><span class="line">			result = result / <span class="number">10</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> i</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法题解</category>
       </categories>
@@ -5350,19 +5402,39 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
       </tags>
   </entry>
   <entry>
-    <title>226. 翻转二叉树</title>
-    <url>/2019/07/04/leetcode/226/</url>
-    <content><![CDATA[<p>翻转一棵二叉树。</p>
+    <title>28.实现 strStr()</title>
+    <url>/2019/07/04/leetcode/28/</url>
+    <content><![CDATA[<p>实现 <code>strStr()</code> 函数。</p>
+<p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。</p>
 <a id="more"></a>
 
-<p>示例：</p>
-<p>输入：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">     4</span><br><span class="line">   &#x2F;   \</span><br><span class="line">  2     7</span><br><span class="line"> &#x2F; \   &#x2F; \</span><br><span class="line">1   3 6   9</span><br></pre></td></tr></table></figure>
-<p>输出：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">     4</span><br><span class="line">   &#x2F;   \</span><br><span class="line">  7     2</span><br><span class="line"> &#x2F; \   &#x2F; \</span><br><span class="line">9   6 3   1</span><br></pre></td></tr></table></figure>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: haystack &#x3D; &quot;hello&quot;, needle &#x3D; &quot;ll&quot;</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: haystack &#x3D; &quot;aaaaa&quot;, needle &#x3D; &quot;bba&quot;</span><br><span class="line">输出: -1</span><br></pre></td></tr></table></figure>
+<p>说明:</p>
+<p>当 <code>needle</code> 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。</p>
+<p>对于本题而言，当 <code>needle</code> 是空字符串时我们应当返回 0 。这与C语言的 strstr() 以及 Java的 indexOf() 定义相符。</p>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="python"><a href="#python" class="headerlink" title="python"></a>python</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">strStr</span><span class="params">(self, haystack: str, needle: str)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> needle <span class="keyword">not</span> <span class="keyword">in</span> haystack:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">        <span class="keyword">return</span> haystack.index(needle)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法题解</category>
+      </categories>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>172. 阶乘后的零</title>
+    <url>/2019/07/04/leetcode/172/</url>
+    <content><![CDATA[<p>给定一个整数 n，返回 n! 结果尾数中零的数量。</p>
+<a id="more"></a>
 
-
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 递归法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">invertTree</span><span class="params">(root *TreeNode)</span> *<span class="title">TreeNode</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> root == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">		tmpNode:=root.Left</span><br><span class="line">		root.Left=root.Right</span><br><span class="line">		root.Right=tmpNode</span><br><span class="line">		root.Left=invertTree(root.Left)</span><br><span class="line">		root.Right=invertTree(root.Right)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> root</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 3</span><br><span class="line">输出: 0</span><br><span class="line">解释: 3! &#x3D; 6, 尾数中没有零。</span><br></pre></td></tr></table></figure>
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 5</span><br><span class="line">输出: 1</span><br><span class="line">解释: 5! &#x3D; 120, 尾数中有 1 个零.</span><br></pre></td></tr></table></figure>
+<p>说明: 你算法的时间复杂度应为 O(log n) 。</p>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">trailingZeroes</span><span class="params">(n <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	result := <span class="number">1</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= n; i++ &#123;</span><br><span class="line">		result *= i</span><br><span class="line">	&#125;</span><br><span class="line">	i := <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> result%<span class="number">10</span> == <span class="number">0</span> &#123;</span><br><span class="line">			i += <span class="number">1</span></span><br><span class="line">			result = result / <span class="number">10</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> i</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法题解</category>
       </categories>
@@ -5409,23 +5481,6 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MinStack minStack &#x3D; new MinStack();</span><br><span class="line">minStack.push(-2);</span><br><span class="line">minStack.push(0);</span><br><span class="line">minStack.push(-3);</span><br><span class="line">minStack.getMin();   --&gt; 返回 -3.</span><br><span class="line">minStack.pop();</span><br><span class="line">minStack.top();      --&gt; 返回 0.</span><br><span class="line">minStack.getMin();   --&gt; 返回 -2.</span><br></pre></td></tr></table></figure>
 
 <h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> MinStack <span class="keyword">struct</span> &#123;</span><br><span class="line">	tmp []<span class="keyword">int</span></span><br><span class="line">	min <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** initialize your data structure here. */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Constructor</span><span class="params">()</span> <span class="title">MinStack</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> MinStack&#123;tmp: []<span class="keyword">int</span>&#123;&#125;, min: <span class="number">0</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *MinStack)</span> <span class="title">Push</span><span class="params">(x <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	m.tmp = <span class="built_in">append</span>(m.tmp, x)</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(m.tmp) == <span class="number">1</span> &#123;</span><br><span class="line">		m.min = x</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> x &lt; m.min &#123;</span><br><span class="line">		m.min = x</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *MinStack)</span> <span class="title">Pop</span><span class="params">()</span></span> &#123;</span><br><span class="line">	remove := m.tmp[<span class="built_in">len</span>(m.tmp)<span class="number">-1</span>]</span><br><span class="line">	m.tmp = m.tmp[:<span class="built_in">len</span>(m.tmp)<span class="number">-1</span>]</span><br><span class="line">	<span class="keyword">if</span> remove &lt;= m.min &#123;</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(m.tmp) &gt; <span class="number">0</span> &#123;</span><br><span class="line">			m.min = m.tmp[<span class="number">0</span>]</span><br><span class="line">		&#125;</span><br><span class="line">		m.GetMinInfo()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *MinStack)</span> <span class="title">Top</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> m.tmp[<span class="built_in">len</span>(m.tmp)<span class="number">-1</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *MinStack)</span> <span class="title">GetMin</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> m.min</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *MinStack)</span> <span class="title">GetMinInfo</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> _, i := <span class="keyword">range</span> m.tmp &#123;</span><br><span class="line">		<span class="keyword">if</span> i &lt; m.min &#123;</span><br><span class="line">			m.min = i</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your MinStack object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * obj := Constructor();</span></span><br><span class="line"><span class="comment"> * obj.Push(x);</span></span><br><span class="line"><span class="comment"> * obj.Pop();</span></span><br><span class="line"><span class="comment"> * param_3 := obj.Top();</span></span><br><span class="line"><span class="comment"> * param_4 := obj.GetMin();</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法题解</category>
-      </categories>
-      <tags>
-        <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>15.三数之和</title>
-    <url>/2019/07/04/leetcode/15/</url>
-    <content><![CDATA[<p>给定一个包含 n 个整数的数组 <code>nums</code>，判断 <code>nums</code> 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。</p>
-<a id="more"></a>
-
-<p>注意：答案中不可以包含重复的三元组。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">例如, 给定数组 nums &#x3D; [-1, 0, 1, 2, -1, -4]，</span><br><span class="line"></span><br><span class="line">满足要求的三元组集合为：</span><br><span class="line">[</span><br><span class="line">  [-1, 0, 1],</span><br><span class="line">  [-1, -1, 2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">threeSum</span><span class="params">(nums []<span class="keyword">int</span>)</span> [][]<span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="comment">//定义结果集</span></span><br><span class="line">	<span class="keyword">var</span> result [][]<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//判断长度是否大于3</span></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(nums) &lt; <span class="number">3</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> result</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//升序排列---关键</span></span><br><span class="line">	sort.Ints(nums)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//开始遍历i,j,k 三个同时</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt;= <span class="built_in">len</span>(nums)<span class="number">-3</span>; i++ &#123;</span><br><span class="line">		<span class="comment">//第二个</span></span><br><span class="line">		j := i + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//第三个</span></span><br><span class="line">		k := <span class="built_in">len</span>(nums) - <span class="number">1</span></span><br><span class="line">		<span class="comment">//[j:k] 构成的区间来找 num[j]+num[k] = -num[i]</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//判断后一个和之前遍历过如果相等跳过</span></span><br><span class="line">		<span class="keyword">if</span> i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i<span class="number">-1</span>] &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//[j:k] 区间未结束</span></span><br><span class="line">		<span class="keyword">for</span> j &lt; k &#123;</span><br><span class="line">			<span class="keyword">if</span> nums[i]+nums[j]+nums[k] == <span class="number">0</span> &#123; <span class="comment">//相等存放</span></span><br><span class="line">				result = <span class="built_in">append</span>(result, []<span class="keyword">int</span>&#123;nums[i], nums[j], nums[k]&#125;)</span><br><span class="line">				j++</span><br><span class="line">				<span class="comment">//判断后面的j 和前面的是否相等相等则跳过</span></span><br><span class="line">				<span class="keyword">for</span> j &lt; k &amp;&amp; nums[j] == nums[j<span class="number">-1</span>] &#123;</span><br><span class="line">					j++</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> nums[i]+nums[j]+nums[k] &gt; <span class="number">0</span> &#123; <span class="comment">//超过值则k-- 最右边的值大往左值小</span></span><br><span class="line">				k--</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;<span class="comment">//反之则右移</span></span><br><span class="line">				j++</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法题解</category>
       </categories>
@@ -5637,24 +5692,22 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
       </tags>
   </entry>
   <entry>
-    <title>27.移除元素</title>
-    <url>/2019/07/04/leetcode/27/</url>
-    <content><![CDATA[<p>给定一个数组 nums 和一个值 val，你需要原地移除所有数值等于 val 的元素，返回移除后数组的新长度。</p>
-<p>不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。</p>
-<p>元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</p>
+    <title>35.搜索插入位置</title>
+    <url>/2019/07/04/leetcode/35/</url>
+    <content><![CDATA[<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</p>
+<p>你可以假设数组中无重复元素。</p>
 <a id="more"></a>
 
 <p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定 nums &#x3D; [3,2,2,3], val &#x3D; 3,</span><br><span class="line"></span><br><span class="line">函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。</span><br><span class="line"></span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,3,5,6], 5</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
 <p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定 nums &#x3D; [0,1,2,2,3,0,4,2], val &#x3D; 2,</span><br><span class="line"></span><br><span class="line">函数应该返回新的长度 5, 并且 nums 中的前五个元素为 0, 1, 3, 0, 4。</span><br><span class="line"></span><br><span class="line">注意这五个元素可为任意顺序。</span><br><span class="line"></span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
-<p>说明:</p>
-<p>为什么返回数值是整数，但输出的答案是数组呢?</p>
-<p>请注意，输入数组是以“引用”方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。</p>
-<p>你可以想象内部操作如下:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; nums 是以“引用”方式传递的。也就是说，不对实参作任何拷贝</span><br><span class="line">int len &#x3D; removeElement(nums, val);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 在函数里修改输入数组对于调用者是可见的。</span><br><span class="line">&#x2F;&#x2F; 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。</span><br><span class="line">for (int i &#x3D; 0; i &lt; len; i++) &#123;</span><br><span class="line">    print(nums[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,3,5,6], 2</span><br><span class="line">输出: 1</span><br></pre></td></tr></table></figure>
+<p>示例 3:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,3,5,6], 7</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
+<p>示例 4:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,3,5,6], 0</span><br><span class="line">输出: 0</span><br></pre></td></tr></table></figure>
 
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">removeElement</span><span class="params">(nums []<span class="keyword">int</span>, val <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> res []<span class="keyword">int</span></span><br><span class="line">	<span class="keyword">for</span> num,rangeVal :=<span class="keyword">range</span> nums&#123;</span><br><span class="line">		<span class="keyword">if</span> val==rangeVal&#123;</span><br><span class="line">			res=<span class="built_in">append</span>(res,num)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	count:=<span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> _,val :=<span class="keyword">range</span> res&#123;</span><br><span class="line">		nums = delList(nums,val-count)</span><br><span class="line">		count++</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">len</span>(nums)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">delList</span><span class="params">(nums []<span class="keyword">int</span>, index <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	length:=<span class="built_in">len</span>(nums)</span><br><span class="line">	<span class="keyword">if</span> index&lt;length&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">append</span>(nums[:index], nums[index+<span class="number">1</span>:]...)</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> nums[:index]</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">searchInsert</span><span class="params">(nums []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> low <span class="keyword">int</span> = <span class="number">0</span></span><br><span class="line">	<span class="keyword">var</span> high <span class="keyword">int</span> = <span class="built_in">len</span>(nums)</span><br><span class="line">	<span class="keyword">for</span> low&lt;high&#123;</span><br><span class="line">		<span class="keyword">var</span> mid <span class="keyword">int</span> = low + (high - low)/<span class="number">2</span></span><br><span class="line">		<span class="keyword">if</span> nums[mid] &gt; target&#123;</span><br><span class="line">			high = mid</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span> nums[mid] &lt; target&#123;</span><br><span class="line">			low = mid +<span class="number">1</span></span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> mid</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> low</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法题解</category>
       </categories>
@@ -5679,22 +5732,41 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
       </tags>
   </entry>
   <entry>
-    <title>26.删除排序数组中的重复项</title>
-    <url>/2019/07/04/leetcode/26/</url>
-    <content><![CDATA[<p>给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。</p>
+    <title>15.三数之和</title>
+    <url>/2019/07/04/leetcode/15/</url>
+    <content><![CDATA[<p>给定一个包含 n 个整数的数组 <code>nums</code>，判断 <code>nums</code> 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。</p>
+<a id="more"></a>
+
+<p>注意：答案中不可以包含重复的三元组。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">例如, 给定数组 nums &#x3D; [-1, 0, 1, 2, -1, -4]，</span><br><span class="line"></span><br><span class="line">满足要求的三元组集合为：</span><br><span class="line">[</span><br><span class="line">  [-1, 0, 1],</span><br><span class="line">  [-1, -1, 2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">threeSum</span><span class="params">(nums []<span class="keyword">int</span>)</span> [][]<span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="comment">//定义结果集</span></span><br><span class="line">	<span class="keyword">var</span> result [][]<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//判断长度是否大于3</span></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(nums) &lt; <span class="number">3</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> result</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//升序排列---关键</span></span><br><span class="line">	sort.Ints(nums)</span><br><span class="line"></span><br><span class="line">	<span class="comment">//开始遍历i,j,k 三个同时</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt;= <span class="built_in">len</span>(nums)<span class="number">-3</span>; i++ &#123;</span><br><span class="line">		<span class="comment">//第二个</span></span><br><span class="line">		j := i + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//第三个</span></span><br><span class="line">		k := <span class="built_in">len</span>(nums) - <span class="number">1</span></span><br><span class="line">		<span class="comment">//[j:k] 构成的区间来找 num[j]+num[k] = -num[i]</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//判断后一个和之前遍历过如果相等跳过</span></span><br><span class="line">		<span class="keyword">if</span> i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i<span class="number">-1</span>] &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//[j:k] 区间未结束</span></span><br><span class="line">		<span class="keyword">for</span> j &lt; k &#123;</span><br><span class="line">			<span class="keyword">if</span> nums[i]+nums[j]+nums[k] == <span class="number">0</span> &#123; <span class="comment">//相等存放</span></span><br><span class="line">				result = <span class="built_in">append</span>(result, []<span class="keyword">int</span>&#123;nums[i], nums[j], nums[k]&#125;)</span><br><span class="line">				j++</span><br><span class="line">				<span class="comment">//判断后面的j 和前面的是否相等相等则跳过</span></span><br><span class="line">				<span class="keyword">for</span> j &lt; k &amp;&amp; nums[j] == nums[j<span class="number">-1</span>] &#123;</span><br><span class="line">					j++</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> nums[i]+nums[j]+nums[k] &gt; <span class="number">0</span> &#123; <span class="comment">//超过值则k-- 最右边的值大往左值小</span></span><br><span class="line">				k--</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;<span class="comment">//反之则右移</span></span><br><span class="line">				j++</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法题解</category>
+      </categories>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>27.移除元素</title>
+    <url>/2019/07/04/leetcode/27/</url>
+    <content><![CDATA[<p>给定一个数组 nums 和一个值 val，你需要原地移除所有数值等于 val 的元素，返回移除后数组的新长度。</p>
 <p>不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。</p>
+<p>元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</p>
 <a id="more"></a>
 
 <p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定数组 nums &#x3D; [1,1,2], </span><br><span class="line"></span><br><span class="line">函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 </span><br><span class="line"></span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定 nums &#x3D; [3,2,2,3], val &#x3D; 3,</span><br><span class="line"></span><br><span class="line">函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。</span><br><span class="line"></span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
 <p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定 nums &#x3D; [0,0,1,1,1,2,2,3,3,4],</span><br><span class="line"></span><br><span class="line">函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。</span><br><span class="line"></span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">给定 nums &#x3D; [0,1,2,2,3,0,4,2], val &#x3D; 2,</span><br><span class="line"></span><br><span class="line">函数应该返回新的长度 5, 并且 nums 中的前五个元素为 0, 1, 3, 0, 4。</span><br><span class="line"></span><br><span class="line">注意这五个元素可为任意顺序。</span><br><span class="line"></span><br><span class="line">你不需要考虑数组中超出新长度后面的元素。</span><br></pre></td></tr></table></figure>
 <p>说明:</p>
 <p>为什么返回数值是整数，但输出的答案是数组呢?</p>
 <p>请注意，输入数组是以“引用”方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。</p>
 <p>你可以想象内部操作如下:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝</span><br><span class="line">int len &#x3D; removeDuplicates(nums);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 在函数里修改输入数组对于调用者是可见的。</span><br><span class="line">&#x2F;&#x2F; 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。</span><br><span class="line">for (int i &#x3D; 0; i &lt; len; i++) &#123;</span><br><span class="line">    print(nums[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">removeDuplicates</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	length := <span class="built_in">len</span>(nums)</span><br><span class="line">	<span class="keyword">if</span> length == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> (</span><br><span class="line">		i   <span class="keyword">int</span> = <span class="number">0</span></span><br><span class="line">		j   <span class="keyword">int</span> = <span class="number">1</span></span><br><span class="line">		cnt <span class="keyword">int</span> = <span class="number">1</span></span><br><span class="line">	)</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (i &lt; length &amp;&amp; j &lt; length) &#123;</span><br><span class="line">			<span class="keyword">for</span> &#123;</span><br><span class="line">				<span class="keyword">if</span> (i &lt; length &amp;&amp; j &lt; length &amp;&amp; nums[i] == nums[j]) &#123;</span><br><span class="line">					j++</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					<span class="keyword">break</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (j &lt; length &amp;&amp; i+<span class="number">1</span> &lt; length) &#123;</span><br><span class="line">				nums[i+<span class="number">1</span>] = nums[j];</span><br><span class="line">				cnt++;</span><br><span class="line">			&#125;</span><br><span class="line">			i++</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> cnt</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; nums 是以“引用”方式传递的。也就是说，不对实参作任何拷贝</span><br><span class="line">int len &#x3D; removeElement(nums, val);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 在函数里修改输入数组对于调用者是可见的。</span><br><span class="line">&#x2F;&#x2F; 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。</span><br><span class="line">for (int i &#x3D; 0; i &lt; len; i++) &#123;</span><br><span class="line">    print(nums[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">removeElement</span><span class="params">(nums []<span class="keyword">int</span>, val <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> res []<span class="keyword">int</span></span><br><span class="line">	<span class="keyword">for</span> num,rangeVal :=<span class="keyword">range</span> nums&#123;</span><br><span class="line">		<span class="keyword">if</span> val==rangeVal&#123;</span><br><span class="line">			res=<span class="built_in">append</span>(res,num)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	count:=<span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> _,val :=<span class="keyword">range</span> res&#123;</span><br><span class="line">		nums = delList(nums,val-count)</span><br><span class="line">		count++</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">len</span>(nums)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">delList</span><span class="params">(nums []<span class="keyword">int</span>, index <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	length:=<span class="built_in">len</span>(nums)</span><br><span class="line">	<span class="keyword">if</span> index&lt;length&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">append</span>(nums[:index], nums[index+<span class="number">1</span>:]...)</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> nums[:index]</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法题解</category>
       </categories>
@@ -5755,6 +5827,30 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
       </tags>
   </entry>
   <entry>
+    <title>38.报数</title>
+    <url>/2019/07/04/leetcode/38/</url>
+    <content><![CDATA[<p>报数序列是一个整数序列，按照其中的整数的顺序进行报数，得到下一个数。</p>
+<a id="more"></a>
+
+<p>其前五项如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1.     1</span><br><span class="line">2.     11</span><br><span class="line">3.     21</span><br><span class="line">4.     1211</span><br><span class="line">5.     111221</span><br></pre></td></tr></table></figure>
+<p><code>1</code> 被读作  “<code>one 1</code>“  (“<code>一个一</code>“) , 即 <code>11</code>。<br><code>11</code> 被读作 “<code>two 1s</code>“ (“<code>两个一</code>“）, 即 <code>21</code>。<br><code>21</code> 被读作 “<code>one 2</code>“,  “<code>one 1</code>“ （”<code>一个二</code>“ ,  “<code>一个一</code>“) , 即 <code>1211</code>。</p>
+<p>给定一个正整数 n（1 ≤ n ≤ 30），输出报数序列的第 n 项。</p>
+<p>注意：整数顺序将表示为一个字符串。</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 1</span><br><span class="line">输出: &quot;1&quot;</span><br></pre></td></tr></table></figure>
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: 4</span><br><span class="line">输出: &quot;1211&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">countAndSay</span><span class="params">(n <span class="keyword">int</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> rlt []<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; n; i++ &#123;</span><br><span class="line">		<span class="keyword">if</span> i == <span class="number">0</span> &#123;</span><br><span class="line">			rlt = <span class="built_in">append</span>(rlt, <span class="string">"1"</span>)</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span> i == <span class="number">1</span> &#123;</span><br><span class="line">			rlt = <span class="built_in">append</span>(rlt, <span class="string">"11"</span>)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			preintstring := rlt[i<span class="number">-1</span>]</span><br><span class="line">			<span class="keyword">var</span> nextintstring <span class="keyword">string</span></span><br><span class="line">			temp := <span class="keyword">string</span>(preintstring[<span class="number">0</span>])</span><br><span class="line">			index := <span class="number">0</span></span><br><span class="line">			<span class="keyword">for</span> i, v := <span class="keyword">range</span> preintstring &#123;</span><br><span class="line">				<span class="keyword">if</span> i == <span class="number">0</span> &#123;</span><br><span class="line">					<span class="keyword">continue</span></span><br><span class="line">				&#125;</span><br><span class="line">				countDiffNum := <span class="number">1</span></span><br><span class="line">				<span class="keyword">if</span> <span class="keyword">string</span>(v) != temp &#123;</span><br><span class="line">					countDiffNum = i - index</span><br><span class="line">					index = i</span><br><span class="line">					nextintstring += strconv.Itoa(countDiffNum) + <span class="keyword">string</span>(temp)</span><br><span class="line">					temp = <span class="keyword">string</span>(v)</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> i == <span class="built_in">len</span>(preintstring)<span class="number">-1</span> &#123;</span><br><span class="line">					countDiffNum = i - index + <span class="number">1</span></span><br><span class="line">					index = i</span><br><span class="line">					nextintstring += strconv.Itoa(countDiffNum) + <span class="keyword">string</span>(temp)</span><br><span class="line">					temp = <span class="keyword">string</span>(v)</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">			rlt = <span class="built_in">append</span>(rlt, nextintstring)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> rlt[n<span class="number">-1</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法题解</category>
+      </categories>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>125. 验证回文串</title>
     <url>/2019/07/04/leetcode/125/</url>
     <content><![CDATA[<p>给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。</p>
@@ -5767,28 +5863,6 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: &quot;race a car&quot;</span><br><span class="line">输出: false</span><br></pre></td></tr></table></figure>
 
 <h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="python"><a href="#python" class="headerlink" title="python"></a>python</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isPalindrome</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        s_filter = <span class="string">''</span>.join(filter(str.isalnum, s)).lower()</span><br><span class="line">        <span class="keyword">return</span> s_filter[::<span class="number">-1</span>] == s_filter</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法题解</category>
-      </categories>
-      <tags>
-        <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>28.实现 strStr()</title>
-    <url>/2019/07/04/leetcode/28/</url>
-    <content><![CDATA[<p>实现 <code>strStr()</code> 函数。</p>
-<p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。</p>
-<a id="more"></a>
-
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: haystack &#x3D; &quot;hello&quot;, needle &#x3D; &quot;ll&quot;</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: haystack &#x3D; &quot;aaaaa&quot;, needle &#x3D; &quot;bba&quot;</span><br><span class="line">输出: -1</span><br></pre></td></tr></table></figure>
-<p>说明:</p>
-<p>当 <code>needle</code> 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。</p>
-<p>对于本题而言，当 <code>needle</code> 是空字符串时我们应当返回 0 。这与C语言的 strstr() 以及 Java的 indexOf() 定义相符。</p>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="python"><a href="#python" class="headerlink" title="python"></a>python</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">strStr</span><span class="params">(self, haystack: str, needle: str)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> needle <span class="keyword">not</span> <span class="keyword">in</span> haystack:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">        <span class="keyword">return</span> haystack.index(needle)</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法题解</category>
       </categories>
@@ -6089,22 +6163,23 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
       </tags>
   </entry>
   <entry>
-    <title>35.搜索插入位置</title>
-    <url>/2019/07/04/leetcode/35/</url>
-    <content><![CDATA[<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</p>
-<p>你可以假设数组中无重复元素。</p>
+    <title>4.寻找两个有序数组的中位数</title>
+    <url>/2019/07/04/leetcode/4/</url>
+    <content><![CDATA[<p>给定两个大小为 m 和 n 的有序数组 <code>nums1</code> 和 <code>nums2</code>。</p>
+<p>请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。</p>
+<p>你可以假设<code>nums1</code> 和 <code>nums2</code> 不会同时为空。</p>
 <a id="more"></a>
 
 <p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,3,5,6], 5</span><br><span class="line">输出: 2</span><br></pre></td></tr></table></figure>
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,3,5,6], 2</span><br><span class="line">输出: 1</span><br></pre></td></tr></table></figure>
-<p>示例 3:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,3,5,6], 7</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
-<p>示例 4:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [1,3,5,6], 0</span><br><span class="line">输出: 0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">nums1 &#x3D; [1, 3]</span><br><span class="line">nums2 &#x3D; [2]</span><br><span class="line">则中位数是 2.0</span><br></pre></td></tr></table></figure>
 
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">searchInsert</span><span class="params">(nums []<span class="keyword">int</span>, target <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> low <span class="keyword">int</span> = <span class="number">0</span></span><br><span class="line">	<span class="keyword">var</span> high <span class="keyword">int</span> = <span class="built_in">len</span>(nums)</span><br><span class="line">	<span class="keyword">for</span> low&lt;high&#123;</span><br><span class="line">		<span class="keyword">var</span> mid <span class="keyword">int</span> = low + (high - low)/<span class="number">2</span></span><br><span class="line">		<span class="keyword">if</span> nums[mid] &gt; target&#123;</span><br><span class="line">			high = mid</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span> nums[mid] &lt; target&#123;</span><br><span class="line">			low = mid +<span class="number">1</span></span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> mid</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> low</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nums1 &#x3D; [1, 2]</span><br><span class="line">nums2 &#x3D; [3, 4]</span><br><span class="line">则中位数是 (2 + 3)&#x2F;2 &#x3D; 2.5</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"sort"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findMedianSortedArrays</span><span class="params">(nums1 []<span class="keyword">int</span>, nums2 []<span class="keyword">int</span>)</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">    all := <span class="built_in">append</span>(nums1, nums2...)</span><br><span class="line">    sort.Ints(all)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(all)%<span class="number">2</span> == <span class="number">0</span> &#123;</span><br><span class="line">    a := all[<span class="built_in">len</span>(all)/<span class="number">2</span>]</span><br><span class="line">    b := all[<span class="built_in">len</span>(all)/<span class="number">2</span><span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">float64</span>(a) + <span class="keyword">float64</span>(b)) / <span class="number">2</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">float64</span>(all[(<span class="built_in">len</span>(all)<span class="number">-1</span>)/<span class="number">2</span>])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
       <categories>
         <category>算法题解</category>
       </categories>
@@ -6912,24 +6987,37 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
       </tags>
   </entry>
   <entry>
-    <title>14.最长公共前缀</title>
-    <url>/2019/07/04/leetcode/14/</url>
-    <content><![CDATA[<p>编写一个函数来查找字符串数组中的最长公共前缀。</p>
-<p>如果不存在公共前缀，返回空字符串<code>&quot;&quot;</code>。</p>
+    <title>linux 使用 shadowsocket 翻墙</title>
+    <url>/2019/07/04/linux/sslocal/</url>
+    <content><![CDATA[<h1 id="linux-使用-shadowsocket-翻墙"><a href="#linux-使用-shadowsocket-翻墙" class="headerlink" title="linux 使用 shadowsocket 翻墙"></a>linux 使用 shadowsocket 翻墙</h1><p>ss-local 是 shadowsocks 的本地 socks5 服务器，如果需要使用 ss-local 提供的 socks5 代理，必须让应用程序使用 socks5 协议与之通信。但是很可惜，除了部分浏览器、软件直接支持 socks5 协议外，其它的都只支持 http 代理。因此，我们需要借助 privoxy 来将 http 代理协议转换为 socks5 代理协议，与后端的 ss-local 进行通信，与此同时我们还可以进行 gfwlist 分流操作。</p>
 <a id="more"></a>
 
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [&quot;flower&quot;,&quot;flow&quot;,&quot;flight&quot;]</span><br><span class="line">输出: &quot;fl&quot;</span><br></pre></td></tr></table></figure>
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">输入: [&quot;dog&quot;,&quot;racecar&quot;,&quot;car&quot;]</span><br><span class="line">输出: &quot;&quot;</span><br><span class="line">解释: 输入不存在公共前缀。</span><br></pre></td></tr></table></figure>
-<p><strong>说明:</strong></p>
-<p>所有输入只包含小写字母 <code>a-z</code> 。</p>
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">longestCommonPrefix</span><span class="params">(strs []<span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(strs)==<span class="number">1</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> strs[<span class="number">0</span>]</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span> <span class="built_in">len</span>(strs)&lt;<span class="number">1</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">	&#125;</span><br><span class="line">	defaultStr1 := strs[<span class="number">0</span>]</span><br><span class="line">	defaultStr2 := strs[<span class="number">1</span>]</span><br><span class="line">	strs = strs[<span class="number">2</span>:]</span><br><span class="line">	defaultStr:=getString(defaultStr1,defaultStr2)</span><br><span class="line">	<span class="keyword">for</span> _,value := <span class="keyword">range</span> strs&#123;</span><br><span class="line">		defaultStr=getString(defaultStr,<span class="keyword">string</span>(value))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> defaultStr</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getString</span><span class="params">(str1, str2 <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	result := <span class="string">""</span></span><br><span class="line">	rune1:=[]<span class="keyword">rune</span>(str1)</span><br><span class="line">	rune2:=[]<span class="keyword">rune</span>(str2)</span><br><span class="line">	length1 := <span class="built_in">len</span>(rune1)</span><br><span class="line">	length2 := <span class="built_in">len</span>(rune2)</span><br><span class="line">	<span class="keyword">if</span> length1 &gt; length2 &#123;</span><br><span class="line">		<span class="keyword">for</span> count, value := <span class="keyword">range</span> str2 &#123;</span><br><span class="line">			<span class="keyword">if</span> rune1[count]==value&#123;</span><br><span class="line">				result+=<span class="keyword">string</span>(value)</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> count, value := <span class="keyword">range</span> str1 &#123;</span><br><span class="line">			<span class="keyword">if</span> rune2[count]==value&#123;</span><br><span class="line">				result+=<span class="keyword">string</span>(value)</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<h3 id="安装-ss-local"><a href="#安装-ss-local" class="headerlink" title="安装 ss-local"></a>安装 <code>ss-local</code></h3><p><code>pip install shadowsocks</code></p>
+<blockquote>
+<p>配置ss-local</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    "server": "1.2.3.4",          # 服务器IP</span><br><span class="line">    "server_port": 8989,          # 服务器Port</span><br><span class="line">    "method": "aes-128-cfb",      # 加密方式</span><br><span class="line">    "password": "123456",         # 端口密码</span><br><span class="line">    "local_address": "127.0.0.1", # 本地监听IP</span><br><span class="line">    "local_port": 1080,           # 本地监听Port</span><br><span class="line">    "fast_open": true,            # TCP Fast Open</span><br><span class="line">    "workers": 1                  # worker进程数量</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>启动ss-local<br><code>sslocal -c /etc/ss-local.json</code></p>
+</blockquote>
+<h3 id="安装-privoxy"><a href="#安装-privoxy" class="headerlink" title="安装 privoxy"></a>安装 <code>privoxy</code></h3><p><code>yum -y install privoxy</code></p>
+<blockquote>
+<p>配置 privoxy的config文件，配置监听端口</p>
+</blockquote>
+<blockquote>
+<p>启动privoxy</p>
+</blockquote>
+<p><code>privoxy config</code></p>
+<h3 id="在命令行配置-proxy"><a href="#在命令行配置-proxy" class="headerlink" title="在命令行配置 proxy"></a>在命令行配置 proxy</h3><blockquote>
+<p><code>export http_proxy=http://127.0.0.1:${privoxy监听端口}</code><br><code>export https_proxy=http://127.0.0.1:${privoxy监听端口}</code></p>
+</blockquote>
+]]></content>
       <categories>
-        <category>算法题解</category>
+        <category>技术文章</category>
       </categories>
       <tags>
-        <tag>leetcode</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>

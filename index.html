@@ -111,6 +111,63 @@
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
+                    <a href="/2020/09/13/linux/cgroup/">
+                        
+                        Linux资源管理之cgroups简介
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="Linux资源管理之cgroups简介"><a href="#Linux资源管理之cgroups简介" class="headerlink" title="Linux资源管理之cgroups简介"></a>Linux资源管理之cgroups简介</h1><h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>cgroups 是Linux内核提供的一种可以限制单个进程或者多个进程所使用资源的机制，可以对 cpu，内存等资源实现精细化的控制，目前越来越火的轻量级容器 Docker 就使用了 cgroups 提供的资源限制能力来完成cpu，内存等部分的资源控制。</p>
+<p>另外，开发者也可以使用 cgroups 提供的精细化控制能力，限制某一个或者某一组进程的资源使用。比如在一个既部署了前端 web 服务，也部署了后端计算模块的八核服务器上，可以使用 cgroups 限制 web server 仅可以使用其中的六个核，把剩下的两个核留给后端计算模块。</p>
+<p>本文从以下四个方面描述一下 cgroups 的原理及用法：</p>
+<ol>
+<li>cgroups 的概念及原理</li>
+<li>cgroups 文件系统概念及原理</li>
+<li>cgroups 使用方法介绍</li>
+<li>cgroups 实践中的例子</li>
+</ol>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2020-09-13</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/linux/">linux</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2020/09/13/linux/cgroup/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
                     <a href="/2020/09/08/k8s/what_happen_apply_yaml/">
                         
                         pod 的创建过程
@@ -239,86 +296,6 @@
                     </div>
                     
                     <a href="/2020/07/29/interview/Database/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                <h3 class="home-article-title">
-                    <a href="/2020/07/29/interview/Operating_Systems/">
-                        
-                        操作系统
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><ul>
-<li>进程和线程<ul>
-<li><a href="#进程和线程有什么区别">进程和线程有什么区别？</a></li>
-<li><a href="#进程间通信有哪些方式">进程间通信有哪些方式？</a></li>
-<li><a href="#进程同步问题">进程同步问题</a></li>
-<li><a href="#进程有哪几种状态">进程有哪几种状态？</a></li>
-<li><a href="#进程调度策略有哪些">进程调度策略有哪些？</a></li>
-<li><a href="#什么是僵尸进程">什么是僵尸进程？</a></li>
-<li><a href="#线程同步有哪些方式">线程同步有哪些方式？</a></li>
-<li><a href="#什么是协程">什么是协程？</a></li>
-<li><a href="#什么是IO多路复用怎么实现">什么是IO多路复用？怎么实现？</a></li>
-<li><a href="#什么是用户态和内核态">什么是用户态和内核态？</a></li>
-</ul>
-</li>
-<li>死锁<ul>
-<li><a href="#什么是死锁">什么是死锁？</a></li>
-<li><a href="#死锁产生的必要条件">死锁产生的必要条件？</a></li>
-<li><a href="#死锁有哪些处理方法">死锁有哪些处理方法？</a></li>
-</ul>
-</li>
-<li>内存管理<ul>
-<li><a href="#分页和分段有什么区别">分页和分段有什么区别？</a></li>
-<li><a href="#什么是虚拟内存">什么是虚拟内存？</a></li>
-<li><a href="#有哪些页面置换算法">有哪些页面置换算法？</a></li>
-</ul>
-</li>
-<li><a href="#磁盘调度">磁盘调度</a></li>
-<li><a href="#参考">参考</a></li>
-</ul>
-                    
-                </div>
-
-                <div class="home-article-meta-info">
-                    <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2020-07-29</span>
-                        
-                            
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
-                                
-                                    <li>&gt; <a
-                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></li>
-                                
-                            </ul>
-                            </span>
-                            
-                            
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/interview/">interview</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2020/07/29/interview/Operating_Systems/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         
@@ -580,21 +557,49 @@
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
-                    <a href="/2020/07/20/mysql/affair/">
+                    <a href="/2020/07/29/interview/Operating_Systems/">
                         
-                        事务
+                        操作系统
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        <p>事务是指对系统进行的一组操作，为了保证系统的完整性，事务需要具有ACID特性</p>
+                        <h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><ul>
+<li>进程和线程<ul>
+<li><a href="#进程和线程有什么区别">进程和线程有什么区别？</a></li>
+<li><a href="#进程间通信有哪些方式">进程间通信有哪些方式？</a></li>
+<li><a href="#进程同步问题">进程同步问题</a></li>
+<li><a href="#进程有哪几种状态">进程有哪几种状态？</a></li>
+<li><a href="#进程调度策略有哪些">进程调度策略有哪些？</a></li>
+<li><a href="#什么是僵尸进程">什么是僵尸进程？</a></li>
+<li><a href="#线程同步有哪些方式">线程同步有哪些方式？</a></li>
+<li><a href="#什么是协程">什么是协程？</a></li>
+<li><a href="#什么是IO多路复用怎么实现">什么是IO多路复用？怎么实现？</a></li>
+<li><a href="#什么是用户态和内核态">什么是用户态和内核态？</a></li>
+</ul>
+</li>
+<li>死锁<ul>
+<li><a href="#什么是死锁">什么是死锁？</a></li>
+<li><a href="#死锁产生的必要条件">死锁产生的必要条件？</a></li>
+<li><a href="#死锁有哪些处理方法">死锁有哪些处理方法？</a></li>
+</ul>
+</li>
+<li>内存管理<ul>
+<li><a href="#分页和分段有什么区别">分页和分段有什么区别？</a></li>
+<li><a href="#什么是虚拟内存">什么是虚拟内存？</a></li>
+<li><a href="#有哪些页面置换算法">有哪些页面置换算法？</a></li>
+</ul>
+</li>
+<li><a href="#磁盘调度">磁盘调度</a></li>
+<li><a href="#参考">参考</a></li>
+</ul>
                     
                 </div>
 
                 <div class="home-article-meta-info">
                     <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2020-07-21</span>
+                        <span><i class="fa fa-pencil-square-o"></i> 2020-07-29</span>
                         
                             
                                 <span>
@@ -603,6 +608,9 @@
                                 
                                     <li><a
                                                 href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                                    <li>&gt; <a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></li>
                                 
                             </ul>
                             </span>
@@ -613,7 +621,7 @@
                             <ul>
                                 
                                     <li>
-                                        <a href="/tags/mysql/">mysql</a>
+                                        <a href="/tags/interview/">interview</a>
                                     </li>
                                 
                             </ul>
@@ -622,7 +630,7 @@
                         
                     </div>
                     
-                    <a href="/2020/07/20/mysql/affair/">Read more <i class="fa fa-angle-right"></i></a>
+                    <a href="/2020/07/29/interview/Operating_Systems/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         
