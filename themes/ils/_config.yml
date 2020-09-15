@@ -74,7 +74,7 @@ post_wordcount:
 home_article:
   category: true # show category in article block
   tag: true # show tags in article block
-  tag_limit: 5 # max number of tags shown in article block
+  tag_limit: 10 # max number of tags shown in article block
 
 # Code Copy
 code_copy:
