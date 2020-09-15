@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -111,15 +232,463 @@
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
-                    <a href="/2019/07/04/python/python_magic_func/">
+                    <a href="/2019/07/04/leetcode/7/">
                         
-                        python 魔法方法
+                        7.整数反转
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        <h1 id="python-魔法方法"><a href="#python-魔法方法" class="headerlink" title="python 魔法方法"></a>python 魔法方法</h1>
+                        <p>给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/leetcode/">leetcode</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/07/04/leetcode/7/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/07/04/leetcode/70/">
+                        
+                        70.爬楼梯
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <p>假设你正在爬楼梯。需要 n 阶你才能到达楼顶。</p>
+<p>每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
+<p>注意：给定 n 是一个正整数。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/leetcode/">leetcode</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/07/04/leetcode/70/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/07/04/leetcode/83/">
+                        
+                        83. 删除排序链表中的重复元素
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <p>给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/leetcode/">leetcode</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/07/04/leetcode/83/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/07/04/leetcode/88/">
+                        
+                        88. 合并两个有序数组
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <p>给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/leetcode/">leetcode</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/07/04/leetcode/88/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/07/04/leetcode/9/">
+                        
+                        9.回文数
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <p>判断一个整数是否是回文数。回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/leetcode/">leetcode</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/07/04/leetcode/9/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/07/04/leetcode/122/">
+                        
+                        122. 买卖股票的最佳时机 II
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <p>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。</p>
+<p>设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/leetcode/">leetcode</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/07/04/leetcode/122/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/07/04/leetcode/13/">
+                        
+                        13.罗马数字转整数
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        
+
+罗马数字包含以下七种字符: I， V， X， L，C，D 和 M。
+12345678字符          数值I             1V             5X             10L             50C             100D         ...
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/leetcode/">leetcode</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/07/04/leetcode/13/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/07/04/leetcode/136/">
+                        
+                        136. 只出现一次的数字
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/leetcode/">leetcode</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/07/04/leetcode/136/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/07/04/leetcode/14/">
+                        
+                        14.最长公共前缀
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <p>编写一个函数来查找字符串数组中的最长公共前缀。</p>
+<p>如果不存在公共前缀，返回空字符串<code>&quot;&quot;</code>。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/leetcode/">leetcode</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/07/04/leetcode/14/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/07/04/linux/rsync/">
+                        
+                        rsync同步工具的使用
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="Linux-命令行中rsync-介绍"><a href="#Linux-命令行中rsync-介绍" class="headerlink" title="Linux 命令行中rsync 介绍"></a>Linux 命令行中rsync 介绍</h1><p>rsync 因其切割算法，及增量对比的优势，在文件同步中应用极为广泛</p>
                     
                 </div>
 
@@ -144,7 +713,7 @@
                             <ul>
                                 
                                     <li>
-                                        <a href="/tags/python/">python</a>
+                                        <a href="/tags/linux/">linux</a>
                                     </li>
                                 
                             </ul>
@@ -153,353 +722,7 @@
                         
                     </div>
                     
-                    <a href="/2019/07/04/python/python_magic_func/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                <h3 class="home-article-title">
-                    <a href="/2019/07/04/network/tcp_ip_connect/">
-                        
-                        TCP/IP 协议三次握手和四次挥手
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <h1 id="TCP-IP-协议三次握手和四次挥手"><a href="#TCP-IP-协议三次握手和四次挥手" class="headerlink" title="TCP/IP 协议三次握手和四次挥手"></a>TCP/IP 协议三次握手和四次挥手</h1>
-                    
-                </div>
-
-                <div class="home-article-meta-info">
-                    <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
-                        
-                            
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
-                                
-                            </ul>
-                            </span>
-                            
-                            
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/network/">network</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2019/07/04/network/tcp_ip_connect/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                <h3 class="home-article-title">
-                    <a href="/2019/07/04/network/https_worker/">
-                        
-                        HTTPS工作流程
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <h1 id="普及-HTTPS工作流程"><a href="#普及-HTTPS工作流程" class="headerlink" title="(普及)HTTPS工作流程"></a>(普及)HTTPS工作流程</h1>
-                    
-                </div>
-
-                <div class="home-article-meta-info">
-                    <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
-                        
-                            
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
-                                
-                            </ul>
-                            </span>
-                            
-                            
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/network/">network</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2019/07/04/network/https_worker/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                <h3 class="home-article-title">
-                    <a href="/2019/07/04/leetcode/4/">
-                        
-                        4.寻找两个有序数组的中位数
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <p>给定两个大小为 m 和 n 的有序数组 <code>nums1</code> 和 <code>nums2</code>。</p>
-<p>请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。</p>
-<p>你可以假设<code>nums1</code> 和 <code>nums2</code> 不会同时为空。</p>
-                    
-                </div>
-
-                <div class="home-article-meta-info">
-                    <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
-                        
-                            
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
-                                
-                            </ul>
-                            </span>
-                            
-                            
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/leetcode/">leetcode</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2019/07/04/leetcode/4/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                <h3 class="home-article-title">
-                    <a href="/2019/07/04/leetcode/413/">
-                        
-                        413. 等差数列划分
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <p>如果一个数列至少有三个元素，并且任意两个相邻元素之差相同，则称该数列为等差数列。</p>
-                    
-                </div>
-
-                <div class="home-article-meta-info">
-                    <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
-                        
-                            
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
-                                
-                            </ul>
-                            </span>
-                            
-                            
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/leetcode/">leetcode</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2019/07/04/leetcode/413/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                <h3 class="home-article-title">
-                    <a href="/2019/07/04/leetcode/5/">
-                        
-                        5.最长回文子串
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <p>给定一个字符串<code>s</code>，找到 <code>s</code> 中最长的回文子串。你可以假设 <code>s</code> 的最大长度为 1000。</p>
-                    
-                </div>
-
-                <div class="home-article-meta-info">
-                    <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
-                        
-                            
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
-                                
-                            </ul>
-                            </span>
-                            
-                            
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/leetcode/">leetcode</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2019/07/04/leetcode/5/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                <h3 class="home-article-title">
-                    <a href="/2019/07/04/leetcode/53/">
-                        
-                        53.最大子序和
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <p>给定一个整数数组 <code>nums</code> ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
-                    
-                </div>
-
-                <div class="home-article-meta-info">
-                    <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
-                        
-                            
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
-                                
-                            </ul>
-                            </span>
-                            
-                            
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/leetcode/">leetcode</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2019/07/04/leetcode/53/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                <h3 class="home-article-title">
-                    <a href="/2019/07/04/leetcode/58/">
-                        
-                        58.最后一个单词的长度
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <p>给定一个仅包含大小写字母和空格 ‘ ‘ 的字符串，返回其最后一个单词的长度。</p>
-<p>如果不存在最后一个单词，请返回 0 。</p>
-                    
-                </div>
-
-                <div class="home-article-meta-info">
-                    <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
-                        
-                            
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
-                                
-                            </ul>
-                            </span>
-                            
-                            
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/leetcode/">leetcode</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2019/07/04/leetcode/58/">Read more <i class="fa fa-angle-right"></i></a>
+                    <a href="/2019/07/04/linux/rsync/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         

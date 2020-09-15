@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -174,7 +295,7 @@
 <p>mod6：（balance-alb，适配器适应负载均衡），该模式包含了balance-tlb模式，同时加上针对IPV4流量的接收负载均衡(receive load balance, rlb)，而且不需要任何switch(交换机)的支持。接收负载均衡是通过ARP协商实现的。bonding驱动截获本机发送的ARP应答，并把源硬件地址改写为bond中某个slave的唯一硬件地址，从而使得不同的对端使用不同的硬件地址进行通信。</p>
 </blockquote>
 <h3 id="实验（mod0为例，其他mod大同小异）"><a href="#实验（mod0为例，其他mod大同小异）" class="headerlink" title="实验（mod0为例，其他mod大同小异）"></a>实验（mod0为例，其他mod大同小异）</h3><p>创建逻辑网卡的配置文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建逻辑网卡的配置文件</span></span><br><span class="line">[root@bond network-scripts]# catifcfg-bond0   </span><br><span class="line"></span><br><span class="line">DEVICE=bond0</span><br><span class="line"></span><br><span class="line">BOOTPROTO=static</span><br><span class="line"></span><br><span class="line">ONBOOT=yes</span><br><span class="line"></span><br><span class="line">IPADDR=192.168.31.100</span><br><span class="line"></span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"></span><br><span class="line">NETWORK=192.168.31.0</span><br><span class="line"></span><br><span class="line">GATEWAY=192.168.31.1</span><br><span class="line"></span><br><span class="line">BROADCAST=192.168.31.255</span><br><span class="line"></span><br><span class="line">BONDING_OPTS="mode=0  miimon=200"  #mode指定模式，miimon为探测的时间间隔(毫秒) </span><br><span class="line"></span><br><span class="line">USERCTL=no     #是否允许非root用户控制该设备  yes|no</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建逻辑网卡的配置文件</span></span><br><span class="line">[root@bond network-scripts]# catifcfg-bond0   </span><br><span class="line"></span><br><span class="line">DEVICE=bond0</span><br><span class="line"></span><br><span class="line">BOOTPROTO=static</span><br><span class="line"></span><br><span class="line">ONBOOT=yes</span><br><span class="line"></span><br><span class="line">IPADDR=192.168.31.100</span><br><span class="line"></span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"></span><br><span class="line">NETWORK=192.168.31.0</span><br><span class="line"></span><br><span class="line">GATEWAY=192.168.31.1</span><br><span class="line"></span><br><span class="line">BROADCAST=192.168.31.255</span><br><span class="line"></span><br><span class="line">BONDING_OPTS=&quot;mode=0  miimon=200&quot;  #mode指定模式，miimon为探测的时间间隔(毫秒) </span><br><span class="line"></span><br><span class="line">USERCTL=no     #是否允许非root用户控制该设备  yes|no</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 修改物理网卡的配置文件</span></span><br><span class="line">[root@bond network-scripts]# catifcfg-eno16780032</span><br><span class="line">DEVICE=eno16780032</span><br><span class="line">BOOTPROTO=none</span><br><span class="line">MASTER=bond0    #指定master为bond0</span><br><span class="line">SLAVE=yes            #是否为附属</span><br><span class="line">USERCTL=no</span><br><span class="line"></span><br><span class="line">[root@bond network-scripts]# catifcfg-eno33561344</span><br><span class="line">DEVICE=eno33561344</span><br><span class="line">BOOTPROTO=none</span><br><span class="line">MASTER=bond0   </span><br><span class="line">SLAVE=yes</span><br><span class="line">USERCTL=no</span><br></pre></td></tr></table></figure>
 
@@ -182,7 +303,7 @@
 
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">加载bonding模块</span></span><br><span class="line">[root@bond ~]# modprobe  bonding</span><br><span class="line">[root@bond ~]# lsmod |grep bonding</span><br><span class="line">bonding               136705  0</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">重启网络</span></span><br><span class="line">[root@bond ~]# systemctl restart network</span><br><span class="line">Job for network.service failed because thecontrol process exited with error code. See "systemctl statusnetwork.service" and "journalctl -xe" for details.</span><br><span class="line"> </span><br><span class="line">bond network[10418]:Bringing up interface bond0:  Error:Connection activation failed: No suitable device found for this connection.</span><br><span class="line">bond network[10418]:Bringing up interface eno16780032: Error: Connection activation failed: Master device bond0 unmanaged ornot available for activation</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">重启网络</span></span><br><span class="line">[root@bond ~]# systemctl restart network</span><br><span class="line">Job for network.service failed because thecontrol process exited with error code. See &quot;systemctl statusnetwork.service&quot; and &quot;journalctl -xe&quot; for details.</span><br><span class="line"> </span><br><span class="line">bond network[10418]:Bringing up interface bond0:  Error:Connection activation failed: No suitable device found for this connection.</span><br><span class="line">bond network[10418]:Bringing up interface eno16780032: Error: Connection activation failed: Master device bond0 unmanaged ornot available for activation</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">如果发现有如上报错，需要关闭NetworkManager。</span></span><br><span class="line">参考（https://access.redhat.com/discussions/2162171）</span><br><span class="line">[root@bond ~]# systemctl stopNetworkManager</span><br><span class="line">[root@bond ~]# systemctl disabledNetworkManager</span><br></pre></td></tr></table></figure>
 
@@ -301,7 +422,7 @@
         
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是bond？"><span class="nav-number">1.</span> <span class="nav-text">什么是bond？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bond的七种模型："><span class="nav-number">2.</span> <span class="nav-text">bond的七种模型：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验（mod0为例，其他mod大同小异）"><span class="nav-number">2.1.</span> <span class="nav-text">实验（mod0为例，其他mod大同小异）</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFbond%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是bond？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bond%E7%9A%84%E4%B8%83%E7%A7%8D%E6%A8%A1%E5%9E%8B%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">bond的七种模型：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%EF%BC%88mod0%E4%B8%BA%E4%BE%8B%EF%BC%8C%E5%85%B6%E4%BB%96mod%E5%A4%A7%E5%90%8C%E5%B0%8F%E5%BC%82%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">实验（mod0为例，其他mod大同小异）</span></a></li></ol></li></ol>
     </div>
 </div>
         

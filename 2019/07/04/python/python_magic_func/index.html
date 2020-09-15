@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -152,7 +273,7 @@
             <h1 id="python-魔法方法"><a href="#python-魔法方法" class="headerlink" title="python 魔法方法"></a>python 魔法方法</h1><a id="more"></a>
 
 
-<h4 id="init-self-args-kwargs"><a href="#init-self-args-kwargs" class="headerlink" title="__init__(self,args,*kwargs)"></a>__init__(self,<em>args,*</em>kwargs)</h4><p>构造函数，在实例化对象的时候会自动运行</p>
+<h4 id="init-self-args-kwargs"><a href="#init-self-args-kwargs" class="headerlink" title="__init__(self,*args,**kwargs)"></a>__init__(self,*args,**kwargs)</h4><p>构造函数，在实例化对象的时候会自动运行</p>
 <h4 id="del-self"><a href="#del-self" class="headerlink" title="__del__(self)"></a>__del__(self)</h4><p>析构函数,在对象被回收机制回收的时候会被调用</p>
 <h4 id="str-self"><a href="#str-self" class="headerlink" title="__str__(self)"></a>__str__(self)</h4><p>输出函数,在实例对象请求输出的时候会被调用.</p>
 <h4 id="repr-self"><a href="#repr-self" class="headerlink" title="__repr__(self)"></a>__repr__(self)</h4><p>当直接调用实例对象的时候会被调用</p>
@@ -169,7 +290,7 @@
 <h4 id="set-self-instance-owner"><a href="#set-self-instance-owner" class="headerlink" title="__set__(self,instance,owner)"></a>__set__(self,instance,owner)</h4><p>定义当描述符的值被改变是的行为</p>
 <h4 id="delete-self-instance"><a href="#delete-self-instance" class="headerlink" title="__delete__(self,instance)"></a>__delete__(self,instance)</h4><p>定义当描述符被删除时的行为</p>
 <h4 id="class"><a href="#class" class="headerlink" title="__class__"></a>__class__</h4><p>这个方法用于查看对象属于是哪个生成的，这样理解在python中的所有东西都是对象，类对象也是对象。如果按照以前的思维来想的话就是类是元类的实例，而实例对象是类的实例。</p>
-<h4 id="bases"><a href="#bases" class="headerlink" title="__bases__"></a>__bases__</h4><p>这个方法用于得到一个对象的父类是谁，特别注意一下<strong>base</strong>返回单个父类，<strong>bases</strong>以tuple形式返回所有父类。</p>
+<h4 id="bases"><a href="#bases" class="headerlink" title="__bases__"></a>__bases__</h4><p>这个方法用于得到一个对象的父类是谁，特别注意一下__base__返回单个父类，__bases__以tuple形式返回所有父类。</p>
 
         </div>
 
@@ -281,7 +402,7 @@
         
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#python-魔法方法"><span class="nav-number">1.</span> <span class="nav-text">python 魔法方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#init-self-args-kwargs"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">__init__(self,args,*kwargs)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#del-self"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">__del__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#str-self"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">__str__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#repr-self"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">__repr__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#new-self-类方法"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">__new__(self) 类方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bool-self"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">__bool__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#len-self"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">__len__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hash-self"><span class="nav-number">1.0.0.8.</span> <span class="nav-text">__hash__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getattr-self-name"><span class="nav-number">1.0.0.9.</span> <span class="nav-text">__getattr__(self,name)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getattribute-self-name"><span class="nav-number">1.0.0.10.</span> <span class="nav-text">__getattribute__(self,name)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setattribute-self-name-value"><span class="nav-number">1.0.0.11.</span> <span class="nav-text">__setattribute__(self,name,value)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#delattr-self-name"><span class="nav-number">1.0.0.12.</span> <span class="nav-text">__delattr__(self,name)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dir-self"><span class="nav-number">1.0.0.13.</span> <span class="nav-text">__dir__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#get-self-instance-owner"><span class="nav-number">1.0.0.14.</span> <span class="nav-text">__get__(self,instance,owner)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-self-instance-owner"><span class="nav-number">1.0.0.15.</span> <span class="nav-text">__set__(self,instance,owner)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#delete-self-instance"><span class="nav-number">1.0.0.16.</span> <span class="nav-text">__delete__(self,instance)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class"><span class="nav-number">1.0.0.17.</span> <span class="nav-text">__class__</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bases"><span class="nav-number">1.0.0.18.</span> <span class="nav-text">__bases__</span></a></li></ol></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#python-%E9%AD%94%E6%B3%95%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">python 魔法方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#init-self-args-kwargs"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">__init__(self,*args,**kwargs)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#del-self"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">__del__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#str-self"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">__str__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#repr-self"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">__repr__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#new-self-%E7%B1%BB%E6%96%B9%E6%B3%95"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">__new__(self) 类方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bool-self"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">__bool__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#len-self"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">__len__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hash-self"><span class="nav-number">1.0.0.8.</span> <span class="nav-text">__hash__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getattr-self-name"><span class="nav-number">1.0.0.9.</span> <span class="nav-text">__getattr__(self,name)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getattribute-self-name"><span class="nav-number">1.0.0.10.</span> <span class="nav-text">__getattribute__(self,name)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setattribute-self-name-value"><span class="nav-number">1.0.0.11.</span> <span class="nav-text">__setattribute__(self,name,value)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#delattr-self-name"><span class="nav-number">1.0.0.12.</span> <span class="nav-text">__delattr__(self,name)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dir-self"><span class="nav-number">1.0.0.13.</span> <span class="nav-text">__dir__(self)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#get-self-instance-owner"><span class="nav-number">1.0.0.14.</span> <span class="nav-text">__get__(self,instance,owner)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-self-instance-owner"><span class="nav-number">1.0.0.15.</span> <span class="nav-text">__set__(self,instance,owner)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#delete-self-instance"><span class="nav-number">1.0.0.16.</span> <span class="nav-text">__delete__(self,instance)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class"><span class="nav-number">1.0.0.17.</span> <span class="nav-text">__class__</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bases"><span class="nav-number">1.0.0.18.</span> <span class="nav-text">__bases__</span></a></li></ol></li></ol></li></ol></li></ol>
     </div>
 </div>
         

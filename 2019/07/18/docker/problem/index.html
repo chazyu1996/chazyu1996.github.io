@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -152,11 +273,11 @@
             <a id="more"></a>
 
 <h1 id="docker-通过http连接私有仓库"><a href="#docker-通过http连接私有仓库" class="headerlink" title="docker 通过http连接私有仓库"></a>docker 通过http连接私有仓库</h1><ol>
-<li>需要在 <code>/lib/systemd/system/docker.service</code> 启动文件增加配置 <code>--insecure-registry={ip}</code></li>
+<li>需要在 <code>/lib/systemd/system/docker.service</code> 启动文件增加配置 <code>--insecure-registry=&#123;ip&#125;</code></li>
 <li>reload 系统启动项 <code>systemctl daemon-reload</code></li>
 <li>重启docker <code>systemctl restart docker</code></li>
 </ol>
-<p>即可在使用私有仓库 <code>docker login -u {user} -p {password} {ip}</code></p>
+<p>即可在使用私有仓库 <code>docker login -u &#123;user&#125; -p &#123;password&#125; &#123;ip&#125;</code></p>
 
         </div>
 
@@ -165,9 +286,9 @@
                 <div class="article-prev">
                     <a class="prev btn"
                        rel="prev"
-                       href="/2019/07/19/principles/binary_tree/"
+                       href="/2019/07/19/principles/rule/"
                     >
-                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">二叉树的遍历</span><span class="post-nav-item">Prev posts</span>
+                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">编码规则</span><span class="post-nav-item">Prev posts</span>
                     </a>
                 </div>
             
@@ -268,7 +389,7 @@
         
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#docker-通过http连接私有仓库"><span class="nav-number">1.</span> <span class="nav-text">docker 通过http连接私有仓库</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#docker-%E9%80%9A%E8%BF%87http%E8%BF%9E%E6%8E%A5%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">docker 通过http连接私有仓库</span></a></li></ol>
     </div>
 </div>
         

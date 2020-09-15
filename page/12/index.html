@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -111,16 +232,30 @@
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
-                    <a href="/2019/07/04/leetcode/1189/">
+                    <a href="/2019/07/04/network/http_status_code/">
                         
-                        1189. “气球” 的最大数量
+                        HTTP状态码
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        <p>给你一个字符串 <code>text</code>，你需要使用 text 中的字母来拼凑尽可能多的单词 <code>&quot;balloon&quot;（气球）</code>。</p>
-<p>字符串 <code>text</code> 中的每个字母最多只能被使用一次。请你返回最多可以拼凑出多少个单词 “balloon”。</p>
+                        
+
+http 状态码对应表
+
+
+状态码
+含义
+
+
+
+100
+客户端应当继续发送请求。这个临时响应是用来通知客户端它的部分请求已经被服务器接收，且仍未被拒绝。客户端应当继续发送请求的剩余部分，或者如果请求已经完成，忽略这个响应。服务器必须在请求完成后向客户端发送一个最终响应。
+
+
+101
+服务器...
                     
                 </div>
 
@@ -134,7 +269,7 @@
                             <ul>
                                 
                                     <li><a
-                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
                                 
                             </ul>
                             </span>
@@ -145,7 +280,7 @@
                             <ul>
                                 
                                     <li>
-                                        <a href="/tags/leetcode/">leetcode</a>
+                                        <a href="/tags/network/">network</a>
                                     </li>
                                 
                             </ul>
@@ -154,22 +289,23 @@
                         
                     </div>
                     
-                    <a href="/2019/07/04/leetcode/1189/">Read more <i class="fa fa-angle-right"></i></a>
+                    <a href="/2019/07/04/network/http_status_code/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
-                    <a href="/2019/07/04/leetcode/118/">
+                    <a href="/2019/07/04/python/django_signal/">
                         
-                        118. 杨辉三角
+                        Django中内置的signal用法
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        <p>给定一个非负整数 numRows，生成杨辉三角的前 numRows 行。</p>
+                        <p>Django中提供了”信号调度”,用于在框架执行操作时解耦.</p>
+<p>一些动作发生的时候,系统会根据信号定义的函数执行相应的操作</p>
                     
                 </div>
 
@@ -183,7 +319,7 @@
                             <ul>
                                 
                                     <li><a
-                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
                                 
                             </ul>
                             </span>
@@ -194,7 +330,7 @@
                             <ul>
                                 
                                     <li>
-                                        <a href="/tags/leetcode/">leetcode</a>
+                                        <a href="/tags/python/">python</a>
                                     </li>
                                 
                             </ul>
@@ -203,23 +339,22 @@
                         
                     </div>
                     
-                    <a href="/2019/07/04/leetcode/118/">Read more <i class="fa fa-angle-right"></i></a>
+                    <a href="/2019/07/04/python/django_signal/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
-                    <a href="/2019/07/04/leetcode/108/">
+                    <a href="/2019/07/04/network/OSI_seven_layer/">
                         
-                        21.合并两个有序链表
+                        OSI七层协议模型、TCP/IP四层模型
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        <p>将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。</p>
-<p>本题中，一个高度平衡二叉树是指一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1。</p>
+                        <h1 id="OSI七层协议模型、TCP-IP四层模型"><a href="#OSI七层协议模型、TCP-IP四层模型" class="headerlink" title="OSI七层协议模型、TCP/IP四层模型"></a>OSI七层协议模型、TCP/IP四层模型</h1>
                     
                 </div>
 
@@ -233,7 +368,7 @@
                             <ul>
                                 
                                     <li><a
-                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
                                 
                             </ul>
                             </span>
@@ -244,7 +379,7 @@
                             <ul>
                                 
                                     <li>
-                                        <a href="/tags/leetcode/">leetcode</a>
+                                        <a href="/tags/network/">network</a>
                                     </li>
                                 
                             </ul>
@@ -253,22 +388,26 @@
                         
                     </div>
                     
-                    <a href="/2019/07/04/leetcode/108/">Read more <i class="fa fa-angle-right"></i></a>
+                    <a href="/2019/07/04/network/OSI_seven_layer/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
-                    <a href="/2019/07/04/leetcode/1078/">
+                    <a href="/2019/07/04/linux/git/">
                         
-                        1078. Bigram 分词
+                        Git
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        <p>给出第一个词 <code>first</code> 和第二个词<code>second</code>，考虑在某些文本 text 中可能以<code>&quot;first second third&quot;</code> 形式出现的情况，其中 <code>second</code> 紧随 <code>first</code> 出现，<code>third</code> 紧随 <code>second</code> 出现。</p>
+                        <blockquote>
+<p>Git常用命令集合，Fork于<a target="_blank" rel="noopener" href="https://github.com/git-tips/tips">tips</a>项目</p>
+</blockquote>
+<p>Git是一个 “分布式版本管理工具”，简单的理解版本管理工具：大家在写东西的时候都用过 “回撤” 这个功能，但是回撤只能回撤几步，假如想要找回我三天之前的修改，光用 “回撤” 是找不回来的。而 “版本管理工具” 能记录每次的修改，只要提交到版本仓库，你就可以找到之前任何时刻的状态（文本状态）。</p>
+<p>下面的内容就是列举了常用的 Git 命令和一些小技巧，可以通过 “页面内查找” 的方式进行快速查询：<code>Ctrl/Command+f</code>。</p>
                     
                 </div>
 
@@ -282,7 +421,7 @@
                             <ul>
                                 
                                     <li><a
-                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
                                 
                             </ul>
                             </span>
@@ -293,7 +432,7 @@
                             <ul>
                                 
                                     <li>
-                                        <a href="/tags/leetcode/">leetcode</a>
+                                        <a href="/tags/linux/">linux</a>
                                     </li>
                                 
                             </ul>
@@ -302,22 +441,22 @@
                         
                     </div>
                     
-                    <a href="/2019/07/04/leetcode/1078/">Read more <i class="fa fa-angle-right"></i></a>
+                    <a href="/2019/07/04/linux/git/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
-                    <a href="/2019/07/04/leetcode/107/">
+                    <a href="/2019/07/04/linux/bond/">
                         
-                        107. 二叉树的层次遍历 II
+                        网卡Bond
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        <p>给定一个二叉树，返回其节点值自底向上的层次遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）</p>
+                        <h2 id="什么是bond？"><a href="#什么是bond？" class="headerlink" title="什么是bond？"></a>什么是bond？</h2><p>所谓bond，是一种通过把多个物理网卡绑定成一个逻辑网卡实现网卡冗余、负载均衡、提高带宽，从而实现网络性能高可用高可靠的技术。</p>
                     
                 </div>
 
@@ -331,7 +470,7 @@
                             <ul>
                                 
                                     <li><a
-                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
                                 
                             </ul>
                             </span>
@@ -342,7 +481,7 @@
                             <ul>
                                 
                                     <li>
-                                        <a href="/tags/leetcode/">leetcode</a>
+                                        <a href="/tags/linux/">linux</a>
                                     </li>
                                 
                             </ul>
@@ -351,29 +490,28 @@
                         
                     </div>
                     
-                    <a href="/2019/07/04/leetcode/107/">Read more <i class="fa fa-angle-right"></i></a>
+                    <a href="/2019/07/04/linux/bond/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
-                    <a href="/2019/07/04/leetcode/1053/">
+                    <a href="/2019/07/04/k8s/pod_network_outside/">
                         
-                        1053.交换一次的先前排列
+                        从外部访问Kubernetes中的Pod
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        <p>给你一个正整数的数组 A（其中的元素不一定完全不同），请你返回可在 一次交换（交换两数字 A[i] 和 A[j] 的位置）后得到的、按字典序排列小于 A 的最大可能排列。</p>
-<p>如果无法这么操作，就请返回原数组。</p>
+                        <h1 id="从外部访问Kubernetes中的Pod"><a href="#从外部访问Kubernetes中的Pod" class="headerlink" title="从外部访问Kubernetes中的Pod"></a>从外部访问Kubernetes中的Pod</h1><p>kubernetes的几种网络模式</p>
                     
                 </div>
 
                 <div class="home-article-meta-info">
                     <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-04</span>
                         
                             
                                 <span>
@@ -381,7 +519,7 @@
                             <ul>
                                 
                                     <li><a
-                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
                                 
                             </ul>
                             </span>
@@ -392,7 +530,7 @@
                             <ul>
                                 
                                     <li>
-                                        <a href="/tags/leetcode/">leetcode</a>
+                                        <a href="/tags/kubernetes/">kubernetes</a>
                                     </li>
                                 
                             </ul>
@@ -401,29 +539,28 @@
                         
                     </div>
                     
-                    <a href="/2019/07/04/leetcode/1053/">Read more <i class="fa fa-angle-right"></i></a>
+                    <a href="/2019/07/04/k8s/pod_network_outside/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
-                    <a href="/2019/07/04/leetcode/104/">
+                    <a href="/2019/07/04/principles/raft/">
                         
-                        104. 二叉树的最大深度
+                        一致性算法
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        <p>给定一个二叉树，找出其最大深度。</p>
-<p>二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。</p>
+                        <h1 id="寻找一种易于理解的一致性算法（扩展版）"><a href="#寻找一种易于理解的一致性算法（扩展版）" class="headerlink" title="寻找一种易于理解的一致性算法（扩展版）"></a>寻找一种易于理解的一致性算法（扩展版）</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>Raft 是一种为了管理复制日志的一致性算法。它提供了和 Paxos 算法相同的功能和性能，但是它的算法结构和 Paxos 不同，使得 Raft 算法更加容易理解并且更容易构建实际的系统。为了提升可理解性，Raft 将一致性算法分解成了几个关键模块，例如领导人选举、日志复制和安全性。同时它通过实施一个更强的一致性来减少需要考虑的状态的数量。从一个用户研究的结果可以证明，对于学生而言，Raft 算法比 Paxos 算法更加容易学习。Raft 算法还包括一个新的机制来允许集群成员的动态改变，它利用重叠的大多数来保证安全性。</p>
                     
                 </div>
 
                 <div class="home-article-meta-info">
                     <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-04</span>
                         
                             
                                 <span>
@@ -431,7 +568,7 @@
                             <ul>
                                 
                                     <li><a
-                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
                                 
                             </ul>
                             </span>
@@ -442,7 +579,7 @@
                             <ul>
                                 
                                     <li>
-                                        <a href="/tags/leetcode/">leetcode</a>
+                                        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a>
                                     </li>
                                 
                             </ul>
@@ -451,56 +588,7 @@
                         
                     </div>
                     
-                    <a href="/2019/07/04/leetcode/104/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                <h3 class="home-article-title">
-                    <a href="/2019/07/04/leetcode/101/">
-                        
-                        101. 对称二叉树
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <p>给定一个二叉树，检查它是否是镜像对称的。</p>
-                    
-                </div>
-
-                <div class="home-article-meta-info">
-                    <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
-                        
-                            
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a></li>
-                                
-                            </ul>
-                            </span>
-                            
-                            
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/leetcode/">leetcode</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2019/07/04/leetcode/101/">Read more <i class="fa fa-angle-right"></i></a>
+                    <a href="/2019/07/04/principles/raft/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         
@@ -514,10 +602,6 @@
         >Prev</a>
     
 
-    
-        <a class="next btn"
-           href="/page/13/"
-        >Next</a>
     
 </div>
 

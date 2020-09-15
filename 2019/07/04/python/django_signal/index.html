@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -155,7 +276,7 @@
 
 <h1 id="Django中内置的signal"><a href="#Django中内置的signal" class="headerlink" title="Django中内置的signal"></a>Django中内置的signal</h1><h2 id="Model-signals"><a href="#Model-signals" class="headerlink" title="Model_signals"></a>Model_signals</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pre_init                        <span class="comment"># Django中的model对象执行其构造方法前,自动触发</span></span><br><span class="line">post_init                       <span class="comment"># Django中的model对象执行其构造方法后,自动触发</span></span><br><span class="line">pre_save                        <span class="comment"># Django中的model对象保存前,自动触发</span></span><br><span class="line">post_save                       <span class="comment"># Django中的model对象保存后,自动触发</span></span><br><span class="line">pre_delete                      <span class="comment"># Django中的model对象删除前,自动触发</span></span><br><span class="line">post_delete                     <span class="comment"># Django中的model对象删除后,自动触发</span></span><br><span class="line">m2m_changed                     <span class="comment"># Django中的model对象使用m2m字段操作数据库的第三张表(add,remove,clear,update),自动触发</span></span><br><span class="line">class_prepared                  <span class="comment"># 程序启动时,检测到已注册的model类,对于每一个类,自动触发</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="migrate-signals"><a href="#migrate-signals" class="headerlink" title="migrate_signals"></a>migrate_signals</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pre_migrate                     <span class="comment"># 执行migrate命令前,自动触发</span></span><br><span class="line">post_migrate                    <span class="comment"># 执行migrate命令后,自动触发</span></span><br></pre></td></tr></table></figure>
+<h2 id="migrate-signals"><a href="#migrate-signals" class="headerlink" title="migrate_signals"></a>migrate_signals</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pre_migrate                     <span class="comment"># 执行migrate命令前,自动触发</span></span><br><span class="line">post_migrate                    <span class="comment"># 执行migrate命令后,自动触发 </span></span><br></pre></td></tr></table></figure>
 
 <h2 id="Request-response-signals"><a href="#Request-response-signals" class="headerlink" title="Request/response_signals"></a>Request/response_signals</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">request_started                 <span class="comment"># 请求到来前,自动触发</span></span><br><span class="line">request_finished                <span class="comment"># 请求结束后,自动触发</span></span><br><span class="line">got_request_exception           <span class="comment"># 请求异常时,自动触发</span></span><br></pre></td></tr></table></figure>
 
@@ -167,15 +288,15 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导包</span></span><br><span class="line"><span class="keyword">from</span> django.db.models.signals <span class="keyword">import</span> post_save</span><br><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> receiver</span><br><span class="line"><span class="comment"># 导入模型</span></span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> MyModel</span><br><span class="line"><span class="comment"># django.db.models.signals.pre_save 在某个Model保存之前调用</span></span><br><span class="line"><span class="comment"># django.db.models.signals.post_save 在某个Model保存之后调用</span></span><br><span class="line"><span class="comment"># django.db.models.signals.pre_delete 在某个Model删除之前调用</span></span><br><span class="line"><span class="comment"># django.db.models.signals.post_delete 在某个Model删除之后调用</span></span><br><span class="line"><span class="comment"># django.core.signals.request_started 在建立Http请求时发送</span></span><br><span class="line"><span class="comment"># django.core.signals.request_finished 在关闭Http请求时发送</span></span><br></pre></td></tr></table></figure>
 
 <p>创建函数,监听信号, 当信号触发时,进行函数的调用</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将函数进行注册,声明为回调函数, 第一个参数为信号类型, 如果声明sender , 那么接收器只会接收这个sender的信号, 这里声明为只接收MyModel模型的信号</span></span><br><span class="line"><span class="comment"># post_save 在某个Model保存之后调用, 对于每个唯一的dispatch_uid,接收器都只被信号调用一次</span></span><br><span class="line"><span class="meta">@receiver(post_save, sender=MyModel, dispatch_uid="my_unique_identifier")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_handler</span><span class="params">(sender, instance, **kwargs)</span>:</span> <span class="comment">#参数:**kwargs必须.第一个参数必须为sender, 当信号类型为 Model_signals, 接收到的第二个参数为模型对象.　　print(instance.name) # 可以直接使用这个模型实例对象进行操作</span></span><br><span class="line">　　print(<span class="string">"hello world"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将函数进行注册,声明为回调函数, 第一个参数为信号类型, 如果声明sender , 那么接收器只会接收这个sender的信号, 这里声明为只接收MyModel模型的信号</span></span><br><span class="line"><span class="comment"># post_save 在某个Model保存之后调用, 对于每个唯一的dispatch_uid,接收器都只被信号调用一次</span></span><br><span class="line"><span class="meta">@receiver(post_save, sender=MyModel, dispatch_uid=&quot;my_unique_identifier&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_handler</span>(<span class="params">sender, instance, **kwargs</span>):</span> <span class="comment">#参数:**kwargs必须.第一个参数必须为sender, 当信号类型为 Model_signals, 接收到的第二个参数为模型对象.　　print(instance.name) # 可以直接使用这个模型实例对象进行操作</span></span><br><span class="line">　　print(<span class="string">&quot;hello world&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-<h1 id="默认的signals及其参数"><a href="#默认的signals及其参数" class="headerlink" title="默认的signals及其参数"></a>默认的signals及其参数</h1><h2 id="模型的（django-db-models-signal-py）"><a href="#模型的（django-db-models-signal-py）" class="headerlink" title="模型的（django/db/models/signal.py）"></a>模型的（django/db/models/signal.py）</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> Signal</span><br><span class="line"> </span><br><span class="line">class_prepared = Signal(providing_args=[<span class="string">"class"</span>])</span><br><span class="line"> </span><br><span class="line">pre_init = Signal(providing_args=[<span class="string">"instance"</span>, <span class="string">"args"</span>, <span class="string">"kwargs"</span>], use_caching=<span class="literal">True</span>)</span><br><span class="line">post_init = Signal(providing_args=[<span class="string">"instance"</span>], use_caching=<span class="literal">True</span>)</span><br><span class="line"> </span><br><span class="line">pre_save = Signal(providing_args=[<span class="string">"instance"</span>, <span class="string">"raw"</span>, <span class="string">"using"</span>, <span class="string">"update_fields"</span>],</span><br><span class="line">                 use_caching=<span class="literal">True</span>)</span><br><span class="line">post_save = Signal(providing_args=[<span class="string">"instance"</span>, <span class="string">"raw"</span>, <span class="string">"created"</span>, <span class="string">"using"</span>, <span class="string">"update_fields"</span>], use_caching=<span class="literal">True</span>)</span><br><span class="line"> </span><br><span class="line">pre_delete = Signal(providing_args=[<span class="string">"instance"</span>, <span class="string">"using"</span>], use_caching=<span class="literal">True</span>)</span><br><span class="line">post_delete = Signal(providing_args=[<span class="string">"instance"</span>, <span class="string">"using"</span>], use_caching=<span class="literal">True</span>)</span><br><span class="line"> </span><br><span class="line">pre_syncdb = Signal(providing_args=[<span class="string">"app"</span>, <span class="string">"create_models"</span>, <span class="string">"verbosity"</span>, <span class="string">"interactive"</span>, <span class="string">"db"</span>])</span><br><span class="line">post_syncdb = Signal(providing_args=[<span class="string">"class"</span>, <span class="string">"app"</span>, <span class="string">"created_models"</span>, <span class="string">"verbosity"</span>, <span class="string">"interactive"</span>, <span class="string">"db"</span>])</span><br><span class="line"> </span><br><span class="line">m2m_changed = Signal(providing_args=[<span class="string">"action"</span>, <span class="string">"instance"</span>, <span class="string">"reverse"</span>, <span class="string">"model"</span>, <span class="string">"pk_set"</span>, <span class="string">"using"</span>], use_caching=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="默认的signals及其参数"><a href="#默认的signals及其参数" class="headerlink" title="默认的signals及其参数"></a>默认的signals及其参数</h1><h2 id="模型的（django-db-models-signal-py）"><a href="#模型的（django-db-models-signal-py）" class="headerlink" title="模型的（django/db/models/signal.py）"></a>模型的（django/db/models/signal.py）</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> Signal</span><br><span class="line"> </span><br><span class="line">class_prepared = Signal(providing_args=[<span class="string">&quot;class&quot;</span>])</span><br><span class="line"> </span><br><span class="line">pre_init = Signal(providing_args=[<span class="string">&quot;instance&quot;</span>, <span class="string">&quot;args&quot;</span>, <span class="string">&quot;kwargs&quot;</span>], use_caching=<span class="literal">True</span>)</span><br><span class="line">post_init = Signal(providing_args=[<span class="string">&quot;instance&quot;</span>], use_caching=<span class="literal">True</span>)</span><br><span class="line"> </span><br><span class="line">pre_save = Signal(providing_args=[<span class="string">&quot;instance&quot;</span>, <span class="string">&quot;raw&quot;</span>, <span class="string">&quot;using&quot;</span>, <span class="string">&quot;update_fields&quot;</span>],</span><br><span class="line">                 use_caching=<span class="literal">True</span>)</span><br><span class="line">post_save = Signal(providing_args=[<span class="string">&quot;instance&quot;</span>, <span class="string">&quot;raw&quot;</span>, <span class="string">&quot;created&quot;</span>, <span class="string">&quot;using&quot;</span>, <span class="string">&quot;update_fields&quot;</span>], use_caching=<span class="literal">True</span>)</span><br><span class="line"> </span><br><span class="line">pre_delete = Signal(providing_args=[<span class="string">&quot;instance&quot;</span>, <span class="string">&quot;using&quot;</span>], use_caching=<span class="literal">True</span>)</span><br><span class="line">post_delete = Signal(providing_args=[<span class="string">&quot;instance&quot;</span>, <span class="string">&quot;using&quot;</span>], use_caching=<span class="literal">True</span>)</span><br><span class="line"> </span><br><span class="line">pre_syncdb = Signal(providing_args=[<span class="string">&quot;app&quot;</span>, <span class="string">&quot;create_models&quot;</span>, <span class="string">&quot;verbosity&quot;</span>, <span class="string">&quot;interactive&quot;</span>, <span class="string">&quot;db&quot;</span>])</span><br><span class="line">post_syncdb = Signal(providing_args=[<span class="string">&quot;class&quot;</span>, <span class="string">&quot;app&quot;</span>, <span class="string">&quot;created_models&quot;</span>, <span class="string">&quot;verbosity&quot;</span>, <span class="string">&quot;interactive&quot;</span>, <span class="string">&quot;db&quot;</span>])</span><br><span class="line"> </span><br><span class="line">m2m_changed = Signal(providing_args=[<span class="string">&quot;action&quot;</span>, <span class="string">&quot;instance&quot;</span>, <span class="string">&quot;reverse&quot;</span>, <span class="string">&quot;model&quot;</span>, <span class="string">&quot;pk_set&quot;</span>, <span class="string">&quot;using&quot;</span>], use_caching=<span class="literal">True</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2 id="用户登录的-django-contrib-auth-signals-py"><a href="#用户登录的-django-contrib-auth-signals-py" class="headerlink" title="用户登录的(django/contrib/auth/signals.py)"></a>用户登录的(django/contrib/auth/signals.py)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> Signal</span><br><span class="line"> </span><br><span class="line">user_logged_in = Signal(providing_args=[<span class="string">'request'</span>, <span class="string">'user'</span>])</span><br><span class="line">user_login_failed = Signal(providing_args=[<span class="string">'credentials'</span>])</span><br><span class="line">user_logged_out = Signal(providing_args=[<span class="string">'request'</span>, <span class="string">'user'</span>])</span><br></pre></td></tr></table></figure>
+<h2 id="用户登录的-django-contrib-auth-signals-py"><a href="#用户登录的-django-contrib-auth-signals-py" class="headerlink" title="用户登录的(django/contrib/auth/signals.py)"></a>用户登录的(django/contrib/auth/signals.py)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> Signal</span><br><span class="line"> </span><br><span class="line">user_logged_in = Signal(providing_args=[<span class="string">&#x27;request&#x27;</span>, <span class="string">&#x27;user&#x27;</span>])</span><br><span class="line">user_login_failed = Signal(providing_args=[<span class="string">&#x27;credentials&#x27;</span>])</span><br><span class="line">user_logged_out = Signal(providing_args=[<span class="string">&#x27;request&#x27;</span>, <span class="string">&#x27;user&#x27;</span>])</span><br></pre></td></tr></table></figure>
 
-<h2 id="关于request请求的-django-core-signals-py"><a href="#关于request请求的-django-core-signals-py" class="headerlink" title="关于request请求的(django/core/signals.py)"></a>关于request请求的(django/core/signals.py)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> Signal</span><br><span class="line"> </span><br><span class="line">request_started = Signal()</span><br><span class="line">request_finished = Signal()</span><br><span class="line">got_request_exception = Signal(providing_args=[<span class="string">"request"</span>])</span><br></pre></td></tr></table></figure>
+<h2 id="关于request请求的-django-core-signals-py"><a href="#关于request请求的-django-core-signals-py" class="headerlink" title="关于request请求的(django/core/signals.py)"></a>关于request请求的(django/core/signals.py)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> Signal</span><br><span class="line"> </span><br><span class="line">request_started = Signal()</span><br><span class="line">request_finished = Signal()</span><br><span class="line">got_request_exception = Signal(providing_args=[<span class="string">&quot;request&quot;</span>])</span><br></pre></td></tr></table></figure>
 
-<h2 id="数据库连接的-django-db-backends-signals-py"><a href="#数据库连接的-django-db-backends-signals-py" class="headerlink" title="数据库连接的(django/db/backends/signals.py)"></a>数据库连接的(django/db/backends/signals.py)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> Signal</span><br><span class="line"> </span><br><span class="line">connection_created = Signal(providing_args=[<span class="string">"connection"</span>])</span><br></pre></td></tr></table></figure>
+<h2 id="数据库连接的-django-db-backends-signals-py"><a href="#数据库连接的-django-db-backends-signals-py" class="headerlink" title="数据库连接的(django/db/backends/signals.py)"></a>数据库连接的(django/db/backends/signals.py)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.dispatch <span class="keyword">import</span> Signal</span><br><span class="line"> </span><br><span class="line">connection_created = Signal(providing_args=[<span class="string">&quot;connection&quot;</span>])</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -184,9 +305,9 @@
                 <div class="article-prev">
                     <a class="prev btn"
                        rel="prev"
-                       href="/2019/07/04/python/django_script/"
+                       href="/2019/07/04/network/http_status_code/"
                     >
-                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">编写django脚本，使用django的数据库连接</span><span class="post-nav-item">Prev posts</span>
+                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">HTTP状态码</span><span class="post-nav-item">Prev posts</span>
                     </a>
                 </div>
             
@@ -194,9 +315,9 @@
                 <div class="article-next">
                     <a class="next btn"
                        rel="next"
-                       href="/2019/07/04/python/iter/"
+                       href="/2019/07/04/network/OSI_seven_layer/"
                     >
-                        <span class="post-nav-title-item">python的生成器和迭代器</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
+                        <span class="post-nav-title-item">OSI七层协议模型、TCP/IP四层模型</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
                     </a>
                 </div>
             
@@ -287,7 +408,7 @@
         
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Django中内置的signal"><span class="nav-number">1.</span> <span class="nav-text">Django中内置的signal</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-signals"><span class="nav-number">1.1.</span> <span class="nav-text">Model_signals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#migrate-signals"><span class="nav-number">1.2.</span> <span class="nav-text">migrate_signals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Request-response-signals"><span class="nav-number">1.3.</span> <span class="nav-text">Request&#x2F;response_signals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Test-signals"><span class="nav-number">1.4.</span> <span class="nav-text">Test_signals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Datebase-Wrapperd"><span class="nav-number">1.5.</span> <span class="nav-text">Datebase_Wrapperd</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对于Django内置的信号-仅需注册指定信号-当程序执行相应操作时-系统会自动触发注册函数"><span class="nav-number">2.</span> <span class="nav-text">对于Django内置的信号,仅需注册指定信号,当程序执行相应操作时,系统会自动触发注册函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#默认的signals及其参数"><span class="nav-number">3.</span> <span class="nav-text">默认的signals及其参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型的（django-db-models-signal-py）"><span class="nav-number">3.1.</span> <span class="nav-text">模型的（django&#x2F;db&#x2F;models&#x2F;signal.py）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户登录的-django-contrib-auth-signals-py"><span class="nav-number">3.2.</span> <span class="nav-text">用户登录的(django&#x2F;contrib&#x2F;auth&#x2F;signals.py)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于request请求的-django-core-signals-py"><span class="nav-number">3.3.</span> <span class="nav-text">关于request请求的(django&#x2F;core&#x2F;signals.py)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库连接的-django-db-backends-signals-py"><span class="nav-number">3.4.</span> <span class="nav-text">数据库连接的(django&#x2F;db&#x2F;backends&#x2F;signals.py)</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Django%E4%B8%AD%E5%86%85%E7%BD%AE%E7%9A%84signal"><span class="nav-number">1.</span> <span class="nav-text">Django中内置的signal</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-signals"><span class="nav-number">1.1.</span> <span class="nav-text">Model_signals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#migrate-signals"><span class="nav-number">1.2.</span> <span class="nav-text">migrate_signals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Request-response-signals"><span class="nav-number">1.3.</span> <span class="nav-text">Request&#x2F;response_signals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Test-signals"><span class="nav-number">1.4.</span> <span class="nav-text">Test_signals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Datebase-Wrapperd"><span class="nav-number">1.5.</span> <span class="nav-text">Datebase_Wrapperd</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8EDjango%E5%86%85%E7%BD%AE%E7%9A%84%E4%BF%A1%E5%8F%B7-%E4%BB%85%E9%9C%80%E6%B3%A8%E5%86%8C%E6%8C%87%E5%AE%9A%E4%BF%A1%E5%8F%B7-%E5%BD%93%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E7%9B%B8%E5%BA%94%E6%93%8D%E4%BD%9C%E6%97%B6-%E7%B3%BB%E7%BB%9F%E4%BC%9A%E8%87%AA%E5%8A%A8%E8%A7%A6%E5%8F%91%E6%B3%A8%E5%86%8C%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">对于Django内置的信号,仅需注册指定信号,当程序执行相应操作时,系统会自动触发注册函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E7%9A%84signals%E5%8F%8A%E5%85%B6%E5%8F%82%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">默认的signals及其参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%9A%84%EF%BC%88django-db-models-signal-py%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">模型的（django&#x2F;db&#x2F;models&#x2F;signal.py）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%9A%84-django-contrib-auth-signals-py"><span class="nav-number">3.2.</span> <span class="nav-text">用户登录的(django&#x2F;contrib&#x2F;auth&#x2F;signals.py)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Erequest%E8%AF%B7%E6%B1%82%E7%9A%84-django-core-signals-py"><span class="nav-number">3.3.</span> <span class="nav-text">关于request请求的(django&#x2F;core&#x2F;signals.py)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E7%9A%84-django-db-backends-signals-py"><span class="nav-number">3.4.</span> <span class="nav-text">数据库连接的(django&#x2F;db&#x2F;backends&#x2F;signals.py)</span></a></li></ol></li></ol>
     </div>
 </div>
         

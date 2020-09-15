@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -107,169 +228,6 @@
                     
                         <div class="home-content-container fade-in-down-animation">
     <ul class="home-article-list">
-        
-            <li class="home-article-item">
-
-                <h3 class="home-article-title">
-                    <a href="/2019/11/25/design_pattern/python/Command_Pattern/">
-                        
-                        命令模式python实现
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <h1 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>一种数据驱动的设计模式，它属于行为型模式。请求以命令的形式包裹在对象中，并传给调用对象。调用对象寻找可以处理该命令的合适的对象，并把该命令传给相应的对象，该对象执行命令。</p>
-<p>“行为请求者”与“行为实现者”通常呈现一种“紧耦合”。但在某些场合，比如要对行为进行“记录、撤销/重做、事务”等处理，这种无法抵御变化的紧耦合是不合适的。在这种情况下，如何将“行为请求者”与“行为实现者”解耦？将一组行为抽象为对象，实现二者之间的松耦合。</p>
-                    
-                </div>
-
-                <div class="home-article-meta-info">
-                    <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-11-25</span>
-                        
-                            
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li>
-                                
-                            </ul>
-                            </span>
-                            
-                            
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/python/">python</a>
-                                    </li>
-                                
-                                    <li>
-                                        | <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2019/11/25/design_pattern/python/Command_Pattern/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                <h3 class="home-article-title">
-                    <a href="/2019/11/25/design_pattern/python/Interpreter_Pattern/">
-                        
-                        解释器模式python实现
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <h1 id="解释器模式"><a href="#解释器模式" class="headerlink" title="解释器模式"></a>解释器模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>开发者自定义一种“有内涵”的语言（或者叫字符串），并设定相关的解释规则，输入该字符串后可以输出公认的解释，或者执行程序可以理解的动作。这种模式被用在 SQL 解析、符号处理引擎等</p>
-                    
-                </div>
-
-                <div class="home-article-meta-info">
-                    <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-11-25</span>
-                        
-                            
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li>
-                                
-                            </ul>
-                            </span>
-                            
-                            
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/python/">python</a>
-                                    </li>
-                                
-                                    <li>
-                                        | <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2019/11/25/design_pattern/python/Interpreter_Pattern/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                <h3 class="home-article-title">
-                    <a href="/2019/11/25/design_pattern/python/Builder_Pattern/">
-                        
-                        建造者模式python实现
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <h1 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>建造者模式（生成器模式、Buidler Pattern）和抽象工厂模式的目的都是用来创建复杂的对象，但是创建的过程是截然不同的。</p>
-<ul>
-<li>在抽象工厂模式中，抽象出了创建方法，使用者只能按照预定好的步骤新创建一个对象。</li>
-<li>在建造者模式中，使用者可以按照自己的想法，在合理的范围内定制自己所需要的对象。
-                    
-                </div>
-
-                <div class="home-article-meta-info">
-                    <div class="article-date">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-11-25</span>
-                        
-                            
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li>
-                                
-                            </ul>
-                            </span>
-                            
-                            
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/python/">python</a>
-                                    </li>
-                                
-                                    <li>
-                                        | <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2019/11/25/design_pattern/python/Builder_Pattern/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
         
             <li class="home-article-item">
 
@@ -380,18 +338,15 @@
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
-                    <a href="/2019/11/25/blockchain/consensus/">
+                    <a href="/2019/11/25/design_pattern/python/Interpreter_Pattern/">
                         
-                        共识算法
+                        解释器模式python实现
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        <p>区块链架构是一种分布式的架构。其部署模式有</p>
-<blockquote>
-<p>公共链  中心化分布式系统<br>联盟链  部分去中心化分布式系统<br>私有链  弱中心分布式系统</p>
-</blockquote>
+                        <h1 id="解释器模式"><a href="#解释器模式" class="headerlink" title="解释器模式"></a>解释器模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>开发者自定义一种“有内涵”的语言（或者叫字符串），并设定相关的解释规则，输入该字符串后可以输出公认的解释，或者执行程序可以理解的动作。这种模式被用在 SQL 解析、符号处理引擎等</p>
                     
                 </div>
 
@@ -405,7 +360,7 @@
                             <ul>
                                 
                                     <li><a
-                                                href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li>
+                                                href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li>
                                 
                             </ul>
                             </span>
@@ -416,7 +371,11 @@
                             <ul>
                                 
                                     <li>
-                                        <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>
+                                        <a href="/tags/python/">python</a>
+                                    </li>
+                                
+                                    <li>
+                                        | <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
                                     </li>
                                 
                             </ul>
@@ -425,7 +384,7 @@
                         
                     </div>
                     
-                    <a href="/2019/11/25/blockchain/consensus/">Read more <i class="fa fa-angle-right"></i></a>
+                    <a href="/2019/11/25/design_pattern/python/Interpreter_Pattern/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         
@@ -486,15 +445,18 @@
             <li class="home-article-item">
 
                 <h3 class="home-article-title">
-                    <a href="/2019/11/25/design_pattern/python/Factory_Pattern/">
+                    <a href="/2019/11/25/blockchain/consensus/">
                         
-                        工厂模式python实现
+                        共识算法
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        <h1 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>通过一个指定的“工厂”获得需要的“产品”，在设计模式中主要用于抽象对象的创建过程，让用户可以指定自己想要的对象而不必关心对象的实例化过程。这样做的好处是用户只需通过固定的接口而不是直接去调用类的实例化方法来获得一个对象的实例，隐藏了实例创建过程的复杂度，解耦了生产实例和使用实例的代码，降低了维护的复杂性。</p>
+                        <p>区块链架构是一种分布式的架构。其部署模式有</p>
+<blockquote>
+<p>公共链  中心化分布式系统<br>联盟链  部分去中心化分布式系统<br>私有链  弱中心分布式系统</p>
+</blockquote>
                     
                 </div>
 
@@ -508,7 +470,7 @@
                             <ul>
                                 
                                     <li><a
-                                                href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li>
+                                                href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></li>
                                 
                             </ul>
                             </span>
@@ -519,11 +481,7 @@
                             <ul>
                                 
                                     <li>
-                                        <a href="/tags/python/">python</a>
-                                    </li>
-                                
-                                    <li>
-                                        | <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
+                                        <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>
                                     </li>
                                 
                             </ul>
@@ -532,7 +490,268 @@
                         
                     </div>
                     
-                    <a href="/2019/11/25/design_pattern/python/Factory_Pattern/">Read more <i class="fa fa-angle-right"></i></a>
+                    <a href="/2019/11/25/blockchain/consensus/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/09/26/linux/raid/">
+                        
+                        RAID 磁盘阵列介绍
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="磁盘阵列（Redundant-Arrays-of-Independent-Disks，RAID）"><a href="#磁盘阵列（Redundant-Arrays-of-Independent-Disks，RAID）" class="headerlink" title="磁盘阵列（Redundant Arrays of Independent Disks，RAID）"></a>磁盘阵列（Redundant Arrays of Independent Disks，RAID）</h1><ol>
+<li><p>存储的数据一定分片；</p>
+</li>
+<li><p>分基于软件的软RAID（如mdadm）和基于硬件的硬RAID（如RAID卡）；</p>
+</li>
+<li><p>RAID卡如同网卡一样有集成板载的也有独立的(PCI-e)，一般独立RAID卡性能相对较好，淘宝一搜便可看到他们的原形；</p>
+</li>
+<li><p>现在基本上服务器都原生硬件支持几种常用的RAID;</p>
+</li>
+<li><p>当然还有更加高大上的专用于存储的磁盘阵列柜产品，有专用存储技术，规格有如12/24/48盘一柜等，盘可选机械/固态，3.5/2.5寸等。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-09-26</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/linux/">linux</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/09/26/linux/raid/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/09/25/linux/epoll/">
+                        
+                        epoll多路复用介绍
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <p>epoll是开发linux高性能服务器的必备技术至，epoll本质，是服务端程序员的必须掌握的知识。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-09-25</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/linux/">linux</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/09/25/linux/epoll/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/09/17/salt/modules/">
+                        
+                        Salt各模块用法说明
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        
+
+ACME 加密acme.cert参数
+
+name Common Name of the certificate (DNS name of certificate)
+
+
+aliases=None subjectAltNames (Additional DNS names on certifi...
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-09-18</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/salt/">salt</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/09/17/salt/modules/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/08/26/linux/max_tcp/">
+                        
+                        最大TCP连接数
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="linux-的TCP最大连接"><a href="#linux-的TCP最大连接" class="headerlink" title="linux 的TCP最大连接"></a>linux 的TCP最大连接</h1><h2 id="最大理论连接数"><a href="#最大理论连接数" class="headerlink" title="最大理论连接数"></a>最大理论连接数</h2><p>接受端口：65535<br>发送端口:65535<br>那么 ip A –&gt; ipB，组合起来有 65535*65535 </p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-08-26</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/linux/">linux</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/08/26/linux/max_tcp/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                <h3 class="home-article-title">
+                    <a href="/2019/08/21/principles/HOTP_and_TOTP/">
+                        
+                        HOTP和TOTP算法图解
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <p>两步验证已经被广泛应用于各种互联网应用当中，用来提供安全性。对于如何使用两步验证，大家并不陌生，无非是开启两步验证，然后出现一个二维码，使用支持两步验证的移动应用比如<code> Google Authenticator</code>或者 <code>LassPass Authenticator</code>扫一下二维码。这时候应用会出现一个6位数的一次性密码，首次需要输入验证从而完成开启过程。以后在登陆的时候，除了输入用户名和密码外，还需要把当前的移动应用上显示的6位数编码输入才能完成登陆。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info">
+                    <div class="article-date">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-08-21</span>
+                        
+                            
+                                <span>
+                            <i class="fa fa-folder"></i>
+                            <ul>
+                                
+                                    <li><a
+                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
+                                
+                            </ul>
+                            </span>
+                            
+                            
+                                <span>
+                            <i class="fa fa-tags"></i>
+                            <ul>
+                                
+                                    <li>
+                                        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a>
+                                    </li>
+                                
+                            </ul>
+                            </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/08/21/principles/HOTP_and_TOTP/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         

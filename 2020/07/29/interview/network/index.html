@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -156,33 +277,33 @@
             <h1 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h1><!-- GFM-TOC -->
 <ul>
 <li>传输层：TCP和UDP<ul>
-<li><a href="#什么是三次握手-three-way-handshake">什么是三次握手？</a></li>
-<li><a href="#什么是四次挥手">什么是四次挥手？</a></li>
-<li><a href="#TCP如何实现流量控制">TCP如何实现流量控制？</a></li>
-<li><a href="#TCP的拥塞控制是怎么实现的">TCP的拥塞控制是怎么实现的？</a></li>
-<li><a href="#TCP与UDP的区别">TCP与UDP的区别</a></li>
-<li><a href="#TCP如何保证传输的可靠性">TCP如何保证传输的可靠性</a></li>
-<li><a href="#什么是TCP粘包"><del>什么是TCP粘包？</del></a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-three-way-handshake">什么是三次握手？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B">什么是四次挥手？</a></li>
+<li><a href="#TCP%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6">TCP如何实现流量控制？</a></li>
+<li><a href="#TCP%E7%9A%84%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84">TCP的拥塞控制是怎么实现的？</a></li>
+<li><a href="#TCP%E4%B8%8EUDP%E7%9A%84%E5%8C%BA%E5%88%AB">TCP与UDP的区别</a></li>
+<li><a href="#TCP%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E4%BC%A0%E8%BE%93%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7">TCP如何保证传输的可靠性</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFTCP%E7%B2%98%E5%8C%85"><del>什么是TCP粘包？</del></a></li>
 </ul>
 </li>
 <li>应用层：HTTP和HTTPS<ul>
-<li><a href="#HTTP和HTTPS有什么区别">HTTP和HTTPS有什么区别？</a></li>
-<li><a href="#GET与POST的区别">GET与POST的区别？</a></li>
-<li><a href="#Session与Cookie的区别">Session与Cookie的区别？</a></li>
-<li><a href="#从输入网址到获得页面的过程-越详细越好">从输入网址到获得页面的过程 (越详细越好)？</a></li>
-<li><a href="#HTTP请求有哪些常见状态码">HTTP请求有哪些常见状态码？</a></li>
-<li><a href="#什么是RIP-Routing-Information-Protocol-距离矢量路由协议-算法是什么">什么是RIP (距离矢量路由协议)?</a></li>
+<li><a href="#HTTP%E5%92%8CHTTPS%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB">HTTP和HTTPS有什么区别？</a></li>
+<li><a href="#GET%E4%B8%8EPOST%E7%9A%84%E5%8C%BA%E5%88%AB">GET与POST的区别？</a></li>
+<li><a href="#Session%E4%B8%8ECookie%E7%9A%84%E5%8C%BA%E5%88%AB">Session与Cookie的区别？</a></li>
+<li><a href="#%E4%BB%8E%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%88%B0%E8%8E%B7%E5%BE%97%E9%A1%B5%E9%9D%A2%E7%9A%84%E8%BF%87%E7%A8%8B-%E8%B6%8A%E8%AF%A6%E7%BB%86%E8%B6%8A%E5%A5%BD">从输入网址到获得页面的过程 (越详细越好)？</a></li>
+<li><a href="#HTTP%E8%AF%B7%E6%B1%82%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%8A%B6%E6%80%81%E7%A0%81">HTTP请求有哪些常见状态码？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFRIP-Routing-Information-Protocol-%E8%B7%9D%E7%A6%BB%E7%9F%A2%E9%87%8F%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE-%E7%AE%97%E6%B3%95%E6%98%AF%E4%BB%80%E4%B9%88">什么是RIP (距离矢量路由协议)?</a></li>
 </ul>
 </li>
-<li><a href="#计算机网络体系结构">计算机网络体系结构</a></li>
+<li><a href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84">计算机网络体系结构</a></li>
 <li>网络层协议<ul>
-<li><a href="#IP地址的分类">IP地址的分类？</a></li>
-<li><a href="#什么叫划分子网">什么叫划分子网？</a></li>
-<li><a href="#什么是ARP协议-Address-Resolution-Protocol">什么是ARP协议？</a></li>
-<li><a href="#什么是NAT-Network-Address-Translation-网络地址转换">什么是NAT (网络地址转换)？</a></li>
+<li><a href="#IP%E5%9C%B0%E5%9D%80%E7%9A%84%E5%88%86%E7%B1%BB">IP地址的分类？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E5%8F%AB%E5%88%92%E5%88%86%E5%AD%90%E7%BD%91">什么叫划分子网？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFARP%E5%8D%8F%E8%AE%AE-Address-Resolution-Protocol">什么是ARP协议？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFNAT-Network-Address-Translation-%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2">什么是NAT (网络地址转换)？</a></li>
 </ul>
 </li>
-<li><a href="#参考">参考</a><!-- GFM-TOC -->
+<li><a href="#%E5%8F%82%E8%80%83">参考</a><!-- GFM-TOC -->
 
 </li>
 </ul>
@@ -371,10 +492,10 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p>总结：非对称加密算法用于在握手过程中加密生成的密码；对称加密算法用于对真正传输的数据进行加密；HASH算法用于验证数据的完整性。</p>
 </details>
 
-<h5 id="输入-www-baidu-com，怎么变成-https-www-baidu-com-的，怎么确定用HTTP还是HTTPS？"><a href="#输入-www-baidu-com，怎么变成-https-www-baidu-com-的，怎么确定用HTTP还是HTTPS？" class="headerlink" title="输入 www.baidu.com，怎么变成 https://www.baidu.com 的，怎么确定用HTTP还是HTTPS？"></a>输入 <a href="http://www.baidu.com，怎么变成" target="_blank" rel="noopener">www.baidu.com，怎么变成</a> <a href="https://www.baidu.com" target="_blank" rel="noopener">https://www.baidu.com</a> 的，怎么确定用HTTP还是HTTPS？</h5><details>
+<h5 id="输入-www-baidu-com，怎么变成-https-www-baidu-com-的，怎么确定用HTTP还是HTTPS？"><a href="#输入-www-baidu-com，怎么变成-https-www-baidu-com-的，怎么确定用HTTP还是HTTPS？" class="headerlink" title="输入 www.baidu.com，怎么变成 https://www.baidu.com 的，怎么确定用HTTP还是HTTPS？"></a>输入 <a target="_blank" rel="noopener" href="http://www.baidu.com,怎么变成/">www.baidu.com，怎么变成</a> <a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a> 的，怎么确定用HTTP还是HTTPS？</h5><details>
 <summary>展开</summary>
 
-<p><a href="https://www.sohu.com/a/136637876_487516" target="_blank" rel="noopener">你访问的网站是如何自动切换到 HTTPS 的？</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.sohu.com/a/136637876_487516">你访问的网站是如何自动切换到 HTTPS 的？</a></p>
 <p>一种是原始的302跳转，服务器把所有的HTTp流量跳转到HTTPS。但这样有一个漏洞，就是中间人可能在第一次访问站点的时候就劫持。<br>解决方法是引入HSTS机制，用户浏览器在访问站点的时候强制使用HTTPS。</p>
 </details>
 
@@ -428,7 +549,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li>5xx状态码：服务端错误。500服务器内部错误；501服务不可用</li>
 </ol>
 <h3 id="什么是RIP-Routing-Information-Protocol-距离矢量路由协议-算法是什么？"><a href="#什么是RIP-Routing-Information-Protocol-距离矢量路由协议-算法是什么？" class="headerlink" title="什么是RIP (Routing Information Protocol, 距离矢量路由协议)? 算法是什么？"></a>什么是RIP (Routing Information Protocol, 距离矢量路由协议)? 算法是什么？</h3><p>每个路由器维护一张表，记录该路由器到其它网络的”跳数“，路由器到与其直接连接的网络的跳数是1，每多经过一个路由器跳数就加1；更新该表时和相邻路由器交换路由信息；路由器允许一个路径最多包含15个路由器，如果跳数为16，则不可达。交付数据报时优先选取距离最短的路径。</p>
-<p>（PS：RIP是应用层协议：<a href="https://www.zhihu.com/question/19645407" target="_blank" rel="noopener">https://www.zhihu.com/question/19645407</a>）</p>
+<p>（PS：RIP是应用层协议：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/19645407">https://www.zhihu.com/question/19645407</a>）</p>
 <details>
 <summary>优缺点</summary>
 
@@ -472,11 +593,11 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p>如果所要找的主机和源主机不在同一个局域网上，那么就要通过 ARP 找到一个位于本局域网上的某个路由器的硬件地址，然后把分组发送给这个路由器，让这个路由器把分组转发给下一个网络。剩下的工作就由下一个网络来做。</p>
 <h3 id="什么是NAT-Network-Address-Translation-网络地址转换-？"><a href="#什么是NAT-Network-Address-Translation-网络地址转换-？" class="headerlink" title="什么是NAT (Network Address Translation, 网络地址转换)？"></a>什么是NAT (Network Address Translation, 网络地址转换)？</h3><p>用于解决内网中的主机要和因特网上的主机通信。由NAT路由器将主机的本地IP地址转换为全球IP地址，分为静态转换（转换得到的全球IP地址固定不变）和动态NAT转换。</p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://blog.csdn.net/justloveyou_/article/details/78303617" target="_blank" rel="noopener">面试/笔试第一弹 —— 计算机网络面试问题集锦</a></li>
-<li><a href="https://blog.csdn.net/yjxsdzx/article/details/71937886" target="_blank" rel="noopener">什么时候选TCP、UDP？</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/justloveyou_/article/details/78303617">面试/笔试第一弹 —— 计算机网络面试问题集锦</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/yjxsdzx/article/details/71937886">什么时候选TCP、UDP？</a></li>
 </ul>
 <h3 id="待完成"><a href="#待完成" class="headerlink" title="待完成"></a>待完成</h3><ul>
-<li><input disabled="" type="checkbox"> 发送窗口的大小，如何最大利用带宽，假设延迟100ms，发送端10Mb/s，接收端100Mb/s. <a href="https://blog.csdn.net/bad_sheep/article/details/6158676" target="_blank" rel="noopener">reference</a></li>
+<li><input disabled="" type="checkbox"> 发送窗口的大小，如何最大利用带宽，假设延迟100ms，发送端10Mb/s，接收端100Mb/s. <a target="_blank" rel="noopener" href="https://blog.csdn.net/bad_sheep/article/details/6158676">reference</a></li>
 </ul>
 
         </div>
@@ -486,9 +607,9 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
                 <div class="article-prev">
                     <a class="prev btn"
                        rel="prev"
-                       href="/2020/09/08/k8s/what_happen_apply_yaml/"
+                       href="/2020/07/29/interview/Operating_Systems/"
                     >
-                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">pod 的创建过程</span><span class="post-nav-item">Prev posts</span>
+                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">操作系统</span><span class="post-nav-item">Prev posts</span>
                     </a>
                 </div>
             
@@ -496,9 +617,9 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
                 <div class="article-next">
                     <a class="next btn"
                        rel="next"
-                       href="/2020/07/29/others/cncf/"
+                       href="/2020/07/29/interview/Design_Pattern/"
                     >
-                        <span class="post-nav-title-item">云原生</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
+                        <span class="post-nav-title-item">设计模式</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
                     </a>
                 </div>
             
@@ -589,7 +710,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
         
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机网络"><span class="nav-number">1.</span> <span class="nav-text">计算机网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是三次握手-three-way-handshake-？"><span class="nav-number">1.0.1.</span> <span class="nav-text">什么是三次握手 (three-way handshake)？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#TCP建立连接可以两次握手吗？为什么"><span class="nav-number">1.0.1.0.1.</span> <span class="nav-text">TCP建立连接可以两次握手吗？为什么?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#可以采用四次握手吗？为什么？"><span class="nav-number">1.0.1.0.2.</span> <span class="nav-text">可以采用四次握手吗？为什么？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第三次握手中，如果客户端的ACK未送达服务器，会怎样？"><span class="nav-number">1.0.1.0.3.</span> <span class="nav-text">第三次握手中，如果客户端的ACK未送达服务器，会怎样？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如果已经建立了连接，但客户端出现了故障怎么办？"><span class="nav-number">1.0.1.0.4.</span> <span class="nav-text">如果已经建立了连接，但客户端出现了故障怎么办？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#初始序列号是什么？"><span class="nav-number">1.0.1.0.5.</span> <span class="nav-text">初始序列号是什么？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是四次挥手？"><span class="nav-number">1.0.2.</span> <span class="nav-text">什么是四次挥手？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么不能把服务器发送的ACK和FIN合并起来，变成三次挥手（CLOSE-WAIT状态意义是什么）？"><span class="nav-number">1.0.2.0.1.</span> <span class="nav-text">为什么不能把服务器发送的ACK和FIN合并起来，变成三次挥手（CLOSE_WAIT状态意义是什么）？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如果第二次挥手时服务器的ACK没有送达客户端，会怎样？"><span class="nav-number">1.0.2.0.2.</span> <span class="nav-text">如果第二次挥手时服务器的ACK没有送达客户端，会怎样？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#客户端TIME-WAIT状态的意义是什么？"><span class="nav-number">1.0.2.0.3.</span> <span class="nav-text">客户端TIME_WAIT状态的意义是什么？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP如何实现流量控制？"><span class="nav-number">1.0.3.</span> <span class="nav-text">TCP如何实现流量控制？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是零窗口（接收窗口为0时会怎样）？"><span class="nav-number">1.0.3.0.1.</span> <span class="nav-text">什么是零窗口（接收窗口为0时会怎样）？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP的拥塞控制是怎么实现的？"><span class="nav-number">1.0.4.</span> <span class="nav-text">TCP的拥塞控制是怎么实现的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP与UDP的区别"><span class="nav-number">1.0.5.</span> <span class="nav-text">TCP与UDP的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么时候选择TCP，什么时候选UDP？"><span class="nav-number">1.0.5.0.1.</span> <span class="nav-text">什么时候选择TCP，什么时候选UDP？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTP可以使用UDP吗？"><span class="nav-number">1.0.5.0.2.</span> <span class="nav-text">HTTP可以使用UDP吗？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#面向连接和无连接的区别"><span class="nav-number">1.0.5.0.3.</span> <span class="nav-text">面向连接和无连接的区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP如何保证传输的可靠性"><span class="nav-number">1.0.6.</span> <span class="nav-text">TCP如何保证传输的可靠性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP和HTTPS有什么区别？"><span class="nav-number">1.0.7.</span> <span class="nav-text">HTTP和HTTPS有什么区别？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Https的连接过程？"><span class="nav-number">1.0.7.0.1.</span> <span class="nav-text">Https的连接过程？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#输入-www-baidu-com，怎么变成-https-www-baidu-com-的，怎么确定用HTTP还是HTTPS？"><span class="nav-number">1.0.7.0.2.</span> <span class="nav-text">输入 www.baidu.com，怎么变成 https:&#x2F;&#x2F;www.baidu.com 的，怎么确定用HTTP还是HTTPS？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTPS连接的时候，怎么确定收到的包是服务器发来的（中间人攻击）？"><span class="nav-number">1.0.7.0.3.</span> <span class="nav-text">HTTPS连接的时候，怎么确定收到的包是服务器发来的（中间人攻击）？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是对称加密、非对称加密？区别是什么？"><span class="nav-number">1.0.7.0.4.</span> <span class="nav-text">什么是对称加密、非对称加密？区别是什么？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数字签名、报文摘要的原理"><span class="nav-number">1.0.7.0.5.</span> <span class="nav-text">数字签名、报文摘要的原理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GET与POST的区别？"><span class="nav-number">1.0.8.</span> <span class="nav-text">GET与POST的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Session与Cookie的区别？"><span class="nav-number">1.0.9.</span> <span class="nav-text">Session与Cookie的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从输入网址到获得页面的过程-越详细越好-？"><span class="nav-number">1.0.10.</span> <span class="nav-text">从输入网址到获得页面的过程 (越详细越好)？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP请求有哪些常见状态码？"><span class="nav-number">1.0.11.</span> <span class="nav-text">HTTP请求有哪些常见状态码？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是RIP-Routing-Information-Protocol-距离矢量路由协议-算法是什么？"><span class="nav-number">1.0.12.</span> <span class="nav-text">什么是RIP (Routing Information Protocol, 距离矢量路由协议)? 算法是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算机网络体系结构"><span class="nav-number">1.0.13.</span> <span class="nav-text">计算机网络体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP地址的分类？"><span class="nav-number">1.0.14.</span> <span class="nav-text">IP地址的分类？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么叫划分子网？"><span class="nav-number">1.0.15.</span> <span class="nav-text">什么叫划分子网？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是ARP协议-Address-Resolution-Protocol-？"><span class="nav-number">1.0.16.</span> <span class="nav-text">什么是ARP协议 (Address Resolution Protocol)？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是NAT-Network-Address-Translation-网络地址转换-？"><span class="nav-number">1.0.17.</span> <span class="nav-text">什么是NAT (Network Address Translation, 网络地址转换)？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">1.0.18.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#待完成"><span class="nav-number">1.0.19.</span> <span class="nav-text">待完成</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="nav-number">1.</span> <span class="nav-text">计算机网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-three-way-handshake-%EF%BC%9F"><span class="nav-number">1.0.1.</span> <span class="nav-text">什么是三次握手 (three-way handshake)？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#TCP%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E5%8F%AF%E4%BB%A5%E4%B8%A4%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%90%97%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88"><span class="nav-number">1.0.1.0.1.</span> <span class="nav-text">TCP建立连接可以两次握手吗？为什么?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E4%BB%A5%E9%87%87%E7%94%A8%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%90%97%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.0.1.0.2.</span> <span class="nav-text">可以采用四次握手吗？为什么？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%AD%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84ACK%E6%9C%AA%E9%80%81%E8%BE%BE%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%8C%E4%BC%9A%E6%80%8E%E6%A0%B7%EF%BC%9F"><span class="nav-number">1.0.1.0.3.</span> <span class="nav-text">第三次握手中，如果客户端的ACK未送达服务器，会怎样？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E5%B7%B2%E7%BB%8F%E5%BB%BA%E7%AB%8B%E4%BA%86%E8%BF%9E%E6%8E%A5%EF%BC%8C%E4%BD%86%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%87%BA%E7%8E%B0%E4%BA%86%E6%95%85%E9%9A%9C%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">1.0.1.0.4.</span> <span class="nav-text">如果已经建立了连接，但客户端出现了故障怎么办？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%BA%8F%E5%88%97%E5%8F%B7%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.0.1.0.5.</span> <span class="nav-text">初始序列号是什么？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B%EF%BC%9F"><span class="nav-number">1.0.2.</span> <span class="nav-text">什么是四次挥手？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E6%8A%8A%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8F%91%E9%80%81%E7%9A%84ACK%E5%92%8CFIN%E5%90%88%E5%B9%B6%E8%B5%B7%E6%9D%A5%EF%BC%8C%E5%8F%98%E6%88%90%E4%B8%89%E6%AC%A1%E6%8C%A5%E6%89%8B%EF%BC%88CLOSE-WAIT%E7%8A%B6%E6%80%81%E6%84%8F%E4%B9%89%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%89%EF%BC%9F"><span class="nav-number">1.0.2.0.1.</span> <span class="nav-text">为什么不能把服务器发送的ACK和FIN合并起来，变成三次挥手（CLOSE_WAIT状态意义是什么）？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8C%A5%E6%89%8B%E6%97%B6%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84ACK%E6%B2%A1%E6%9C%89%E9%80%81%E8%BE%BE%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%8C%E4%BC%9A%E6%80%8E%E6%A0%B7%EF%BC%9F"><span class="nav-number">1.0.2.0.2.</span> <span class="nav-text">如果第二次挥手时服务器的ACK没有送达客户端，会怎样？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AFTIME-WAIT%E7%8A%B6%E6%80%81%E7%9A%84%E6%84%8F%E4%B9%89%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.0.2.0.3.</span> <span class="nav-text">客户端TIME_WAIT状态的意义是什么？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%EF%BC%9F"><span class="nav-number">1.0.3.</span> <span class="nav-text">TCP如何实现流量控制？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%9B%B6%E7%AA%97%E5%8F%A3%EF%BC%88%E6%8E%A5%E6%94%B6%E7%AA%97%E5%8F%A3%E4%B8%BA0%E6%97%B6%E4%BC%9A%E6%80%8E%E6%A0%B7%EF%BC%89%EF%BC%9F"><span class="nav-number">1.0.3.0.1.</span> <span class="nav-text">什么是零窗口（接收窗口为0时会怎样）？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP%E7%9A%84%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F"><span class="nav-number">1.0.4.</span> <span class="nav-text">TCP的拥塞控制是怎么实现的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP%E4%B8%8EUDP%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.0.5.</span> <span class="nav-text">TCP与UDP的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%80%89%E6%8B%A9TCP%EF%BC%8C%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%80%89UDP%EF%BC%9F"><span class="nav-number">1.0.5.0.1.</span> <span class="nav-text">什么时候选择TCP，什么时候选UDP？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTP%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8UDP%E5%90%97%EF%BC%9F"><span class="nav-number">1.0.5.0.2.</span> <span class="nav-text">HTTP可以使用UDP吗？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5%E5%92%8C%E6%97%A0%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.0.5.0.3.</span> <span class="nav-text">面向连接和无连接的区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E4%BC%A0%E8%BE%93%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="nav-number">1.0.6.</span> <span class="nav-text">TCP如何保证传输的可靠性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP%E5%92%8CHTTPS%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.0.7.</span> <span class="nav-text">HTTP和HTTPS有什么区别？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Https%E7%9A%84%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B%EF%BC%9F"><span class="nav-number">1.0.7.0.1.</span> <span class="nav-text">Https的连接过程？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BE%93%E5%85%A5-www-baidu-com%EF%BC%8C%E6%80%8E%E4%B9%88%E5%8F%98%E6%88%90-https-www-baidu-com-%E7%9A%84%EF%BC%8C%E6%80%8E%E4%B9%88%E7%A1%AE%E5%AE%9A%E7%94%A8HTTP%E8%BF%98%E6%98%AFHTTPS%EF%BC%9F"><span class="nav-number">1.0.7.0.2.</span> <span class="nav-text">输入 www.baidu.com，怎么变成 https:&#x2F;&#x2F;www.baidu.com 的，怎么确定用HTTP还是HTTPS？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTPS%E8%BF%9E%E6%8E%A5%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E6%80%8E%E4%B9%88%E7%A1%AE%E5%AE%9A%E6%94%B6%E5%88%B0%E7%9A%84%E5%8C%85%E6%98%AF%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8F%91%E6%9D%A5%E7%9A%84%EF%BC%88%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB%EF%BC%89%EF%BC%9F"><span class="nav-number">1.0.7.0.3.</span> <span class="nav-text">HTTPS连接的时候，怎么确定收到的包是服务器发来的（中间人攻击）？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E3%80%81%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%EF%BC%9F%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.0.7.0.4.</span> <span class="nav-text">什么是对称加密、非对称加密？区别是什么？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E3%80%81%E6%8A%A5%E6%96%87%E6%91%98%E8%A6%81%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">1.0.7.0.5.</span> <span class="nav-text">数字签名、报文摘要的原理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GET%E4%B8%8EPOST%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.0.8.</span> <span class="nav-text">GET与POST的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Session%E4%B8%8ECookie%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.0.9.</span> <span class="nav-text">Session与Cookie的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80%E5%88%B0%E8%8E%B7%E5%BE%97%E9%A1%B5%E9%9D%A2%E7%9A%84%E8%BF%87%E7%A8%8B-%E8%B6%8A%E8%AF%A6%E7%BB%86%E8%B6%8A%E5%A5%BD-%EF%BC%9F"><span class="nav-number">1.0.10.</span> <span class="nav-text">从输入网址到获得页面的过程 (越详细越好)？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP%E8%AF%B7%E6%B1%82%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%8A%B6%E6%80%81%E7%A0%81%EF%BC%9F"><span class="nav-number">1.0.11.</span> <span class="nav-text">HTTP请求有哪些常见状态码？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFRIP-Routing-Information-Protocol-%E8%B7%9D%E7%A6%BB%E7%9F%A2%E9%87%8F%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE-%E7%AE%97%E6%B3%95%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.0.12.</span> <span class="nav-text">什么是RIP (Routing Information Protocol, 距离矢量路由协议)? 算法是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">1.0.13.</span> <span class="nav-text">计算机网络体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP%E5%9C%B0%E5%9D%80%E7%9A%84%E5%88%86%E7%B1%BB%EF%BC%9F"><span class="nav-number">1.0.14.</span> <span class="nav-text">IP地址的分类？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E5%8F%AB%E5%88%92%E5%88%86%E5%AD%90%E7%BD%91%EF%BC%9F"><span class="nav-number">1.0.15.</span> <span class="nav-text">什么叫划分子网？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFARP%E5%8D%8F%E8%AE%AE-Address-Resolution-Protocol-%EF%BC%9F"><span class="nav-number">1.0.16.</span> <span class="nav-text">什么是ARP协议 (Address Resolution Protocol)？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFNAT-Network-Address-Translation-%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2-%EF%BC%9F"><span class="nav-number">1.0.17.</span> <span class="nav-text">什么是NAT (Network Address Translation, 网络地址转换)？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.0.18.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%85%E5%AE%8C%E6%88%90"><span class="nav-number">1.0.19.</span> <span class="nav-text">待完成</span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
         

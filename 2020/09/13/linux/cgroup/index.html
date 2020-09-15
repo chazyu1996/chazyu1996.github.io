@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -187,7 +308,7 @@
 </ol>
 <h4 id="cgroups文件系统的实现"><a href="#cgroups文件系统的实现" class="headerlink" title="cgroups文件系统的实现"></a>cgroups文件系统的实现</h4><p>基于 VFS 实现的文件系统,都必须实现 VFS 通用文件模型定义的这些对象，并实现这些对象中定义的部分函数。cgroup 文件系统也不例外,下面来看一下 cgroups 中这些对象的定义。</p>
 <p>首先看一下 cgroups 文件系统类型的结构体：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">file_system_type</span> <span class="title">cgroup_fs_type</span> = &#123;</span></span><br><span class="line">        .name = <span class="string">"cgroup"</span>,</span><br><span class="line">        .mount = cgroup_mount,</span><br><span class="line">        .kill_sb = cgroup_kill_sb,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">file_system_type</span> <span class="title">cgroup_fs_type</span> = &#123;</span></span><br><span class="line">        .name = <span class="string">&quot;cgroup&quot;</span>,</span><br><span class="line">        .mount = cgroup_mount,</span><br><span class="line">        .kill_sb = cgroup_kill_sb,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>这里面两个函数分别代表安装和卸载某一个 cgroup 文件系统所需要执行的函数。每次把某一个 cgroups 子系统安装到某一个装载点的时候，cgroup_mount 方法就会被调用，这个方法会生成一个 cgroups_root（cgroups层级结构的根）并封装成超级快对象。</p>
 <p>然后看一下 cgroups 超级块对象定义的操作：</p>
@@ -195,7 +316,7 @@
 
 <p>这里只有部分函数的实现，这是因为对于特定的文件系统而言，所支持的操作可能仅是 super_operations 中所定义操作的一个子集，比如说对于块设备上的文件对象，肯定是支持类似 fseek 的查找某个位置的操作，但是对于 socket 或者 cgroups 这样特殊的文件系统，就不支持这样的操作。</p>
 <p>同样简单看下 cgroups 文件系统对 inode 对象和 file 对象定义的特殊实现函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">inode_operations</span> <span class="title">cgroup_dir_inode_operations</span> = &#123;</span></span><br><span class="line">        .lookup = cgroup_lookup,</span><br><span class="line">        .<span class="built_in">mkdir</span> = cgroup_mkdir,</span><br><span class="line">        .<span class="built_in">rmdir</span> = cgroup_rmdir,</span><br><span class="line">        .rename = cgroup_rename,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">file_operations</span> <span class="title">cgroup_file_operations</span> = &#123;</span></span><br><span class="line">        .<span class="built_in">read</span> = cgroup_file_read,</span><br><span class="line">        .<span class="built_in">write</span> = cgroup_file_write,</span><br><span class="line">        .llseek = generic_file_llseek,</span><br><span class="line">        .<span class="built_in">open</span> = cgroup_file_open,</span><br><span class="line">        .<span class="built_in">release</span> = cgroup_file_release,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">inode_operations</span> <span class="title">cgroup_dir_inode_operations</span> = &#123;</span></span><br><span class="line">        .lookup = cgroup_lookup,</span><br><span class="line">        .mkdir = cgroup_mkdir,</span><br><span class="line">        .rmdir = cgroup_rmdir,</span><br><span class="line">        .rename = cgroup_rename,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">file_operations</span> <span class="title">cgroup_file_operations</span> = &#123;</span></span><br><span class="line">        .read = cgroup_file_read,</span><br><span class="line">        .write = cgroup_file_write,</span><br><span class="line">        .llseek = generic_file_llseek,</span><br><span class="line">        .open = cgroup_file_open,</span><br><span class="line">        .release = cgroup_file_release,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>本文并不去研究这些函数的代码实现是什么样的，但是从这些代码可以推断出，cgroups 通过实现 VFS 的通用文件系统模型，把维护 cgroups 层级结构的细节，隐藏在 cgroups 文件系统的这些实现函数中。</p>
 <p>从另一个方面说，用户在用户态对 cgroups 文件系统的操作，通过 VFS 转化为对 cgroups 层级结构的维护。通过这样的方式，内核把 cgroups 的功能暴露给了用户态的进程。</p>
@@ -330,7 +451,7 @@
         
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux资源管理之cgroups简介"><span class="nav-number">1.</span> <span class="nav-text">Linux资源管理之cgroups简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引子"><span class="nav-number">1.1.</span> <span class="nav-text">引子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概念及原理"><span class="nav-number">1.2.</span> <span class="nav-text">概念及原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cgroups子系统"><span class="nav-number">1.2.1.</span> <span class="nav-text">cgroups子系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cgroups-层级结构（Hierarchy）"><span class="nav-number">1.2.2.</span> <span class="nav-text">cgroups 层级结构（Hierarchy）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cgroups与进程"><span class="nav-number">1.2.3.</span> <span class="nav-text">cgroups与进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cgroups文件系统"><span class="nav-number">1.2.4.</span> <span class="nav-text">cgroups文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#VFS"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">VFS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cgroups文件系统的实现"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">cgroups文件系统的实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cgroups使用方法"><span class="nav-number">1.3.</span> <span class="nav-text">cgroups使用方法.</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cgroups文件系统挂载"><span class="nav-number">1.3.1.</span> <span class="nav-text">cgroups文件系统挂载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子节点和进程"><span class="nav-number">1.3.2.</span> <span class="nav-text">子节点和进程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践中的例子"><span class="nav-number">1.4.</span> <span class="nav-text">实践中的例子</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E4%B9%8Bcgroups%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">Linux资源管理之cgroups简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%AD%90"><span class="nav-number">1.1.</span> <span class="nav-text">引子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E5%8F%8A%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">概念及原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cgroups%E5%AD%90%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.1.</span> <span class="nav-text">cgroups子系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cgroups-%E5%B1%82%E7%BA%A7%E7%BB%93%E6%9E%84%EF%BC%88Hierarchy%EF%BC%89"><span class="nav-number">1.2.2.</span> <span class="nav-text">cgroups 层级结构（Hierarchy）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cgroups%E4%B8%8E%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.2.3.</span> <span class="nav-text">cgroups与进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cgroups%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.4.</span> <span class="nav-text">cgroups文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#VFS"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">VFS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cgroups%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">cgroups文件系统的实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cgroups%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">cgroups使用方法.</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cgroups%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%8C%82%E8%BD%BD"><span class="nav-number">1.3.1.</span> <span class="nav-text">cgroups文件系统挂载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%90%E8%8A%82%E7%82%B9%E5%92%8C%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.3.2.</span> <span class="nav-text">子节点和进程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E4%B8%AD%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="nav-number">1.4.</span> <span class="nav-text">实践中的例子</span></a></li></ol></li></ol>
     </div>
 </div>
         

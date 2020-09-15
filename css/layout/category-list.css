@@ -81,7 +81,7 @@ ils-tablet()
 }
 .category-list-container:hover {
   transition: all 0.3s ease;
-  box-shadow: 0 0 8px var(--border-color);
+  transform: scaleX(1.005) scaleY(1.01);
 }
 .category-list-container .category-list-content .all-category-list li.all-category-list-item {
   margin-bottom: 15px;

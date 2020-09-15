@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -155,32 +276,32 @@
         <div class="article-content markdown-body">
             <h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><ul>
 <li>进程和线程<ul>
-<li><a href="#进程和线程有什么区别">进程和线程有什么区别？</a></li>
-<li><a href="#进程间通信有哪些方式">进程间通信有哪些方式？</a></li>
-<li><a href="#进程同步问题">进程同步问题</a></li>
-<li><a href="#进程有哪几种状态">进程有哪几种状态？</a></li>
-<li><a href="#进程调度策略有哪些">进程调度策略有哪些？</a></li>
-<li><a href="#什么是僵尸进程">什么是僵尸进程？</a></li>
-<li><a href="#线程同步有哪些方式">线程同步有哪些方式？</a></li>
-<li><a href="#什么是协程">什么是协程？</a></li>
-<li><a href="#什么是IO多路复用怎么实现">什么是IO多路复用？怎么实现？</a></li>
-<li><a href="#什么是用户态和内核态">什么是用户态和内核态？</a></li>
+<li><a href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB">进程和线程有什么区别？</a></li>
+<li><a href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E5%BC%8F">进程间通信有哪些方式？</a></li>
+<li><a href="#%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98">进程同步问题</a></li>
+<li><a href="#%E8%BF%9B%E7%A8%8B%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E7%8A%B6%E6%80%81">进程有哪几种状态？</a></li>
+<li><a href="#%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5%E6%9C%89%E5%93%AA%E4%BA%9B">进程调度策略有哪些？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B">什么是僵尸进程？</a></li>
+<li><a href="#%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E5%BC%8F">线程同步有哪些方式？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%8F%E7%A8%8B">什么是协程？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFIO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0">什么是IO多路复用？怎么实现？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%94%A8%E6%88%B7%E6%80%81%E5%92%8C%E5%86%85%E6%A0%B8%E6%80%81">什么是用户态和内核态？</a></li>
 </ul>
 </li>
 <li>死锁<ul>
-<li><a href="#什么是死锁">什么是死锁？</a></li>
-<li><a href="#死锁产生的必要条件">死锁产生的必要条件？</a></li>
-<li><a href="#死锁有哪些处理方法">死锁有哪些处理方法？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%AD%BB%E9%94%81">什么是死锁？</a></li>
+<li><a href="#%E6%AD%BB%E9%94%81%E4%BA%A7%E7%94%9F%E7%9A%84%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6">死锁产生的必要条件？</a></li>
+<li><a href="#%E6%AD%BB%E9%94%81%E6%9C%89%E5%93%AA%E4%BA%9B%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95">死锁有哪些处理方法？</a></li>
 </ul>
 </li>
 <li>内存管理<ul>
-<li><a href="#分页和分段有什么区别">分页和分段有什么区别？</a></li>
-<li><a href="#什么是虚拟内存">什么是虚拟内存？</a></li>
-<li><a href="#有哪些页面置换算法">有哪些页面置换算法？</a></li>
+<li><a href="#%E5%88%86%E9%A1%B5%E5%92%8C%E5%88%86%E6%AE%B5%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB">分页和分段有什么区别？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98">什么是虚拟内存？</a></li>
+<li><a href="#%E6%9C%89%E5%93%AA%E4%BA%9B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95">有哪些页面置换算法？</a></li>
 </ul>
 </li>
-<li><a href="#磁盘调度">磁盘调度</a></li>
-<li><a href="#参考">参考</a></li>
+<li><a href="#%E7%A3%81%E7%9B%98%E8%B0%83%E5%BA%A6">磁盘调度</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
 </ul>
 <a id="more"></a>
 
@@ -194,7 +315,7 @@
 <li>线程之间的通信更方便，同一进程下的线程共享全局变量等数据，而进程之间的通信需要以进程间通信(IPC)的方式进行；</li>
 <li>多线程程序只要有一个线程崩溃，整个程序就崩溃了，但多进程程序中一个进程崩溃并不会对其它进程造成影响，因为进程有自己的独立地址空间，因此多进程更加健壮</li>
 </ul>
-<p>进程操作代码实现，可以参考：<a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017628290184064" target="_blank" rel="noopener">多进程 - 廖雪峰的官方网站</a></p>
+<p>进程操作代码实现，可以参考：<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017628290184064">多进程 - 廖雪峰的官方网站</a></p>
 <h5 id="同一进程中的线程可以共享哪些数据？"><a href="#同一进程中的线程可以共享哪些数据？" class="headerlink" title="同一进程中的线程可以共享哪些数据？"></a>同一进程中的线程可以共享哪些数据？</h5><details>
 <summary>展开</summary>
 
@@ -241,8 +362,8 @@
 </ol>
 <p>更详细的可以参考（待整理）：</p>
 <ul>
-<li><a href="https://imageslr.github.io/2020/02/26/ipc.html" target="_blank" rel="noopener">https://imageslr.github.io/2020/02/26/ipc.html</a></li>
-<li><a href="https://www.jianshu.com/p/c1015f5ffa74" target="_blank" rel="noopener">https://www.jianshu.com/p/c1015f5ffa74</a></li>
+<li><a target="_blank" rel="noopener" href="https://imageslr.github.io/2020/02/26/ipc.html">https://imageslr.github.io/2020/02/26/ipc.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c1015f5ffa74">https://www.jianshu.com/p/c1015f5ffa74</a></li>
 </ul>
 <h3 id="进程同步问题"><a href="#进程同步问题" class="headerlink" title="进程同步问题"></a>进程同步问题</h3><blockquote>
 <p>进程的同步是目的，而进程间通信是实现进程同步的手段</p>
@@ -263,7 +384,7 @@
 <p>问题描述：使用一个缓冲区来存放数据，只有缓冲区没有满，生产者才可以写入数据；只有缓冲区不为空，消费者才可以读出数据</p>
 </blockquote>
 <p>代码实现：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 伪代码描述 </span></span><br><span class="line"><span class="comment">// 定义信号量 full记录缓冲区物品数量 empty代表缓冲区空位数量 mutex为互斥量</span></span><br><span class="line">semaphore full = <span class="number">0</span>, empty = n, mutex = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生产者进程</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">producer</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">   	  P(empty);</span><br><span class="line">	  P(mutex);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// 生产者进行生产</span></span><br><span class="line">   	</span><br><span class="line">   	  V(mutex);</span><br><span class="line">   	  V(full);</span><br><span class="line"> 	&#125; <span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">consumer</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">	  P(full);</span><br><span class="line">	  P(mutex);</span><br><span class="line"></span><br><span class="line">    	<span class="comment">// 消费者进行消费</span></span><br><span class="line"></span><br><span class="line">	  V(mutex);</span><br><span class="line">	  V(empty);</span><br><span class="line"> 	&#125; <span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 伪代码描述 </span></span><br><span class="line"><span class="comment">// 定义信号量 full记录缓冲区物品数量 empty代表缓冲区空位数量 mutex为互斥量</span></span><br><span class="line">semaphore full = <span class="number">0</span>, empty = n, mutex = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生产者进程</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">producer</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">   	  P(empty);</span><br><span class="line">	  P(mutex);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// 生产者进行生产</span></span><br><span class="line">   	</span><br><span class="line">   	  V(mutex);</span><br><span class="line">   	  V(full);</span><br><span class="line"> 	&#125; <span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">consumer</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">	  P(full);</span><br><span class="line">	  P(mutex);</span><br><span class="line"></span><br><span class="line">    	<span class="comment">// 消费者进行消费</span></span><br><span class="line"></span><br><span class="line">	  V(mutex);</span><br><span class="line">	  V(empty);</span><br><span class="line"> 	&#125; <span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </details>
 
 <details>
@@ -273,7 +394,7 @@
 <p>问题描述：有五位哲学家围绕着餐桌坐，每一位哲学家要么思考，要么吃饭。为了吃饭，哲学家必须拿起两双筷子（分别放于左右两端）不幸的是，筷子的数量和哲学家相等，所以每只筷子必须由两位哲学家共享。</p>
 </blockquote>
 <p>代码实现：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 5  <span class="comment">// number of philosopher</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LEFT (i + N - 1)%N <span class="comment">// number of i's left neighbors</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RIGHT (i + 1)%N <span class="comment">// number of i's right neighbors</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> THINKING 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HUNGRY 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EATING 2</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> semaphore;</span><br><span class="line"><span class="keyword">int</span> state[N]; <span class="comment">// array to keep track of everyone's state</span></span><br><span class="line">semaphore mutex = <span class="number">1</span>; <span class="comment">// mutual exclusion of critical region</span></span><br><span class="line">semaphore s[N]; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">philosopher</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (TRUE) &#123;</span><br><span class="line">		think();</span><br><span class="line">		take_forks(i);</span><br><span class="line">		eat();</span><br><span class="line">		put_forks(i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">take_forks</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	down(&amp;mutex); <span class="comment">// enter critical region</span></span><br><span class="line">	state[i] = HUNGRY; <span class="comment">// record that i is hungry</span></span><br><span class="line">	test_forks(i); <span class="comment">// try to acquire two forks</span></span><br><span class="line">	up(&amp;mutex); <span class="comment">// exit critical region</span></span><br><span class="line">	down(&amp;s[i]); <span class="comment">// block if forks are not acquired</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">put_forks</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	down(&amp;mutex); <span class="comment">// enter critical region</span></span><br><span class="line">	state[i] = THINKING; <span class="comment">// record that has finished eating</span></span><br><span class="line">	test_forks(LEFT); <span class="comment">// see if left neighbor can now eat</span></span><br><span class="line">	test_forks(RIGHT); <span class="comment">// see if right neighbor can now eat</span></span><br><span class="line">	up(&amp;mutex); <span class="comment">// exit critical region</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_forks</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (state[i] == HUNGRY &amp;&amp; state[LEFT] != EATING &amp;&amp; state[RIGHT] != EATING) &#123;</span><br><span class="line">		state[i] = EATING;</span><br><span class="line">		up(&amp;s[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 5  <span class="comment">// number of philosopher</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LEFT (i + N - 1)%N <span class="comment">// number of i&#x27;s left neighbors</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RIGHT (i + 1)%N <span class="comment">// number of i&#x27;s right neighbors</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> THINKING 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> HUNGRY 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EATING 2</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> semaphore;</span><br><span class="line"><span class="keyword">int</span> state[N]; <span class="comment">// array to keep track of everyone&#x27;s state</span></span><br><span class="line">semaphore mutex = <span class="number">1</span>; <span class="comment">// mutual exclusion of critical region</span></span><br><span class="line">semaphore s[N]; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">philosopher</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (TRUE) &#123;</span><br><span class="line">		think();</span><br><span class="line">		take_forks(i);</span><br><span class="line">		eat();</span><br><span class="line">		put_forks(i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">take_forks</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	down(&amp;mutex); <span class="comment">// enter critical region</span></span><br><span class="line">	state[i] = HUNGRY; <span class="comment">// record that i is hungry</span></span><br><span class="line">	test_forks(i); <span class="comment">// try to acquire two forks</span></span><br><span class="line">	up(&amp;mutex); <span class="comment">// exit critical region</span></span><br><span class="line">	down(&amp;s[i]); <span class="comment">// block if forks are not acquired</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">put_forks</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	down(&amp;mutex); <span class="comment">// enter critical region</span></span><br><span class="line">	state[i] = THINKING; <span class="comment">// record that has finished eating</span></span><br><span class="line">	test_forks(LEFT); <span class="comment">// see if left neighbor can now eat</span></span><br><span class="line">	test_forks(RIGHT); <span class="comment">// see if right neighbor can now eat</span></span><br><span class="line">	up(&amp;mutex); <span class="comment">// exit critical region</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_forks</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (state[i] == HUNGRY &amp;&amp; state[LEFT] != EATING &amp;&amp; state[RIGHT] != EATING) &#123;</span><br><span class="line">		state[i] = EATING;</span><br><span class="line">		up(&amp;s[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </details>
 
 <details>
@@ -612,11 +733,11 @@
 <li>电梯算法：电梯总是保持一个方向运行，直到该方向没有请求为止，然后改变运行方向。</li>
 </ul>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://www.jianshu.com/p/c1015f5ffa74" target="_blank" rel="noopener">进程间通信IPC – 简书</a></li>
-<li><a href="https://blog.csdn.net/justloveyou_/article/details/78304294" target="_blank" rel="noopener">面试/笔试第二弹 —— 操作系统面试问题集锦 - CSDN博客</a></li>
-<li><a href="https://segmentfault.com/a/1190000018970361" target="_blank" rel="noopener">线程同步与并发 - - SegmentFault</a></li>
-<li><a href="http://baijiahao.baidu.com/s?id=1641172494287388070&wfr=spider&for=pc" target="_blank" rel="noopener">彻底搞懂epoll高效运行的原理</a></li>
-<li><a href="https://www.cnblogs.com/lirong21/p/4213028.html" target="_blank" rel="noopener">用户态与内核态的切换</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c1015f5ffa74">进程间通信IPC – 简书</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/justloveyou_/article/details/78304294">面试/笔试第二弹 —— 操作系统面试问题集锦 - CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000018970361">线程同步与并发 - - SegmentFault</a></li>
+<li><a target="_blank" rel="noopener" href="http://baijiahao.baidu.com/s?id=1641172494287388070&wfr=spider&for=pc">彻底搞懂epoll高效运行的原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lirong21/p/4213028.html">用户态与内核态的切换</a></li>
 </ul>
 <h3 id="待完成"><a href="#待完成" class="headerlink" title="待完成"></a>待完成</h3><ul>
 <li><input disabled="" type="checkbox"> IPC</li>
@@ -635,9 +756,9 @@
                 <div class="article-prev">
                     <a class="prev btn"
                        rel="prev"
-                       href="/2020/07/29/interview/Python/"
+                       href="/2020/07/29/others/cncf/"
                     >
-                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">Python</span><span class="post-nav-item">Prev posts</span>
+                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">云原生</span><span class="post-nav-item">Prev posts</span>
                     </a>
                 </div>
             
@@ -645,9 +766,9 @@
                 <div class="article-next">
                     <a class="next btn"
                        rel="next"
-                       href="/2020/07/29/interview/Design_Pattern/"
+                       href="/2020/07/29/interview/network/"
                     >
-                        <span class="post-nav-title-item">设计模式</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
+                        <span class="post-nav-title-item">计算机网络</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
                     </a>
                 </div>
             
@@ -738,7 +859,7 @@
         
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#操作系统"><span class="nav-number">1.</span> <span class="nav-text">操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程和线程有什么区别？"><span class="nav-number">1.0.1.</span> <span class="nav-text">进程和线程有什么区别？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#同一进程中的线程可以共享哪些数据？"><span class="nav-number">1.0.1.0.1.</span> <span class="nav-text">同一进程中的线程可以共享哪些数据？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#线程独占哪些资源？"><span class="nav-number">1.0.1.0.2.</span> <span class="nav-text">线程独占哪些资源？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程间通信有哪些方式？"><span class="nav-number">1.0.2.</span> <span class="nav-text">进程间通信有哪些方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程同步问题"><span class="nav-number">1.0.3.</span> <span class="nav-text">进程同步问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#临界区的概念？"><span class="nav-number">1.0.3.0.1.</span> <span class="nav-text">临界区的概念？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#同步与互斥的概念？"><span class="nav-number">1.0.3.0.2.</span> <span class="nav-text">同步与互斥的概念？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#并发、并行、异步的区别？"><span class="nav-number">1.0.3.0.3.</span> <span class="nav-text">并发、并行、异步的区别？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程有哪几种状态？"><span class="nav-number">1.0.4.</span> <span class="nav-text">进程有哪几种状态？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程调度策略有哪些？"><span class="nav-number">1.0.5.</span> <span class="nav-text">进程调度策略有哪些？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么叫优先级反转？如何解决？"><span class="nav-number">1.0.5.0.1.</span> <span class="nav-text">什么叫优先级反转？如何解决？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是僵尸进程？"><span class="nav-number">1.0.6.</span> <span class="nav-text">什么是僵尸进程？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是孤儿进程？"><span class="nav-number">1.0.6.0.1.</span> <span class="nav-text">什么是孤儿进程？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程同步有哪些方式？"><span class="nav-number">1.0.7.</span> <span class="nav-text">线程同步有哪些方式？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#互斥量和临界区有什么区别？"><span class="nav-number">1.0.7.0.1.</span> <span class="nav-text">互斥量和临界区有什么区别？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是协程？"><span class="nav-number">1.0.8.</span> <span class="nav-text">什么是协程？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#协程多与线程进行比较？"><span class="nav-number">1.0.8.0.1.</span> <span class="nav-text">协程多与线程进行比较？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是IO多路复用？怎么实现？"><span class="nav-number">1.0.9.</span> <span class="nav-text">什么是IO多路复用？怎么实现？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是水平触发？什么是边缘触发？"><span class="nav-number">1.0.9.0.1.</span> <span class="nav-text">什么是水平触发？什么是边缘触发？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#有哪些常见的IO模型？"><span class="nav-number">1.0.9.0.2.</span> <span class="nav-text">有哪些常见的IO模型？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是用户态和内核态？"><span class="nav-number">1.0.10.</span> <span class="nav-text">什么是用户态和内核态？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么要分用户态和内核态？"><span class="nav-number">1.0.10.0.1.</span> <span class="nav-text">为什么要分用户态和内核态？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如何从用户态切换到内核态？"><span class="nav-number">1.0.10.0.2.</span> <span class="nav-text">如何从用户态切换到内核态？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是死锁？"><span class="nav-number">1.0.11.</span> <span class="nav-text">什么是死锁？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁产生的必要条件？"><span class="nav-number">1.0.12.</span> <span class="nav-text">死锁产生的必要条件？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁有哪些处理方法？"><span class="nav-number">1.0.13.</span> <span class="nav-text">死锁有哪些处理方法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分页和分段有什么区别？"><span class="nav-number">1.0.14.</span> <span class="nav-text">分页和分段有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是虚拟内存？"><span class="nav-number">1.0.15.</span> <span class="nav-text">什么是虚拟内存？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#如何进行地址空间到物理内存的映射？"><span class="nav-number">1.0.15.0.1.</span> <span class="nav-text">如何进行地址空间到物理内存的映射？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有哪些页面置换算法？"><span class="nav-number">1.0.16.</span> <span class="nav-text">有哪些页面置换算法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#磁盘调度"><span class="nav-number">1.0.17.</span> <span class="nav-text">磁盘调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">1.0.18.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#待完成"><span class="nav-number">1.0.19.</span> <span class="nav-text">待完成</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.</span> <span class="nav-text">操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.0.1.</span> <span class="nav-text">进程和线程有什么区别？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%8C%E4%B8%80%E8%BF%9B%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%8F%AF%E4%BB%A5%E5%85%B1%E4%BA%AB%E5%93%AA%E4%BA%9B%E6%95%B0%E6%8D%AE%EF%BC%9F"><span class="nav-number">1.0.1.0.1.</span> <span class="nav-text">同一进程中的线程可以共享哪些数据？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%8B%AC%E5%8D%A0%E5%93%AA%E4%BA%9B%E8%B5%84%E6%BA%90%EF%BC%9F"><span class="nav-number">1.0.1.0.2.</span> <span class="nav-text">线程独占哪些资源？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-number">1.0.2.</span> <span class="nav-text">进程间通信有哪些方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98"><span class="nav-number">1.0.3.</span> <span class="nav-text">进程同步问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%B4%E7%95%8C%E5%8C%BA%E7%9A%84%E6%A6%82%E5%BF%B5%EF%BC%9F"><span class="nav-number">1.0.3.0.1.</span> <span class="nav-text">临界区的概念？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%B8%8E%E4%BA%92%E6%96%A5%E7%9A%84%E6%A6%82%E5%BF%B5%EF%BC%9F"><span class="nav-number">1.0.3.0.2.</span> <span class="nav-text">同步与互斥的概念？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E3%80%81%E5%B9%B6%E8%A1%8C%E3%80%81%E5%BC%82%E6%AD%A5%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.0.3.0.3.</span> <span class="nav-text">并发、并行、异步的区别？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E7%8A%B6%E6%80%81%EF%BC%9F"><span class="nav-number">1.0.4.</span> <span class="nav-text">进程有哪几种状态？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">1.0.5.</span> <span class="nav-text">进程调度策略有哪些？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E5%8F%AB%E4%BC%98%E5%85%88%E7%BA%A7%E5%8F%8D%E8%BD%AC%EF%BC%9F%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%EF%BC%9F"><span class="nav-number">1.0.5.0.1.</span> <span class="nav-text">什么叫优先级反转？如何解决？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%EF%BC%9F"><span class="nav-number">1.0.6.</span> <span class="nav-text">什么是僵尸进程？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B%EF%BC%9F"><span class="nav-number">1.0.6.0.1.</span> <span class="nav-text">什么是孤儿进程？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-number">1.0.7.</span> <span class="nav-text">线程同步有哪些方式？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%87%8F%E5%92%8C%E4%B8%B4%E7%95%8C%E5%8C%BA%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.0.7.0.1.</span> <span class="nav-text">互斥量和临界区有什么区别？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%8F%E7%A8%8B%EF%BC%9F"><span class="nav-number">1.0.8.</span> <span class="nav-text">什么是协程？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B%E5%A4%9A%E4%B8%8E%E7%BA%BF%E7%A8%8B%E8%BF%9B%E8%A1%8C%E6%AF%94%E8%BE%83%EF%BC%9F"><span class="nav-number">1.0.8.0.1.</span> <span class="nav-text">协程多与线程进行比较？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFIO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%EF%BC%9F%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%EF%BC%9F"><span class="nav-number">1.0.9.</span> <span class="nav-text">什么是IO多路复用？怎么实现？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B0%B4%E5%B9%B3%E8%A7%A6%E5%8F%91%EF%BC%9F%E4%BB%80%E4%B9%88%E6%98%AF%E8%BE%B9%E7%BC%98%E8%A7%A6%E5%8F%91%EF%BC%9F"><span class="nav-number">1.0.9.0.1.</span> <span class="nav-text">什么是水平触发？什么是边缘触发？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E8%A7%81%E7%9A%84IO%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="nav-number">1.0.9.0.2.</span> <span class="nav-text">有哪些常见的IO模型？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%94%A8%E6%88%B7%E6%80%81%E5%92%8C%E5%86%85%E6%A0%B8%E6%80%81%EF%BC%9F"><span class="nav-number">1.0.10.</span> <span class="nav-text">什么是用户态和内核态？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%88%86%E7%94%A8%E6%88%B7%E6%80%81%E5%92%8C%E5%86%85%E6%A0%B8%E6%80%81%EF%BC%9F"><span class="nav-number">1.0.10.0.1.</span> <span class="nav-text">为什么要分用户态和内核态？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BB%8E%E7%94%A8%E6%88%B7%E6%80%81%E5%88%87%E6%8D%A2%E5%88%B0%E5%86%85%E6%A0%B8%E6%80%81%EF%BC%9F"><span class="nav-number">1.0.10.0.2.</span> <span class="nav-text">如何从用户态切换到内核态？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%AD%BB%E9%94%81%EF%BC%9F"><span class="nav-number">1.0.11.</span> <span class="nav-text">什么是死锁？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E4%BA%A7%E7%94%9F%E7%9A%84%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%EF%BC%9F"><span class="nav-number">1.0.12.</span> <span class="nav-text">死锁产生的必要条件？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E6%9C%89%E5%93%AA%E4%BA%9B%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="nav-number">1.0.13.</span> <span class="nav-text">死锁有哪些处理方法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E9%A1%B5%E5%92%8C%E5%88%86%E6%AE%B5%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.0.14.</span> <span class="nav-text">分页和分段有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%EF%BC%9F"><span class="nav-number">1.0.15.</span> <span class="nav-text">什么是虚拟内存？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4%E5%88%B0%E7%89%A9%E7%90%86%E5%86%85%E5%AD%98%E7%9A%84%E6%98%A0%E5%B0%84%EF%BC%9F"><span class="nav-number">1.0.15.0.1.</span> <span class="nav-text">如何进行地址空间到物理内存的映射？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E5%93%AA%E4%BA%9B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%EF%BC%9F"><span class="nav-number">1.0.16.</span> <span class="nav-text">有哪些页面置换算法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E8%B0%83%E5%BA%A6"><span class="nav-number">1.0.17.</span> <span class="nav-text">磁盘调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.0.18.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%85%E5%AE%8C%E6%88%90"><span class="nav-number">1.0.19.</span> <span class="nav-text">待完成</span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
         

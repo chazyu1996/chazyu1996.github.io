@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -212,7 +333,7 @@
 <h2 id="使用Volume"><a href="#使用Volume" class="headerlink" title="使用Volume"></a>使用Volume</h2><p>Volume可以为容器提供持久化存储，比如</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: redis</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: redis</span><br><span class="line">    image: redis</span><br><span class="line">    volumeMounts:</span><br><span class="line">    - name: redis-storage</span><br><span class="line">      mountPath: &#x2F;data&#x2F;redis</span><br><span class="line">  volumes:</span><br><span class="line">  - name: redis-storage</span><br><span class="line">    emptyDir: &#123;&#125;</span><br></pre></td></tr></table></figure>
 
-<p>更多挂载存储卷的方法参考<a href="https://feisky.gitbooks.io/kubernetes/concepts/volume.html" target="_blank" rel="noopener">Volume</a>。</p>
+<p>更多挂载存储卷的方法参考<a target="_blank" rel="noopener" href="https://feisky.gitbooks.io/kubernetes/concepts/volume.html">Volume</a>。</p>
 <h2 id="私有镜像"><a href="#私有镜像" class="headerlink" title="私有镜像"></a>私有镜像</h2><p>在使用私有镜像时，需要创建一个docker registry secret，并在容器中引用。</p>
 <p>创建docker registry secret：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create secret docker-registry regsecret --docker-server&#x3D;&lt;your-registry-server&gt; --docker-username&#x3D;&lt;your-name&gt; --docker-password&#x3D;&lt;your-pword&gt; --docker-email&#x3D;&lt;your-email&gt;</span><br></pre></td></tr></table></figure>
@@ -293,7 +414,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx</span><br><span class="line">  labels:</span><br><span class="line">    env: test</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: nginx</span><br><span class="line">    image: nginx</span><br><span class="line">    imagePullPolicy: IfNotPresent</span><br><span class="line">  nodeSelector:</span><br><span class="line">    disktype: ssd</span><br></pre></td></tr></table></figure>
 
 <h2 id="使用Capabilities"><a href="#使用Capabilities" class="headerlink" title="使用Capabilities"></a>使用Capabilities</h2><p>默认情况下，容器都是以非特权容器的方式运行。比如，不能在容器中创建虚拟网卡、配置虚拟网络。</p>
-<p>Kubernetes提供了修改<a href="http://man7.org/linux/man-pages/man7/capabilities.7.html" target="_blank" rel="noopener">Capabilities</a>的机制，可以按需要给给容器增加或删除。比如下面的配置给容器增加了<code>CAP_NET_ADMIN</code>并删除了<code>CAP_KILL</code>。</p>
+<p>Kubernetes提供了修改<a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man7/capabilities.7.html">Capabilities</a>的机制，可以按需要给给容器增加或删除。比如下面的配置给容器增加了<code>CAP_NET_ADMIN</code>并删除了<code>CAP_KILL</code>。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: hello-world</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: friendly-container</span><br><span class="line">    image: &quot;alpine:3.4&quot;</span><br><span class="line">    command: [&quot;&#x2F;bin&#x2F;echo&quot;, &quot;hello&quot;, &quot;world&quot;]</span><br><span class="line">    securityContext:</span><br><span class="line">      capabilities:</span><br><span class="line">        add:</span><br><span class="line">        - NET_ADMIN</span><br><span class="line">        drop:</span><br><span class="line">        - KILL</span><br></pre></td></tr></table></figure>
 
 <h2 id="限制网络带宽"><a href="#限制网络带宽" class="headerlink" title="限制网络带宽"></a>限制网络带宽</h2><p>可以通过给Pod增加<code>kubernetes.io/ingress-bandwidth</code>和<code>kubernetes.io/egress-bandwidth</code>这两个annotation来限制Pod的网络带宽</p>
@@ -306,7 +427,7 @@
 <p>kubenet的网络带宽限制其实是通过tc来实现的</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># setup qdisc (only once)</span><br><span class="line">tc qdisc add dev cbr0 root handle 1: htb default 30</span><br><span class="line"># download rate</span><br><span class="line">tc class add dev cbr0 parent 1: classid 1:2 htb rate 3Mbit</span><br><span class="line">tc filter add dev cbr0 protocol ip parent 1:0 prio 1 u32 match ip dst 10.1.0.3&#x2F;32 flowid 1:2</span><br><span class="line"># upload rate</span><br><span class="line">tc class add dev cbr0 parent 1: classid 1:3 htb rate 4Mbit</span><br><span class="line">tc filter add dev cbr0 protocol ip parent 1:0 prio 1 u32 match ip src 10.1.0.3&#x2F;32 flowid 1:3</span><br></pre></td></tr></table></figure>
 
-<h2 id="调度到指定的Node上"><a href="#调度到指定的Node上" class="headerlink" title="调度到指定的Node上"></a>调度到指定的Node上</h2><p>可以通过nodeSelector、nodeAffinity、podAffinity以及Taints和tolerations等来将Pod调度到需要的Node上。具体使用方法请参考<a href="https://feisky.gitbooks.io/kubernetes/components/scheduler.html" target="_blank" rel="noopener">调度器章节</a>。</p>
+<h2 id="调度到指定的Node上"><a href="#调度到指定的Node上" class="headerlink" title="调度到指定的Node上"></a>调度到指定的Node上</h2><p>可以通过nodeSelector、nodeAffinity、podAffinity以及Taints和tolerations等来将Pod调度到需要的Node上。具体使用方法请参考<a target="_blank" rel="noopener" href="https://feisky.gitbooks.io/kubernetes/components/scheduler.html">调度器章节</a>。</p>
 <h1 id="Labels"><a href="#Labels" class="headerlink" title="Labels"></a>Labels</h1><h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a><strong>标签</strong></h2><p>标签其实就一对 key/value ，被关联到对象上，比如Pod,标签的使用我们倾向于能够标示对象的特殊特点，并且对用户而言是有意义的（就是一眼就看出了这个Pod是尼玛数据库），但是标签对内核系统是没有直接意义的。标签可以用来划分特定组的对象（比如，所有女的），标签可以在创建一个对象的时候直接给与，也可以在后期随时修改，每一个对象可以拥有多个标签，但是，key值必须是唯一的</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;labels&quot;: &#123;</span><br><span class="line"> &quot;key1&quot; : &quot;value1&quot;,</span><br><span class="line"> &quot;key2&quot; : &quot;value2&quot;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 
@@ -480,7 +601,7 @@
         
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#名词解释-Pods"><span class="nav-number">1.</span> <span class="nav-text">名词解释 Pods</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Pod"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Pod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod的发展"><span class="nav-number">1.2.</span> <span class="nav-text">Pod的发展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#资源的共享及通信"><span class="nav-number">1.2.1.</span> <span class="nav-text">资源的共享及通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管理"><span class="nav-number">1.2.2.</span> <span class="nav-text">管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod的使用"><span class="nav-number">1.3.</span> <span class="nav-text">Pod的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#考虑过的其他方案"><span class="nav-number">1.4.</span> <span class="nav-text">考虑过的其他方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod的持久性"><span class="nav-number">1.5.</span> <span class="nav-text">Pod的持久性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器的终止"><span class="nav-number">1.6.</span> <span class="nav-text">容器的终止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Volume"><span class="nav-number">1.7.</span> <span class="nav-text">使用Volume</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#私有镜像"><span class="nav-number">1.8.</span> <span class="nav-text">私有镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RestartPoliy"><span class="nav-number">1.9.</span> <span class="nav-text">RestartPoliy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境变量"><span class="nav-number">1.10.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ImagePullPolicy"><span class="nav-number">1.11.</span> <span class="nav-text">ImagePullPolicy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源限制"><span class="nav-number">1.12.</span> <span class="nav-text">资源限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#健康检查"><span class="nav-number">1.13.</span> <span class="nav-text">健康检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Init-Container"><span class="nav-number">1.14.</span> <span class="nav-text">Init Container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器生命周期钩子"><span class="nav-number">1.15.</span> <span class="nav-text">容器生命周期钩子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指定Node"><span class="nav-number">1.16.</span> <span class="nav-text">指定Node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Capabilities"><span class="nav-number">1.17.</span> <span class="nav-text">使用Capabilities</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限制网络带宽"><span class="nav-number">1.18.</span> <span class="nav-text">限制网络带宽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调度到指定的Node上"><span class="nav-number">1.19.</span> <span class="nav-text">调度到指定的Node上</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Labels"><span class="nav-number">2.</span> <span class="nav-text">Labels</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#标签"><span class="nav-number">2.1.</span> <span class="nav-text">标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Motivation"><span class="nav-number">2.2.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Label的语法和字符集"><span class="nav-number">2.3.</span> <span class="nav-text">Label的语法和字符集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Label-选择器"><span class="nav-number">2.4.</span> <span class="nav-text">Label**选择器**</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Equality-based-requirement"><span class="nav-number">2.4.1.</span> <span class="nav-text">Equality-based requirement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于set的条件"><span class="nav-number">2.4.2.</span> <span class="nav-text">基于set的条件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API"><span class="nav-number">2.5.</span> <span class="nav-text">API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LIST-和WATCH过滤"><span class="nav-number">2.5.1.</span> <span class="nav-text">LIST 和WATCH过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-references-in-API-objects"><span class="nav-number">2.5.2.</span> <span class="nav-text">Set references in API objects</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service-and-ReplicationController"><span class="nav-number">2.5.3.</span> <span class="nav-text">Service and ReplicationController</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Job-and-other-new-resources"><span class="nav-number">2.5.4.</span> <span class="nav-text">Job and other new resources</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Job和其他新的资源"><span class="nav-number">2.5.4.1.</span> <span class="nav-text">Job和其他新的资源</span></a></li></ol></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A-Pods"><span class="nav-number">1.</span> <span class="nav-text">名词解释 Pods</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFPod"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Pod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod%E7%9A%84%E5%8F%91%E5%B1%95"><span class="nav-number">1.2.</span> <span class="nav-text">Pod的发展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E7%9A%84%E5%85%B1%E4%BA%AB%E5%8F%8A%E9%80%9A%E4%BF%A1"><span class="nav-number">1.2.1.</span> <span class="nav-text">资源的共享及通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%A1%E7%90%86"><span class="nav-number">1.2.2.</span> <span class="nav-text">管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">Pod的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%83%E8%99%91%E8%BF%87%E7%9A%84%E5%85%B6%E4%BB%96%E6%96%B9%E6%A1%88"><span class="nav-number">1.4.</span> <span class="nav-text">考虑过的其他方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod%E7%9A%84%E6%8C%81%E4%B9%85%E6%80%A7"><span class="nav-number">1.5.</span> <span class="nav-text">Pod的持久性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E7%9A%84%E7%BB%88%E6%AD%A2"><span class="nav-number">1.6.</span> <span class="nav-text">容器的终止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Volume"><span class="nav-number">1.7.</span> <span class="nav-text">使用Volume</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%81%E6%9C%89%E9%95%9C%E5%83%8F"><span class="nav-number">1.8.</span> <span class="nav-text">私有镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RestartPoliy"><span class="nav-number">1.9.</span> <span class="nav-text">RestartPoliy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">1.10.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ImagePullPolicy"><span class="nav-number">1.11.</span> <span class="nav-text">ImagePullPolicy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6"><span class="nav-number">1.12.</span> <span class="nav-text">资源限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5"><span class="nav-number">1.13.</span> <span class="nav-text">健康检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Init-Container"><span class="nav-number">1.14.</span> <span class="nav-text">Init Container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%92%A9%E5%AD%90"><span class="nav-number">1.15.</span> <span class="nav-text">容器生命周期钩子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E5%AE%9ANode"><span class="nav-number">1.16.</span> <span class="nav-text">指定Node</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Capabilities"><span class="nav-number">1.17.</span> <span class="nav-text">使用Capabilities</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%90%E5%88%B6%E7%BD%91%E7%BB%9C%E5%B8%A6%E5%AE%BD"><span class="nav-number">1.18.</span> <span class="nav-text">限制网络带宽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E5%88%B0%E6%8C%87%E5%AE%9A%E7%9A%84Node%E4%B8%8A"><span class="nav-number">1.19.</span> <span class="nav-text">调度到指定的Node上</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Labels"><span class="nav-number">2.</span> <span class="nav-text">Labels</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE"><span class="nav-number">2.1.</span> <span class="nav-text">标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Motivation"><span class="nav-number">2.2.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Label%E7%9A%84%E8%AF%AD%E6%B3%95%E5%92%8C%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="nav-number">2.3.</span> <span class="nav-text">Label的语法和字符集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Label-%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">2.4.</span> <span class="nav-text">Label**选择器**</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Equality-based-requirement"><span class="nav-number">2.4.1.</span> <span class="nav-text">Equality-based requirement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8Eset%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.4.2.</span> <span class="nav-text">基于set的条件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API"><span class="nav-number">2.5.</span> <span class="nav-text">API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LIST-%E5%92%8CWATCH%E8%BF%87%E6%BB%A4"><span class="nav-number">2.5.1.</span> <span class="nav-text">LIST 和WATCH过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-references-in-API-objects"><span class="nav-number">2.5.2.</span> <span class="nav-text">Set references in API objects</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service-and-ReplicationController"><span class="nav-number">2.5.3.</span> <span class="nav-text">Service and ReplicationController</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Job-and-other-new-resources"><span class="nav-number">2.5.4.</span> <span class="nav-text">Job and other new resources</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Job%E5%92%8C%E5%85%B6%E4%BB%96%E6%96%B0%E7%9A%84%E8%B5%84%E6%BA%90"><span class="nav-number">2.5.4.1.</span> <span class="nav-text">Job和其他新的资源</span></a></li></ol></li></ol></li></ol></li></ol>
     </div>
 </div>
         

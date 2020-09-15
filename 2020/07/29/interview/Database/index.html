@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -155,37 +276,37 @@
         <div class="article-content markdown-body">
             <h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><ul>
 <li>数据库基础<ul>
-<li><a href="#事务的概念和特性">事务的概念和特性？</a></li>
-<li><a href="#会出现哪些并发一致性问题">会出现哪些并发一致性问题？</a></li>
-<li><a href="#数据库的四种隔离级别">数据库的四种隔离级别？</a></li>
-<li><a href="#什么是乐观锁和悲观锁">什么是乐观锁和悲观锁？</a></li>
-<li><a href="#常见的封锁类型">常见的封锁类型？</a></li>
-<li><a href="#什么是三级封锁协议">什么是三级封锁协议？</a></li>
-<li><a href="#什么是两段锁协议">什么是两段锁协议？</a></li>
-<li><a href="#什么是-mvcc">什么是 MVCC？</a></li>
-<li><a href="#数据库的范式">数据库的范式？</a></li>
-<li><a href="#列举几种表连接方式">列举几种表连接方式？</a></li>
-<li><a href="#什么是存储过程有哪些优缺点">什么是存储过程？有哪些优缺点？</a></li>
-<li><a href="#DropDeleteTruncate的区别">Drop/Delete/Truncate的区别？</a></li>
-<li><a href="#什么是视图什么是游标">什么是视图？什么是游标？</a></li>
+<li><a href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E7%89%B9%E6%80%A7">事务的概念和特性？</a></li>
+<li><a href="#%E4%BC%9A%E5%87%BA%E7%8E%B0%E5%93%AA%E4%BA%9B%E5%B9%B6%E5%8F%91%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98">会出现哪些并发一致性问题？</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%9B%9B%E7%A7%8D%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB">数据库的四种隔离级别？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81">什么是乐观锁和悲观锁？</a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%B0%81%E9%94%81%E7%B1%BB%E5%9E%8B">常见的封锁类型？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE">什么是三级封锁协议？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%A4%E6%AE%B5%E9%94%81%E5%8D%8F%E8%AE%AE">什么是两段锁协议？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF-mvcc">什么是 MVCC？</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%8C%83%E5%BC%8F">数据库的范式？</a></li>
+<li><a href="#%E5%88%97%E4%B8%BE%E5%87%A0%E7%A7%8D%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F">列举几种表连接方式？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BC%98%E7%BC%BA%E7%82%B9">什么是存储过程？有哪些优缺点？</a></li>
+<li><a href="#DropDeleteTruncate%E7%9A%84%E5%8C%BA%E5%88%AB">Drop/Delete/Truncate的区别？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%A7%86%E5%9B%BE%E4%BB%80%E4%B9%88%E6%98%AF%E6%B8%B8%E6%A0%87">什么是视图？什么是游标？</a></li>
 </ul>
 </li>
 <li>MySQL<ul>
-<li><a href="#数据库索引的实现原理b树">数据库索引的实现原理（B+树）</a></li>
-<li><a href="#使用索引的优点">使用索引的优点</a></li>
-<li><a href="#哪些情况下索引会失效">哪些情况下索引会失效？</a></li>
-<li><a href="#在哪些地方适合创建索引">在哪些地方适合创建索引？</a></li>
-<li><a href="#索引的分类">索引的分类？</a></li>
-<li><a href="#MySQL的两种存储引擎-InnoDB-和-MyISAM-的区别">MySQL的两种存储引擎 InnoDB 和 MyISAM 的区别？</a></li>
-<li><a href="#如何优化数据库">如何优化数据库？</a></li>
-<li><a href="#什么是主从复制实现原理是什么">什么是主从复制？实现原理是什么？</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86b%E6%A0%91">数据库索引的实现原理（B+树）</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%82%B9">使用索引的优点</a></li>
+<li><a href="#%E5%93%AA%E4%BA%9B%E6%83%85%E5%86%B5%E4%B8%8B%E7%B4%A2%E5%BC%95%E4%BC%9A%E5%A4%B1%E6%95%88">哪些情况下索引会失效？</a></li>
+<li><a href="#%E5%9C%A8%E5%93%AA%E4%BA%9B%E5%9C%B0%E6%96%B9%E9%80%82%E5%90%88%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95">在哪些地方适合创建索引？</a></li>
+<li><a href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%88%86%E7%B1%BB">索引的分类？</a></li>
+<li><a href="#MySQL%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E-InnoDB-%E5%92%8C-MyISAM-%E7%9A%84%E5%8C%BA%E5%88%AB">MySQL的两种存储引擎 InnoDB 和 MyISAM 的区别？</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96%E6%95%B0%E6%8D%AE%E5%BA%93">如何优化数据库？</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88">什么是主从复制？实现原理是什么？</a></li>
 </ul>
 </li>
 <li>NoSQL/Redis<ul>
-<li><a href="关系型数据库和非关系型数据库的区别">关系型数据库和非关系型数据库的区别？</a></li>
+<li><a href="%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%8C%BA%E5%88%AB">关系型数据库和非关系型数据库的区别？</a></li>
 </ul>
 </li>
-<li><a href="#参考">参考</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
 </ul>
 <a id="more"></a>
 
@@ -364,7 +485,7 @@
 <li>游标（Cursor）：用于定位在查询返回的<strong>结果集的特定行</strong>，以对特定行进行操作。使用游标可以方便地对结果集进行移动遍历，根据需要滚动或对浏览/修改任意行中的数据。主要用于交互式应用。</li>
 </ul>
 <hr>
-<h3 id="数据库索引的实现原理（B-树）"><a href="#数据库索引的实现原理（B-树）" class="headerlink" title="数据库索引的实现原理（B+树）"></a>数据库索引的实现原理（B+树）</h3><p>见<a href="https://github.com/wolverinn/Iridescent/blob/master/Data%20Structure.md#b%E6%A0%91" target="_blank" rel="noopener">数据结构部分：B树，B+树</a></p>
+<h3 id="数据库索引的实现原理（B-树）"><a href="#数据库索引的实现原理（B-树）" class="headerlink" title="数据库索引的实现原理（B+树）"></a>数据库索引的实现原理（B+树）</h3><p>见<a target="_blank" rel="noopener" href="https://github.com/wolverinn/Iridescent/blob/master/Data%20Structure.md#b%E6%A0%91">数据结构部分：B树，B+树</a></p>
 <h5 id="使用B树和B-树的比较"><a href="#使用B树和B-树的比较" class="headerlink" title="使用B树和B+树的比较"></a>使用B树和B+树的比较</h5><p>InnoDB的索引使用的是B+树实现，B+树对比B树的好处：</p>
 <ul>
 <li>IO次数少：B+树的中间结点只存放索引，数据都存在叶结点中，因此中间结点可以存更多的数据，让索引树更加矮胖；</li>
@@ -519,27 +640,27 @@
 </li>
 </ul>
 <h3 id="关系型数据库和非关系型数据库的区别？"><a href="#关系型数据库和非关系型数据库的区别？" class="headerlink" title="关系型数据库和非关系型数据库的区别？"></a>关系型数据库和非关系型数据库的区别？</h3><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://blog.csdn.net/weixin_43433032/article/details/89293663" target="_blank" rel="noopener">数据库六大范式详解 – CSDN博客</a></li>
-<li><a href="https://www.cnblogs.com/alice-cj/p/10354737.html" target="_blank" rel="noopener">delete，truncate 和 delete之间的区别 – 博客园</a></li>
-<li><a href="https://baijiahao.baidu.com/s?id=1617888740370098866&wfr=spider&for=pc" target="_blank" rel="noopener">深度探索MySQL主从复制原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43433032/article/details/89293663">数据库六大范式详解 – CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/alice-cj/p/10354737.html">delete，truncate 和 delete之间的区别 – 博客园</a></li>
+<li><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1617888740370098866&wfr=spider&for=pc">深度探索MySQL主从复制原理</a></li>
 <li>数据库程序员面试笔试宝典-机械工业出版社</li>
-<li><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86.md" target="_blank" rel="noopener">CS-Notes/数据库系统原理 – GitHub</a></li>
-<li><a href="https://blog.csdn.net/justloveyou_/article/details/78308460" target="_blank" rel="noopener">面试/笔试第三弹 —— 数据库面试问题集锦 – CSDN博客</a></li>
-<li><a href="https://www.cnblogs.com/wenxiaofei/p/9853682.html" target="_blank" rel="noopener">史上最全的数据库面试题，不看绝对后悔 – 博客园</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86.md">CS-Notes/数据库系统原理 – GitHub</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/justloveyou_/article/details/78308460">面试/笔试第三弹 —— 数据库面试问题集锦 – CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wenxiaofei/p/9853682.html">史上最全的数据库面试题，不看绝对后悔 – 博客园</a></li>
 </ul>
 <h3 id="待完成"><a href="#待完成" class="headerlink" title="待完成"></a>待完成</h3><ul>
 <li><input disabled="" type="checkbox"> E-R 模型</li>
 <li><input disabled="" type="checkbox"> 数据库的三级模式和二级映像</li>
-<li><input disabled="" type="checkbox"> <a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/MySQL.md#%E5%9B%9B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B" target="_blank" rel="noopener">数据类型</a>：VARCHAR和CHAR的区别，DATETIME和TIMESATMP的区别</li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://github.com/CyC2018/CS-Notes/blob/master/notes/MySQL.md#%E5%9B%9B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B">数据类型</a>：VARCHAR和CHAR的区别，DATETIME和TIMESATMP的区别</li>
 <li><input disabled="" type="checkbox"> Redis 面试<ul>
-<li><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/Redis.md" target="_blank" rel="noopener">CyC2018</a></li>
-<li><a href="https://blog.csdn.net/Butterfly_resting/article/details/89668661" target="_blank" rel="noopener">几率大的Redis面试题（含答案） - CSDN</a></li>
-<li><a href="https://www.jianshu.com/p/65765dd10671" target="_blank" rel="noopener">Redis面试题总结 - 简书</a></li>
-<li><a href="https://www.cnblogs.com/jasontec/p/9699242.html" target="_blank" rel="noopener">Redis常见面试题 - 博客园</a></li>
-<li><a href="https://github.com/0voice/interview_internal_reference#10" target="_blank" rel="noopener">0voice/interview_internal_reference</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/CyC2018/CS-Notes/blob/master/notes/Redis.md">CyC2018</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Butterfly_resting/article/details/89668661">几率大的Redis面试题（含答案） - CSDN</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/65765dd10671">Redis面试题总结 - 简书</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jasontec/p/9699242.html">Redis常见面试题 - 博客园</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/0voice/interview_internal_reference#10">0voice/interview_internal_reference</a></li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> <a href="https://www.cnblogs.com/wenxiaofei/p/9853682.html" target="_blank" rel="noopener">史上最全的数据库面试题，不看绝对后悔 – 博客园</a></li>
+<li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/wenxiaofei/p/9853682.html">史上最全的数据库面试题，不看绝对后悔 – 博客园</a></li>
 </ul>
 
         </div>
@@ -549,9 +670,9 @@
                 <div class="article-prev">
                     <a class="prev btn"
                        rel="prev"
-                       href="/2020/07/29/interview/Design_Pattern/"
+                       href="/2020/09/08/k8s/what_happen_apply_yaml/"
                     >
-                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">设计模式</span><span class="post-nav-item">Prev posts</span>
+                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">pod 的创建过程</span><span class="post-nav-item">Prev posts</span>
                     </a>
                 </div>
             
@@ -559,9 +680,9 @@
                 <div class="article-next">
                     <a class="next btn"
                        rel="next"
-                       href="/2020/07/20/mysql/affair/"
+                       href="/2020/07/29/others/cncf/"
                     >
-                        <span class="post-nav-title-item">事务</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
+                        <span class="post-nav-title-item">云原生</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
                     </a>
                 </div>
             
@@ -652,7 +773,7 @@
         
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库"><span class="nav-number">1.</span> <span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务的概念和特性？"><span class="nav-number">1.0.1.</span> <span class="nav-text">事务的概念和特性？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#会出现哪些并发一致性问题？"><span class="nav-number">1.0.2.</span> <span class="nav-text">会出现哪些并发一致性问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库的四种隔离级别？"><span class="nav-number">1.0.3.</span> <span class="nav-text">数据库的四种隔离级别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是乐观锁和悲观锁？"><span class="nav-number">1.0.4.</span> <span class="nav-text">什么是乐观锁和悲观锁？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的封锁类型？"><span class="nav-number">1.0.5.</span> <span class="nav-text">常见的封锁类型？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是三级封锁协议？"><span class="nav-number">1.0.6.</span> <span class="nav-text">什么是三级封锁协议？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是两段锁协议？"><span class="nav-number">1.0.7.</span> <span class="nav-text">什么是两段锁协议？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-MVCC？"><span class="nav-number">1.0.8.</span> <span class="nav-text">什么是 MVCC？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库的范式？"><span class="nav-number">1.0.9.</span> <span class="nav-text">数据库的范式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列举几种表连接方式？"><span class="nav-number">1.0.10.</span> <span class="nav-text">列举几种表连接方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是存储过程？有哪些优缺点？"><span class="nav-number">1.0.11.</span> <span class="nav-text">什么是存储过程？有哪些优缺点？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Drop-Delete-Truncate的区别？"><span class="nav-number">1.0.12.</span> <span class="nav-text">Drop&#x2F;Delete&#x2F;Truncate的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是视图？什么是游标？"><span class="nav-number">1.0.13.</span> <span class="nav-text">什么是视图？什么是游标？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库索引的实现原理（B-树）"><span class="nav-number">1.0.14.</span> <span class="nav-text">数据库索引的实现原理（B+树）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用B树和B-树的比较"><span class="nav-number">1.0.14.0.1.</span> <span class="nav-text">使用B树和B+树的比较</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用B树索引和哈希索引的比较"><span class="nav-number">1.0.14.0.2.</span> <span class="nav-text">使用B树索引和哈希索引的比较</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用索引的优点"><span class="nav-number">1.0.15.</span> <span class="nav-text">使用索引的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#哪些情况下索引会失效？"><span class="nav-number">1.0.16.</span> <span class="nav-text">哪些情况下索引会失效？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在哪些地方适合创建索引？"><span class="nav-number">1.0.17.</span> <span class="nav-text">在哪些地方适合创建索引？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#创建索引时需要注意什么？"><span class="nav-number">1.0.17.0.1.</span> <span class="nav-text">创建索引时需要注意什么？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引的分类？"><span class="nav-number">1.0.18.</span> <span class="nav-text">索引的分类？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的两种存储引擎-InnoDB-和-MyISAM-的区别？"><span class="nav-number">1.0.19.</span> <span class="nav-text">MySQL的两种存储引擎 InnoDB 和 MyISAM 的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何优化数据库？"><span class="nav-number">1.0.20.</span> <span class="nav-text">如何优化数据库？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是主从复制？实现原理是什么？"><span class="nav-number">1.0.21.</span> <span class="nav-text">什么是主从复制？实现原理是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么要主从复制？"><span class="nav-number">1.0.21.0.1.</span> <span class="nav-text">为什么要主从复制？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系型数据库和非关系型数据库的区别？"><span class="nav-number">1.0.22.</span> <span class="nav-text">关系型数据库和非关系型数据库的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">1.0.23.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#待完成"><span class="nav-number">1.0.24.</span> <span class="nav-text">待完成</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E7%89%B9%E6%80%A7%EF%BC%9F"><span class="nav-number">1.0.1.</span> <span class="nav-text">事务的概念和特性？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%9A%E5%87%BA%E7%8E%B0%E5%93%AA%E4%BA%9B%E5%B9%B6%E5%8F%91%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-number">1.0.2.</span> <span class="nav-text">会出现哪些并发一致性问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%9B%9B%E7%A7%8D%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%EF%BC%9F"><span class="nav-number">1.0.3.</span> <span class="nav-text">数据库的四种隔离级别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81%EF%BC%9F"><span class="nav-number">1.0.4.</span> <span class="nav-text">什么是乐观锁和悲观锁？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%B0%81%E9%94%81%E7%B1%BB%E5%9E%8B%EF%BC%9F"><span class="nav-number">1.0.5.</span> <span class="nav-text">常见的封锁类型？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE%EF%BC%9F"><span class="nav-number">1.0.6.</span> <span class="nav-text">什么是三级封锁协议？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%A4%E6%AE%B5%E9%94%81%E5%8D%8F%E8%AE%AE%EF%BC%9F"><span class="nav-number">1.0.7.</span> <span class="nav-text">什么是两段锁协议？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-MVCC%EF%BC%9F"><span class="nav-number">1.0.8.</span> <span class="nav-text">什么是 MVCC？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%8C%83%E5%BC%8F%EF%BC%9F"><span class="nav-number">1.0.9.</span> <span class="nav-text">数据库的范式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E4%B8%BE%E5%87%A0%E7%A7%8D%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-number">1.0.10.</span> <span class="nav-text">列举几种表连接方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%EF%BC%9F%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9F"><span class="nav-number">1.0.11.</span> <span class="nav-text">什么是存储过程？有哪些优缺点？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Drop-Delete-Truncate%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.0.12.</span> <span class="nav-text">Drop&#x2F;Delete&#x2F;Truncate的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%A7%86%E5%9B%BE%EF%BC%9F%E4%BB%80%E4%B9%88%E6%98%AF%E6%B8%B8%E6%A0%87%EF%BC%9F"><span class="nav-number">1.0.13.</span> <span class="nav-text">什么是视图？什么是游标？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%88B-%E6%A0%91%EF%BC%89"><span class="nav-number">1.0.14.</span> <span class="nav-text">数据库索引的实现原理（B+树）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8B%E6%A0%91%E5%92%8CB-%E6%A0%91%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-number">1.0.14.0.1.</span> <span class="nav-text">使用B树和B+树的比较</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8B%E6%A0%91%E7%B4%A2%E5%BC%95%E5%92%8C%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-number">1.0.14.0.2.</span> <span class="nav-text">使用B树索引和哈希索引的比较</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">1.0.15.</span> <span class="nav-text">使用索引的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E6%83%85%E5%86%B5%E4%B8%8B%E7%B4%A2%E5%BC%95%E4%BC%9A%E5%A4%B1%E6%95%88%EF%BC%9F"><span class="nav-number">1.0.16.</span> <span class="nav-text">哪些情况下索引会失效？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E5%93%AA%E4%BA%9B%E5%9C%B0%E6%96%B9%E9%80%82%E5%90%88%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%EF%BC%9F"><span class="nav-number">1.0.17.</span> <span class="nav-text">在哪些地方适合创建索引？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E6%97%B6%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.0.17.0.1.</span> <span class="nav-text">创建索引时需要注意什么？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%88%86%E7%B1%BB%EF%BC%9F"><span class="nav-number">1.0.18.</span> <span class="nav-text">索引的分类？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E-InnoDB-%E5%92%8C-MyISAM-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.0.19.</span> <span class="nav-text">MySQL的两种存储引擎 InnoDB 和 MyISAM 的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9F"><span class="nav-number">1.0.20.</span> <span class="nav-text">如何优化数据库？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%EF%BC%9F%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.0.21.</span> <span class="nav-text">什么是主从复制？实现原理是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%EF%BC%9F"><span class="nav-number">1.0.21.0.1.</span> <span class="nav-text">为什么要主从复制？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.0.22.</span> <span class="nav-text">关系型数据库和非关系型数据库的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.0.23.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%85%E5%AE%8C%E6%88%90"><span class="nav-number">1.0.24.</span> <span class="nav-text">待完成</span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
         

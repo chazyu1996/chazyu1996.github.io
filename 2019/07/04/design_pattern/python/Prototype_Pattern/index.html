@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -167,7 +288,7 @@
 <h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="原型模式-1"><a href="#原型模式-1" class="headerlink" title="原型模式"></a>原型模式</h3><p>有时，我们需要原原本本地为对象创建一个副本。举例来说，假设你想创建一个应用来存储、分享、编辑(比如，修改、添加注释及删除)食谱。用户Bob找到一份蛋糕食谱，在做了一些改变后，觉得自己做的蛋糕非常美味，想要与朋友Alice分享这个食谱。但是该如何分享食谱呢? 如果在与Alice分享之后，Bob想对食谱做进一步的试验，Alice手里的食谱也能跟着变化吗? Bob能够持有蛋糕食谱的两个副本吗? 对蛋糕食谱进行的试验性变更不应该对原本美味蛋糕的食谱造成影响。</p>
 <p>这样的问题可以通过让用户对同一份食谱持有多个独立的副本来解决。每个副本被称为一个克隆，是某个时间点原有对象的一个完全副本。这里时间是一个重要因素。因为它会影响克隆所包含的内容。例如，如果Bob在对蛋糕食谱做改进以臻完美之前就与Alice分享了，那么Alice就绝不可能像Bob那样烘烤出自己的美味蛋糕，只能按照Bob原来找到的食谱烘烤蛋糕。</p>
 <p>注意引用与副本之间的区别。如果Bob和Alice持有的是同一个蛋糕食谱对象的两个引用，那么Bob对食谱做的任何改变，对于Alice的食谱版本都是可见的，反之亦然。我们想要的是Bob和Alice各自持有自己的副本，这样他们可以各自做变更而不会影响对方的食谱。实际上Bob需要蛋糕食谱的两个副本: 美味版本和试验版本。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Prototype</span>:</span></span><br><span class="line"></span><br><span class="line">    value = <span class="string">'default'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clone</span><span class="params">(self， **attrs)</span>:</span></span><br><span class="line">        <span class="string">"""Clone a prototype and update inner attributes dictionary"""</span></span><br><span class="line">        obj = copy.deepcopy(self)</span><br><span class="line">        obj.__dict__.update(attrs)</span><br><span class="line">        <span class="keyword">return</span> obj</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrototypeDispatcher</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self._objects = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_objects</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""Get all objects"""</span></span><br><span class="line">        <span class="keyword">return</span> self._objects</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">register_object</span><span class="params">(self， name， obj)</span>:</span></span><br><span class="line">        <span class="string">"""Register an object"""</span></span><br><span class="line">        self._objects[name] = obj</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">unregister_object</span><span class="params">(self， name)</span>:</span></span><br><span class="line">        <span class="string">"""Unregister an object"""</span></span><br><span class="line">        <span class="keyword">del</span> self._objects[name]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    dispatcher = PrototypeDispatcher()</span><br><span class="line">    prototype = Prototype()</span><br><span class="line"></span><br><span class="line">    d = prototype.clone()</span><br><span class="line">    a = prototype.clone(value=<span class="string">'a-value'</span>， category=<span class="string">'a'</span>)</span><br><span class="line">    b = prototype.clone(value=<span class="string">'b-value'</span>， is_checked=<span class="literal">True</span>)</span><br><span class="line">    dispatcher.register_object(<span class="string">'objecta'</span>， a)</span><br><span class="line">    dispatcher.register_object(<span class="string">'objectb'</span>， b)</span><br><span class="line">    dispatcher.register_object(<span class="string">'default'</span>， d)</span><br><span class="line">    print([&#123;n: p.value&#125; <span class="keyword">for</span> n， p <span class="keyword">in</span> dispatcher.get_objects().items()])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br><span class="line"></span><br><span class="line"><span class="comment">### OUTPUT ###</span></span><br><span class="line"><span class="comment"># [&#123;'objectb': 'b-value'&#125;， &#123;'default': 'default'&#125;， &#123;'objecta': 'a-value'&#125;]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Prototype</span>:</span></span><br><span class="line"></span><br><span class="line">    value = <span class="string">&#x27;default&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clone</span>(<span class="params">self， **attrs</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;Clone a prototype and update inner attributes dictionary&quot;&quot;&quot;</span></span><br><span class="line">        obj = copy.deepcopy(self)</span><br><span class="line">        obj.__dict__.update(attrs)</span><br><span class="line">        <span class="keyword">return</span> obj</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrototypeDispatcher</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self._objects = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_objects</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;Get all objects&quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> self._objects</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">register_object</span>(<span class="params">self， name， obj</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;Register an object&quot;&quot;&quot;</span></span><br><span class="line">        self._objects[name] = obj</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">unregister_object</span>(<span class="params">self， name</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;Unregister an object&quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">del</span> self._objects[name]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    dispatcher = PrototypeDispatcher()</span><br><span class="line">    prototype = Prototype()</span><br><span class="line"></span><br><span class="line">    d = prototype.clone()</span><br><span class="line">    a = prototype.clone(value=<span class="string">&#x27;a-value&#x27;</span>， category=<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">    b = prototype.clone(value=<span class="string">&#x27;b-value&#x27;</span>， is_checked=<span class="literal">True</span>)</span><br><span class="line">    dispatcher.register_object(<span class="string">&#x27;objecta&#x27;</span>， a)</span><br><span class="line">    dispatcher.register_object(<span class="string">&#x27;objectb&#x27;</span>， b)</span><br><span class="line">    dispatcher.register_object(<span class="string">&#x27;default&#x27;</span>， d)</span><br><span class="line">    print([&#123;n: p.value&#125; <span class="keyword">for</span> n， p <span class="keyword">in</span> dispatcher.get_objects().items()])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br><span class="line"></span><br><span class="line"><span class="comment">### OUTPUT ###</span></span><br><span class="line"><span class="comment"># [&#123;&#x27;objectb&#x27;: &#x27;b-value&#x27;&#125;， &#123;&#x27;default&#x27;: &#x27;default&#x27;&#125;， &#123;&#x27;objecta&#x27;: &#x27;a-value&#x27;&#125;]</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -281,7 +402,7 @@
         
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#原型模式"><span class="nav-number">1.</span> <span class="nav-text">原型模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景："><span class="nav-number">1.2.</span> <span class="nav-text">应用场景：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码实现"><span class="nav-number">1.3.</span> <span class="nav-text">代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原型模式-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">原型模式</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">原型模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">应用场景：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.</span> <span class="nav-text">代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">原型模式</span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
         

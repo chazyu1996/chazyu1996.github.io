@@ -16,7 +16,128 @@
     <script id="hexo-configurations">
     let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
   </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -149,7 +270,7 @@
         </div>
 
         <div class="article-content markdown-body">
-            <p>两步验证已经被广泛应用于各种互联网应用当中，用来提供安全性。对于如何使用两步验证，大家并不陌生，无非是开启两步验证，然后出现一个二维码，使用支持两步验证的移动应用比如<code>Google Authenticator</code>或者 <code>LassPass Authenticator</code>扫一下二维码。这时候应用会出现一个6位数的一次性密码，首次需要输入验证从而完成开启过程。以后在登陆的时候，除了输入用户名和密码外，还需要把当前的移动应用上显示的6位数编码输入才能完成登陆。</p>
+            <p>两步验证已经被广泛应用于各种互联网应用当中，用来提供安全性。对于如何使用两步验证，大家并不陌生，无非是开启两步验证，然后出现一个二维码，使用支持两步验证的移动应用比如<code> Google Authenticator</code>或者 <code>LassPass Authenticator</code>扫一下二维码。这时候应用会出现一个6位数的一次性密码，首次需要输入验证从而完成开启过程。以后在登陆的时候，除了输入用户名和密码外，还需要把当前的移动应用上显示的6位数编码输入才能完成登陆。</p>
 <a id="more"></a>
 
 <h1 id="协议解决的核心问题"><a href="#协议解决的核心问题" class="headerlink" title="协议解决的核心问题"></a>协议解决的核心问题</h1><p>通过前面两步验证的使用场景分析，不难看出问题的核心在于如何能够让用户手机应用产生的验证码和服务器产生的验证码一致，或者是在一定范围内一致。参考下图</p>
@@ -165,7 +286,7 @@
 <p><strong>s</strong> 称为重新同步参数（Resynchronization Parameter）表示服务器将通过累加计数器，来尝试多次验证输入的一次性密码，而这个尝试的次数及为 <code>s</code>。该参数主要是有效的容忍用户在客户端无意中生成了额外不用于验证的验证码，导致客户端和服务端不一致，但同时也限制了用户无限制的生成不用于验证的一次性密码。</p>
 <h3 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h3><p><img src="/images/principles/HOTP_and_TOTP_2.png" alt="HOTP_and_TOTP_2"></p>
 <p>核心步骤主要是使用 K C 和 Digit。</p>
-<p>第一步：使用 <strong>HMAC-SHA-1</strong> 算法基于 K 和 C 生成一个20个字节的十六进制字符串（HS）。关于如何生成这个是另外一个协议来规定的，<a href="https://link.jianshu.com/?t=https://tools.ietf.org/html/rfc2104" target="_blank" rel="noopener">RFC 2104 HMAC Keyed-Hashing for Message Authentication</a>. 实际上这里的算法并不唯一，还可以使用 <strong>HMAC-SHA-256</strong> 和 <strong>HMAC-SHA-512</strong> 生成更长的序列。对应到协议中的算法标识就是</p>
+<p>第一步：使用 <strong>HMAC-SHA-1</strong> 算法基于 K 和 C 生成一个20个字节的十六进制字符串（HS）。关于如何生成这个是另外一个协议来规定的，<a target="_blank" rel="noopener" href="https://link.jianshu.com/?t=https://tools.ietf.org/html/rfc2104">RFC 2104 HMAC Keyed-Hashing for Message Authentication</a>. 实际上这里的算法并不唯一，还可以使用 <strong>HMAC-SHA-256</strong> 和 <strong>HMAC-SHA-512</strong> 生成更长的序列。对应到协议中的算法标识就是</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HS &#x3D; HMAC-SHA-1(K,C)</span><br></pre></td></tr></table></figure>
 
 
@@ -312,7 +433,7 @@
         
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#协议解决的核心问题"><span class="nav-number">1.</span> <span class="nav-text">协议解决的核心问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HOTP-算法图解"><span class="nav-number">1.1.</span> <span class="nav-text">HOTP 算法图解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#符号定义"><span class="nav-number">1.1.1.</span> <span class="nav-text">符号定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法流程"><span class="nav-number">1.1.2.</span> <span class="nav-text">算法流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TOTP-算法图解"><span class="nav-number">1.2.</span> <span class="nav-text">TOTP 算法图解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#符号定义-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">符号定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法流程-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">算法流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法安全性分析"><span class="nav-number">1.3.</span> <span class="nav-text">算法安全性分析</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E8%A7%A3%E5%86%B3%E7%9A%84%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">协议解决的核心问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HOTP-%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3"><span class="nav-number">1.1.</span> <span class="nav-text">HOTP 算法图解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.1.</span> <span class="nav-text">符号定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">算法流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TOTP-%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">TOTP 算法图解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7%E5%AE%9A%E4%B9%89-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">符号定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">算法流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%AE%89%E5%85%A8%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-number">1.3.</span> <span class="nav-text">算法安全性分析</span></a></li></ol></li></ol>
     </div>
 </div>
         
