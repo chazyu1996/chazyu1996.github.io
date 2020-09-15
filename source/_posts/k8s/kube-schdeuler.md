@@ -6,6 +6,8 @@ tags:
 categories:
   - 技术文章
 toc: true
+mathjax: true
+
 ---
 
 # kube-scheduler

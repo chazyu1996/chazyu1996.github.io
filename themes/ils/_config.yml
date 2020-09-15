@@ -104,5 +104,5 @@ toc:
 # magic theme
 magic:
   enable: true
-  scale: false
-  shadow: true
+  scale: true 
+  shadow: false
