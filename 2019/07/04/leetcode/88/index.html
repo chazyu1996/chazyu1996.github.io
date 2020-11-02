@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     
     <title>
-        88. 合并两个有序数组 | 做瓷器的金刚钻
+        88. 合并两个有序数组 |
+        
+        Blog
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
@@ -14,7 +16,8 @@
 <link rel="stylesheet" href="/css/style.css">
 
     <script id="hexo-configurations">
-    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
+    let ILS = window.ILS || {};
+    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"toc":{"enable":true,"number":true,"expand_all":true},"back2top":{"enable":true,"position":"right"},"path":"search.xml"};
   </script>
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
@@ -157,7 +160,7 @@ mjx-container[display="true"] + br {
     <div class="header-content">
 
         <a class="logo-title" href="/">
-            做瓷器的金刚钻
+            Blog
         </a>
 
         <ul class="menu-list">
@@ -166,7 +169,7 @@ mjx-container[display="true"] + br {
                     <a class=""
                        href="/"
                     >
-                        主页
+                        HOME
                     </a>
                 </li>
             
@@ -198,7 +201,7 @@ mjx-container[display="true"] + br {
             
                 <li class="drawer-menu-item">
                     <a class=""
-                       href="/">主页</a>
+                       href="/">HOME</a>
                 </li>
             
                 <li class="drawer-menu-item">
@@ -230,11 +233,21 @@ mjx-container[display="true"] + br {
     <div class="article-content-container">
 
         <div class="article-title">
-            <h3><a class="title-hover-animation">88. 合并两个有序数组</a></h3>
+            <span class="title-hover-animation">88. 合并两个有序数组</span>
         </div>
 
-        <div class="meta-info">
-            <div class="article-meta-info">
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.jpeg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span>ChazYu</span>
+                        <span class="level">Lv12</span>
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa fa-calendar-o"></i> 2019-07-05 02:03:48
     </span>
@@ -267,7 +280,10 @@ mjx-container[display="true"] + br {
     
 </div>
 
-        </div>
+                    </div>
+                </div>
+            </div>
+        
 
         <div class="article-content markdown-body">
             <p>给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。</p>
@@ -284,57 +300,73 @@ mjx-container[display="true"] + br {
 <h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">merge</span><span class="params">(nums1 []<span class="keyword">int</span>, m <span class="keyword">int</span>, nums2 []<span class="keyword">int</span>, n <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	temp := <span class="built_in">make</span>([]<span class="keyword">int</span>, m)</span><br><span class="line">	<span class="built_in">copy</span>(temp, nums1)</span><br><span class="line"></span><br><span class="line">	t, j := <span class="number">0</span>, <span class="number">0</span> <span class="comment">//t为temp的索引，j为nums2的索引</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="built_in">len</span>(nums1); i++ &#123;</span><br><span class="line">		<span class="comment">//当t大于temp的长度，那就是说temp全部放进去了nums1中，那剩下的就是放nums2剩余的值了</span></span><br><span class="line">		<span class="keyword">if</span> t &gt;= <span class="built_in">len</span>(temp) &#123;</span><br><span class="line">			nums1[i] = nums2[j]</span><br><span class="line">			j++</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//当j大于nums2的长度的时候，那就是说明nums2全部都放进去了nums1中，那剩下的就是放temp剩余的值了</span></span><br><span class="line">		<span class="keyword">if</span> j &gt;= n &#123;</span><br><span class="line">			nums1[i] = temp[t]</span><br><span class="line">			t++</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//比较nums2与temp对应值的大小，小的那个就放进nums1中</span></span><br><span class="line">		<span class="keyword">if</span> nums2[j] &lt;= temp[t] &#123;</span><br><span class="line">			nums1[i] = nums2[j]</span><br><span class="line">			j++</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			nums1[i] = temp[t]</span><br><span class="line">			t++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> nums1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         </div>
 
-        <div class="article-nav">
-            
-                <div class="article-prev">
-                    <a class="prev btn"
-                       rel="prev"
-                       href="/2019/07/04/leetcode/83/"
-                    >
-                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">83. 删除排序链表中的重复元素</span><span class="post-nav-item">Prev posts</span>
-                    </a>
-                </div>
-            
-            
-                <div class="article-next">
-                    <a class="next btn"
-                       rel="next"
-                       href="/2019/07/04/leetcode/9/"
-                    >
-                        <span class="post-nav-title-item">9.回文数</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
-                    </a>
-                </div>
-            
-        </div>
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev btn"
+                           rel="prev"
+                           href="/2019/07/04/leetcode/83/"
+                        >
+                            <i class="fa fa-chevron-left"></i>
+                            <span class="post-nav-title-item">83. 删除排序链表中的重复元素</span>
+                            <span class="post-nav-item">Prev posts</span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next btn"
+                           rel="next"
+                           href="/2019/07/04/leetcode/9/"
+                        >
+                            <span class="post-nav-title-item">9.回文数</span>
+                            <span class="post-nav-item">Next posts</span>
+                            <i class="fa fa-chevron-right"></i>
+                        </a>
+                    </div>
+                
+            </div>
+        
 
-        <div class="comment-container">
-            <div class="comments-container">
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
     
         
     <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
     <div id="gitalk-container"></div>
     <script>
+        let __gitalk__pathname = decodeURI(location.pathname);
+        const __gitalk__pathnameLength = __gitalk__pathname.length;
+        const __gitalk__pathnameMaxLength = 50;
+        if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+            __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+        }
         const gitalk = new Gitalk({
             clientID: 'c2072d06f1a2f2c5d6f2',
             clientSecret: '429efb33ae5e4f3157ed2bb9a0c0028c9f7d71c3',
             repo: 'chazyu1996.github.io',
             owner: 'chazyu1996',
             admin: ['chazyu1996'],
-            id: location.pathname,
+            id: __gitalk__pathname,
             language: 'zh-cn'
         })
         gitalk.render('gitalk-container')
     </script>
 
+
     
 </div>
-        </div>
+
+            </div>
+        
     </div>
 </div>
 
 
                     
-
                 </main>
 
             </div>
@@ -345,11 +377,10 @@ mjx-container[display="true"] + br {
         <div class="copyright-info info-item">
             &copy; 2020 <i class="fa fa-heart-o"></i> <a href="/">ChazYu</a>
         </div>
-        <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a
-                    href="https://github.com/XPoet/hexo-theme-ils" target="_blank">ILS v2.0.1</a>
-        </div>
         
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a class="theme-version" target="_blank"></a>
+        </div>
     </div>
 </footer>
 
@@ -364,27 +395,57 @@ mjx-container[display="true"] + br {
             <li class="search popup-trigger">
                 <i class="fa fa-search"></i>
             </li>
-            
-<script src="/js/local-search.js"></script>
+        
 
         
-        <li class="mode-toggle">
-            <i class="fa fa-moon-o"></i>
-        </li>
-        
-        <li class="page-aside-toggle">
-            <i class="fa fa-bars"></i>
-        </li>
-        
-            <li class="scroll-to-top">
-                <i class="fa fa-caret-up"></i>
+            <li class="go-comment">
+                <i class="fa fa-comment"></i>
             </li>
         
+
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fa fa-outdent"></i>
+            </li>
+        
+
     </ul>
 </div>
 
     </div>
 
+    <div class="sidebar-tools-2">
+        <div class="tools2-container">
+
+    <button class="tools-button">
+        <i class="fa fa-plus"></i>
+    </button>
+
+    <ul class="tools-wrapper">
+        <!-- back2top -->
+        
+            <li class="tools-item scroll-to-bottom">
+                <i class="fa fa-arrow-down"></i>
+            </li>
+            <li class="tools-item scroll-to-top">
+                <i class="fa fa-arrow-up"></i>
+            </li>
+        
+
+        <!-- mode toggle -->
+        <li class="tools-item mode-toggle">
+            <i class="fa fa-moon-o"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+
+    </ul>
+</div>
+
+    </div>
 
 
     <!-- page aside -->
@@ -399,7 +460,6 @@ mjx-container[display="true"] + br {
     </aside>
 
 </div>
-
 
 
 
@@ -433,17 +493,28 @@ mjx-container[display="true"] + br {
 
 
 
-<script src="/js/main.js"></script>
+<script src="/js/utils.js"></script>
 <script src="/js/header-shrink.js"></script>
-<script src="/js/toggle-mode.js"></script>
+<script src="/js/dark-light-toggle.js"></script>
+<script src="/js/main.js"></script>
 
 
 
     
-<script src="/js/scroll-to-top.js"></script>
+<script src="/js/local-search.js"></script>
 
 
 
+
+    
+<script src="/js/back2top.js"></script>
+
+
+
+
+
+    
+<script src="/js/left-side-toggle.js"></script>
 
 
     
@@ -454,15 +525,10 @@ mjx-container[display="true"] + br {
 
     
         
-<script src="/lib/anime.min.js"></script>
+<script src="/js/libs/anime.min.js"></script>
 <script src="/js/toc.js"></script>
 
     
-
-    
-<script src="/js/post.js"></script>
-
-
 
 
 </body>

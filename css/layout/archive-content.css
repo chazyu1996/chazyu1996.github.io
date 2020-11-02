@@ -73,7 +73,7 @@
   background: var(--background-color);
   padding: 30px;
   border-radius: 4px;
-  box-shadow: 0 0 2px var(--border-color);
+  box-shadow: 0 0 2.8px var(--border-color);
   transition: all 0.3s ease;
 ils-tablet()
 ils-mobile()

@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     
     <title>
-        做瓷器的金刚钻
+        
+        Blog
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
@@ -14,7 +15,8 @@
 <link rel="stylesheet" href="/css/style.css">
 
     <script id="hexo-configurations">
-    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
+    let ILS = window.ILS || {};
+    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"toc":{"enable":true,"number":true,"expand_all":true},"back2top":{"enable":true,"position":"right"},"path":"search.xml"};
   </script>
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
@@ -157,7 +159,7 @@ mjx-container[display="true"] + br {
     <div class="header-content">
 
         <a class="logo-title" href="/">
-            做瓷器的金刚钻
+            Blog
         </a>
 
         <ul class="menu-list">
@@ -166,7 +168,7 @@ mjx-container[display="true"] + br {
                     <a class="active"
                        href="/"
                     >
-                        主页
+                        HOME
                     </a>
                 </li>
             
@@ -198,7 +200,7 @@ mjx-container[display="true"] + br {
             
                 <li class="drawer-menu-item">
                     <a class="active"
-                       href="/">主页</a>
+                       href="/">HOME</a>
                 </li>
             
                 <li class="drawer-menu-item">
@@ -231,9 +233,10 @@ mjx-container[display="true"] + br {
         
             <li class="home-article-item">
 
+                
+
                 <h3 class="home-article-title">
                     <a href="/2020/07/29/others/markdown_math/">
-                        
                         Markdown数学公式语法
                     </a>
                 </h3>
@@ -248,43 +251,53 @@ mjx-container[display="true"] + br {
 上标、下标与组合
 上标符号，符号：^，如：
 下标符号，符号：_，如：
-组合符号，符号：{}，如：${16}{8}O{2+...
+组合符号，符号：{}，如：${16}{8}O{2+}{2}$
+
+汉字、字体与格式
+汉字...
                     
                 </div>
 
-                <div class="home-article-meta-info">
-                    <div class="article-date">
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
                         <span><i class="fa fa-pencil-square-o"></i> 2020-07-29</span>
                         
                             
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
-                                
-                                    <li>&gt; <a
-                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E6%8A%80%E6%9C%AF%E5%AD%97%E5%85%B8/">技术字典</a></li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                                            </li>
+                                        
+                                        
+                                            <li>
+                                                &gt; 
+                                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E6%8A%80%E6%9C%AF%E5%AD%97%E5%85%B8/">技术字典</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
                             
                             
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/Markdown/">Markdown</a>
-                                    </li>
-                                
-                                    <li>
-                                        | <a href="/tags/math/">math</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/Markdown/">Markdown</a>
+                                            </li>
+                                        
+                                            <li>
+                                                | 
+                                                <a href="/tags/math/">math</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
                             
                         
                     </div>
@@ -295,9 +308,10 @@ mjx-container[display="true"] + br {
         
             <li class="home-article-item">
 
+                
+
                 <h3 class="home-article-title">
                     <a href="/2020/07/20/mysql/affair/">
-                        
                         事务
                     </a>
                 </h3>
@@ -308,32 +322,35 @@ mjx-container[display="true"] + br {
                     
                 </div>
 
-                <div class="home-article-meta-info">
-                    <div class="article-date">
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
                         <span><i class="fa fa-pencil-square-o"></i> 2020-07-21</span>
                         
                             
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
                             
                             
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/mysql/">mysql</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/mysql/">mysql</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
                             
                         
                     </div>
@@ -344,9 +361,10 @@ mjx-container[display="true"] + br {
         
             <li class="home-article-item">
 
+                
+
                 <h3 class="home-article-title">
                     <a href="/2020/04/09/network/Load_balancing/">
-                        
                         负载均衡的实现应用
                     </a>
                 </h3>
@@ -357,32 +375,35 @@ mjx-container[display="true"] + br {
                     
                 </div>
 
-                <div class="home-article-meta-info">
-                    <div class="article-date">
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
                         <span><i class="fa fa-pencil-square-o"></i> 2020-04-09</span>
                         
                             
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
                             
                             
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/network/">network</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/network/">network</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
                             
                         
                     </div>
@@ -393,9 +414,10 @@ mjx-container[display="true"] + br {
         
             <li class="home-article-item">
 
+                
+
                 <h3 class="home-article-title">
                     <a href="/2020/04/02/linux/overlay/">
-                        
                         overlay文件系统
                     </a>
                 </h3>
@@ -406,40 +428,45 @@ mjx-container[display="true"] + br {
                     
                 </div>
 
-                <div class="home-article-meta-info">
-                    <div class="article-date">
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
                         <span><i class="fa fa-pencil-square-o"></i> 2020-04-02</span>
                         
                             
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
                             
                             
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/docker/">docker</a>
-                                    </li>
-                                
-                                    <li>
-                                        | <a href="/tags/linux/">linux</a>
-                                    </li>
-                                
-                                    <li>
-                                        | <a href="/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">文件系统</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/docker/">docker</a>
+                                            </li>
+                                        
+                                            <li>
+                                                | 
+                                                <a href="/tags/linux/">linux</a>
+                                            </li>
+                                        
+                                            <li>
+                                                | 
+                                                <a href="/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">文件系统</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
                             
                         
                     </div>
@@ -450,9 +477,10 @@ mjx-container[display="true"] + br {
         
             <li class="home-article-item">
 
+                
+
                 <h3 class="home-article-title">
                     <a href="/2019/12/04/golang/channel_usage/">
-                        
                         Channel的使用场景
                     </a>
                 </h3>
@@ -473,32 +501,35 @@ mjx-container[display="true"] + br {
                     
                 </div>
 
-                <div class="home-article-meta-info">
-                    <div class="article-date">
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
                         <span><i class="fa fa-pencil-square-o"></i> 2019-12-04</span>
                         
                             
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
                             
                             
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/golang/">golang</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/golang/">golang</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
                             
                         
                     </div>
@@ -509,9 +540,10 @@ mjx-container[display="true"] + br {
         
             <li class="home-article-item">
 
+                
+
                 <h3 class="home-article-title">
                     <a href="/2019/11/25/design_pattern/python/Facade_Pattern/">
-                        
                         外观模式python实现
                     </a>
                 </h3>
@@ -522,36 +554,40 @@ mjx-container[display="true"] + br {
                     
                 </div>
 
-                <div class="home-article-meta-info">
-                    <div class="article-date">
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
                         <span><i class="fa fa-pencil-square-o"></i> 2019-11-25</span>
                         
                             
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
                             
                             
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/python/">python</a>
-                                    </li>
-                                
-                                    <li>
-                                        | <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/python/">python</a>
+                                            </li>
+                                        
+                                            <li>
+                                                | 
+                                                <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
                             
                         
                     </div>
@@ -562,9 +598,10 @@ mjx-container[display="true"] + br {
         
             <li class="home-article-item">
 
+                
+
                 <h3 class="home-article-title">
                     <a href="/2019/11/25/design_pattern/python/Decorator_Pattern/">
-                        
                         装饰器模式python实现
                     </a>
                 </h3>
@@ -575,36 +612,40 @@ mjx-container[display="true"] + br {
                     
                 </div>
 
-                <div class="home-article-meta-info">
-                    <div class="article-date">
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
                         <span><i class="fa fa-pencil-square-o"></i> 2019-11-25</span>
                         
                             
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
                             
                             
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/python/">python</a>
-                                    </li>
-                                
-                                    <li>
-                                        | <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/python/">python</a>
+                                            </li>
+                                        
+                                            <li>
+                                                | 
+                                                <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
                             
                         
                     </div>
@@ -615,9 +656,10 @@ mjx-container[display="true"] + br {
         
             <li class="home-article-item">
 
+                
+
                 <h3 class="home-article-title">
                     <a href="/2019/11/25/design_pattern/python/Composite_Pattern/">
-                        
                         组合模式python实现
                     </a>
                 </h3>
@@ -629,36 +671,40 @@ mjx-container[display="true"] + br {
                     
                 </div>
 
-                <div class="home-article-meta-info">
-                    <div class="article-date">
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
                         <span><i class="fa fa-pencil-square-o"></i> 2019-11-25</span>
                         
                             
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
                             
                             
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/python/">python</a>
-                                    </li>
-                                
-                                    <li>
-                                        | <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/python/">python</a>
+                                            </li>
+                                        
+                                            <li>
+                                                | 
+                                                <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
                             
                         
                     </div>
@@ -669,9 +715,10 @@ mjx-container[display="true"] + br {
         
             <li class="home-article-item">
 
+                
+
                 <h3 class="home-article-title">
                     <a href="/2019/11/25/design_pattern/python/Command_Pattern/">
-                        
                         命令模式python实现
                     </a>
                 </h3>
@@ -683,36 +730,40 @@ mjx-container[display="true"] + br {
                     
                 </div>
 
-                <div class="home-article-meta-info">
-                    <div class="article-date">
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
                         <span><i class="fa fa-pencil-square-o"></i> 2019-11-25</span>
                         
                             
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
                             
                             
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/python/">python</a>
-                                    </li>
-                                
-                                    <li>
-                                        | <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/python/">python</a>
+                                            </li>
+                                        
+                                            <li>
+                                                | 
+                                                <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
                             
                         
                     </div>
@@ -723,9 +774,10 @@ mjx-container[display="true"] + br {
         
             <li class="home-article-item">
 
+                
+
                 <h3 class="home-article-title">
                     <a href="/2019/11/25/design_pattern/python/Chain_of_Responsibility_Pattern/">
-                        
                         责任链模式python实现
                     </a>
                 </h3>
@@ -736,36 +788,40 @@ mjx-container[display="true"] + br {
                     
                 </div>
 
-                <div class="home-article-meta-info">
-                    <div class="article-date">
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
                         <span><i class="fa fa-pencil-square-o"></i> 2019-11-25</span>
                         
                             
-                                <span>
-                            <i class="fa fa-folder"></i>
-                            <ul>
-                                
-                                    <li><a
-                                                href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
                             
                             
-                                <span>
-                            <i class="fa fa-tags"></i>
-                            <ul>
-                                
-                                    <li>
-                                        <a href="/tags/python/">python</a>
-                                    </li>
-                                
-                                    <li>
-                                        | <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
-                                    </li>
-                                
-                            </ul>
-                            </span>
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/python/">python</a>
+                                            </li>
+                                        
+                                            <li>
+                                                | 
+                                                <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/">设计模式python实现</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
                             
                         
                     </div>
@@ -796,7 +852,6 @@ mjx-container[display="true"] + br {
 
 
                     
-
                 </main>
 
             </div>
@@ -807,11 +862,10 @@ mjx-container[display="true"] + br {
         <div class="copyright-info info-item">
             &copy; 2020 <i class="fa fa-heart-o"></i> <a href="/">ChazYu</a>
         </div>
-        <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a
-                    href="https://github.com/XPoet/hexo-theme-ils" target="_blank">ILS v2.0.1</a>
-        </div>
         
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a class="theme-version" target="_blank"></a>
+        </div>
     </div>
 </footer>
 
@@ -826,27 +880,49 @@ mjx-container[display="true"] + br {
             <li class="search popup-trigger">
                 <i class="fa fa-search"></i>
             </li>
-            
-<script src="/js/local-search.js"></script>
+        
 
         
-        <li class="mode-toggle">
-            <i class="fa fa-moon-o"></i>
-        </li>
+
+        <!-- TOC aside toggle -->
         
-        <li class="page-aside-toggle">
-            <i class="fa fa-bars"></i>
-        </li>
-        
-            <li class="scroll-to-top">
-                <i class="fa fa-caret-up"></i>
-            </li>
-        
+
     </ul>
 </div>
 
     </div>
 
+    <div class="sidebar-tools-2">
+        <div class="tools2-container">
+
+    <button class="tools-button">
+        <i class="fa fa-plus"></i>
+    </button>
+
+    <ul class="tools-wrapper">
+        <!-- back2top -->
+        
+            <li class="tools-item scroll-to-bottom">
+                <i class="fa fa-arrow-down"></i>
+            </li>
+            <li class="tools-item scroll-to-top">
+                <i class="fa fa-arrow-up"></i>
+            </li>
+        
+
+        <!-- mode toggle -->
+        <li class="tools-item mode-toggle">
+            <i class="fa fa-moon-o"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+
+    </ul>
+</div>
+
+    </div>
 
 
     <!-- page aside -->
@@ -855,7 +931,6 @@ mjx-container[display="true"] + br {
     </aside>
 
 </div>
-
 
 
 
@@ -889,15 +964,21 @@ mjx-container[display="true"] + br {
 
 
 
-<script src="/js/main.js"></script>
+<script src="/js/utils.js"></script>
 <script src="/js/header-shrink.js"></script>
-<script src="/js/toggle-mode.js"></script>
+<script src="/js/dark-light-toggle.js"></script>
+<script src="/js/main.js"></script>
 
 
 
     
-<script src="/js/scroll-to-top.js"></script>
+<script src="/js/local-search.js"></script>
 
+
+
+
+    
+<script src="/js/back2top.js"></script>
 
 
 

@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     
     <title>
-        Tag: Markdown | 做瓷器的金刚钻
+        Tag: Markdown |
+        
+        Blog
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
@@ -14,7 +16,8 @@
 <link rel="stylesheet" href="/css/style.css">
 
     <script id="hexo-configurations">
-    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
+    let ILS = window.ILS || {};
+    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"toc":{"enable":true,"number":true,"expand_all":true},"back2top":{"enable":true,"position":"right"},"path":"search.xml"};
   </script>
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
@@ -157,7 +160,7 @@ mjx-container[display="true"] + br {
     <div class="header-content">
 
         <a class="logo-title" href="/">
-            做瓷器的金刚钻
+            Blog
         </a>
 
         <ul class="menu-list">
@@ -166,7 +169,7 @@ mjx-container[display="true"] + br {
                     <a class=""
                        href="/"
                     >
-                        主页
+                        HOME
                     </a>
                 </li>
             
@@ -198,7 +201,7 @@ mjx-container[display="true"] + br {
             
                 <li class="drawer-menu-item">
                     <a class=""
-                       href="/">主页</a>
+                       href="/">HOME</a>
                 </li>
             
                 <li class="drawer-menu-item">
@@ -268,7 +271,6 @@ mjx-container[display="true"] + br {
 
 
                     
-
                 </main>
 
             </div>
@@ -279,11 +281,10 @@ mjx-container[display="true"] + br {
         <div class="copyright-info info-item">
             &copy; 2020 <i class="fa fa-heart-o"></i> <a href="/">ChazYu</a>
         </div>
-        <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a
-                    href="https://github.com/XPoet/hexo-theme-ils" target="_blank">ILS v2.0.1</a>
-        </div>
         
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a class="theme-version" target="_blank"></a>
+        </div>
     </div>
 </footer>
 
@@ -298,27 +299,49 @@ mjx-container[display="true"] + br {
             <li class="search popup-trigger">
                 <i class="fa fa-search"></i>
             </li>
-            
-<script src="/js/local-search.js"></script>
+        
 
         
-        <li class="mode-toggle">
-            <i class="fa fa-moon-o"></i>
-        </li>
+
+        <!-- TOC aside toggle -->
         
-        <li class="page-aside-toggle">
-            <i class="fa fa-bars"></i>
-        </li>
-        
-            <li class="scroll-to-top">
-                <i class="fa fa-caret-up"></i>
-            </li>
-        
+
     </ul>
 </div>
 
     </div>
 
+    <div class="sidebar-tools-2">
+        <div class="tools2-container">
+
+    <button class="tools-button">
+        <i class="fa fa-plus"></i>
+    </button>
+
+    <ul class="tools-wrapper">
+        <!-- back2top -->
+        
+            <li class="tools-item scroll-to-bottom">
+                <i class="fa fa-arrow-down"></i>
+            </li>
+            <li class="tools-item scroll-to-top">
+                <i class="fa fa-arrow-up"></i>
+            </li>
+        
+
+        <!-- mode toggle -->
+        <li class="tools-item mode-toggle">
+            <i class="fa fa-moon-o"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+
+    </ul>
+</div>
+
+    </div>
 
 
     <!-- page aside -->
@@ -327,7 +350,6 @@ mjx-container[display="true"] + br {
     </aside>
 
 </div>
-
 
 
 
@@ -361,15 +383,21 @@ mjx-container[display="true"] + br {
 
 
 
-<script src="/js/main.js"></script>
+<script src="/js/utils.js"></script>
 <script src="/js/header-shrink.js"></script>
-<script src="/js/toggle-mode.js"></script>
+<script src="/js/dark-light-toggle.js"></script>
+<script src="/js/main.js"></script>
 
 
 
     
-<script src="/js/scroll-to-top.js"></script>
+<script src="/js/local-search.js"></script>
 
+
+
+
+    
+<script src="/js/back2top.js"></script>
 
 
 

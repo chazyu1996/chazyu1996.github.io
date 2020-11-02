@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     
     <title>
-        13.罗马数字转整数 | 做瓷器的金刚钻
+        13.罗马数字转整数 |
+        
+        Blog
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
@@ -14,7 +16,8 @@
 <link rel="stylesheet" href="/css/style.css">
 
     <script id="hexo-configurations">
-    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
+    let ILS = window.ILS || {};
+    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"toc":{"enable":true,"number":true,"expand_all":true},"back2top":{"enable":true,"position":"right"},"path":"search.xml"};
   </script>
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
@@ -157,7 +160,7 @@ mjx-container[display="true"] + br {
     <div class="header-content">
 
         <a class="logo-title" href="/">
-            做瓷器的金刚钻
+            Blog
         </a>
 
         <ul class="menu-list">
@@ -166,7 +169,7 @@ mjx-container[display="true"] + br {
                     <a class=""
                        href="/"
                     >
-                        主页
+                        HOME
                     </a>
                 </li>
             
@@ -198,7 +201,7 @@ mjx-container[display="true"] + br {
             
                 <li class="drawer-menu-item">
                     <a class=""
-                       href="/">主页</a>
+                       href="/">HOME</a>
                 </li>
             
                 <li class="drawer-menu-item">
@@ -230,11 +233,21 @@ mjx-container[display="true"] + br {
     <div class="article-content-container">
 
         <div class="article-title">
-            <h3><a class="title-hover-animation">13.罗马数字转整数</a></h3>
+            <span class="title-hover-animation">13.罗马数字转整数</span>
         </div>
 
-        <div class="meta-info">
-            <div class="article-meta-info">
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.jpeg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span>ChazYu</span>
+                        <span class="level">Lv12</span>
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa fa-calendar-o"></i> 2019-07-05 02:03:48
     </span>
@@ -267,7 +280,10 @@ mjx-container[display="true"] + br {
     
 </div>
 
-        </div>
+                    </div>
+                </div>
+            </div>
+        
 
         <div class="article-content markdown-body">
             <a id="more"></a>
@@ -293,57 +309,73 @@ mjx-container[display="true"] + br {
 <h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">romanToInt</span><span class="params">(s <span class="keyword">string</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    specialRomanStringMap := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>&#123;<span class="string">&quot;IV&quot;</span>: <span class="number">4</span>, <span class="string">&quot;IX&quot;</span>: <span class="number">9</span>, <span class="string">&quot;XL&quot;</span>: <span class="number">40</span>, <span class="string">&quot;XC&quot;</span>: <span class="number">90</span>, <span class="string">&quot;CD&quot;</span>: <span class="number">400</span>, <span class="string">&quot;CM&quot;</span>: <span class="number">900</span>&#125; <span class="comment">//特殊罗马数字</span></span><br><span class="line">    romanStringMap := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>&#123;<span class="string">&quot;I&quot;</span>: <span class="number">1</span>, <span class="string">&quot;V&quot;</span>: <span class="number">5</span>, <span class="string">&quot;X&quot;</span>: <span class="number">10</span>, <span class="string">&quot;L&quot;</span>: <span class="number">50</span>, <span class="string">&quot;C&quot;</span>: <span class="number">100</span>, <span class="string">&quot;D&quot;</span>: <span class="number">500</span>, <span class="string">&quot;M&quot;</span>: <span class="number">1000</span>&#125;   <span class="comment">//正常罗马数字</span></span><br><span class="line">    result := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">len</span>(s) != <span class="number">0</span> &#123; <span class="comment">//对字符串循环</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(s) &gt; <span class="number">1</span> &#123; <span class="comment">//当长度大于1的时候，才有必要去特殊罗马数字map中查找</span></span><br><span class="line">            chars := s[<span class="number">0</span>:<span class="number">2</span>] <span class="comment">//首先我们得拿出两个字符去特殊的map中查找</span></span><br><span class="line">            <span class="keyword">if</span> v, ok := specialRomanStringMap[chars]; ok &#123; <span class="comment">//当存在的时候记录值</span></span><br><span class="line">                result += v</span><br><span class="line">                s = s[<span class="number">2</span>:]</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">//不存在的时候去正常map中查找，并记录</span></span><br><span class="line">                result += romanStringMap[<span class="keyword">string</span>(s[<span class="number">0</span>])]</span><br><span class="line">                s = s[<span class="number">1</span>:]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">//当字符串的长度小于等于1的就只能去正常的罗马数字map中查找</span></span><br><span class="line">            result += romanStringMap[<span class="keyword">string</span>(s[<span class="number">0</span>])]</span><br><span class="line">            s = s[<span class="number">1</span>:]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         </div>
 
-        <div class="article-nav">
-            
-                <div class="article-prev">
-                    <a class="prev btn"
-                       rel="prev"
-                       href="/2019/07/04/python/django_script/"
-                    >
-                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">编写django脚本，使用django的数据库连接</span><span class="post-nav-item">Prev posts</span>
-                    </a>
-                </div>
-            
-            
-                <div class="article-next">
-                    <a class="next btn"
-                       rel="next"
-                       href="/2019/07/04/python/iter/"
-                    >
-                        <span class="post-nav-title-item">python的生成器和迭代器</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
-                    </a>
-                </div>
-            
-        </div>
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev btn"
+                           rel="prev"
+                           href="/2019/07/04/python/django_script/"
+                        >
+                            <i class="fa fa-chevron-left"></i>
+                            <span class="post-nav-title-item">编写django脚本，使用django的数据库连接</span>
+                            <span class="post-nav-item">Prev posts</span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next btn"
+                           rel="next"
+                           href="/2019/07/04/python/iter/"
+                        >
+                            <span class="post-nav-title-item">python的生成器和迭代器</span>
+                            <span class="post-nav-item">Next posts</span>
+                            <i class="fa fa-chevron-right"></i>
+                        </a>
+                    </div>
+                
+            </div>
+        
 
-        <div class="comment-container">
-            <div class="comments-container">
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
     
         
     <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
     <div id="gitalk-container"></div>
     <script>
+        let __gitalk__pathname = decodeURI(location.pathname);
+        const __gitalk__pathnameLength = __gitalk__pathname.length;
+        const __gitalk__pathnameMaxLength = 50;
+        if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+            __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+        }
         const gitalk = new Gitalk({
             clientID: 'c2072d06f1a2f2c5d6f2',
             clientSecret: '429efb33ae5e4f3157ed2bb9a0c0028c9f7d71c3',
             repo: 'chazyu1996.github.io',
             owner: 'chazyu1996',
             admin: ['chazyu1996'],
-            id: location.pathname,
+            id: __gitalk__pathname,
             language: 'zh-cn'
         })
         gitalk.render('gitalk-container')
     </script>
 
+
     
 </div>
-        </div>
+
+            </div>
+        
     </div>
 </div>
 
 
                     
-
                 </main>
 
             </div>
@@ -354,11 +386,10 @@ mjx-container[display="true"] + br {
         <div class="copyright-info info-item">
             &copy; 2020 <i class="fa fa-heart-o"></i> <a href="/">ChazYu</a>
         </div>
-        <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a
-                    href="https://github.com/XPoet/hexo-theme-ils" target="_blank">ILS v2.0.1</a>
-        </div>
         
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a class="theme-version" target="_blank"></a>
+        </div>
     </div>
 </footer>
 
@@ -373,27 +404,57 @@ mjx-container[display="true"] + br {
             <li class="search popup-trigger">
                 <i class="fa fa-search"></i>
             </li>
-            
-<script src="/js/local-search.js"></script>
+        
 
         
-        <li class="mode-toggle">
-            <i class="fa fa-moon-o"></i>
-        </li>
-        
-        <li class="page-aside-toggle">
-            <i class="fa fa-bars"></i>
-        </li>
-        
-            <li class="scroll-to-top">
-                <i class="fa fa-caret-up"></i>
+            <li class="go-comment">
+                <i class="fa fa-comment"></i>
             </li>
         
+
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fa fa-outdent"></i>
+            </li>
+        
+
     </ul>
 </div>
 
     </div>
 
+    <div class="sidebar-tools-2">
+        <div class="tools2-container">
+
+    <button class="tools-button">
+        <i class="fa fa-plus"></i>
+    </button>
+
+    <ul class="tools-wrapper">
+        <!-- back2top -->
+        
+            <li class="tools-item scroll-to-bottom">
+                <i class="fa fa-arrow-down"></i>
+            </li>
+            <li class="tools-item scroll-to-top">
+                <i class="fa fa-arrow-up"></i>
+            </li>
+        
+
+        <!-- mode toggle -->
+        <li class="tools-item mode-toggle">
+            <i class="fa fa-moon-o"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+
+    </ul>
+</div>
+
+    </div>
 
 
     <!-- page aside -->
@@ -408,7 +469,6 @@ mjx-container[display="true"] + br {
     </aside>
 
 </div>
-
 
 
 
@@ -442,17 +502,28 @@ mjx-container[display="true"] + br {
 
 
 
-<script src="/js/main.js"></script>
+<script src="/js/utils.js"></script>
 <script src="/js/header-shrink.js"></script>
-<script src="/js/toggle-mode.js"></script>
+<script src="/js/dark-light-toggle.js"></script>
+<script src="/js/main.js"></script>
 
 
 
     
-<script src="/js/scroll-to-top.js"></script>
+<script src="/js/local-search.js"></script>
 
 
 
+
+    
+<script src="/js/back2top.js"></script>
+
+
+
+
+
+    
+<script src="/js/left-side-toggle.js"></script>
 
 
     
@@ -463,15 +534,10 @@ mjx-container[display="true"] + br {
 
     
         
-<script src="/lib/anime.min.js"></script>
+<script src="/js/libs/anime.min.js"></script>
 <script src="/js/toc.js"></script>
 
     
-
-    
-<script src="/js/post.js"></script>
-
-
 
 
 </body>

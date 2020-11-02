@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     
     <title>
-        Salt各模块用法说明 | 做瓷器的金刚钻
+        Salt各模块用法说明 |
+        
+        Blog
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
@@ -14,7 +16,8 @@
 <link rel="stylesheet" href="/css/style.css">
 
     <script id="hexo-configurations">
-    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"themeInfo":{"name":"ILS","version":"2.0.1","author":"XPoet","repository":"https://github.com/XPoet/hexo-theme-ils"},"path":"search.xml"};
+    let ILS = window.ILS || {};
+    let CONFIG = {"hostname":"chazyu.com","root":"/","localsearch":{"enable":true,"trigger":"auto","unescape":false,"preload":true},"toc":{"enable":true,"number":true,"expand_all":true},"back2top":{"enable":true,"position":"right"},"path":"search.xml"};
   </script>
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
@@ -157,7 +160,7 @@ mjx-container[display="true"] + br {
     <div class="header-content">
 
         <a class="logo-title" href="/">
-            做瓷器的金刚钻
+            Blog
         </a>
 
         <ul class="menu-list">
@@ -166,7 +169,7 @@ mjx-container[display="true"] + br {
                     <a class=""
                        href="/"
                     >
-                        主页
+                        HOME
                     </a>
                 </li>
             
@@ -198,7 +201,7 @@ mjx-container[display="true"] + br {
             
                 <li class="drawer-menu-item">
                     <a class=""
-                       href="/">主页</a>
+                       href="/">HOME</a>
                 </li>
             
                 <li class="drawer-menu-item">
@@ -230,11 +233,21 @@ mjx-container[display="true"] + br {
     <div class="article-content-container">
 
         <div class="article-title">
-            <h3><a class="title-hover-animation">Salt各模块用法说明</a></h3>
+            <span class="title-hover-animation">Salt各模块用法说明</span>
         </div>
 
-        <div class="meta-info">
-            <div class="article-meta-info">
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.jpeg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span>ChazYu</span>
+                        <span class="level">Lv12</span>
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa fa-calendar-o"></i> 2019-09-18 03:42:22
     </span>
@@ -267,7 +280,10 @@ mjx-container[display="true"] + br {
     
 </div>
 
-        </div>
+                    </div>
+                </div>
+            </div>
+        
 
         <div class="article-content markdown-body">
             <a id="more"></a>
@@ -316,57 +332,73 @@ mjx-container[display="true"] + br {
 <h2 id="acme-info"><a href="#acme-info" class="headerlink" title="acme.info"></a><code>acme.info</code></h2><h2 id="acme-expires"><a href="#acme-expires" class="headerlink" title="acme.expires"></a><code>acme.expires</code></h2><h2 id="acme-has"><a href="#acme-has" class="headerlink" title="acme.has"></a><code>acme.has</code></h2><h2 id="acme-renew-by"><a href="#acme-renew-by" class="headerlink" title="acme.renew_by"></a><code>acme.renew_by</code></h2><h2 id="acme-needs-renewal"><a href="#acme-needs-renewal" class="headerlink" title="acme.needs_renewal"></a><code>acme.needs_renewal</code></h2><h1 id="group-管理主机上的组信息"><a href="#group-管理主机上的组信息" class="headerlink" title="group 管理主机上的组信息"></a>group 管理主机上的组信息</h1><h2 id="group-add"><a href="#group-add" class="headerlink" title="group.add"></a><code>group.add</code></h2><h2 id="group-delete"><a href="#group-delete" class="headerlink" title="group.delete"></a><code>group.delete</code></h2><h2 id="group-info"><a href="#group-info" class="headerlink" title="group.info"></a><code>group.info</code></h2><h2 id="group-getent"><a href="#group-getent" class="headerlink" title="group.getent"></a><code>group.getent</code></h2><h2 id="group-chgid"><a href="#group-chgid" class="headerlink" title="group.chgid"></a><code>group.chgid</code></h2><h2 id="group-adduser"><a href="#group-adduser" class="headerlink" title="group.adduser"></a><code>group.adduser</code></h2><h2 id="group-deluser"><a href="#group-deluser" class="headerlink" title="group.deluser"></a><code>group.deluser</code></h2><h2 id="group-members"><a href="#group-members" class="headerlink" title="group.members"></a><code>group.members</code></h2><h1 id="aliases-管理别名文件中的信息"><a href="#aliases-管理别名文件中的信息" class="headerlink" title="aliases 管理别名文件中的信息"></a>aliases 管理别名文件中的信息</h1><h2 id="aliases-list-aliases"><a href="#aliases-list-aliases" class="headerlink" title="aliases.list_aliases"></a><code>aliases.list_aliases</code></h2><h2 id="aliases-get-target"><a href="#aliases-get-target" class="headerlink" title="aliases.get_target"></a><code>aliases.get_target</code></h2><h2 id="aliases-set-target"><a href="#aliases-set-target" class="headerlink" title="aliases.set_target"></a><code>aliases.set_target</code></h2><h2 id="aliases-has-target"><a href="#aliases-has-target" class="headerlink" title="aliases.has_target"></a><code>aliases.has_target</code></h2><h2 id="aliases-rm-alias"><a href="#aliases-rm-alias" class="headerlink" title="aliases.rm_alias"></a><code>aliases.rm_alias</code></h2><h1 id="alternatives-替代系统"><a href="#alternatives-替代系统" class="headerlink" title="alternatives 替代系统"></a>alternatives 替代系统</h1><h2 id="alternatives-display"><a href="#alternatives-display" class="headerlink" title="alternatives.display"></a><code>alternatives.display</code></h2><h2 id="alternatives-show-link"><a href="#alternatives-show-link" class="headerlink" title="alternatives.show_link"></a><code>alternatives.show_link</code></h2><h2 id="alternatives-show-current"><a href="#alternatives-show-current" class="headerlink" title="alternatives.show_current"></a><code>alternatives.show_current</code></h2><h2 id="alternatives-check-exists"><a href="#alternatives-check-exists" class="headerlink" title="alternatives.check_exists"></a><code>alternatives.check_exists</code></h2><h2 id="alternatives-check-installed"><a href="#alternatives-check-installed" class="headerlink" title="alternatives.check_installed"></a><code>alternatives.check_installed</code></h2><h2 id="alternatives-install"><a href="#alternatives-install" class="headerlink" title="alternatives.install"></a><code>alternatives.install</code></h2><h2 id="alternatives-remove"><a href="#alternatives-remove" class="headerlink" title="alternatives.remove"></a><code>alternatives.remove</code></h2><h2 id="alternatives-auto"><a href="#alternatives-auto" class="headerlink" title="alternatives.auto"></a><code>alternatives.auto</code></h2><h2 id="alternatives-set"><a href="#alternatives-set" class="headerlink" title="alternatives.set"></a><code>alternatives.set</code></h2><h1 id="apache"><a href="#apache" class="headerlink" title="apache"></a>apache</h1><h2 id="apache-version"><a href="#apache-version" class="headerlink" title="apache.version"></a><code>apache.version</code></h2><h2 id="apache-fullversion"><a href="#apache-fullversion" class="headerlink" title="apache.fullversion"></a><code>apache.fullversion</code></h2><h2 id="apache-modules"><a href="#apache-modules" class="headerlink" title="apache.modules"></a><code>apache.modules</code></h2><h2 id="apache-servermods"><a href="#apache-servermods" class="headerlink" title="apache.servermods"></a><code>apache.servermods</code></h2><h2 id="apache-directives"><a href="#apache-directives" class="headerlink" title="apache.directives"></a><code>apache.directives</code></h2><h2 id="apache-vhosts"><a href="#apache-vhosts" class="headerlink" title="apache.vhosts"></a><code>apache.vhosts</code></h2><h2 id="apache-signal"><a href="#apache-signal" class="headerlink" title="apache.signal"></a><code>apache.signal</code></h2><h2 id="apache-useradd"><a href="#apache-useradd" class="headerlink" title="apache.useradd"></a><code>apache.useradd</code></h2><h2 id="apache-userdel"><a href="#apache-userdel" class="headerlink" title="apache.userdel"></a><code>apache.userdel</code></h2><h2 id="apache-server-status"><a href="#apache-server-status" class="headerlink" title="apache.server_status"></a><code>apache.server_status</code></h2><h2 id="apache-config"><a href="#apache-config" class="headerlink" title="apache.config"></a><code>apache.config</code></h2><h1 id="apcupsd"><a href="#apcupsd" class="headerlink" title="apcupsd"></a>apcupsd</h1><h2 id="apcupsd-status"><a href="#apcupsd-status" class="headerlink" title="apcupsd.status"></a><code>apcupsd.status</code></h2><h2 id="apcupsd-status-load"><a href="#apcupsd-status-load" class="headerlink" title="apcupsd.status_load"></a><code>apcupsd.status_load</code></h2><h2 id="apcupsd-status-charge"><a href="#apcupsd-status-charge" class="headerlink" title="apcupsd.status_charge"></a><code>apcupsd.status_charge</code></h2><h2 id="apcupsd-status-battery"><a href="#apcupsd-status-battery" class="headerlink" title="apcupsd.status_battery"></a><code>apcupsd.status_battery</code></h2><h1 id="apf"><a href="#apf" class="headerlink" title="apf"></a>apf</h1><h2 id="apf-running"><a href="#apf-running" class="headerlink" title="apf.running"></a><code>apf.running</code></h2><h2 id="apf-disable"><a href="#apf-disable" class="headerlink" title="apf.disable"></a><code>apf.disable</code></h2><h2 id="apf-enable"><a href="#apf-enable" class="headerlink" title="apf.enable"></a><code>apf.enable</code></h2><h2 id="apf-reload"><a href="#apf-reload" class="headerlink" title="apf.reload"></a><code>apf.reload</code></h2><h2 id="apf-refresh"><a href="#apf-refresh" class="headerlink" title="apf.refresh"></a><code>apf.refresh</code></h2><h2 id="apf-allow"><a href="#apf-allow" class="headerlink" title="apf.allow"></a><code>apf.allow</code></h2><h2 id="apf-deny"><a href="#apf-deny" class="headerlink" title="apf.deny"></a><code>apf.deny</code></h2><h2 id="apf-remove"><a href="#apf-remove" class="headerlink" title="apf.remove"></a><code>apf.remove</code></h2><h1 id="apt"><a href="#apt" class="headerlink" title="apt"></a>apt</h1><h2 id="pkg-latest-version"><a href="#pkg-latest-version" class="headerlink" title="pkg.latest_version"></a><code>pkg.latest_version</code></h2><h2 id="pkg-version"><a href="#pkg-version" class="headerlink" title="pkg.version"></a><code>pkg.version</code></h2><h2 id="pkg-refresh-db"><a href="#pkg-refresh-db" class="headerlink" title="pkg.refresh_db"></a><code>pkg.refresh_db</code></h2><h2 id="pkg-install"><a href="#pkg-install" class="headerlink" title="pkg.install"></a><code>pkg.install</code></h2><h2 id="pkg-autoremove"><a href="#pkg-autoremove" class="headerlink" title="pkg.autoremove"></a><code>pkg.autoremove</code></h2><h2 id="pkg-remove"><a href="#pkg-remove" class="headerlink" title="pkg.remove"></a><code>pkg.remove</code></h2><h2 id="pkg-purge"><a href="#pkg-purge" class="headerlink" title="pkg.purge"></a><code>pkg.purge</code></h2><h2 id="pkg-upgrade"><a href="#pkg-upgrade" class="headerlink" title="pkg.upgrade"></a><code>pkg.upgrade</code></h2><h2 id="pkg-hold"><a href="#pkg-hold" class="headerlink" title="pkg.hold"></a><code>pkg.hold</code></h2><h2 id="pkg-unhold"><a href="#pkg-unhold" class="headerlink" title="pkg.unhold"></a><code>pkg.unhold</code></h2><h2 id="pkg-list-pkgs"><a href="#pkg-list-pkgs" class="headerlink" title="pkg.list_pkgs"></a><code>pkg.list_pkgs</code></h2><h2 id="pkg-list-upgrades"><a href="#pkg-list-upgrades" class="headerlink" title="pkg.list_upgrades"></a><code>pkg.list_upgrades</code></h2><h2 id="pkg-upgrade-available"><a href="#pkg-upgrade-available" class="headerlink" title="pkg.upgrade_available"></a><code>pkg.upgrade_available</code></h2><h2 id="pkg-version-cmp"><a href="#pkg-version-cmp" class="headerlink" title="pkg.version_cmp"></a><code>pkg.version_cmp</code></h2><h2 id="pkg-list-repos"><a href="#pkg-list-repos" class="headerlink" title="pkg.list_repos"></a><code>pkg.list_repos</code></h2><h2 id="pkg-get-repo"><a href="#pkg-get-repo" class="headerlink" title="pkg.get_repo"></a><code>pkg.get_repo</code></h2><h2 id="pkg-del-repo"><a href="#pkg-del-repo" class="headerlink" title="pkg.del_repo"></a><code>pkg.del_repo</code></h2><h2 id="pkg-del-repo-key"><a href="#pkg-del-repo-key" class="headerlink" title="pkg.del_repo_key"></a><code>pkg.del_repo_key</code></h2><h2 id="pkg-mod-repo"><a href="#pkg-mod-repo" class="headerlink" title="pkg.mod_repo"></a><code>pkg.mod_repo</code></h2><h2 id="pkg-file-list"><a href="#pkg-file-list" class="headerlink" title="pkg.file_list"></a><code>pkg.file_list</code></h2><h2 id="pkg-file-dict"><a href="#pkg-file-dict" class="headerlink" title="pkg.file_dict"></a><code>pkg.file_dict</code></h2><h2 id="pkg-set-selections"><a href="#pkg-set-selections" class="headerlink" title="pkg.set_selections"></a><code>pkg.set_selections</code></h2><h2 id="pkg-owner"><a href="#pkg-owner" class="headerlink" title="pkg.owner"></a><code>pkg.owner</code></h2><h2 id="pkg-info-installed"><a href="#pkg-info-installed" class="headerlink" title="pkg.info_installed"></a><code>pkg.info_installed</code></h2>
         </div>
 
-        <div class="article-nav">
-            
-                <div class="article-prev">
-                    <a class="prev btn"
-                       rel="prev"
-                       href="/2019/09/25/linux/epoll/"
-                    >
-                        <i class="fa fa-chevron-left"></i> <span class="post-nav-title-item">epoll多路复用介绍</span><span class="post-nav-item">Prev posts</span>
-                    </a>
-                </div>
-            
-            
-                <div class="article-next">
-                    <a class="next btn"
-                       rel="next"
-                       href="/2019/08/26/linux/max_tcp/"
-                    >
-                        <span class="post-nav-title-item">最大TCP连接数</span><span class="post-nav-item">Next posts</span> <i class="fa fa-chevron-right"></i>
-                    </a>
-                </div>
-            
-        </div>
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev btn"
+                           rel="prev"
+                           href="/2019/09/25/linux/epoll/"
+                        >
+                            <i class="fa fa-chevron-left"></i>
+                            <span class="post-nav-title-item">epoll多路复用介绍</span>
+                            <span class="post-nav-item">Prev posts</span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next btn"
+                           rel="next"
+                           href="/2019/08/26/linux/max_tcp/"
+                        >
+                            <span class="post-nav-title-item">最大TCP连接数</span>
+                            <span class="post-nav-item">Next posts</span>
+                            <i class="fa fa-chevron-right"></i>
+                        </a>
+                    </div>
+                
+            </div>
+        
 
-        <div class="comment-container">
-            <div class="comments-container">
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
     
         
     <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
     <div id="gitalk-container"></div>
     <script>
+        let __gitalk__pathname = decodeURI(location.pathname);
+        const __gitalk__pathnameLength = __gitalk__pathname.length;
+        const __gitalk__pathnameMaxLength = 50;
+        if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+            __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+        }
         const gitalk = new Gitalk({
             clientID: 'c2072d06f1a2f2c5d6f2',
             clientSecret: '429efb33ae5e4f3157ed2bb9a0c0028c9f7d71c3',
             repo: 'chazyu1996.github.io',
             owner: 'chazyu1996',
             admin: ['chazyu1996'],
-            id: location.pathname,
+            id: __gitalk__pathname,
             language: 'zh-cn'
         })
         gitalk.render('gitalk-container')
     </script>
 
+
     
 </div>
-        </div>
+
+            </div>
+        
     </div>
 </div>
 
 
                     
-
                 </main>
 
             </div>
@@ -377,11 +409,10 @@ mjx-container[display="true"] + br {
         <div class="copyright-info info-item">
             &copy; 2020 <i class="fa fa-heart-o"></i> <a href="/">ChazYu</a>
         </div>
-        <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a
-                    href="https://github.com/XPoet/hexo-theme-ils" target="_blank">ILS v2.0.1</a>
-        </div>
         
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a> | Theme <a class="theme-version" target="_blank"></a>
+        </div>
     </div>
 </footer>
 
@@ -396,27 +427,57 @@ mjx-container[display="true"] + br {
             <li class="search popup-trigger">
                 <i class="fa fa-search"></i>
             </li>
-            
-<script src="/js/local-search.js"></script>
+        
 
         
-        <li class="mode-toggle">
-            <i class="fa fa-moon-o"></i>
-        </li>
-        
-        <li class="page-aside-toggle">
-            <i class="fa fa-bars"></i>
-        </li>
-        
-            <li class="scroll-to-top">
-                <i class="fa fa-caret-up"></i>
+            <li class="go-comment">
+                <i class="fa fa-comment"></i>
             </li>
         
+
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fa fa-outdent"></i>
+            </li>
+        
+
     </ul>
 </div>
 
     </div>
 
+    <div class="sidebar-tools-2">
+        <div class="tools2-container">
+
+    <button class="tools-button">
+        <i class="fa fa-plus"></i>
+    </button>
+
+    <ul class="tools-wrapper">
+        <!-- back2top -->
+        
+            <li class="tools-item scroll-to-bottom">
+                <i class="fa fa-arrow-down"></i>
+            </li>
+            <li class="tools-item scroll-to-top">
+                <i class="fa fa-arrow-up"></i>
+            </li>
+        
+
+        <!-- mode toggle -->
+        <li class="tools-item mode-toggle">
+            <i class="fa fa-moon-o"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+
+    </ul>
+</div>
+
+    </div>
 
 
     <!-- page aside -->
@@ -431,7 +492,6 @@ mjx-container[display="true"] + br {
     </aside>
 
 </div>
-
 
 
 
@@ -465,17 +525,28 @@ mjx-container[display="true"] + br {
 
 
 
-<script src="/js/main.js"></script>
+<script src="/js/utils.js"></script>
 <script src="/js/header-shrink.js"></script>
-<script src="/js/toggle-mode.js"></script>
+<script src="/js/dark-light-toggle.js"></script>
+<script src="/js/main.js"></script>
 
 
 
     
-<script src="/js/scroll-to-top.js"></script>
+<script src="/js/local-search.js"></script>
 
 
 
+
+    
+<script src="/js/back2top.js"></script>
+
+
+
+
+
+    
+<script src="/js/left-side-toggle.js"></script>
 
 
     
@@ -486,15 +557,10 @@ mjx-container[display="true"] + br {
 
     
         
-<script src="/lib/anime.min.js"></script>
+<script src="/js/libs/anime.min.js"></script>
 <script src="/js/toc.js"></script>
 
     
-
-    
-<script src="/js/post.js"></script>
-
-
 
 
 </body>
