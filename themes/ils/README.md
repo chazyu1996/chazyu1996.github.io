@@ -6,8 +6,8 @@
 [![Hexo Version](https://img.shields.io/badge/hexo-%3E=4.2.0-blue.svg?&logo=hexo&longCache=true)](https://nodejs.org/)
 [![Node.js Version](https://img.shields.io/badge/node-%3E=12.0-green.svg?logo=Node.js&longCache=true)](https://hexo.io)
 
-**一款简约轻快的 Hexo 主题。**  
-**A simple and light theme for Hexo.**
+**一款简约漂亮的 Hexo 主题。**  
+**A simple and beautiful theme for Hexo.**
 
 ![Preview Image](https://user-images.githubusercontent.com/24516169/82140521-ae324080-9861-11ea-809f-ea73d09e24ad.jpg)
 
@@ -39,15 +39,16 @@
 
 > 如果你在使用该主题，欢迎 [PR](https://juejin.im/post/6844903856971710477) 将你的网站链接填写在下方，获得更多展示机会。
 
-- [XPoet Blog](https://xpoet.cn)
+- [XPoet's Blog](https://xpoet.cn)
+- [ILS 官网](https://ils.xpoet.cn)
 - ...
 - ...
 
 ---
 
-如你所见，ILS 界面设计十分简洁、清爽，但功能齐全、不失优雅，这正是 ILS 的开发理念。也曾尝试过花里胡哨，发现不仅容易审美疲劳，而且背驰了写博客的初衷，记录生活、展示文字，应该才是搭建博客网站的最终追求，为此 ILS 应运而生。简约大气、不缺美感、突出内容、化繁为简、配置简单、长期维护，如果你也喜欢或认可这些主题特点，一起来折腾吧~
+如你所见，ILS 界面设计十分简洁、清爽，但功能齐全、不失优雅，这正是 ILS 的开发理念。也曾尝试过花里胡哨，发现不仅使用繁琐、而且审美疲劳，背驰了写博客的初衷，记录生活、展示文字，应该才是搭建博客网站的最终追求，为此 ILS 应运而生。简约轻快、突出内容、化繁为简、配置简单、长期维护，如果你也喜欢或认可这些主题特点，一起来探索吧~
 
-关于主题名称 **"ILS"** 的由来：在主题开发之初，作者想到的几个名字都被已被用，词穷了，后来干脆将名字取自 **"I Like Simple「我喜欢简单」"** 首字母，就是这么简单。
+关于主题名称 **"ILS"** 的由来：在主题开发之初，作者想到的几个名字都已被用，词穷了，后来干脆将名字取自 **"I Like Simple「我喜欢简单」"** 首字母，就是这么简单。
 
 同时，非常欢迎感兴趣的同学 [Pull Request](https://juejin.im/post/6844903856971710477) 加入到该主题的开发中（成为该项目的贡献者），按你的意愿来打磨 ILS。
 
@@ -70,22 +71,24 @@
 - [x] 文章阅读次数统计。
 - [x] 文章字数统计。
 - [x] 文章阅读时长统计。
-- [x] 页面滚动百分比提示。
+- [x] 页面滚动进度条提示。
 - [x] 一键快速回到顶部。
 - [x] 无 jQuery，代码精简。
 
 ### Unfinished 未完成
 
+- [ ] 图片懒加载
+- [ ] 大图查看器
+- [ ] 文章点赞功能
 - [ ] 文章版权信息
-- [ ] 文章支持显示公式
 - [ ] 在线更改字体和字号
 - [ ] 打赏功能
 - [ ] ......
 
 ## Get start 快速开始
 
-在开始使用主题之前，强烈建议你先阅读 「Easy Hexo 团队」撰写的 Hexo 教程！
-链接：https://easyhexo.com/
+**在开始使用主题之前，强烈建议你先阅读 「Easy Hexo 团队」撰写的 Hexo 教程！**  
+**链接：https://easyhexo.com/**
 
 ### Install 安装
 
@@ -104,12 +107,9 @@
 ### Enable 启用
 
 Modify `theme` setting in `_config.yml` to `ils`.  
-修改博客目录下的 `_config.yml` 配置文件，将 `theme` 设置为 `ils` 。
+修改 Hexo 根目录下的 `_config.yml` 配置文件，将 `theme` 设置为 `ils` 。
 
 ```yml
-# Extensions
-## Plugins: https://hexo.io/plugins/
-## Themes: https://hexo.io/themes/
 theme: ils
 ```
 
@@ -126,54 +126,85 @@ theme: ils
 
 ### Configuration 配置
 
+以下是主题配置文件的详细说明，建议多看几遍，并且对照着来修改自己的配置文件，边修改边查看界面效果。
+  
+如遇到无法解决的问题，可以给我提 [Issues](https://github.com/XPoet/hexo-theme-ils/issues) 。
+
 ```yml
-# theme basic info
-# 主题基本信息，无需改动。
-theme_info:
-  name: ILS
-  version: 2.0.1
+# ---------------------------------------------------------------------------------------
+#  Your basic info
+#  你的基本信息，请正确填写，将显示在主题中。
+# ---------------------------------------------------------------------------------------
+base_info:
+  title: ILS
   author: XPoet
-  repository: https://github.com/XPoet/hexo-theme-ils
+  email: i@xpoet.cn
+  url: https://ils.xpoet.cn/
 
-# favicon
-# 网站图标，把 "/source/images/" 目录下的 "favicon.png"，换成自己的图片即可。
-favicon: images/favicon.png
+# ---------------------------------------------------------------------------------------
+# Theme style settings
+# 主题样式设置
+# ---------------------------------------------------------------------------------------
+style:
+  # Theme primary color
+  # 主颜色，修改为自己喜欢的颜色即可，支持 rgb、十六进制格式。
+  # 建议使用 Web 安全色，https://www.bootcss.com/p/websafecolors/
+  primary_color: "#0066CC"
 
-# avatar
-# 头像图片，把 "/source/images/" 目录下的 "avatar.png"，换成自己的图片即可。
-avatar: images/avatar.png
+  # favicon
+  # 网站图标，把 "/source/images/" 目录下的 "favicon.png"，换成自己的图片即可。
+  favicon: images/favicon.png
 
-# navigation menu
-# 导航菜单，如需新增导航，请按下面格式填写，同时需要添加对应的 Hexo 页面。
-# 如何新增页面，请参考下面的教程："Add page 添加页面"。
+  # avatar
+  # 头像图片，把 "/source/images/" 目录下的 "avatar.png"，换成自己的图片即可。
+  avatar: images/avatar.png
+
+# ---------------------------------------------------------------------------------------
+# Navigation menu
+# 导航菜单
+# 如需新增导航页，请按下面格式填写，同时需要创建相对应的 Hexo 页面。
+# 如何新增页面，请参考下面的教程：“Add page 添加页面”。
+# ---------------------------------------------------------------------------------------
 menu:
   Home: /
   Archives: /archives
   # Categories: /categories
-  # About: /about
+  # Tags: /tags
   # Links: /links
+  # About: /about
   # ...
 
+# ---------------------------------------------------------------------------------------
 # RSS
+# Dependencies: hexo-generator-feed
+# See: https://github.com/hexojs/hexo-generator-feed
 # RSS 订阅，如需启用，请先安装 Hexo 插件：hexo-generator-feed。
-# 在博客根目录下使用 npm 命令安装: npm i hexo-generator-feed --save
+# 具体步骤，参考下面的教程：“RSS 订阅”。
+# ---------------------------------------------------------------------------------------
 rss:
-  enable: true
+  enable: false
 
-# comment plugin
-# 评论插件，主题内置了 Valine 和 Gitalk，只能使用其中一款，如果 enable 都设为了 true，将使用 Valine。
-comments:
-  # Valine https://github.com/xCss/Valine
-  # 如何使用 Valine 请参考官方教程：https://github.com/xCss/Valine
+# ---------------------------------------------------------------------------------------
+# Comment plugin
+# 评论插件
+# 主题内置了 Valine 和 Gitalk，只能使用其中一款。
+# ---------------------------------------------------------------------------------------
+comment:
+  # Valine
+  # See: https://github.com/xCss/Valine
+  # 如何使用 Valine，请参考官方教程：https://github.com/xCss/Valine
+  # 获取必要的参数，在下面填写。
   valine:
     enable: false
-    appid: # leancloud appid
-    appkey: # leancloud appkey
-    meta: ["nick", "mail", "link"]
-    placeholder: 😜尽情吐槽吧~
+    appid: # your leancloud application appid
+    appkey: # your leancloud application appkey
+    meta: # comment input meta, type: Array, values: ['nick','mail','link']
+    placeholder: # your placeholder
 
-  # Gitalk https://github.com/gitalk/gitalk
-  # 如何使用 Gitalk 请参考官方教程：https://github.com/gitalk/gitalk
+  # Gitalk
+  # See: https://github.com/gitalk/gitalk
+  # 如何使用 Gitalk，请参考官方教程：https://github.com/gitalk/gitalk
+  # 获取必要的参数，在下面填写。
   gitalk:
     enable: false
     github_id: # GitHub repo owner
@@ -181,13 +212,16 @@ comments:
     client_id: # GitHub Application Client ID
     client_secret: # GitHub Application Client Secret
 
-# website count
+# ---------------------------------------------------------------------------------------
+# Website count
 # 网站计数
+# ---------------------------------------------------------------------------------------
 website_count:
-  # busuanzi http://ibruce.info/2015/04/04/busuanzi/
-  # 主题内置“不蒜子”计数，无需额外配置，只需选择开启想要的计数
+  # busuanzi
+  # See: http://ibruce.info/2015/04/04/busuanzi/
+  # 主题内置“不蒜子”计数，无需额外配置，选择你要开启的计数项即可。
   # site_uv 访问人数计数
-  # site_pv 访问量计数
+  # site_pv 总访问量计数
   # page_pv 文章阅读量计数
   busuanzi_count:
     enable: false
@@ -195,77 +229,103 @@ website_count:
     site_pv: false
     page_pv: false
 
+# ---------------------------------------------------------------------------------------
 # Local Search
-# Dependencies: https://github.com/theme-next/hexo-generator-searchdb
+# Dependencies: hexo-generator-searchdb
+# See: https://github.com/theme-next/hexo-generator-searchdb
 # 本地搜索，如需启用，请先安装 Hexo 插件：hexo-generator-searchdb。
-# 在博客根目录下使用 npm 命令安装: npm i hexo-generator-searchdb --save
+# 具体步骤，参考下面的教程：“Local search 本地搜索”。
+# ---------------------------------------------------------------------------------------
 local_search:
   enable: true
 
+  # If auto, trigger search by changing input.
+  # If manual, trigger search by pressing enter key or search button.
   # trigger 搜索触发方式，输入关键字后会触发搜索，可选 auto（自动）或 manual（手动）。
-  # auto 每输入或删除一个字符后，自动触发搜索。
-  # manual 每输入或删除一个字符后，需要按回车键触发搜索。
+  ### auto 每输入或删除一个字符后，自动触发搜索。
+  ### manual 每输入或删除一个字符后，需要按回车键触发搜索。
   trigger: auto # values: auto | manual
 
   # Unescape html strings to the readable one.
-  # 转义 HTML 字符串为可读字符串。
+  # # 转义 HTML 字符串为可读字符串。
   unescape: false
 
   # Preload the search data when the page loads.
-  # 在页面加载时预加载搜索数据
-  preload: true
+  # 在页面加载时预加载搜索数据。
+  preload: false
 
-# 文章字数统计、阅读时长
+# ---------------------------------------------------------------------------------------
+# Post word count
+# Dependencies: hexo-wordcount
+# See: https://github.com/willin/hexo-wordcount
+# 文章字数统计 & 阅读时长统计
 # 如需启用，请先安装 Hexo 插件：hexo-wordcount。
 # 在博客根目录下使用 npm 命令安装: npm i hexo-wordcount --save
+# ---------------------------------------------------------------------------------------
 post_wordcount:
-  wordcount: true # 字数统计
-  min2read: true # 阅读时长
+  enable: false
+  wordcount: false # word count, one article
+  min2read: false # time to read, one article
 
+# ---------------------------------------------------------------------------------------
 # Home page article block display settings
-# 首页文章底部的显示设置，可配置显示分类和标签
+# 首页文章块底部的显示设置，可配置显示分类和标签。
+# limit 显示分类或标签的最大个数。
+# ---------------------------------------------------------------------------------------
 home_article:
-  category: true # show category in article block
-  tag: true # show tags in article block
-  tag_limit: 5 # max number of tags shown in article block
+  category:
+    enable: false # show category in home page article block
+    limit: 3 # max number of categories shown in home page article block
+  tag:
+    enable: false # show tags in home page article block
+    limit: 5 # max number of tags shown in home page article block
 
-# Code Copy
-# 代码复制，复制风格可选 default | flat | mac。
+# ---------------------------------------------------------------------------------------
+# Code copy
+# 代码复制，代码块的复制风格可选 default | flat | mac。
+# ---------------------------------------------------------------------------------------
 code_copy:
   enable: true
   style: flat # values: default | flat | mac
 
-# sidebar tools
-# 侧边栏工具，位置可选 left | right。
+# ---------------------------------------------------------------------------------------
+# Sidebar tools
+# 侧边栏工具（搜索按钮、昼夜模式切换按钮、RSS按钮、TOC显示切换按钮）
+# ---------------------------------------------------------------------------------------
 side_tools:
-  enable: true
-  position: right # values: left | right
+  enable: false
 
-# back to top
-# 回到顶部，位置可选 left | right。
+# ---------------------------------------------------------------------------------------
+# Back to top
+# 回到顶部
+# ---------------------------------------------------------------------------------------
 back2top:
-  enable: true
-  position: right # values: left | right
+  enable: false
 
+# ---------------------------------------------------------------------------------------
 # Table of Contents in the Sidebar
 # 文章目录结构
+# ---------------------------------------------------------------------------------------
 toc:
-  enable: true
+  enable: false
 
   # Automatically add list number to toc.
   # 给文章目录自动加上序号。
   number: true
 
   # If true, all level of TOC in a post will be displayed, rather than the activated part of it.
-  # 是否展开所有目录
+  # 是否展开所有目录。
   expand_all: true
 
-# magic
-# magic 为 v1.1.0 增加的新特性，启用后，主题样式将以简约的卡片形式显示。
+# ---------------------------------------------------------------------------------------
+# Magic
+# magic 启用后，主题将以简约的卡片形式显示。
+# 可分别配置缩放效果、阴影效果。
+# ---------------------------------------------------------------------------------------
 magic:
-  enable: true # 是否开启 magic 风格
-  scale: false # 是否开启缩放效果
-  shadow: true # 是否开启阴影效果
+  enable: true
+  scale: false # scale effect when the mouse hover
+  shadow: false # shadow effect when the mouse hover
 ```
 
 ### Comment 评论
@@ -284,15 +344,9 @@ magic:
 
 前往 https://github.com/gitalk/gitalk 查看 Gitalk 更多信息。
 
-### Post top 文章顶置
+### Post sticky 文章顶置
 
-实现文章顶置功能，需在 Hexo 博客根目录下安装插件 **hexo-generator-index-pin-top**。
-
-```bash
-npm install hexo-generator-index-pin-top
-```
-
-然后在 `_posts` 文件夹里的需要顶置的文章页添加 `top` 属性，**top** 值越大，顶置越靠前，参考如下。
+实现文章顶置功能，需在文章页添加 **`sticky`** 属性，**`sticky`** 值越大，顶置的文章越靠前，参考如下。
 
 ```markdown
 ---
@@ -300,13 +354,13 @@ title: 千呼万唤始出来，Hexo 主题 ILS 正式发布
 date: 2020-04-07 21:55:14
 tags: [Hexo]
 categories: [Hexo]
-top: 9999
+sticky: 9999
 ---
 ```
 
 ### Local search 本地搜索
 
-1. 启用本地搜索功能，需在 Hexo 博客根目录下安装插件 **hexo-generator-searchdb**。
+1. 启用本地搜索功能，需在 Hexo 博客根目录下安装插件 **`hexo-generator-searchdb`**。
 
    ```bash
    npm install hexo-generator-searchdb
@@ -334,9 +388,35 @@ top: 9999
      preload: true
    ```
 
+### RSS 订阅
+
+1. 启用 RSS 订阅功能，需先在 Hexo 博客根目录下安装插件 **`hexo-generator-feed`**。
+
+   ```bash
+   npm install hexo-generator-feed
+   ```
+
+2. 在 Hexo 配置文件 `_config.yml` 增加如下配置。
+
+   ```yml
+   # Feed Atom
+   # npm install hexo-generator-feed
+   feed:
+     type: atom
+     path: atom.xml
+     limit: 20
+   ```
+
+3. 修改主题配置文件 `_config.yml`。
+
+   ```yml
+   rss:
+     enable: true
+   ```
+
 ### Add page 添加页面
 
-**Hexo 初始并没有 categories、about、links、tags 等页面，需要自己手动创建。**
+**Hexo 初始并没有 categories（分类）、about（关于）、links（友链）、tags（标签） 等页面，需要自己手动创建。**
 
 以创建「关于」页面为例：
 
@@ -345,7 +425,7 @@ top: 9999
    hexo new page about
    ```
 2. 创建成功后，打开博客目录下 `/source/about/index.md` 文件，即可填写自己的内容。
-   支持 Markdown 和 HTML 格式；`comments: true` 表示该页面开启评论功能。
+   支持 Markdown 和 HTML 格式；`comment: true` 表示该页面开启评论功能。
 
    参考如下示例：
 
@@ -353,7 +433,7 @@ top: 9999
    ---
    title: about
    date: 2020-03-19 14:59:53
-   comments: true
+   comment: true
    ---
 
    ## About me
@@ -363,6 +443,7 @@ top: 9999
      ...
      ...
    ```
+
 3. 在主题配置文件启用 `about` 导航菜单。
    ```yml
    # navigation menu
@@ -376,6 +457,48 @@ top: 9999
    ```
 
 其他页面的生成方式跟「关于」页面类似，此处不再赘述。
+
+### MathJax 数学公式
+
+如果要在文章中显示数学公式，可以使用插件 **`hexo-filter-mathjax`**，详情参考：https://github.com/next-theme/hexo-filter-mathjax/ 。  
+或按下列步骤完成相关配置：
+
+1. 在 Hexo 博客根目录下安装插件 **`hexo-filter-mathjax`**。
+
+   ```bash
+   npm install hexo-filter-mathjax --save
+   ```
+
+2. 在 Hexo 配置文件 `_config.yml` 增加如下配置。
+
+   ```yml
+   mathjax:
+     tags: none # or 'ams' or 'all'
+     single_dollars: true # enable single dollar signs as in-line math delimiters
+     cjk_width: 0.9 # relative CJK char width
+     normal_width: 0.6 # relative normal (monospace) width
+     append_css: true # add CSS to every page
+     every_page: false # if true, every page will be rendered by mathjax regardless the `mathjax` setting in Front-matter of each article
+   ```
+
+3. 在文章页添加 `mathjax: true`，至此，就可以在该页面中写公式了。
+
+   ```yml
+   ---
+   title: MathJax Test
+   date: 2020-09-12 16:02:07
+   tags: MathJax
+   categories: MathJax
+   mathjax: true
+   ---
+   $$
+   i\hbar\frac{\partial}{\partial t}\psi=-\frac{\hbar^2}{2m}\nabla^2\psi+V\psi
+   $$
+   ```
+
+## Contribution 贡献
+
+欢迎各种形式的贡献，包括但不限于：美化样式、增加功能、改进代码、 修复 Bug 等。
 
 ## Feedback 反馈
 

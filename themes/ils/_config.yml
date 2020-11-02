@@ -1,30 +1,55 @@
-# theme basic info
-theme_info:
-  name: ILS
-  version: 2.0.1
-  author: XPoet
-  repository: https://github.com/XPoet/hexo-theme-ils
+# ---------------------------------------------------------------------------------------
+#  Your basic info
+# ---------------------------------------------------------------------------------------
+base_info:
+  title: Blog
+  author: ChazYu
+  email: chazyu1996@gmail.com
+  url: https://chazyu.com
 
-# favicon
-favicon: /images/favicon.svg
+# ---------------------------------------------------------------------------------------
+# Theme style settings
+# ---------------------------------------------------------------------------------------
+style:
+  # Theme primary color
+  primary_color: "#0066CC"
 
-# avatar
-avatar: /images/avatar.jpeg
+  # favicon
+  favicon: /images/favicon.svg
 
-# navigation menu
+  # avatar
+  avatar: /images/avatar.jpeg
+
+
+# ---------------------------------------------------------------------------------------
+# Navigation menu
+# ---------------------------------------------------------------------------------------
 menu:
-  主页: /
+  Home: /
   Archives: /archives
   About: /about
+  # Categories: /categories
+  # Tags: /tags
+  # Links: /links
+  # About: /about
   # ...
 
+
+# ---------------------------------------------------------------------------------------
 # RSS
+# Dependencies: hexo-generator-feed
+# See: https://github.com/hexojs/hexo-generator-feed
+# ---------------------------------------------------------------------------------------
 rss:
   enable: true
 
-# comment plugin
-comments:
-  # Valine https://github.com/xCss/Valine
+
+# ---------------------------------------------------------------------------------------
+# Comment plugin
+# ---------------------------------------------------------------------------------------
+comment:
+  # Valine
+  # See: https://github.com/xCss/Valine
   valine:
     enable: false
     appid:                # your leancloud application appid
@@ -32,25 +57,34 @@ comments:
     meta:                 # comment input meta, type: Array, values: ['nick','mail','link']
     placeholder:          # your placeholder
 
-  # Gitalk https://github.com/gitalk/gitalk
+  # Gitalk
+  # See: https://github.com/gitalk/gitalk
   gitalk:
     enable: true
-    github_id: chazyu1996            # GitHub repo owner
-    repository: chazyu1996.github.io         # Repository name to store issues
+    github_id: chazyu1996           # GitHub repo owner
+    repository: chazyu1996.github.io           # Repository name to store issues
     client_id: c2072d06f1a2f2c5d6f2            # GitHub Application Client ID
     client_secret: 429efb33ae5e4f3157ed2bb9a0c0028c9f7d71c3        # GitHub Application Client Secret
 
-# website count
+
+# ---------------------------------------------------------------------------------------
+# Website count
+# ---------------------------------------------------------------------------------------
 website_count:
-  # busuanzi http://ibruce.info/2015/04/04/busuanzi/
+  # busuanzi
+  # See: http://ibruce.info/2015/04/04/busuanzi/
   busuanzi_count:
     enable: false
     site_uv: false
     site_pv: false
     page_pv: false
 
+
+# ---------------------------------------------------------------------------------------
 # Local Search
-# Dependencies: https://github.com/theme-next/hexo-generator-searchdb
+# Dependencies: hexo-generator-searchdb
+# See: https://github.com/theme-next/hexo-generator-searchdb
+# ---------------------------------------------------------------------------------------
 local_search:
   enable: true
 
@@ -64,34 +98,57 @@ local_search:
   # Preload the search data when the page loads.
   preload: true
 
+
+# ---------------------------------------------------------------------------------------
 # Post word count
-# Dependencies: https://github.com/willin/hexo-wordcount
+# Dependencies: hexo-wordcount
+# See: https://github.com/willin/hexo-wordcount
+# ---------------------------------------------------------------------------------------
 post_wordcount:
+  enable: false
   wordcount: false  # word count, one article
   min2read: false   # time to read, one article
 
-# Home page article block display settings
-home_article:
-  category: true # show category in article block
-  tag: true # show tags in article block
-  tag_limit: 10 # max number of tags shown in article block
 
-# Code Copy
+# ---------------------------------------------------------------------------------------
+# Home page article block display settings
+# ---------------------------------------------------------------------------------------
+home_article:
+  category:
+    enable: true # show category in home page article block
+    limit: 5          # max number of categories shown in home page article block
+  tag:
+    enable: true # show tags in home page article block
+    limit: 10 # max number of tags shown in home page article block
+
+
+# ---------------------------------------------------------------------------------------
+# Code copy
+# ---------------------------------------------------------------------------------------
 code_copy:
   enable: true
-  style: mac # values: default | flat | mac
+  style: mac        # values: default | flat | mac
 
-# sidebar tools
+
+# ---------------------------------------------------------------------------------------
+# Sidebar tools
+# ---------------------------------------------------------------------------------------
 side_tools:
   enable: true
-  position: right  # values: left | right
+  position: right
 
-# back to top
+
+# ---------------------------------------------------------------------------------------
+# Back to top
+# ---------------------------------------------------------------------------------------
 back2top:
   enable: true
-  position: right  # values: left | right
+  position: right
 
+
+# ---------------------------------------------------------------------------------------
 # Table of Contents in the Sidebar
+# ---------------------------------------------------------------------------------------
 toc:
   enable: true
 
@@ -101,8 +158,11 @@ toc:
   # If true, all level of TOC in a post will be displayed, rather than the activated part of it.
   expand_all: true
 
-# magic theme
+
+# ---------------------------------------------------------------------------------------
+# Magic
+# ---------------------------------------------------------------------------------------
 magic:
   enable: true
-  scale: true 
-  shadow: false
+  scale: true    # scale effect when the mouse hover
+  shadow: false   # shadow effect when the mouse hover
