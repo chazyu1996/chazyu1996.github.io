@@ -6,7 +6,7 @@
   <link href="https://chazyu.com/atom.xml" rel="self"/>
   
   <link href="https://chazyu.com/"/>
-  <updated>2020-10-27T12:21:52.000Z</updated>
+  <updated>2020-11-05T11:22:10.000Z</updated>
   <id>https://chazyu.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在访问etcd时发生了啥</title>
+    <link href="https://chazyu.com/2020/11/05/etcd/how_did_it_run/"/>
+    <id>https://chazyu.com/2020/11/05/etcd/how_did_it_run/</id>
+    <published>2020-11-05T11:22:10.000Z</published>
+    <updated>2020-11-05T11:22:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>etcd 通过 raft 协议来实现 leader 选举、配置变更以及保证数据读写的一致性。那么在客户端发送或接受数据的时候发生了啥</p><a id="more"></a><h1 id="写数据流程："><a href="#写数据流程：" class="headerlink" title="写数据流程："></a>写数据流程：</h1><ol><li>etcd 任一节点的 etcd server 模块收到 Client 写请求（如果是 follower 节点，会先通过 Raft 模块将请求转发至 leader 节点处理）。</li><li>etcd server 将请求封装为 Raft 请求，然后提交给 Raft 模块处理。</li><li>leader 通过 Raft 协议与集群中 follower 节点进行交互，将消息复制到follower 节点，于此同时，并行将日志持久化到 WAL。</li><li>follower 节点对该请求进行响应，回复自己是否同意该请求。</li><li>当集群中超过半数节点（(n/2)+1 members ）同意接收这条日志数据时，表示该请求可以被Commit，Raft 模块通知 etcd server 该日志数据已经 Commit，可以进行 Apply。</li><li>各个节点的 etcd server 的 applierV3 模块异步进行 Apply 操作，并通过 MVCC 模块写入后端存储 BoltDB。</li><li>当 client 所连接的节点数据 apply 成功后，会返回给客户端 apply 的结果。</li></ol><h1 id="读数据流程："><a href="#读数据流程：" class="headerlink" title="读数据流程："></a>读数据流程：</h1><ol><li>etcd 的任一节点的etcd server 模块接收到客户端发送的请求（Range请求）</li><li>判断请求的类型，如果是串行化读（serializable）则直接进入 Apply 流程</li><li>如果是线性一致性读（linearizable）则进入 Raft 模块</li><li>Raft 模块向 leader 发出 ReadIndex 请求，获取当前集群已经提交的最新数据 Index</li><li>等待本地 AppliedIndex 大于或等于 ReadIndex 获取的 CommittedIndex 时，进入 Apply 流程</li></ol><blockquote><p>Apply 流程：通过 Key 名从 KV Index 模块获取 Key 最新的 Revision，再通过 Revision 从 BoltDB 获取对应的 Key 和 Value。</p></blockquote>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;etcd 通过 raft 协议来实现 leader 选举、配置变更以及保证数据读写的一致性。那么在客户端发送或接受数据的时候发生了啥&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="技术文章" scheme="https://chazyu.com/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/"/>
+    
+    
+    <category term="etcd" scheme="https://chazyu.com/tags/etcd/"/>
+    
+  </entry>
   
   <entry>
     <title>client-go</title>
@@ -557,29 +578,6 @@
     
     <summary type="html">&lt;h1 id=&quot;命令模式&quot;&gt;&lt;a href=&quot;#命令模式&quot; class=&quot;headerlink&quot; title=&quot;命令模式&quot;&gt;&lt;/a&gt;命令模式&lt;/h1&gt;&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;一种数据驱动的设计模式，它属于行为型模式。请求以命令的形式包裹在对象中，并传给调用对象。调用对象寻找可以处理该命令的合适的对象，并把该命令传给相应的对象，该对象执行命令。&lt;/p&gt;
 &lt;p&gt;“行为请求者”与“行为实现者”通常呈现一种“紧耦合”。但在某些场合，比如要对行为进行“记录、撤销/重做、事务”等处理，这种无法抵御变化的紧耦合是不合适的。在这种情况下，如何将“行为请求者”与“行为实现者”解耦？将一组行为抽象为对象，实现二者之间的松耦合。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="设计模式" scheme="https://chazyu.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-    <category term="python" scheme="https://chazyu.com/tags/python/"/>
-    
-    <category term="设计模式python实现" scheme="https://chazyu.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8Fpython%E5%AE%9E%E7%8E%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>责任链模式python实现</title>
-    <link href="https://chazyu.com/2019/11/25/design_pattern/python/Chain_of_Responsibility_Pattern/"/>
-    <id>https://chazyu.com/2019/11/25/design_pattern/python/Chain_of_Responsibility_Pattern/</id>
-    <published>2019-11-25T14:41:46.000Z</published>
-    <updated>2019-11-25T14:41:46.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>为请求创建了一个接收者对象的链。这种模式给予请求的类型，对请求的发送者和接收者进行解耦。这种类型的设计模式属于行为型模式。</p><a id="more"></a><h2 id="应用场景："><a href="#应用场景：" class="headerlink" title="应用场景："></a>应用场景：</h2><ul><li>将多个处理方法连接成一条链条，请求将在这条链条上流动直到该链条中有一个节点可以处理该请求；通常这条链条是一个对象包含对另一个对象的引用而形成链条，每个节点有对请求的条件，当不满足条件将传递给下一个节点处理。</li></ul><h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="责任链模式-1"><a href="#责任链模式-1" class="headerlink" title="责任链模式"></a>责任链模式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bases</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, obj=None</span>):</span></span><br><span class="line">        self.obj = obj</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">screen</span>(<span class="params">self, number</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>(<span class="params">Bases</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">screen</span>(<span class="params">self, number</span>):</span></span><br><span class="line">        <span class="keyword">if</span> <span class="number">200</span> &gt; number &gt; <span class="number">100</span>:</span><br><span class="line">            print(<span class="string">&quot;&#123;&#125; 划入A集合&quot;</span>.format(number))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.obj.screen(number)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>(<span class="params">Bases</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">screen</span>(<span class="params">self, number</span>):</span></span><br><span class="line">        <span class="keyword">if</span> number &gt;= <span class="number">200</span>:</span><br><span class="line">            print(<span class="string">&quot;&#123;&#125; 划入B集合&quot;</span>.format(number))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.obj.screen(number)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span>(<span class="params">Bases</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">screen</span>(<span class="params">self, number</span>):</span></span><br><span class="line">        <span class="keyword">if</span> <span class="number">100</span> &gt;= number:</span><br><span class="line">            print(<span class="string">&quot;&#123;&#125; 划入C集合&quot;</span>.format(number))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    test = [<span class="number">10</span>, <span class="number">100</span>, <span class="number">150</span>, <span class="number">200</span>, <span class="number">300</span>]</span><br><span class="line">    c = C()</span><br><span class="line">    b = B(c)</span><br><span class="line">    a = A(b)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> test:</span><br><span class="line">        a.screen(i)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">-------------------</span></span><br><span class="line"><span class="string">10 划入C集合</span></span><br><span class="line"><span class="string">100 划入C集合</span></span><br><span class="line"><span class="string">150 划入A集合</span></span><br><span class="line"><span class="string">200 划入B集合</span></span><br><span class="line"><span class="string">300 划入B集合</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure><h2 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h2><ul><li>一个对象中含有另一个对象的引用以此类推形成链条</li><li>每个对象中应该有明确的责任划分即处理请求的条件</li><li>链条的最后一节应该设计成通用请求处理，以免出现漏洞</li><li>请求应该传入链条的头部</li></ul>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;责任链模式&quot;&gt;&lt;a href=&quot;#责任链模式&quot; class=&quot;headerlink&quot; title=&quot;责任链模式&quot;&gt;&lt;/a&gt;责任链模式&lt;/h1&gt;&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;为请求创建了一个接收者对象的链。这种模式给予请求的类型，对请求的发送者和接收者进行解耦。这种类型的设计模式属于行为型模式。&lt;/p&gt;</summary>
     
     
     

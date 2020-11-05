@@ -237,6 +237,61 @@ mjx-container[display="true"] + br {
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2019/07/04/golang/read_large_files_faster/">
+                        利用多线程在Go中更快地读取大文件
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="利用多线程在Go中更快地读取大文件"><a href="#利用多线程在Go中更快地读取大文件" class="headerlink" title="利用多线程在Go中更快地读取大文件"></a>利用多线程在Go中更快地读取大文件</h1><p>如何计算具有4gb RAM的50gb文件中单词的出现次数。窍门是不将整个文件加载到内存中，而是在继续移动文件指针时继续处理每个单词。这样，我们可以用最少的内存资源轻松处理整个文件。</p>
+<p>现在的后续问题是我们如何使用多线程来加快此过程？解决方案是我们在文件的不同部分保留多个指针，并且每个线程同时读取文件的块。</p>
+<p>最后，结果可以合并。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-05</span>
+                        
+                            
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
+                            
+                            
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/golang/">golang</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/07/04/golang/read_large_files_faster/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2019/07/04/leetcode/35/">
                         35.搜索插入位置
                     </a>
