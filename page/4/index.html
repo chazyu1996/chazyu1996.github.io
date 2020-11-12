@@ -237,6 +237,59 @@ mjx-container[display="true"] + br {
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2019/09/25/linux/epoll/">
+                        epoll多路复用介绍
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <p>epoll是开发linux高性能服务器的必备技术至，epoll本质，是服务端程序员的必须掌握的知识。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
+                        <span><i class="fa fa-pencil-square-o"></i> 2019-09-25</span>
+                        
+                            
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
+                            
+                            
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/linux/">linux</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2019/09/25/linux/epoll/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2019/09/17/salt/modules/">
                         Salt各模块用法说明
                     </a>
@@ -731,73 +784,6 @@ reload 系统启动项 systemctl daemon-reload
                     </div>
                     
                     <a href="/2019/07/18/docker/problem/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2019/07/18/golang/grpc/">
-                        Go中使用grpc
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <h1 id="GRPC-在golang-中的应用"><a href="#GRPC-在golang-中的应用" class="headerlink" title="GRPC 在golang 中的应用"></a>GRPC 在golang 中的应用</h1><h3 id="GRPC-vs-RestFul-API"><a href="#GRPC-vs-RestFul-API" class="headerlink" title="GRPC vs RestFul API"></a>GRPC vs RestFul API</h3><p>gRPC和restful API都提供了一套通信机制，用于server/client模型通信，而且它们都使用http作为底层的传输协议(严格地说, gRPC使用的http2.0，而restful api则不一定)。不过gRPC还是有些特有的优势，如下：</p>
-<blockquote>
-<p>gRPC可以通过protobuf来定义接口，从而可以有更加严格的接口约束条件</p>
-</blockquote>
-<blockquote>
-<p>通过protobuf可以将数据序列化为二进制编码，这会大幅减少需要传输的数据量，从而大幅提高性能</p>
-</blockquote>
-<blockquote>
-<p>gRPC可以方便地支持流式通信(理论上通过http2.0就可以使用streaming模式, 但是通常web服务的restful api似乎很少这么用，通常的流式数据应用如视频流，一般都会使用专门的协议如HLS，RTMP等，这些就不是我们通常web服务了，而是有专门的服务器应用</p>
-</blockquote>
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-                    <div class="home-article-meta-info">
-                        <span><i class="fa fa-pencil-square-o"></i> 2019-07-18</span>
-                        
-                            
-                                <span class="home-article-category"><i class="fa fa-folder"></i>
-                                    <ul>
-                                        
-                                            <li>
-                                                
-                                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
-                                            </li>
-                                        
-                                        
-                                    </ul>
-                                </span>
-                            
-                            
-                                <span class="home-article-tag">
-                                    <i class="fa fa-tags"></i>
-                                    <ul>
-                                        
-                                            <li>
-                                                
-                                                <a href="/tags/golang/">golang</a>
-                                            </li>
-                                        
-                                            <li>
-                                                | 
-                                                <a href="/tags/grpc/">grpc</a>
-                                            </li>
-                                        
-                                    </ul>
-                                </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2019/07/18/golang/grpc/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         
