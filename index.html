@@ -237,6 +237,59 @@ mjx-container[display="true"] + br {
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/02/05/docker/timezone/">
+                        镜像中的时区问题
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <p>在容器的使用过程中，尤其是基础镜像，很多都是以UTC为准，但是再实际使用过程中，在获取时间时，通过调用系统时钟获取当前时间，统一在环境中把时间改为CST时间</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
+                        <span><i class="fa fa-pencil-square-o"></i> 2021-02-05</span>
+                        
+                            
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E8%B8%A9%E5%9D%91%E9%81%87%E9%9B%B7/">踩坑遇雷</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
+                            
+                            
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/docker/">docker</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2021/02/05/docker/timezone/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2020/12/29/others/internet_words/">
                         互联网词汇
                     </a>
@@ -457,6 +510,59 @@ map
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2020/11/08/k8s/kube-scheduler-extend/">
+                        kube-scheduler 的扩展
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <p>k8s官方默认的scheduler包含了一些调度算法，但是有些时候不能很好的满足需求。<br>比如：一台物理机多个虚拟机，每个虚拟机是一个<code>node</code>节点，相同的服务调度时，希望尽量分散在不同的物理机上。<br>这时候，我们需要将scheduler进行扩展，通过自定义算法，进一步控制调度逻辑、节点score。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+                    <div class="home-article-meta-info">
+                        <span><i class="fa fa-pencil-square-o"></i> 2020-11-08</span>
+                        
+                            
+                                <span class="home-article-category"><i class="fa fa-folder"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+                                            </li>
+                                        
+                                        
+                                    </ul>
+                                </span>
+                            
+                            
+                                <span class="home-article-tag">
+                                    <i class="fa fa-tags"></i>
+                                    <ul>
+                                        
+                                            <li>
+                                                
+                                                <a href="/tags/kubernetes/">kubernetes</a>
+                                            </li>
+                                        
+                                    </ul>
+                                </span>
+                            
+                        
+                    </div>
+                    
+                    <a href="/2020/11/08/k8s/kube-scheduler-extend/">Read more <i class="fa fa-angle-right"></i></a>
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2020/11/05/etcd/how_did_it_run/">
                         在访问etcd时发生了啥
                     </a>
@@ -662,151 +768,6 @@ map
                     </div>
                     
                     <a href="/2020/09/13/linux/cgroup/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2020/09/08/k8s/what_happen_apply_yaml/">
-                        pod 的创建过程
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <h1 id="pod的创建过程"><a href="#pod的创建过程" class="headerlink" title="pod的创建过程"></a>pod的创建过程</h1><p>kubernetes 中各个组件都是以 <code>watch</code> 的方式从<code>kube-apiserver</code>中获取信息。当然，这其中也用到了<code>informer</code>的缓存机制</p>
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-                    <div class="home-article-meta-info">
-                        <span><i class="fa fa-pencil-square-o"></i> 2020-09-08</span>
-                        
-                            
-                                <span class="home-article-category"><i class="fa fa-folder"></i>
-                                    <ul>
-                                        
-                                            <li>
-                                                
-                                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
-                                            </li>
-                                        
-                                        
-                                    </ul>
-                                </span>
-                            
-                            
-                                <span class="home-article-tag">
-                                    <i class="fa fa-tags"></i>
-                                    <ul>
-                                        
-                                            <li>
-                                                
-                                                <a href="/tags/kubernetes/">kubernetes</a>
-                                            </li>
-                                        
-                                    </ul>
-                                </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2020/09/08/k8s/what_happen_apply_yaml/">Read more <i class="fa fa-angle-right"></i></a>
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2020/07/29/interview/Database/">
-                        数据库
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><ul>
-<li>数据库基础<ul>
-<li><a href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E7%89%B9%E6%80%A7">事务的概念和特性？</a></li>
-<li><a href="#%E4%BC%9A%E5%87%BA%E7%8E%B0%E5%93%AA%E4%BA%9B%E5%B9%B6%E5%8F%91%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98">会出现哪些并发一致性问题？</a></li>
-<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%9B%9B%E7%A7%8D%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB">数据库的四种隔离级别？</a></li>
-<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81">什么是乐观锁和悲观锁？</a></li>
-<li><a href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%B0%81%E9%94%81%E7%B1%BB%E5%9E%8B">常见的封锁类型？</a></li>
-<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE">什么是三级封锁协议？</a></li>
-<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%A4%E6%AE%B5%E9%94%81%E5%8D%8F%E8%AE%AE">什么是两段锁协议？</a></li>
-<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF-mvcc">什么是 MVCC？</a></li>
-<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%8C%83%E5%BC%8F">数据库的范式？</a></li>
-<li><a href="#%E5%88%97%E4%B8%BE%E5%87%A0%E7%A7%8D%E8%A1%A8%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F">列举几种表连接方式？</a></li>
-<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BC%98%E7%BC%BA%E7%82%B9">什么是存储过程？有哪些优缺点？</a></li>
-<li><a href="#DropDeleteTruncate%E7%9A%84%E5%8C%BA%E5%88%AB">Drop/Delete/Truncate的区别？</a></li>
-<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%A7%86%E5%9B%BE%E4%BB%80%E4%B9%88%E6%98%AF%E6%B8%B8%E6%A0%87">什么是视图？什么是游标？</a></li>
-</ul>
-</li>
-<li>MySQL<ul>
-<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86b%E6%A0%91">数据库索引的实现原理（B+树）</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E7%82%B9">使用索引的优点</a></li>
-<li><a href="#%E5%93%AA%E4%BA%9B%E6%83%85%E5%86%B5%E4%B8%8B%E7%B4%A2%E5%BC%95%E4%BC%9A%E5%A4%B1%E6%95%88">哪些情况下索引会失效？</a></li>
-<li><a href="#%E5%9C%A8%E5%93%AA%E4%BA%9B%E5%9C%B0%E6%96%B9%E9%80%82%E5%90%88%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95">在哪些地方适合创建索引？</a></li>
-<li><a href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%88%86%E7%B1%BB">索引的分类？</a></li>
-<li><a href="#MySQL%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E-InnoDB-%E5%92%8C-MyISAM-%E7%9A%84%E5%8C%BA%E5%88%AB">MySQL的两种存储引擎 InnoDB 和 MyISAM 的区别？</a></li>
-<li><a href="#%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96%E6%95%B0%E6%8D%AE%E5%BA%93">如何优化数据库？</a></li>
-<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88">什么是主从复制？实现原理是什么？</a></li>
-</ul>
-</li>
-<li>NoSQL/Redis<ul>
-<li><a href="%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%8C%BA%E5%88%AB">关系型数据库和非关系型数据库的区别？</a></li>
-</ul>
-</li>
-<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
-</ul>
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-                    <div class="home-article-meta-info">
-                        <span><i class="fa fa-pencil-square-o"></i> 2020-07-29</span>
-                        
-                            
-                                <span class="home-article-category"><i class="fa fa-folder"></i>
-                                    <ul>
-                                        
-                                            <li>
-                                                
-                                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
-                                            </li>
-                                        
-                                        
-                                            <li>
-                                                &gt; 
-                                                <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a>
-                                            </li>
-                                        
-                                        
-                                    </ul>
-                                </span>
-                            
-                            
-                                <span class="home-article-tag">
-                                    <i class="fa fa-tags"></i>
-                                    <ul>
-                                        
-                                            <li>
-                                                
-                                                <a href="/tags/interview/">interview</a>
-                                            </li>
-                                        
-                                    </ul>
-                                </span>
-                            
-                        
-                    </div>
-                    
-                    <a href="/2020/07/29/interview/Database/">Read more <i class="fa fa-angle-right"></i></a>
                 </div>
             </li>
         
