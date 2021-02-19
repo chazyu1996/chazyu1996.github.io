@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="Hexo Theme Keep">
     <meta name="description" content="Hexo Theme Keep">
-    <meta name="author" content="Keep team">
+    <meta name="author" content="MorningFish">
     
     <title>
         
             Salt各模块用法说明 |
         
-        Keep Theme
+        南城旧梦
     </title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="shortcut icon" href="/images/logo.svg">
@@ -19,7 +19,7 @@
     <script id="hexo-configurations">
     let KEEP = window.KEEP || {};
     KEEP.hexo_config = {"hostname":"chazyu.com","root":"/","language":"zh-cn","path":"search.xml"};
-    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.jpeg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":true},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep moving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
     KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days age","week":"%s weeks age","month":"%s months age","year":"%s years age"};
   </script>
 <!-- hexo injector head_end start -->
@@ -167,7 +167,7 @@ mjx-container[display="true"] + br {
     <div class="header-content">
         <div class="left">
             <a class="logo-title" href="/">
-                Keep Theme
+                南城旧梦
             </a>
         </div>
 
@@ -191,10 +191,24 @@ mjx-container[display="true"] + br {
                             </a>
                         </li>
                     
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
                     
                 </ul>
             </div>
             <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
                 
                 <div class="icon-item menu-bar">
                     <div class="menu-bar-middle"></div>
@@ -214,6 +228,11 @@ mjx-container[display="true"] + br {
                 <li class="drawer-menu-item flex-center">
                     <a class=""
                        href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
                 </li>
             
         </ul>
@@ -241,11 +260,11 @@ mjx-container[display="true"] + br {
         
             <div class="article-header">
                 <div class="avatar">
-                    <img src="/images/avatar.svg">
+                    <img src="/images/avatar.jpeg">
                 </div>
                 <div class="info">
                     <div class="author">
-                        <span class="name">Keep team</span>
+                        <span class="name">MorningFish</span>
                         
                             <span class="author-label">Lv6</span>
                         
@@ -339,6 +358,23 @@ mjx-container[display="true"] + br {
         </div>
 
         
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：Salt各模块用法说明</li>
+        <li>Post author：MorningFish</li>
+        <li>Create time：2019-09-18 03:42:22</li>
+        <li>
+            Post link：https://chazyu.com/2019/09/17/salt/modules/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
 
         
             <div class="article-nav">
@@ -378,6 +414,63 @@ mjx-container[display="true"] + br {
         
 
         
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: 'c2072d06f1a2f2c5d6f2',
+                    clientSecret: '429efb33ae5e4f3157ed2bb9a0c0028c9f7d71c3',
+                    repo: 'morningfish.github.io',
+                    owner: 'morningfish',
+                    admin: ['morningfish'],
+                    id: __gitalk__pathname,
+                    language: 'zh-cn'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
     </div>
 </div>
 
@@ -395,7 +488,7 @@ mjx-container[display="true"] + br {
             
               <span>2020</span>&nbsp;-&nbsp;
             
-            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Keep team</a>
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">MorningFish</a>
         </div>
         
         <div class="theme-info info-item">
@@ -414,8 +507,16 @@ mjx-container[display="true"] + br {
     <ul class="tools-list">
         <!-- TOC aside toggle -->
         
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
 
         <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
         
     </ul>
 </div>
@@ -444,6 +545,15 @@ mjx-container[display="true"] + br {
 
         <!-- rss -->
         
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
 
         
             <li class="tools-item tool-scroll-to-top flex-center">
@@ -467,11 +577,48 @@ mjx-container[display="true"] + br {
     </div>
 
     
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ACME-%E5%8A%A0%E5%AF%86"><span class="nav-number">1.</span> <span class="nav-text">ACME 加密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#acme-cert"><span class="nav-number">1.1.</span> <span class="nav-text">acme.cert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#acme-certs"><span class="nav-number">1.2.</span> <span class="nav-text">acme.certs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#acme-info"><span class="nav-number">1.3.</span> <span class="nav-text">acme.info</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#acme-expires"><span class="nav-number">1.4.</span> <span class="nav-text">acme.expires</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#acme-has"><span class="nav-number">1.5.</span> <span class="nav-text">acme.has</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#acme-renew-by"><span class="nav-number">1.6.</span> <span class="nav-text">acme.renew_by</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#acme-needs-renewal"><span class="nav-number">1.7.</span> <span class="nav-text">acme.needs_renewal</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#group-%E7%AE%A1%E7%90%86%E4%B8%BB%E6%9C%BA%E4%B8%8A%E7%9A%84%E7%BB%84%E4%BF%A1%E6%81%AF"><span class="nav-number">2.</span> <span class="nav-text">group 管理主机上的组信息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#group-add"><span class="nav-number">2.1.</span> <span class="nav-text">group.add</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#group-delete"><span class="nav-number">2.2.</span> <span class="nav-text">group.delete</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#group-info"><span class="nav-number">2.3.</span> <span class="nav-text">group.info</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#group-getent"><span class="nav-number">2.4.</span> <span class="nav-text">group.getent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#group-chgid"><span class="nav-number">2.5.</span> <span class="nav-text">group.chgid</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#group-adduser"><span class="nav-number">2.6.</span> <span class="nav-text">group.adduser</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#group-deluser"><span class="nav-number">2.7.</span> <span class="nav-text">group.deluser</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#group-members"><span class="nav-number">2.8.</span> <span class="nav-text">group.members</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#aliases-%E7%AE%A1%E7%90%86%E5%88%AB%E5%90%8D%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="nav-number">3.</span> <span class="nav-text">aliases 管理别名文件中的信息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#aliases-list-aliases"><span class="nav-number">3.1.</span> <span class="nav-text">aliases.list_aliases</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aliases-get-target"><span class="nav-number">3.2.</span> <span class="nav-text">aliases.get_target</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aliases-set-target"><span class="nav-number">3.3.</span> <span class="nav-text">aliases.set_target</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aliases-has-target"><span class="nav-number">3.4.</span> <span class="nav-text">aliases.has_target</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aliases-rm-alias"><span class="nav-number">3.5.</span> <span class="nav-text">aliases.rm_alias</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#alternatives-%E6%9B%BF%E4%BB%A3%E7%B3%BB%E7%BB%9F"><span class="nav-number">4.</span> <span class="nav-text">alternatives 替代系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#alternatives-display"><span class="nav-number">4.1.</span> <span class="nav-text">alternatives.display</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#alternatives-show-link"><span class="nav-number">4.2.</span> <span class="nav-text">alternatives.show_link</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#alternatives-show-current"><span class="nav-number">4.3.</span> <span class="nav-text">alternatives.show_current</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#alternatives-check-exists"><span class="nav-number">4.4.</span> <span class="nav-text">alternatives.check_exists</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#alternatives-check-installed"><span class="nav-number">4.5.</span> <span class="nav-text">alternatives.check_installed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#alternatives-install"><span class="nav-number">4.6.</span> <span class="nav-text">alternatives.install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#alternatives-remove"><span class="nav-number">4.7.</span> <span class="nav-text">alternatives.remove</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#alternatives-auto"><span class="nav-number">4.8.</span> <span class="nav-text">alternatives.auto</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#alternatives-set"><span class="nav-number">4.9.</span> <span class="nav-text">alternatives.set</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#apache"><span class="nav-number">5.</span> <span class="nav-text">apache</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#apache-version"><span class="nav-number">5.1.</span> <span class="nav-text">apache.version</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apache-fullversion"><span class="nav-number">5.2.</span> <span class="nav-text">apache.fullversion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apache-modules"><span class="nav-number">5.3.</span> <span class="nav-text">apache.modules</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apache-servermods"><span class="nav-number">5.4.</span> <span class="nav-text">apache.servermods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apache-directives"><span class="nav-number">5.5.</span> <span class="nav-text">apache.directives</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apache-vhosts"><span class="nav-number">5.6.</span> <span class="nav-text">apache.vhosts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apache-signal"><span class="nav-number">5.7.</span> <span class="nav-text">apache.signal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apache-useradd"><span class="nav-number">5.8.</span> <span class="nav-text">apache.useradd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apache-userdel"><span class="nav-number">5.9.</span> <span class="nav-text">apache.userdel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apache-server-status"><span class="nav-number">5.10.</span> <span class="nav-text">apache.server_status</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apache-config"><span class="nav-number">5.11.</span> <span class="nav-text">apache.config</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#apcupsd"><span class="nav-number">6.</span> <span class="nav-text">apcupsd</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#apcupsd-status"><span class="nav-number">6.1.</span> <span class="nav-text">apcupsd.status</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apcupsd-status-load"><span class="nav-number">6.2.</span> <span class="nav-text">apcupsd.status_load</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apcupsd-status-charge"><span class="nav-number">6.3.</span> <span class="nav-text">apcupsd.status_charge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apcupsd-status-battery"><span class="nav-number">6.4.</span> <span class="nav-text">apcupsd.status_battery</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#apf"><span class="nav-number">7.</span> <span class="nav-text">apf</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#apf-running"><span class="nav-number">7.1.</span> <span class="nav-text">apf.running</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apf-disable"><span class="nav-number">7.2.</span> <span class="nav-text">apf.disable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apf-enable"><span class="nav-number">7.3.</span> <span class="nav-text">apf.enable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apf-reload"><span class="nav-number">7.4.</span> <span class="nav-text">apf.reload</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apf-refresh"><span class="nav-number">7.5.</span> <span class="nav-text">apf.refresh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apf-allow"><span class="nav-number">7.6.</span> <span class="nav-text">apf.allow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apf-deny"><span class="nav-number">7.7.</span> <span class="nav-text">apf.deny</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apf-remove"><span class="nav-number">7.8.</span> <span class="nav-text">apf.remove</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#apt"><span class="nav-number">8.</span> <span class="nav-text">apt</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-latest-version"><span class="nav-number">8.1.</span> <span class="nav-text">pkg.latest_version</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-version"><span class="nav-number">8.2.</span> <span class="nav-text">pkg.version</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-refresh-db"><span class="nav-number">8.3.</span> <span class="nav-text">pkg.refresh_db</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-install"><span class="nav-number">8.4.</span> <span class="nav-text">pkg.install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-autoremove"><span class="nav-number">8.5.</span> <span class="nav-text">pkg.autoremove</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-remove"><span class="nav-number">8.6.</span> <span class="nav-text">pkg.remove</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-purge"><span class="nav-number">8.7.</span> <span class="nav-text">pkg.purge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-upgrade"><span class="nav-number">8.8.</span> <span class="nav-text">pkg.upgrade</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-hold"><span class="nav-number">8.9.</span> <span class="nav-text">pkg.hold</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-unhold"><span class="nav-number">8.10.</span> <span class="nav-text">pkg.unhold</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-list-pkgs"><span class="nav-number">8.11.</span> <span class="nav-text">pkg.list_pkgs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-list-upgrades"><span class="nav-number">8.12.</span> <span class="nav-text">pkg.list_upgrades</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-upgrade-available"><span class="nav-number">8.13.</span> <span class="nav-text">pkg.upgrade_available</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-version-cmp"><span class="nav-number">8.14.</span> <span class="nav-text">pkg.version_cmp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-list-repos"><span class="nav-number">8.15.</span> <span class="nav-text">pkg.list_repos</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-get-repo"><span class="nav-number">8.16.</span> <span class="nav-text">pkg.get_repo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-del-repo"><span class="nav-number">8.17.</span> <span class="nav-text">pkg.del_repo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-del-repo-key"><span class="nav-number">8.18.</span> <span class="nav-text">pkg.del_repo_key</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-mod-repo"><span class="nav-number">8.19.</span> <span class="nav-text">pkg.mod_repo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-file-list"><span class="nav-number">8.20.</span> <span class="nav-text">pkg.file_list</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-file-dict"><span class="nav-number">8.21.</span> <span class="nav-text">pkg.file_dict</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-set-selections"><span class="nav-number">8.22.</span> <span class="nav-text">pkg.set_selections</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-owner"><span class="nav-number">8.23.</span> <span class="nav-text">pkg.owner</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkg-info-installed"><span class="nav-number">8.24.</span> <span class="nav-text">pkg.info_installed</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
 
     <div class="image-viewer-container">
     <img src="">
 </div>
 
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
 
     
 
@@ -482,12 +629,18 @@ mjx-container[display="true"] + br {
 <script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/header-shrink.js"></script><script src="/js/back2top.js"></script><script src="/js/dark-light-toggle.js"></script>
 
 
+    <script src="/js/local-search.js"></script>
 
+
+
+    <script src="/js/code-copy.js"></script>
 
 
 
 
 <div class="post-scripts">
+    
+        <script src="/js/left-side-toggle.js"></script><script src="/js/libs/anime.min.js"></script><script src="/js/toc.js"></script>
     
 </div>
 

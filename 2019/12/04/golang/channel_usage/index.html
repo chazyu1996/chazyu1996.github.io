@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="Hexo Theme Keep">
     <meta name="description" content="Hexo Theme Keep">
-    <meta name="author" content="Keep team">
+    <meta name="author" content="MorningFish">
     
     <title>
         
             Channel的使用场景 |
         
-        Keep Theme
+        南城旧梦
     </title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="shortcut icon" href="/images/logo.svg">
@@ -19,7 +19,7 @@
     <script id="hexo-configurations">
     let KEEP = window.KEEP || {};
     KEEP.hexo_config = {"hostname":"chazyu.com","root":"/","language":"zh-cn","path":"search.xml"};
-    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.jpeg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":true},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep moving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
     KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days age","week":"%s weeks age","month":"%s months age","year":"%s years age"};
   </script>
 <!-- hexo injector head_end start -->
@@ -167,7 +167,7 @@ mjx-container[display="true"] + br {
     <div class="header-content">
         <div class="left">
             <a class="logo-title" href="/">
-                Keep Theme
+                南城旧梦
             </a>
         </div>
 
@@ -191,10 +191,24 @@ mjx-container[display="true"] + br {
                             </a>
                         </li>
                     
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
                     
                 </ul>
             </div>
             <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
                 
                 <div class="icon-item menu-bar">
                     <div class="menu-bar-middle"></div>
@@ -214,6 +228,11 @@ mjx-container[display="true"] + br {
                 <li class="drawer-menu-item flex-center">
                     <a class=""
                        href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
                 </li>
             
         </ul>
@@ -241,11 +260,11 @@ mjx-container[display="true"] + br {
         
             <div class="article-header">
                 <div class="avatar">
-                    <img src="/images/avatar.svg">
+                    <img src="/images/avatar.jpeg">
                 </div>
                 <div class="info">
                     <div class="author">
-                        <span class="name">Keep team</span>
+                        <span class="name">MorningFish</span>
                         
                             <span class="author-label">Lv6</span>
                         
@@ -409,6 +428,23 @@ mjx-container[display="true"] + br {
         </div>
 
         
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：Channel的使用场景</li>
+        <li>Post author：MorningFish</li>
+        <li>Create time：2019-12-04 13:03:00</li>
+        <li>
+            Post link：https://chazyu.com/2019/12/04/golang/channel_usage/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
 
         
             <div class="article-nav">
@@ -448,6 +484,63 @@ mjx-container[display="true"] + br {
         
 
         
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div id="gitalk-container"></div>
+    <script 
+            src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script >
+
+        function loadGitalk() {
+            let __gitalk__pathname = decodeURI(location.pathname);
+            const __gitalk__pathnameLength = __gitalk__pathname.length;
+            const __gitalk__pathnameMaxLength = 50;
+            if (__gitalk__pathnameLength > __gitalk__pathnameMaxLength) {
+                __gitalk__pathname = __gitalk__pathname.substring(0, __gitalk__pathnameMaxLength - 3) + '...';
+            }
+
+            try {
+                Gitalk && new Gitalk({
+                    clientID: 'c2072d06f1a2f2c5d6f2',
+                    clientSecret: '429efb33ae5e4f3157ed2bb9a0c0028c9f7d71c3',
+                    repo: 'morningfish.github.io',
+                    owner: 'morningfish',
+                    admin: ['morningfish'],
+                    id: __gitalk__pathname,
+                    language: 'zh-cn'
+                }).render('gitalk-container');
+
+            } catch (e) {
+                window.Gitalk = null;
+            }
+        }
+
+        if ('false') {
+            const loadGitalkTimeout = setTimeout(() => {
+                loadGitalk();
+                clearTimeout(loadGitalkTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGitalk);
+        }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
     </div>
 </div>
 
@@ -465,7 +558,7 @@ mjx-container[display="true"] + br {
             
               <span>2020</span>&nbsp;-&nbsp;
             
-            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Keep team</a>
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">MorningFish</a>
         </div>
         
         <div class="theme-info info-item">
@@ -484,8 +577,16 @@ mjx-container[display="true"] + br {
     <ul class="tools-list">
         <!-- TOC aside toggle -->
         
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
 
         <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
         
     </ul>
 </div>
@@ -514,6 +615,15 @@ mjx-container[display="true"] + br {
 
         <!-- rss -->
         
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
 
         
             <li class="tools-item tool-scroll-to-top flex-center">
@@ -537,11 +647,48 @@ mjx-container[display="true"] + br {
     </div>
 
     
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#channel%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">channel的使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#channel%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E5%92%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">2.</span> <span class="nav-text">channel的基本操作和注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#channel%E5%AD%98%E5%9C%A83%E7%A7%8D%E7%8A%B6%E6%80%81%EF%BC%9A"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">channel存在3种状态：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#channel%E5%8F%AF%E8%BF%9B%E8%A1%8C3%E7%A7%8D%E6%93%8D%E4%BD%9C%EF%BC%9A"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">channel可进行3种操作：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8A%8A%E8%BF%993%E7%A7%8D%E6%93%8D%E4%BD%9C%E5%92%8C3%E7%A7%8Dchannel%E7%8A%B6%E6%80%81%E5%8F%AF%E4%BB%A5%E7%BB%84%E5%90%88%E5%87%BA9%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%9A"><span class="nav-number">2.0.1.</span> <span class="nav-text">把这3种操作和3种channel状态可以组合出9种情况：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8channel%E7%9A%8410%E7%A7%8D%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">使用channel的10种常用操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8for-range%E8%AF%BBchannel"><span class="nav-number">3.0.1.</span> <span class="nav-text">使用for range读channel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-ok%E5%88%A4%E6%96%ADchannel%E6%98%AF%E5%90%A6%E5%85%B3%E9%97%AD"><span class="nav-number">3.0.2.</span> <span class="nav-text">使用_,ok判断channel是否关闭</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8select%E5%A4%84%E7%90%86%E5%A4%9A%E4%B8%AAchannel"><span class="nav-number">3.0.3.</span> <span class="nav-text">使用select处理多个channel</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8channel%E7%9A%84%E5%A3%B0%E6%98%8E%E6%8E%A7%E5%88%B6%E8%AF%BB%E5%86%99%E6%9D%83%E9%99%90"><span class="nav-number">3.0.3.1.</span> <span class="nav-text">使用channel的声明控制读写权限</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%BC%93%E5%86%B2channel%E5%A2%9E%E5%BC%BA%E5%B9%B6%E5%8F%91%E5%92%8C%E5%BC%82%E6%AD%A5"><span class="nav-number">3.0.4.</span> <span class="nav-text">使用缓冲channel增强并发和异步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E6%93%8D%E4%BD%9C%E5%8A%A0%E4%B8%8A%E8%B6%85%E6%97%B6"><span class="nav-number">3.0.5.</span> <span class="nav-text">为操作加上超时</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8time%E5%AE%9E%E7%8E%B0channel%E6%97%A0%E9%98%BB%E5%A1%9E%E8%AF%BB%E5%86%99"><span class="nav-number">3.0.6.</span> <span class="nav-text">使用time实现channel无阻塞读写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8close-ch-%E5%85%B3%E9%97%AD%E6%89%80%E6%9C%89%E4%B8%8B%E6%B8%B8%E5%8D%8F%E7%A8%8B"><span class="nav-number">3.0.7.</span> <span class="nav-text">使用close(ch)关闭所有下游协程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8chan-struct-%E4%BD%9C%E4%B8%BA%E4%BF%A1%E5%8F%B7channel"><span class="nav-number">3.0.8.</span> <span class="nav-text">使用chan struct{}作为信号channel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8channel%E4%BC%A0%E9%80%92%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E6%8C%87%E9%92%88%E8%80%8C%E9%9D%9E%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">3.0.9.</span> <span class="nav-text">使用channel传递结构体的指针而非结构体</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
 
     <div class="image-viewer-container">
     <img src="">
 </div>
 
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
 
     
 
@@ -552,12 +699,18 @@ mjx-container[display="true"] + br {
 <script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/header-shrink.js"></script><script src="/js/back2top.js"></script><script src="/js/dark-light-toggle.js"></script>
 
 
+    <script src="/js/local-search.js"></script>
 
+
+
+    <script src="/js/code-copy.js"></script>
 
 
 
 
 <div class="post-scripts">
+    
+        <script src="/js/left-side-toggle.js"></script><script src="/js/libs/anime.min.js"></script><script src="/js/toc.js"></script>
     
 </div>
 
