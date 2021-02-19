@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep team">
+    
+    <title>
+        
+        Keep Theme
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/logo.svg">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chazyu.com","root":"/","language":"zh-cn","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days age","week":"%s weeks age","month":"%s months age","year":"%s years age"};
+  </script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="南城旧梦" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="page-template-container">
+        
+        
+        <div class="page-template-content markdown-body">
+            
+                <h1 id="于子晨"><a href="#于子晨" class="headerlink" title="于子晨"></a>于子晨</h1><blockquote>
+<p>年龄：24   邮箱：<a class="link"   href="mailto:&#99;&#104;&#x61;&#x7a;&#121;&#x75;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#x6d;" >&#99;&#104;&#x61;&#x7a;&#121;&#x75;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#x6d;<i class="fas fa-external-link-alt"></i></a>  电话：17600641613</p>
+</blockquote>
+<blockquote>
+<p>2014-2018  年 统招本科  郑州大学 通信工程专业</p>
+</blockquote>
+<h2 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h2><ul>
+<li>Python、go、shell、salt、django、kubernetes、operator、prometheus、harbor<h2 id="工作及项目经历"><a href="#工作及项目经历" class="headerlink" title="工作及项目经历"></a>工作及项目经历</h2><h3 id="2017-11-至今-好大夫在线-运维开发工程师"><a href="#2017-11-至今-好大夫在线-运维开发工程师" class="headerlink" title="2017.11 ~ 至今 好大夫在线  运维开发工程师"></a>2017.11 ~ 至今 好大夫在线  运维开发工程师</h3><h6 id="自动化运维系统：将公司运维操作自动化"><a href="#自动化运维系统：将公司运维操作自动化" class="headerlink" title="自动化运维系统：将公司运维操作自动化"></a>自动化运维系统：将公司运维操作自动化</h6></li>
+</ul>
+<ol>
+<li>ci/cd自动化，一键发布自动编排 </li>
+<li>工单审批流程</li>
+<li>cmdb基于openstack的自动发现</li>
+<li>基于openstack 一键开机、部署环境</li>
+<li>服务重启</li>
+<li>基于bind的版本化DNS自动化配置</li>
+<li>数据库自动化</li>
+<li>svn、vpn、jumpserver等权限全自动化管理<h6 id="jumpserver二次开发"><a href="#jumpserver二次开发" class="headerlink" title="jumpserver二次开发"></a>jumpserver二次开发</h6></li>
+</ol>
+<h6 id="saltstack-二次开发：满足高可用"><a href="#saltstack-二次开发：满足高可用" class="headerlink" title="saltstack 二次开发：满足高可用"></a>saltstack 二次开发：满足高可用</h6><ol>
+<li>salt-api集群化，高可用</li>
+<li>salt-api 提供了更新接口，使得无需重启salt-api 即可加载配置文件）</li>
+<li>使用 <strong>Tornado</strong> 开发salt-api资源调度器</li>
+</ol>
+<h6 id="人脸识别打卡接口对接"><a href="#人脸识别打卡接口对接" class="headerlink" title="人脸识别打卡接口对接"></a>人脸识别打卡接口对接</h6><ol>
+<li>使用<em>async协程</em> + <em>websocket</em>  实现人脸识别实时打卡，对接至人事系统<h6 id="k8s容器平台的搭建"><a href="#k8s容器平台的搭建" class="headerlink" title="k8s容器平台的搭建"></a>k8s容器平台的搭建</h6></li>
+<li>harbor作为存储仓库</li>
+<li>使用kubeasz 进行自动化部署，并针对其进行定制化修改</li>
+<li>jenkins和gitlab-ci</li>
+<li>prometheus-operator 作为监控<h6 id="k8s容器化管理平台"><a href="#k8s容器化管理平台" class="headerlink" title="k8s容器化管理平台"></a>k8s容器化管理平台</h6></li>
+<li>通过纵表的形式存储模板，再进行渲染，得到整个yaml，使得模板化更灵活</li>
+<li>针对容器节点自动化部署、升级</li>
+<li>集成 ci、cd 流程化打包</li>
+<li>集成 prometheus operator管理，管理 rule、alertmanager、target</li>
+<li>提出前端容器化测试解决方案（采用代理的形式）</li>
+<li>支持自我迭代<h6 id="k8s-operator-开发"><a href="#k8s-operator-开发" class="headerlink" title="k8s operator 开发"></a>k8s operator 开发</h6></li>
+<li>前端容器化测试环境crd ：自动调度自动分配代理、配置ingress、生成代理订阅地址。通过正反代理的模式，控制测试环境的流量进出<h3 id="2017-7-2017-8-绿盟科技-python开发实习⽣"><a href="#2017-7-2017-8-绿盟科技-python开发实习⽣" class="headerlink" title="2017.7 ~ 2017.8 绿盟科技 python开发实习⽣"></a>2017.7 ~ 2017.8 绿盟科技 python开发实习⽣</h3></li>
+<li>负责ERP系统相关功能的开发:sprint 敏捷看板、PMO 开发、API 开发等等 </li>
+<li>修补存在的 sql 注入漏洞、xss 漏洞、跨站请求漏洞等等</li>
+</ol>
+<h3 id="2017-3-2017-4-郑州大学超算中心-学⽣助理"><a href="#2017-3-2017-4-郑州大学超算中心-学⽣助理" class="headerlink" title="2017.3 ~ 2017.4 郑州大学超算中心 学⽣助理"></a>2017.3 ~ 2017.4 郑州大学超算中心 学⽣助理</h3><ol>
+<li>负责集群的日常维护</li>
+<li>使用 shell 脚本、pbs 脚本、 Python 等在集群对相关软件进行测试并优化调整</li>
+</ol>
+<h3 id="获奖情况"><a href="#获奖情况" class="headerlink" title="获奖情况"></a>获奖情况</h3><ul>
+<li>asc17世界⼤学生超算大赛⼀等奖</li>
+</ul>
+
+            
+        </div>
+        <div class="page-template-comments">
+            
+        </div>
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Keep team</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.0</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+<script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/header-shrink.js"></script><script src="/js/back2top.js"></script><script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep team">
+    
+    <title>
+        
+            网卡Bond |
+        
+        Keep Theme
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/logo.svg">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chazyu.com","root":"/","language":"zh-cn","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days age","week":"%s weeks age","month":"%s months age","year":"%s years age"};
+  </script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="南城旧梦" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">网卡Bond</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Keep team</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2019-07-05 02:02:02
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/linux/">linux</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="什么是bond？"><a href="#什么是bond？" class="headerlink" title="什么是bond？"></a>什么是bond？</h2><p>所谓bond，是一种通过把多个物理网卡绑定成一个逻辑网卡实现网卡冗余、负载均衡、提高带宽，从而实现网络性能高可用高可靠的技术。</p>
+<a id="more"></a>
+
+<h2 id="bond的七种模型："><a href="#bond的七种模型：" class="headerlink" title="bond的七种模型："></a>bond的七种模型：</h2><blockquote>
+<p>mod0：（balance-rr，平衡轮循环策略，提供负载均衡和容错能力），数据包传输是依次传输，第一个包从网卡1传输，第二个包从网卡2传输，第三个包从网卡3…….，一直循环直到传输完最后一个数据包。这种模式的bond有一个不完善的地方，如果一个数据包从不同的网卡传输，而中途再经过不同的链路，当客户端接受到数据包的时候，数据包就可能出现无序到达的情况，而无序到达的数据包需要重新发送，这样网络的性能便会大大下降。</p>
+</blockquote>
+<blockquote>
+<p>mod1：（active-backup，主备策略，提供冗余能力），只有一个网卡被使用，当一个网卡宕了之后，马上由备网卡接替主网卡的工作，为了避免交换机发生混乱，逻辑网卡的mac地址是唯一的。这种模型的bond可提高网络的可用性，但是它的资源利用率低，只有1/网卡个数（N）。</p>
+</blockquote>
+<blockquote>
+<p>mod2：（balance-xor，平衡策略，提供负载均衡和容错能力）—不是很明白实现原理与算法，有哪位大神知道的话，可以在下面留言，让小弟也开开眼界。</p>
+</blockquote>
+<blockquote>
+<p>mod3：（broadcast，广播策略，提供容错能力）每一个备网卡传输每个数据包。</p>
+</blockquote>
+<blockquote>
+<p>mod4：（802.3ad，动态链路聚合），创建聚合组，聚合组中的每个备网卡共享同样的速率和双工，必要条件是交换机需要支持802.3ad以及需要ethtool的支持</p>
+</blockquote>
+<blockquote>
+<p>mod5：（balance-tlb，适配器传输负载均衡），在每个网卡上根据当前的压力负载分配流量，如果正在工作的网卡宕了，另外的网卡接管宕机的网卡的mac地址。必要条件是：需要ethtool的支持。</p>
+</blockquote>
+<blockquote>
+<p>mod6：（balance-alb，适配器适应负载均衡），该模式包含了balance-tlb模式，同时加上针对IPV4流量的接收负载均衡(receive load balance, rlb)，而且不需要任何switch(交换机)的支持。接收负载均衡是通过ARP协商实现的。bonding驱动截获本机发送的ARP应答，并把源硬件地址改写为bond中某个slave的唯一硬件地址，从而使得不同的对端使用不同的硬件地址进行通信。</p>
+</blockquote>
+<h3 id="实验（mod0为例，其他mod大同小异）"><a href="#实验（mod0为例，其他mod大同小异）" class="headerlink" title="实验（mod0为例，其他mod大同小异）"></a>实验（mod0为例，其他mod大同小异）</h3><p>创建逻辑网卡的配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建逻辑网卡的配置文件</span></span><br><span class="line">[root@bond network-scripts]# catifcfg-bond0   </span><br><span class="line"></span><br><span class="line">DEVICE=bond0</span><br><span class="line"></span><br><span class="line">BOOTPROTO=static</span><br><span class="line"></span><br><span class="line">ONBOOT=yes</span><br><span class="line"></span><br><span class="line">IPADDR=192.168.31.100</span><br><span class="line"></span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"></span><br><span class="line">NETWORK=192.168.31.0</span><br><span class="line"></span><br><span class="line">GATEWAY=192.168.31.1</span><br><span class="line"></span><br><span class="line">BROADCAST=192.168.31.255</span><br><span class="line"></span><br><span class="line">BONDING_OPTS=&quot;mode=0  miimon=200&quot;  #mode指定模式，miimon为探测的时间间隔(毫秒) </span><br><span class="line"></span><br><span class="line">USERCTL=no     #是否允许非root用户控制该设备  yes|no</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 修改物理网卡的配置文件</span></span><br><span class="line">[root@bond network-scripts]# catifcfg-eno16780032</span><br><span class="line">DEVICE=eno16780032</span><br><span class="line">BOOTPROTO=none</span><br><span class="line">MASTER=bond0    #指定master为bond0</span><br><span class="line">SLAVE=yes            #是否为附属</span><br><span class="line">USERCTL=no</span><br><span class="line"></span><br><span class="line">[root@bond network-scripts]# catifcfg-eno33561344</span><br><span class="line">DEVICE=eno33561344</span><br><span class="line">BOOTPROTO=none</span><br><span class="line">MASTER=bond0   </span><br><span class="line">SLAVE=yes</span><br><span class="line">USERCTL=no</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> bond0是通过bonding的驱动来配置的，所以我们还需要为bond0这块网卡添加驱动支持，将这个驱动添加到 /etc/modprobe.d/ 这个目录下</span></span><br><span class="line">[root@bond ~]# cat/etc/modprobe.d/bonding.conf</span><br><span class="line">alias bond0 bonding</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">加载bonding模块</span></span><br><span class="line">[root@bond ~]# modprobe  bonding</span><br><span class="line">[root@bond ~]# lsmod |grep bonding</span><br><span class="line">bonding               136705  0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">重启网络</span></span><br><span class="line">[root@bond ~]# systemctl restart network</span><br><span class="line">Job for network.service failed because thecontrol process exited with error code. See &quot;systemctl statusnetwork.service&quot; and &quot;journalctl -xe&quot; for details.</span><br><span class="line"> </span><br><span class="line">bond network[10418]:Bringing up interface bond0:  Error:Connection activation failed: No suitable device found for this connection.</span><br><span class="line">bond network[10418]:Bringing up interface eno16780032: Error: Connection activation failed: Master device bond0 unmanaged ornot available for activation</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">如果发现有如上报错，需要关闭NetworkManager。</span></span><br><span class="line">参考（https://access.redhat.com/discussions/2162171）</span><br><span class="line">[root@bond ~]# systemctl stopNetworkManager</span><br><span class="line">[root@bond ~]# systemctl disabledNetworkManager</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">验证       仔细观察发现物理网卡的mac地址和逻辑网卡的mac地址一样</span></span><br><span class="line">[root@bond ~]# ip add show</span><br><span class="line">3: eno16780032: &lt;BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP&gt;mtu 1500 qdisc mq master bond0 state UP qlen1000</span><br><span class="line">   link/ether 00:0c:29:bc:7d:41 brdff:ff:ff:ff:ff:ff</span><br><span class="line">   inet6 fe80::20c:29ff:febc:7d41/64 scopelink</span><br><span class="line">      valid_lft forever preferred_lft forever</span><br><span class="line">4: eno33561344: &lt;BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP&gt;mtu 1500 qdisc mq master bond0 state UP qlen1000</span><br><span class="line">   link/ether 00:0c:29:bc:7d:41 brdff:ff:ff:ff:ff:ff</span><br><span class="line">   inet6 fe80::20c:29ff:febc:7d41/64 scopelink</span><br><span class="line">      valid_lft forever preferred_lft forever</span><br><span class="line">5: bond0:&lt;BROADCAST,MULTICAST,MASTER,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP</span><br><span class="line">   link/ether 00:0c:29:bc:7d:41 brdff:ff:ff:ff:ff:ff</span><br><span class="line">   inet 192.168.31.100/24 brd 192.168.31.255 scope global bond0</span><br><span class="line">      valid_lft forever preferred_lft forever</span><br><span class="line">   inet6 fe80::20c:29ff:febc:7d41/64 scopelink tentative dadfailed</span><br><span class="line">      valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看逻辑网口设备的信息</span></span><br><span class="line">[root@bond ~]# cat /proc/net/bonding/bond0</span><br><span class="line">Ethernet Channel Bonding Driver: v3.7.1(April 27, 2011)</span><br><span class="line"> </span><br><span class="line">Bonding Mode: load balancing (round-robin)    #模式为负载均衡</span><br><span class="line">MII Status: up      #状态为up</span><br><span class="line">MII Polling Interval (ms): 200     #侦测间隔为200ms</span><br><span class="line">Up Delay (ms): 0     #启动延迟为0ms</span><br><span class="line">Down Delay (ms): 0   #关闭延迟为0ms</span><br><span class="line"> </span><br><span class="line">Slave Interface: eno16780032</span><br><span class="line">MII Status: up     #状态up</span><br><span class="line">Speed: 10000 Mbps    #速率为10000</span><br><span class="line">Duplex: full       #全双工</span><br><span class="line">Link Failure Count: 0   </span><br><span class="line">Permanent HW addr: 00:0c:29:bc:7d:41  </span><br><span class="line">Slave queue ID: 0</span><br><span class="line"> </span><br><span class="line">Slave Interface: eno33561344</span><br><span class="line">MII Status: up</span><br><span class="line">Speed: 10000 Mbps</span><br><span class="line">Duplex: full</span><br><span class="line">Link Failure Count: 0</span><br><span class="line">Permanent HW addr: 00:0c:29:bc:7d:4b</span><br><span class="line">Slave queue ID: 0</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2019/07/04/linux/git/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Git</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2019/07/04/k8s/pod_network_outside/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">从外部访问Kubernetes中的Pod</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Keep team</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.0</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+<script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/header-shrink.js"></script><script src="/js/back2top.js"></script><script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep team">
+    
+    <title>
+        
+            面向接口编程 |
+        
+        Keep Theme
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/logo.svg">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chazyu.com","root":"/","language":"zh-cn","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days age","week":"%s weeks age","month":"%s months age","year":"%s years age"};
+  </script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="南城旧梦" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">面向接口编程</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Keep team</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2019-07-24 10:09:04
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/golang/">golang</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="1-接口-多态"><a href="#1-接口-多态" class="headerlink" title="1. 接口[多态]"></a>1. 接口[多态]</h1><p>多态性（polymorphisn）是允许你将父对象设置成为和一个或更多的他的子对象相等的技术，赋值之后，父对象就可以根据当前赋值给它的子对象的特性以不同的方式运作。</p>
+<p>简而言之，就是允许将子类类型的指针赋值给父类类型的指针。</p>
+<p>即一个引用变量倒底会指向哪个类的实例对象，该引用变量发出的方法调用到底是哪个类中实现的方法，必须在由程序运行期间才能决定。不修改程序代码就可以改变程序运行时所绑定的具体代码，让程序可以选择多个运行状态，这就是多态性。多态分为编译时多态（静态多态）和运行时多态（动态多态），编译时多态一般通过方法重载实现，运行时多态一般通过方法重写实现。</p>
+<a id="more"></a>
+
+<h2 id="1-1-接口概念"><a href="#1-1-接口概念" class="headerlink" title="1.1 接口概念"></a>1.1 接口概念</h2><blockquote>
+<p>接口类型可以看作是类型系统中一种特殊的类型，而实例就是实现了该接口的具体结构体类型。<br>接口类型与实现了该接口的结构体对象之间的关系好比变量类型与变量之间的关系。</p>
+</blockquote>
+<p>接口即一组方法定义的集合，定义了对象的一组行为，由具体的类型实例实现具体的方法。换句话说，一个接口就是定义（规范或约束），而方法就是实现，接口的作用应该是将定义与实现分离，降低耦合度。习惯用“er”结尾来命名，例如“Reader”。接口与对象的关系是多对多，即一个对象可以实现多个接口，一个接口也可以被多个对象实现。</p>
+<p>接口是Go语言整个类型系统的基石，其他语言的接口是不同组件之间的契约的存在，对契约的实现是强制性的，必须显式声明实现了该接口，这类接口称之为“侵入式接口”。而Go语言的接口是隐式存在，只要实现了该接口的所有函数则代表已经实现了该接口，并不需要显式的接口声明。</p>
+<h4 id="接口的比喻"><a href="#接口的比喻" class="headerlink" title="接口的比喻"></a>接口的比喻</h4><p>你的电脑上只有一个USB接口。这个USB接口可以接MP3，数码相机，摄像头，鼠标，键盘等。。。所有的上述硬件都可以公用这个接口，有很好的扩展性，该USB接口定义了一种规范，只要实现了该规范，就可以将不同的设备接入电脑，而设备的改变并不会对电脑本身有什么影响（低耦合）。</p>
+<h4 id="面向接口编程"><a href="#面向接口编程" class="headerlink" title="面向接口编程"></a>面向接口编程</h4><p> 接口表示调用者和设计者的一种约定，在多人合作开发同一个项目时，事先定义好相互调用的接口可以大大提高开发的效率。接口是用类来实现的，实现接口的类必须严格按照接口的声明来实现接口提供的所有功能。有了接口，就可以在不影响现有接口声明的情况下，修改接口的内部实现，从而使兼容性问题最小化。</p>
+<p><strong>面向接口编程可以分为三方面：制定者（或者叫协调者），实现者（或者叫生产者），调用者（或者叫消费者）。</strong></p>
+<p>当其他设计者调用了接口后，就不能再随意更改接口的定义，否则项目开发者事先的约定就失去了意义。但是可以在类中修改相应的代码，完成需要改动的内容。</p>
+<h2 id="1-2非侵入式接口"><a href="#1-2非侵入式接口" class="headerlink" title="1.2非侵入式接口"></a>1.2非侵入式接口</h2><p>非侵入式接口：一个类只需要实现了接口要求的所有函数就表示实现了该接口，并不需要显式声明</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> File <span class="keyword">struct</span>&#123;</span><br><span class="line">  <span class="comment">//类的属性</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//File类的方法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *File)</span> <span class="title">Read</span><span class="params">(buf []<span class="keyword">byte</span>)</span> <span class="params">(n <span class="keyword">int</span>,err error)</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *File)</span> <span class="title">Write</span><span class="params">(buf []<span class="keyword">byte</span>)</span> <span class="params">(n <span class="keyword">int</span>,err error)</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *File)</span> <span class="title">Seek</span><span class="params">(off <span class="keyword">int64</span>,whence <span class="keyword">int</span>)</span> <span class="params">(pos <span class="keyword">int64</span>,err error)</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *File)</span> <span class="title">Close</span><span class="params">()</span> <span class="title">error</span></span></span><br><span class="line"><span class="comment">//接口1：IFile</span></span><br><span class="line"><span class="keyword">type</span> IFile <span class="keyword">interface</span>&#123;</span><br><span class="line">  Read(buf []<span class="keyword">byte</span>) (n <span class="keyword">int</span>,err error)</span><br><span class="line">  Write(buf []<span class="keyword">byte</span>) (n <span class="keyword">int</span>,err error)</span><br><span class="line">  Seek(off <span class="keyword">int64</span>,whence <span class="keyword">int</span>) (pos <span class="keyword">int64</span>,err error)</span><br><span class="line">  Close() error</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//接口2：IReader</span></span><br><span class="line"><span class="keyword">type</span> IReader <span class="keyword">interface</span>&#123;</span><br><span class="line">  Read(buf []<span class="keyword">byte</span>) (n <span class="keyword">int</span>,err error)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//接口赋值,File类实现了IFile和IReader接口，即接口所包含的所有方法</span></span><br><span class="line"><span class="keyword">var</span> file1 IFile = <span class="built_in">new</span>(File)</span><br><span class="line"><span class="keyword">var</span> file2 IReader = <span class="built_in">new</span>(File)</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-3接口赋值"><a href="#1-3接口赋值" class="headerlink" title="1.3接口赋值"></a>1.3接口赋值</h2><p>只要类实现了该接口的所有方法，即可将该类赋值给这个接口，接口主要用于多态化方法。即对接口定义的方法，不同的实现方式。</p>
+<p>接口赋值： </p>
+<h3 id="1）将对象实例赋值给接口"><a href="#1）将对象实例赋值给接口" class="headerlink" title="1）将对象实例赋值给接口"></a>1）将对象实例赋值给接口</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> IUSB <span class="keyword">interface</span>&#123;</span><br><span class="line">    <span class="comment">//定义IUSB的接口方法</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//方法定义在类外，绑定该类，以下为方便，备注写在类中</span></span><br><span class="line"><span class="keyword">type</span> MP3 <span class="keyword">struct</span>&#123;</span><br><span class="line">    <span class="comment">//实现IUSB的接口，具体实现方式是MP3的方法</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> Mouse <span class="keyword">struct</span>&#123;</span><br><span class="line">    <span class="comment">//实现IUSB的接口，具体实现方式是Mouse的方法</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//接口赋值给具体的对象实例MP3</span></span><br><span class="line"><span class="keyword">var</span> usb IUSB =<span class="built_in">new</span>(MP3)</span><br><span class="line">usb.Connect()</span><br><span class="line">usb.Close()</span><br><span class="line"><span class="comment">//接口赋值给具体的对象实例Mouse</span></span><br><span class="line"><span class="keyword">var</span> usb IUSB =<span class="built_in">new</span>(Mouse)</span><br><span class="line">usb.Connect()</span><br><span class="line">usb.Close()</span><br></pre></td></tr></table></figure>
+
+<h3 id="2）将接口赋值给另一个接口"><a href="#2）将接口赋值给另一个接口" class="headerlink" title="2）将接口赋值给另一个接口"></a>2）将接口赋值给另一个接口</h3><ol>
+<li>只要两个接口拥有相同的方法列表（与次序无关），即是两个相同的接口，可以相互赋值</li>
+<li>接口赋值只需要接口A的方法列表是接口B的子集（即假设接口A中定义的所有方法，都在接口B中有定义），那么B接口的实例可以赋值给A的对象。反之不成立，即子接口B包含了父接口A，因此可以将子接口的实例赋值给父接口。</li>
+<li>即子接口实例实现了子接口的所有方法，而父接口的方法列表是子接口的子集，则子接口实例自然实现了父接口的所有方法，因此可以将子接口实例赋值给父接口。</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Writer <span class="keyword">interface</span>&#123;    <span class="comment">//父接口</span></span><br><span class="line">    Write(buf []<span class="keyword">byte</span>) (n <span class="keyword">int</span>,err error)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> ReadWriter <span class="keyword">interface</span>&#123;    <span class="comment">//子接口</span></span><br><span class="line">    Read(buf []<span class="keyword">byte</span>) (n <span class="keyword">int</span>,err error)</span><br><span class="line">    Write(buf []<span class="keyword">byte</span>) (n <span class="keyword">int</span>,err error)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> file1 ReadWriter=<span class="built_in">new</span>(File)   <span class="comment">//子接口实例</span></span><br><span class="line"><span class="keyword">var</span> file2 Writer=file1           <span class="comment">//子接口实例赋值给父接口</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="1-4接口查询"><a href="#1-4接口查询" class="headerlink" title="1.4接口查询"></a>1.4接口查询</h2><p>若要在 switch 外判断一个接口类型是否实现了某个接口，可以使用<code>_, ok</code>。</p>
+<p><code>value, ok := Interfacevariable.(implementType)</code></p>
+<p>其中 Interfacevariable 是接口变量（接口值），implementType 为实现此接口的类型，value 返回接口变量实际类型变量的值，如果该类型实现了此接口返回 true。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//判断file1接口指向的对象实例是否是File类型</span></span><br><span class="line"><span class="keyword">var</span> file1 Writer=...</span><br><span class="line"><span class="keyword">if</span> file5,ok:=file1.(File);ok&#123;  </span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-5-接口类型查询"><a href="#1-5-接口类型查询" class="headerlink" title="1.5 接口类型查询"></a>1.5 接口类型查询</h2><p>在 Go 中，要判断传递给接口值的变量类型，可以在使用 type switch 得到。(type)只能在 switch 中使用。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 另一个实现了 I 接口的 R 类型</span></span><br><span class="line"><span class="keyword">type</span> R <span class="keyword">struct</span> &#123; i <span class="keyword">int</span> &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *R)</span> <span class="title">Get</span><span class="params">()</span> <span class="title">int</span></span> &#123; <span class="keyword">return</span> p.i &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *R)</span> <span class="title">Put</span><span class="params">(v <span class="keyword">int</span>)</span></span> &#123; p.i = v &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">(p I)</span></span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> t := p.(<span class="keyword">type</span>) &#123; <span class="comment">// 判断传递给 p 的实际类型</span></span><br><span class="line">        <span class="keyword">case</span> *S: <span class="comment">// 指向 S 的指针类型</span></span><br><span class="line">        <span class="keyword">case</span> *R: <span class="comment">// 指向 R 的指针类型</span></span><br><span class="line">        <span class="keyword">case</span> S:  <span class="comment">// S 类型</span></span><br><span class="line">        <span class="keyword">case</span> R:  <span class="comment">// R 类型</span></span><br><span class="line">        <span class="keyword">default</span>: <span class="comment">//实现了 I 接口的其他类型</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="1-6-接口组合"><a href="#1-6-接口组合" class="headerlink" title="1.6 接口组合"></a>1.6 接口组合</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//接口组合类似类型组合，只不过只包含方法，不包含成员变量</span></span><br><span class="line"><span class="keyword">type</span> ReadWriter <span class="keyword">interface</span>&#123;  <span class="comment">//接口组合，避免代码重复</span></span><br><span class="line">  Reader      <span class="comment">//接口Reader</span></span><br><span class="line">  Writer      <span class="comment">//接口Writer</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-7Any类型-空接口"><a href="#1-7Any类型-空接口" class="headerlink" title="1.7Any类型[空接口]"></a>1.7Any类型[空接口]</h2><p>每种类型都能匹配到空接口：interface{}。空接口类型对方法没有任何约束（因为没有方法），它能包含任意类型，也可以实现到其他接口类型的转换。如果传递给该接口的类型变量实现了转换后的接口则可以正常运行，否则出现运行时错误。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//interface&#123;&#125;即为可以指向任何对象的Any类型，类似Java中的Object类</span></span><br><span class="line"><span class="keyword">var</span> v1 <span class="keyword">interface</span>&#123;&#125;=<span class="keyword">struct</span>&#123;X <span class="keyword">int</span>&#125;&#123;<span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">var</span> v2 <span class="keyword">interface</span>&#123;&#125;=<span class="string">&quot;abc&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DoSomething</span><span class="params">(v <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;   <span class="comment">//该函数可以接收任何类型的参数，因为任何类型都实现了空接口</span></span><br><span class="line">   <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1-8-接口的代码示例"><a href="#1-8-接口的代码示例" class="headerlink" title="1.8 接口的代码示例"></a>1.8 接口的代码示例</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//接口animal</span></span><br><span class="line"><span class="keyword">type</span> Animal <span class="keyword">interface</span> &#123;</span><br><span class="line">    Speak() <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Dog类实现animal接口</span></span><br><span class="line"><span class="keyword">type</span> Dog <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Dog)</span> <span class="title">Speak</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Woof!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Cat类实现animal接口</span></span><br><span class="line"><span class="keyword">type</span> Cat <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c Cat)</span> <span class="title">Speak</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Meow!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Llama实现animal接口</span></span><br><span class="line"><span class="keyword">type</span> Llama <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l Llama)</span> <span class="title">Speak</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;?????&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//JavaProgrammer实现animal接口</span></span><br><span class="line"><span class="keyword">type</span> JavaProgrammer <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(j JavaProgrammer)</span> <span class="title">Speak</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Design patterns!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//主函数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    animals := []Animal&#123;Dog&#123;&#125;, Cat&#123;&#125;, Llama&#123;&#125;, JavaProgrammer&#123;&#125;&#125;  <span class="comment">//利用接口实现多态</span></span><br><span class="line">    <span class="keyword">for</span> _, animal := <span class="keyword">range</span> animals &#123;</span><br><span class="line">        fmt.Println(animal.Speak())  <span class="comment">//打印不同实现该接口的类的方法返回值</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-client-go中接口的使用分析"><a href="#2-client-go中接口的使用分析" class="headerlink" title="2. client-go中接口的使用分析"></a>2. client-go中接口的使用分析</h1><p>以下以<code>k8s.io/client-go/kubernetes/typed/core/v1/pod.go</code>的pod对象做分析。</p>
+<h2 id="2-1-接口设计与定义"><a href="#2-1-接口设计与定义" class="headerlink" title="2.1 接口设计与定义"></a>2.1 接口设计与定义</h2><h3 id="2-1-1-接口组合"><a href="#2-1-1-接口组合" class="headerlink" title="2.1.1 接口组合"></a>2.1.1 接口组合</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PodsGetter has a method to return a PodInterface.</span></span><br><span class="line"><span class="comment">// A group&#x27;s client should implement this interface.</span></span><br><span class="line"><span class="keyword">type</span> PodsGetter <span class="keyword">interface</span> &#123;</span><br><span class="line">    Pods(namespace <span class="keyword">string</span>) PodInterface</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-2-接口定义"><a href="#2-1-2-接口定义" class="headerlink" title="2.1.2 接口定义"></a>2.1.2 接口定义</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// PodInterface has methods to work with Pod resources.</span></span><br><span class="line"><span class="keyword">type</span> PodInterface <span class="keyword">interface</span> &#123;</span><br><span class="line">    Create(*v1.Pod) (*v1.Pod, error)</span><br><span class="line">    Update(*v1.Pod) (*v1.Pod, error)</span><br><span class="line">    UpdateStatus(*v1.Pod) (*v1.Pod, error)</span><br><span class="line">    Delete(name <span class="keyword">string</span>, options *meta_v1.DeleteOptions) error</span><br><span class="line">    DeleteCollection(options *meta_v1.DeleteOptions, listOptions meta_v1.ListOptions) error</span><br><span class="line">    Get(name <span class="keyword">string</span>, options meta_v1.GetOptions) (*v1.Pod, error)</span><br><span class="line">    List(opts meta_v1.ListOptions) (*v1.PodList, error)</span><br><span class="line">    Watch(opts meta_v1.ListOptions) (watch.Interface, error)</span><br><span class="line">    Patch(name <span class="keyword">string</span>, pt types.PatchType, data []<span class="keyword">byte</span>, subresources ...<span class="keyword">string</span>) (result *v1.Pod, err error)</span><br><span class="line">    PodExpansion</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>PodInterface</code>接口定义了pod对象所使用的方法，一般为增删改查等。其他kubernetes资源对象的接口定义类似，区别在于入参和出参与对象相关。例如<code>Create(*v1.Pod) (*v1.Pod, error)</code>方法定义的入参出参为<code>*v1.Pod</code>。如果要实现该接口，即实现该接口的所有方法。</p>
+<h2 id="2-2-接口的实现"><a href="#2-2-接口的实现" class="headerlink" title="2.2 接口的实现"></a>2.2 接口的实现</h2><h3 id="2-2-1-结构体的定义"><a href="#2-2-1-结构体的定义" class="headerlink" title="2.2.1 结构体的定义"></a>2.2.1 结构体的定义</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pods implements PodInterface</span></span><br><span class="line"><span class="keyword">type</span> pods <span class="keyword">struct</span> &#123;</span><br><span class="line">    client rest.Interface</span><br><span class="line">    ns     <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-2-new函数-构造函数"><a href="#2-2-2-new函数-构造函数" class="headerlink" title="2.2.2 new函数[构造函数]"></a>2.2.2 new函数[构造函数]</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// newPods returns a Pods</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newPods</span><span class="params">(c *CoreV1Client, namespace <span class="keyword">string</span>)</span> *<span class="title">pods</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &amp;pods&#123;</span><br><span class="line">        client: c.RESTClient(),</span><br><span class="line">        ns:     namespace,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="2-2-3-方法的实现"><a href="#2-2-3-方法的实现" class="headerlink" title="2.2.3 方法的实现"></a>2.2.3 方法的实现</h3><p><strong>Get</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Get takes name of the pod, and returns the corresponding pod object, and an error if there is any.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *pods)</span> <span class="title">Get</span><span class="params">(name <span class="keyword">string</span>, options meta_v1.GetOptions)</span> <span class="params">(result *v1.Pod, err error)</span></span> &#123;</span><br><span class="line">    result = &amp;v1.Pod&#123;&#125;</span><br><span class="line">    err = c.client.Get().</span><br><span class="line">        Namespace(c.ns).</span><br><span class="line">        Resource(<span class="string">&quot;pods&quot;</span>).</span><br><span class="line">        Name(name).</span><br><span class="line">        VersionedParams(&amp;options, scheme.ParameterCodec).</span><br><span class="line">        Do().</span><br><span class="line">        Into(result)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>List</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// List takes label and field selectors, and returns the list of Pods that match those selectors.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *pods)</span> <span class="title">List</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(result *v1.PodList, err error)</span></span> &#123;</span><br><span class="line">    result = &amp;v1.PodList&#123;&#125;</span><br><span class="line">    err = c.client.Get().</span><br><span class="line">        Namespace(c.ns).</span><br><span class="line">        Resource(<span class="string">&quot;pods&quot;</span>).</span><br><span class="line">        VersionedParams(&amp;opts, scheme.ParameterCodec).</span><br><span class="line">        Do().</span><br><span class="line">        Into(result)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>Create</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create takes the representation of a pod and creates it.  Returns the server&#x27;s representation of the pod, and an error, if there is any.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *pods)</span> <span class="title">Create</span><span class="params">(pod *v1.Pod)</span> <span class="params">(result *v1.Pod, err error)</span></span> &#123;</span><br><span class="line">    result = &amp;v1.Pod&#123;&#125;</span><br><span class="line">    err = c.client.Post().</span><br><span class="line">        Namespace(c.ns).</span><br><span class="line">        Resource(<span class="string">&quot;pods&quot;</span>).</span><br><span class="line">        Body(pod).</span><br><span class="line">        Do().</span><br><span class="line">        Into(result)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Update</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Update takes the representation of a pod and updates it. Returns the server&#x27;s representation of the pod, and an error, if there is any.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *pods)</span> <span class="title">Update</span><span class="params">(pod *v1.Pod)</span> <span class="params">(result *v1.Pod, err error)</span></span> &#123;</span><br><span class="line">    result = &amp;v1.Pod&#123;&#125;</span><br><span class="line">    err = c.client.Put().</span><br><span class="line">        Namespace(c.ns).</span><br><span class="line">        Resource(<span class="string">&quot;pods&quot;</span>).</span><br><span class="line">        Name(pod.Name).</span><br><span class="line">        Body(pod).</span><br><span class="line">        Do().</span><br><span class="line">        Into(result)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Delete</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Delete takes name of the pod and deletes it. Returns an error if one occurs.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *pods)</span> <span class="title">Delete</span><span class="params">(name <span class="keyword">string</span>, options *meta_v1.DeleteOptions)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> c.client.Delete().</span><br><span class="line">        Namespace(c.ns).</span><br><span class="line">        Resource(<span class="string">&quot;pods&quot;</span>).</span><br><span class="line">        Name(name).</span><br><span class="line">        Body(options).</span><br><span class="line">        Do().</span><br><span class="line">        Error()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-3-接口的调用"><a href="#2-3-接口的调用" class="headerlink" title="2.3 接口的调用"></a>2.3 接口的调用</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建clientset实例</span></span><br><span class="line">clientset, err := kubernetes.NewForConfig(config)</span><br><span class="line"><span class="comment">// 具体的调用</span></span><br><span class="line">pods, err := clientset.CoreV1().Pods(<span class="string">&quot;&quot;</span>).List(metav1.ListOptions&#123;&#125;)</span><br></pre></td></tr></table></figure>
+<p>clientset实现了接口<code>Interface</code>，<code>Interface</code>是个接口组合，包含各个client的接口类型。例如<code>CoreV1()</code>方法对应的接口类型是<code>CoreV1Interface</code>。</p>
+<p>以下是clientset的<code>CoreV1()</code>方法实现：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CoreV1 retrieves the CoreV1Client</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Clientset)</span> <span class="title">CoreV1</span><span class="params">()</span> <span class="title">corev1</span>.<span class="title">CoreV1Interface</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> c.coreV1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该方法可以理解为是一个构造函数。构造函数的返回值类型是一个接口类型<code>CoreV1Interface</code>，而return的返回值是实现了该接口类型的结构体对象<code>c.coreV1</code>。</p>
+<p>接口类型是一种特殊的类型，接口类型与结构体对象之间的关系好比变量类型与变量之间的关系。其中的结构体对象必须实现了该接口类型的所有方法。</p>
+<p>所以clientset的<code>CoreV1()</code>方法实现是返回一个<code>CoreV1Client</code>结构体对象。该结构体对象实现了<code>CoreV1Interface</code>接口，该接口也是一个接口组合。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> CoreV1Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">    RESTClient() rest.Interface</span><br><span class="line">    ComponentStatusesGetter</span><br><span class="line">    ConfigMapsGetter</span><br><span class="line">    EndpointsGetter</span><br><span class="line">    EventsGetter</span><br><span class="line">    LimitRangesGetter</span><br><span class="line">    NamespacesGetter</span><br><span class="line">    NodesGetter</span><br><span class="line">    PersistentVolumesGetter</span><br><span class="line">    PersistentVolumeClaimsGetter</span><br><span class="line">    PodsGetter</span><br><span class="line">    PodTemplatesGetter</span><br><span class="line">    ReplicationControllersGetter</span><br><span class="line">    ResourceQuotasGetter</span><br><span class="line">    SecretsGetter</span><br><span class="line">    ServicesGetter</span><br><span class="line">    ServiceAccountsGetter</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>而实现的<code>Pods()</code>方法是其中的<code>PodsGetter</code>接口。</p>
+<p><code>Pods()</code>同<code>CoreV1()</code>一样是个构造函数，构造函数的返回值类型是<code>PodInterface</code>接口，返回值是实现了<code>PodInterface</code>接口的<code>pods</code>结构体对象。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *CoreV1Client)</span> <span class="title">Pods</span><span class="params">(namespace <span class="keyword">string</span>)</span> <span class="title">PodInterface</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> newPods(c, namespace)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终调用了<code>pods</code>对象的<code>List()</code>方法。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pods, err := clientset.CoreV1().Pods(<span class="string">&quot;&quot;</span>).List(metav1.ListOptions&#123;&#125;)</span><br></pre></td></tr></table></figure>
+<p>即以上代码就是不断调用实现了某接口的结构体对象的构造函数，生成具体的结构体对象，再调用结构体对象的某个具体方法。</p>
+<h1 id="3-通用接口设计"><a href="#3-通用接口设计" class="headerlink" title="3. 通用接口设计"></a>3. 通用接口设计</h1><h2 id="3-1-接口定义"><a href="#3-1-接口定义" class="headerlink" title="3.1 接口定义"></a>3.1 接口定义</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ProjectManager manage life cycle of Deployment and Resources</span></span><br><span class="line"><span class="keyword">type</span> PodInterface <span class="keyword">interface</span> &#123;</span><br><span class="line">    Create(*v1.Pod) (*v1.Pod, error)</span><br><span class="line">    Update(*v1.Pod) (*v1.Pod, error)</span><br><span class="line">    UpdateStatus(*v1.Pod) (*v1.Pod, error)</span><br><span class="line">    Delete(name <span class="keyword">string</span>, options *meta_v1.DeleteOptions) error</span><br><span class="line">    DeleteCollection(options *meta_v1.DeleteOptions, listOptions meta_v1.ListOptions) error</span><br><span class="line">    Get(name <span class="keyword">string</span>, options meta_v1.GetOptions) (*v1.Pod, error)</span><br><span class="line">    List(opts meta_v1.ListOptions) (*v1.PodList, error)</span><br><span class="line">    Watch(opts meta_v1.ListOptions) (watch.Interface, error)</span><br><span class="line">    Patch(name <span class="keyword">string</span>, pt types.PatchType, data []<span class="keyword">byte</span>, subresources ...<span class="keyword">string</span>) (result *v1.Pod, err error)</span><br><span class="line">    PodExpansion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-结构体定义"><a href="#3-2-结构体定义" class="headerlink" title="3.2 结构体定义"></a>3.2 结构体定义</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pods implements PodInterface</span></span><br><span class="line"><span class="keyword">type</span> pods <span class="keyword">struct</span> &#123;</span><br><span class="line">    client rest.Interface</span><br><span class="line">    ns     <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-构造函数"><a href="#3-3-构造函数" class="headerlink" title="3.3 构造函数"></a>3.3 构造函数</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// newPods returns a Pods</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newPods</span><span class="params">(c *CoreV1Client, namespace <span class="keyword">string</span>)</span> *<span class="title">pods</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &amp;pods&#123;</span><br><span class="line">        client: c.RESTClient(),</span><br><span class="line">        ns:     namespace,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="3-4-结构体实现"><a href="#3-4-结构体实现" class="headerlink" title="3.4 结构体实现"></a>3.4 结构体实现</h2><p><strong>List</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// List takes label and field selectors, and returns the list of Pods that match those selectors.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *pods)</span> <span class="title">List</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(result *v1.PodList, err error)</span></span> &#123;</span><br><span class="line">    result = &amp;v1.PodList&#123;&#125;</span><br><span class="line">    err = c.client.Get().</span><br><span class="line">        Namespace(c.ns).</span><br><span class="line">        Resource(<span class="string">&quot;pods&quot;</span>).</span><br><span class="line">        VersionedParams(&amp;opts, scheme.ParameterCodec).</span><br><span class="line">        Do().</span><br><span class="line">        Into(result)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-接口调用"><a href="#3-5-接口调用" class="headerlink" title="3.5 接口调用"></a>3.5 接口调用</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pods, err := clientset.CoreV1().Pods(<span class="string">&quot;&quot;</span>).List(metav1.ListOptions&#123;&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="3-6-其他接口设计示例"><a href="#3-6-其他接口设计示例" class="headerlink" title="3.6 其他接口设计示例"></a>3.6 其他接口设计示例</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> XxxManager <span class="keyword">interface</span> &#123;</span><br><span class="line">    Create(args argsType) (*XxxStruct, error)</span><br><span class="line">    Get(args argsType) (**XxxStruct, error)</span><br><span class="line">    Update(args argsType) (*XxxStruct, error)</span><br><span class="line">    Delete(name <span class="keyword">string</span>, options *DeleleOptions) error</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> XxxManagerImpl <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="keyword">string</span></span><br><span class="line">    Namespace <span class="keyword">string</span></span><br><span class="line">    kubeCli *kubernetes.Clientset</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewXxxManagerImpl</span> <span class="params">(namespace, name <span class="keyword">string</span>, kubeCli *kubernetes.Clientset)</span> <span class="title">XxxManager</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &amp;XxxManagerImpl&#123;</span><br><span class="line">        Name name,</span><br><span class="line">        Namespace namespace,</span><br><span class="line">        kubeCli: kubeCli,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(xm *XxxManagerImpl)</span> <span class="title">Create</span><span class="params">(args argsType)</span> <span class="params">(*XxxStruct, error)</span></span> &#123;</span><br><span class="line">    <span class="comment">//具体的方法实现</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2019/07/24/k8s/built_in_word_interpretation/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">内置名词解释</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2019/07/21/docker/DockerInDocker/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">DockerInDocker</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Keep team</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.0</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+<script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/header-shrink.js"></script><script src="/js/back2top.js"></script><script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>

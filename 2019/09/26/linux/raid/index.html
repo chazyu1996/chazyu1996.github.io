@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep team">
+    
+    <title>
+        
+            RAID 磁盘阵列介绍 |
+        
+        Keep Theme
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/logo.svg">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chazyu.com","root":"/","language":"zh-cn","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days age","week":"%s weeks age","month":"%s months age","year":"%s years age"};
+  </script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="南城旧梦" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">RAID 磁盘阵列介绍</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Keep team</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2019-09-26 16:41:46
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/linux/">linux</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="磁盘阵列（Redundant-Arrays-of-Independent-Disks，RAID）"><a href="#磁盘阵列（Redundant-Arrays-of-Independent-Disks，RAID）" class="headerlink" title="磁盘阵列（Redundant Arrays of Independent Disks，RAID）"></a>磁盘阵列（Redundant Arrays of Independent Disks，RAID）</h1><ol>
+<li><p>存储的数据一定分片；</p>
+</li>
+<li><p>分基于软件的软RAID（如mdadm）和基于硬件的硬RAID（如RAID卡）；</p>
+</li>
+<li><p>RAID卡如同网卡一样有集成板载的也有独立的(PCI-e)，一般独立RAID卡性能相对较好，淘宝一搜便可看到他们的原形；</p>
+</li>
+<li><p>现在基本上服务器都原生硬件支持几种常用的RAID;</p>
+</li>
+<li><p>当然还有更加高大上的专用于存储的磁盘阵列柜产品，有专用存储技术，规格有如12/24/48盘一柜等，盘可选机械/固态，3.5/2.5寸等。</p>
+<a id="more"></a>
+
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>级别</strong></th>
+<th><strong>特征</strong></th>
+<th><strong>原理</strong></th>
+<th><strong>单元</strong></th>
+<th><strong>冗余</strong></th>
+<th><strong>性能</strong></th>
+<th><strong>利用率</strong></th>
+<th><strong>最多坏</strong></th>
+<th><strong>用途</strong></th>
+<th><strong>缺陷</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RAID0</td>
+<td>条带</td>
+<td>分片分散存入2块硬盘</td>
+<td>2</td>
+<td>否</td>
+<td>读写速度2倍</td>
+<td>100%</td>
+<td>0/2</td>
+<td>SWAP/TMP</td>
+<td>不冗余，数据难恢复</td>
+</tr>
+<tr>
+<td>RAID1</td>
+<td>镜像</td>
+<td>相同数据存入2块硬盘</td>
+<td>2</td>
+<td>是</td>
+<td>写速度不变读速度2倍</td>
+<td>50%</td>
+<td>1/2</td>
+<td>数据备份</td>
+<td>读写速度没加，利用率低</td>
+</tr>
+<tr>
+<td>RAID4</td>
+<td>校验</td>
+<td>分片分散存入2块硬盘校验码存入第3块硬盘</td>
+<td>3</td>
+<td>是</td>
+<td>读写速度2倍</td>
+<td>2/3=66%</td>
+<td>1/3</td>
+<td>用的很少</td>
+<td>1. 坏盘时另外2块需要重新计算还原坏盘数据2. 校验码盘压力大成为瓶颈</td>
+</tr>
+<tr>
+<td>RAID5</td>
+<td>校验</td>
+<td>分片和校验码混合存储</td>
+<td>3</td>
+<td>是</td>
+<td>读写速度2倍</td>
+<td>2/3=66%</td>
+<td>1/3</td>
+<td>用的不多</td>
+<td>坏盘时另外2块需要重新计算还原坏盘数据</td>
+</tr>
+<tr>
+<td>RAID6</td>
+<td>校验</td>
+<td>分片盘校验码盘分别2个数据分片校验码计算2次</td>
+<td>4</td>
+<td>是</td>
+<td>读写速度2倍</td>
+<td>2/4</td>
+<td>2/41∈2</td>
+<td>用的很少</td>
+<td>“部队中有一半是搞后勤的，感觉还是不太爽。”</td>
+</tr>
+<tr>
+<td>RAID10</td>
+<td>1+0</td>
+<td>2块硬盘1组先做RAID1多组RAID1再做RAID0</td>
+<td>4</td>
+<td>是</td>
+<td>读写速度N倍N为组数</td>
+<td>2/4</td>
+<td>2/41∈2</td>
+<td>用的最多</td>
+<td>-</td>
+</tr>
+<tr>
+<td>RAID50</td>
+<td>5+0</td>
+<td>3块硬盘1组先做RAID5多组再做RAID0</td>
+<td>6</td>
+<td>是</td>
+<td>读写数读2N倍N为组数</td>
+<td>4/6</td>
+<td>2/61∈3</td>
+<td>土豪用的</td>
+<td>“好是好，就是贵！”</td>
+</tr>
+</tbody></table>
+<h2 id="一、RAID模式优缺点的简要介绍"><a href="#一、RAID模式优缺点的简要介绍" class="headerlink" title="一、RAID模式优缺点的简要介绍"></a>一、RAID模式优缺点的简要介绍</h2><p> 目前被运用较多的RAID模式其优缺点大致是这样的：</p>
+<h3 id="1、RAID0模式"><a href="#1、RAID0模式" class="headerlink" title="1、RAID0模式"></a>1、RAID0模式</h3><blockquote>
+<p>优点：在RAID 0状态下，存储数据被分割成两部分，分别存储在两块硬盘上，此时移动硬盘的理论存储速度是单块硬盘的2倍，实际容量等于两块硬盘中较小一块硬盘的容量的2倍。</p>
+</blockquote>
+<blockquote>
+<p>缺点：任何一块硬盘发生故障，整个RAID上的数据将不可恢复。</p>
+</blockquote>
+<blockquote>
+<p>备注：存储高清电影比较适合。</p>
+</blockquote>
+<h3 id="2、RAID1模式"><a href="#2、RAID1模式" class="headerlink" title="2、RAID1模式"></a>2、RAID1模式</h3><blockquote>
+<p>优点：此模式下，两块硬盘互为镜像。当一个硬盘受损时，换上一块全新硬盘(大于或等于原硬盘容量)替代原硬盘即可自动恢复资料和继续使用，移动硬盘的实际容量等于较小一块硬盘的容量，存储速度与单块硬盘相同。RAID 1的优势在于任何一块硬盘出现故障是，所存储的数据都不会丢失。</p>
+</blockquote>
+<blockquote>
+<p>缺点：该模式可使用的硬盘实际容量比较小，仅仅为两颗硬盘中最小硬盘的容量。</p>
+</blockquote>
+<blockquote>
+<p>备注：非常重要的资料，如数据库，个人资料，是万无一失的存储方案。</p>
+</blockquote>
+<h3 id="3、RAID-0-1模式"><a href="#3、RAID-0-1模式" class="headerlink" title="3、RAID 0+1模式"></a>3、RAID 0+1模式</h3><blockquote>
+<p>RAID 0+1是磁盘分段及镜像的结合，采用2组RAID0的磁盘阵列互为镜像，它们之间又成为一个RAID1的阵列。硬盘使用率只有50%，但是提供最佳的速度及可靠度。</p>
+</blockquote>
+<h3 id="4、RAID-3模式"><a href="#4、RAID-3模式" class="headerlink" title="4、RAID 3模式"></a>4、RAID 3模式</h3><blockquote>
+<p>RAID3是把数据分成多个“块”，按照一定的容错算法，存放在N+1个硬盘上，实际数据占用的有效空间为N个硬盘的空间总和，而第N+1个硬盘存储的数据是校验容错信息，当这N+1个硬盘中的其中一个硬盘出现故障时，从其它N个硬盘中的数据也可以恢复原始数据。</p>
+</blockquote>
+<h3 id="5、RAID-5模式"><a href="#5、RAID-5模式" class="headerlink" title="5、RAID 5模式"></a>5、RAID 5模式</h3><blockquote>
+<p>RAID5不对存储的数据进行备份，而是把数据和相对应的奇偶校验信息存储到组成RAID5的各个磁盘上，并且奇偶校验信息和相对应的数据分别存储于不同的磁盘上。当RAID5的一个磁盘数据发生损坏后，利用剩下的数据和相应的奇偶校验信息去恢复被损坏的数据。</p>
+</blockquote>
+<h3 id="6、RAID-10模式"><a href="#6、RAID-10模式" class="headerlink" title="6、RAID 10模式"></a>6、RAID 10模式</h3><blockquote>
+<p>RAID10最少需要4块硬盘才能完成。把2块硬盘组成一个RAID1，然后两组RAID1组成一个RAID0。虽然RAID10方案造成了50%的磁盘浪费，但是它提供了200%的速度和单磁盘损坏的数据安全性。</p>
+</blockquote>
+<h2 id="二、另外三种硬件快速硬件设置模式简介"><a href="#二、另外三种硬件快速硬件设置模式简介" class="headerlink" title="二、另外三种硬件快速硬件设置模式简介"></a>二、另外三种硬件快速硬件设置模式简介</h2><p>在收集资料时看到有的硬件设备提供快速磁盘模式设置，也很方便大家的使用，具体情况如下：</p>
+<h3 id="1、Clone模式"><a href="#1、Clone模式" class="headerlink" title="1、Clone模式"></a>1、Clone模式</h3><p>克隆模式，磁盘全部数据一样，以最小硬盘的为准。</p>
+<h3 id="2、Large模式"><a href="#2、Large模式" class="headerlink" title="2、Large模式"></a>2、Large模式</h3><p>硬盘容量简单相加，将几个硬盘变成一个硬盘，容量为几个硬盘容量之和，此模式下可以获得最大的硬盘空间。</p>
+<h3 id="3、Normal模式"><a href="#3、Normal模式" class="headerlink" title="3、Normal模式"></a>3、Normal模式</h3><p>硬盘分别处于正常、独立的状态，可以分别独立的写入或读取资料，能使用的实际容量分别为4个硬盘的容量。如果其中一个硬盘受损，其他几个硬盘不会受影响。</p>
+<h2 id="三、RAID使用简明注意事项"><a href="#三、RAID使用简明注意事项" class="headerlink" title="三、RAID使用简明注意事项"></a>三、RAID使用简明注意事项</h2><blockquote>
+<p>使用前请先备份硬盘的资料，一旦进行RAID设定或是变更RAID模式，将会清除硬盘里的所有资料，以及无法恢复；</p>
+</blockquote>
+<blockquote>
+<p>建立RAID时，建议使用相同品牌、型号和容量的硬盘，以确保性能和稳定；</p>
+</blockquote>
+<blockquote>
+<p>请勿随意更换或取出硬盘，如果取出了硬盘，请记下硬盘放入两个仓位的顺序不得更改，以及请勿只插入某一块硬盘使用，以避免造成资料损坏或丢失；</p>
+</blockquote>
+<blockquote>
+<p>如果旧硬盘曾经在RAID模式下使用，请先进清除硬盘RAID信息，让硬盘回复至出厂状态，以免RAID建立失败；</p>
+</blockquote>
+<blockquote>
+<p>RAID0模式下，其中一个硬盘损坏时，其它硬盘所有资料都将丢失；</p>
+</blockquote>
+<blockquote>
+<p>RAID1模式下，如果某一块硬盘受损，可以用一块大于或等于受损硬盘容量的新硬盘替换坏硬盘然后开机即可自动恢复和修复资料以及RAID模式。此过程需要一定时间，请耐心等待</p>
+</blockquote>
+<h2 id="四、细数RAID模式"><a href="#四、细数RAID模式" class="headerlink" title="四、细数RAID模式"></a>四、细数RAID模式</h2><h3 id="1、概念"><a href="#1、概念" class="headerlink" title="1、概念"></a>1、概念</h3><p>磁盘阵列（Redundant Arrays of Inexpensive Disks，RAID），有“价格便宜且多余的磁盘阵列”之意。原理是利用数组方式来作磁盘组，配合数据分散排列的设计，提升数据的安全性。磁盘阵列是由很多便宜、容量较小、稳定性较高、速度较慢磁盘，组合成一个大型的磁盘组，利用个别磁盘提供数据所产生加成效果提升整个磁盘系统效能。同时利用这项技术，将数据切割成许多区段，分别存放在各个硬盘上。磁盘阵列还能利用同位检查（Parity Check）的观念，在数组中任一颗硬盘故障时，仍可读出数据，在数据重构时，将数据经计算后重新置入新硬盘中。</p>
+<h3 id="2、规范"><a href="#2、规范" class="headerlink" title="2、规范"></a>2、规范</h3><p>RAID技术主要包含RAID 0～RAID 50等数个规范，它们的侧重点各不相同，常见的规范有如下几种：</p>
+<blockquote>
+<p>RAID 0：RAID 0连续以位或字节为单位分割数据，并行读/写于多个磁盘上，因此具有很高的数据传输率，但它没有数据冗余，因此并不能算是真正的RAID结构。RAID 0只是单纯地提高性能，并没有为数据的可靠性提供保证，而且其中的一个磁盘失效将影响到所有数据。因此，RAID 0不能应用于数据安全性要求高的场合。</p>
+</blockquote>
+<blockquote>
+<p>RAID 1：它是通过磁盘数据镜像实现数据冗余，在成对的独立磁盘上产生互为备份的数据。当原始数据繁忙时，可直接从镜像拷贝中读取数据，因此RAID 1可以提高读取性能。RAID 1是磁盘阵列中单位成本最高的，但提供了很高的数据安全性和可用性。当一个磁盘失效时，系统可以自动切换到镜像磁盘上读写，而不需要重组失效的数据。</p>
+</blockquote>
+<blockquote>
+<p>RAID 0+1: 也被称为RAID 10标准，实际是将RAID 0和RAID 1标准结合的产物，在连续地以位或字节为单位分割数据并且并行读/写多个磁盘的同时，为每一块磁盘作磁盘镜像进行冗余。它的优点是同时拥有RAID 0的超凡速度和RAID 1的数据高可靠性，但是CPU占用率同样也更高，而且磁盘的利用率比较低。</p>
+</blockquote>
+<blockquote>
+<p>RAID 2：将数据条块化地分布于不同的硬盘上，条块单位为位或字节，并使用称为“加重平均纠错码（海明码）”的编码技术来提供错误检查及恢复。这种编码技术需要多个磁盘存放检查及恢复信息，使得RAID 2技术实施更复杂，因此在商业环境中很少使用。</p>
+</blockquote>
+<blockquote>
+<p>RAID 3：它同RAID 2非常类似，都是将数据条块化分布于不同的硬盘上，区别在于RAID 3使用简单的奇偶校验，并用单块磁盘存放奇偶校验信息。如果一块磁盘失效，奇偶盘及其他数据盘可以重新产生数据；如果奇偶盘失效则不影响数据使用。RAID 3对于大量的连续数据可提供很好的传输率，但对于随机数据来说，奇偶盘会成为写操作的瓶颈。</p>
+</blockquote>
+<blockquote>
+<p>RAID 4：RAID 4同样也将数据条块化并分布于不同的磁盘上，但条块单位为块或记录。RAID 4使用一块磁盘作为奇偶校验盘，每次写操作都需要访问奇偶盘，这时奇偶校验盘会成为写操作的瓶颈，因此RAID 4在商业环境中也很少使用。</p>
+</blockquote>
+<blockquote>
+<p>RAID 5：RAID 5不单独指定的奇偶盘，而是在所有磁盘上交叉地存取数据及奇偶校验信息。在RAID 5上，读/写指针可同时对阵列设备进行操作，提供了更高的数据流量。RAID 5更适合于小数据块和随机读写的数据。RAID 3与RAID 5相比，最主要的区别在于RAID 3每进行一次数据传输就需涉及到所有的阵列盘；而对于RAID 5来说，大部分数据传输只对一块磁盘操作，并可进行并行操作。在RAID 5中有“写损失”，即每一次写操作将产生四个实际的读/写操作，其中两次读旧的数据及奇偶信息，两次写新的数据及奇偶信息。</p>
+</blockquote>
+<blockquote>
+<p>RAID 6：与RAID 5相比，RAID 6增加了第二个独立的奇偶校验信息块。两个独立的奇偶系统使用不同的算法，数据的可靠性非常高，即使两块磁盘同时失效也不会影响数据的使用。但RAID 6需要分配给奇偶校验信息更大的磁盘空间，相对于RAID 5有更大的“写损失”，因此“写性能”非常差。较差的性能和复杂的实施方式使得RAID 6很少得到实际应用。</p>
+</blockquote>
+<blockquote>
+<p>RAID 7：这是一种新的RAID标准，其自身带有智能化实时操作系统和用于存储管理的软件工具，可完全独立于主机运行，不占用主机CPU资源。RAID 7可以看作是一种存储计算机（Storage Computer），它与其他RAID标准有明显区别。除了以上的各种标准（如表1），我们可以如RAID 0+1那样结合多种RAID规范来构筑所需的RAID阵列，例如RAID 5+3（RAID 53）就是一种应用较为广泛的阵列形式。用户一般可以通过灵活配置磁盘阵列来获得更加符合其要求的磁盘存储系统。</p>
+</blockquote>
+<blockquote>
+<p>RAID 5E(RAID 5 Enhencement): RAID 5E是在RAID 5级别基础上的改进，与RAID 5类似，数据的校验信息均匀分布在各硬盘上，但是，在每个硬盘上都保留了一部分未使用的空间，这部分空间没有进行条带化，最多允许两块物理硬盘出现故障。看起来，RAID 5E和RAID 5加一块热备盘好象差不多，其实由于RAID 5E是把数据分布在所有的硬盘上，性能会比RAID5 加一块热备盘要好。当一块硬盘出现故障时，有故障硬盘上的数据会被压缩到其它硬盘上未使用的空间，逻辑盘保持RAID 5级别。</p>
+</blockquote>
+<blockquote>
+<p>RAID 5EE: 与RAID 5E相比，RAID 5EE的数据分布更有效率，每个硬盘的一部分空间被用作分布的热备盘，它们是阵列的一部分，当阵列中一个物理硬盘出现故障时，数据重建的速度会更快。</p>
+</blockquote>
+<blockquote>
+<p>RAID 50：RAID50是RAID5与RAID0的结合。此配置在RAID5的子磁盘组的每个磁盘上进行包括奇偶信息在内的数据的剥离。每个RAID5子磁盘组要求三个硬盘。RAID50具备更高的容错能力，因为它允许某个组内有一个磁盘出现故障，而不会造成数据丢失。而且因为奇偶位分部于RAID5子磁盘组上，故重建速度有很大提高。优势：更高的容错能力，具备更快数据读取速率的潜力。需要注意的是：磁盘故障会影响吞吐量。故障后重建信息的时间比镜像配置情况下要长。</p>
+</blockquote>
+<h3 id="3、优点"><a href="#3、优点" class="headerlink" title="3、优点"></a>3、优点</h3><p>提高传输速率。RAID通过在多个磁盘上同时存储和读取数据来大幅提高存储系统的数据吞吐量（Throughput）。在RAID中，可以让很多磁盘驱动器同时传输数据，而这些磁盘驱动器在逻辑上又是一个磁盘驱动器，所以使用RAID可以达到单个磁盘驱动器几倍、几十倍甚至上百倍的速率。这也是RAID最初想要解决的问题。因为当时CPU的速度增长很快，而磁盘驱动器的数据传输速率无法大幅提高，所以需要有一种方案解决二者之间的矛盾。RAID最后成功了。</p>
+<p>通过数据校验提供容错功能。普通磁盘驱动器无法提供容错功能，如果不包括写在磁盘上的CRC（循环冗余校验）码的话。RAID容错是建立在每个磁盘驱动器的硬件容错功能之上的，所以它提供更高的安全性。在很多RAID模式中都有较为完备的相互校验/恢复的措施，甚至是直接相互的镜像备份，从而大大提高了RAID系统的容错度，提高了系统的稳定冗余性。</p>
+<h3 id="4、实现"><a href="#4、实现" class="headerlink" title="4、实现"></a>4、实现</h3><p>磁盘阵列有两种方式可以实现，那就是“软件阵列”与“硬件阵列”。</p>
+<p>软件阵列是指通过网络操作系统自身提供的磁盘管理功能将连接的普通SCSI卡上的多块硬盘配置成逻辑盘，组成阵列。软件阵列可以提供数据冗余功能，但是磁盘子系统的性能会有所降低，有的降低幅度还比较大，达30%左右。</p>
+<p>硬件阵列是使用专门的磁盘阵列卡来实现的。硬件阵列能够提供在线扩容、动态修改阵列级别、自动数据恢复、驱动器漫游、超高速缓冲等功能。它能提供性能、数据保护、可靠性、可用性和可管理性的解决方案。阵列卡专用的处理单元来进行操作，它的性能要远远高于常规非阵列硬盘，并且更安全更稳定。</p>
+<p>磁盘阵列其实也分为软阵列 (Software Raid)和硬阵列 (Hardware Raid) 两种. 软阵列即通过软件程序并由计算机的 CPU提供运行能力所成. 由于软件程式不是一个完整系统故只能提供最基本的 RAID容错功能. 其他如热备用硬盘的设置, 远程管理等功能均一一欠奉. 硬阵列是由独立操作的硬件提供整个磁盘阵列的控制和计算功能. 不依靠系统的CPU资源.</p>
+<p>由于硬阵列是一个完整的系统, 所有需要的功能均可以做进去. 所以硬阵列所提供的功能和性能均比软阵列好. 而且, 如果你想把系统也做到磁盘阵列中, 硬阵列是唯一的选择. 故我们可以看市场上 RAID 5 级的磁盘阵列均为硬阵列. 软 阵列只适用于 Raid 0 和 Raid 1. 对于我们做镜像用的镜像塔, 肯定不会用 Raid 0或 Raid 1。作为高性能的存储系统，已经得到了越来越广泛的应用。RAID的级别从RAID概念的提出到现在，已经发展了六个级别，其级别分别是0、1、2、3、4、5等。但是最常用的是0、1、3、5四个级别。</p>
+<h2 id="五、个人用户该选那种RAID模式"><a href="#五、个人用户该选那种RAID模式" class="headerlink" title="五、个人用户该选那种RAID模式"></a>五、个人用户该选那种RAID模式</h2><p>首先要分析清楚，我们需要存储的文件有什么样的属性。这其中需要大量存储的和占用存储量大的文件是两回事儿。</p>
+<p>从使用角度粗略分，个人需要存储的文件大致有文本文件、照片录像、影音文件、应用程序等。</p>
+<ol>
+<li>文本文件：大量长期存放，阶段性更新，但其占用空间小，安全性要求个别较高，大部分一般；</li>
+<li>照片录像：大量长期存放，永久性记录，占用空间大，安全性要求高，一旦损失很难弥补；</li>
+<li>影音文件：一部分大量长期存放，一部分大量短期存放，阶段性更新，占用空间大，安全性要求一般，即便损失了，也可以再从网络上下载恢复；</li>
+<li>应用程序：这其中包括一些软件和硬件的驱动等，对于软件，目前基本可以从网络上获得，驱动程序有时需要预先备份，安装设备时随时可用，属于量少但要长期存放的，阶段性更新，安全性要求一般。</li>
+</ol>
+<p>看看自己需要对哪种类型的文件进行存储，再选择自己需要的RAID模式即可。</p>
+<p>本人的照片和私人录影资料较多，平时喜欢收集APE等无损格式的音乐文件，对于个人来说这都是至宝，不可有所损失，再有就是一些硬件的驱动程序，相对比较重要，另外会编辑少量的个人文件，阶段性比较重要，最后是影片，看完也就删除了，不太重要。而照片录像和无损音乐占用的空间又是巨大的，安全性要求又很高，权衡后，在节约资金确保安全的前提下，准备购置五块大容量硬盘，组成NAS存储服务器，选择RAID5模式。</p>
+<p>顺便说，购置五快硬盘的原因还有一个，就是我使用的是老机箱改造NAS服务器，市面上有3转5的硬盘笼子可以简单将原有的3个光驱位变成5块硬盘的存储位，考虑到家用存储8T的容量已经足够了，10T基本上可以无忧了，所以选择了5块硬盘，每块2T容量。当然组成RAOD5后会少于10T，那也足够了！</p>
+<p>NAS的好处很多，这里就不在赘述，有兴趣的朋友建议深入了解。它既可以完成集中存储还可以完成诸如自动BT下载，网络打印机，苹果媒体服务器等众多私有云功能，是很好的家庭网络应用解决方案。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2019/11/25/design_pattern/python/Decorator_Pattern/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">装饰器模式python实现</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2019/09/25/linux/epoll/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">epoll多路复用介绍</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Keep team</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.0</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+<script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/header-shrink.js"></script><script src="/js/back2top.js"></script><script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>

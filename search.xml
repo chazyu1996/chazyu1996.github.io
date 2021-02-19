@@ -231,12 +231,12 @@
 <p><img src="/images/k8s/client-go-controller-interaction.jpeg" alt="client-go"></p>
 <h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><p><code>client-go</code> 主要由三个部分组成</p>
 <ul>
-<li><a href="https://github.com/kubernetes/client-go/blob/master/tools/cache/reflector.go">Reflector</a> ：会watch<code>apiserver</code>，并将接收到的对象推入<code>DeltaFIFO</code>队列中的<code>watchHandler</code> 函数</li>
-<li><a href="https://github.com/kubernetes/client-go/blob/master/tools/cache/controller.go">Informer</a> ：通过<code>processLoop</code>函数将对象从<code>DeltaFIFO</code>队列中弹出，并存入控制器中</li>
-<li><a href="https://github.com/kubernetes/client-go/blob/master/tools/cache/index.go">Indexer</a>：索引器可以基于几个索引功能来维护索引。索引器使用线程安全的数据存储来存储对象及其键。在包高速缓存 中的存储类型中定义了一个名为MetaNamespaceKeyFunc的默认函数，该函数生成对象的密钥作为该对象的组合。<code>&lt;namespace&gt;/&lt;name&gt;</code></li>
+<li><a class="link" href="https://github.com/kubernetes/client-go/blob/master/tools/cache/reflector.go">Reflector<i class="fas fa-external-link-alt"></i></a> ：会watch<code>apiserver</code>，并将接收到的对象推入<code>DeltaFIFO</code>队列中的<code>watchHandler</code> 函数</li>
+<li><a class="link" href="https://github.com/kubernetes/client-go/blob/master/tools/cache/controller.go">Informer<i class="fas fa-external-link-alt"></i></a> ：通过<code>processLoop</code>函数将对象从<code>DeltaFIFO</code>队列中弹出，并存入控制器中</li>
+<li><a class="link" href="https://github.com/kubernetes/client-go/blob/master/tools/cache/index.go">Indexer<i class="fas fa-external-link-alt"></i></a>：索引器可以基于几个索引功能来维护索引。索引器使用线程安全的数据存储来存储对象及其键。在包高速缓存 中的存储类型中定义了一个名为MetaNamespaceKeyFunc的默认函数，该函数生成对象的密钥作为该对象的组合。<code>&lt;namespace&gt;/&lt;name&gt;</code></li>
 </ul>
-<h2 id="编写时"><a href="#编写时" class="headerlink" title="编写时"></a>编写时</h2><p><code>Client-Go</code>中的基本控制器提供了<code>NewIndexerInformer</code>函数来创建<code>Informer</code>和<code>Indexer</code>。可以<a href="https://github.com/kubernetes/client-go/blob/master/examples/workqueue/main.go#L174">直接调用函数</a>或者<a href="https://github.com/kubernetes/sample-controller/blob/master/main.go#L61">使用工厂函数</a>创建</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://github.com/kubernetes/sample-controller/blob/master/docs/controller-client-go.md">controller-client-go</a></p>
+<h2 id="编写时"><a href="#编写时" class="headerlink" title="编写时"></a>编写时</h2><p><code>Client-Go</code>中的基本控制器提供了<code>NewIndexerInformer</code>函数来创建<code>Informer</code>和<code>Indexer</code>。可以<a class="link" href="https://github.com/kubernetes/client-go/blob/master/examples/workqueue/main.go#L174">直接调用函数<i class="fas fa-external-link-alt"></i></a>或者<a class="link" href="https://github.com/kubernetes/sample-controller/blob/master/main.go#L61">使用工厂函数<i class="fas fa-external-link-alt"></i></a>创建</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a class="link" href="https://github.com/kubernetes/sample-controller/blob/master/docs/controller-client-go.md">controller-client-go<i class="fas fa-external-link-alt"></i></a></p>
 ]]></content>
       <categories>
         <category>技术文章</category>
@@ -485,7 +485,7 @@
 </ul>
 <h2 id="Python-中的-list-和-dict-是怎么实现的？"><a href="#Python-中的-list-和-dict-是怎么实现的？" class="headerlink" title="Python 中的 list 和 dict 是怎么实现的？"></a>Python 中的 list 和 dict 是怎么实现的？</h2><h2 id="Python-中使用多线程可以达到多核CPU一起使用吗？"><a href="#Python-中使用多线程可以达到多核CPU一起使用吗？" class="headerlink" title="Python 中使用多线程可以达到多核CPU一起使用吗？"></a>Python 中使用多线程可以达到多核CPU一起使用吗？</h2><p>Python中有一个被称为Global Interpreter Lock（GIL）的东西，它会确保任何时候你的多个线程中，只有一个被执行。线程的执行速度非常之快，会让你误以为线程是并行执行的，但是实际上都是轮流执行。经过GIL这一道关卡处理，会增加执行的开销。</p>
 <p>可以通过多进程实现多核任务。</p>
-<h2 id="什么是装饰器？"><a href="#什么是装饰器？" class="headerlink" title="什么是装饰器？"></a>什么是装饰器？</h2><h2 id="Python-中的垃圾回收机制？"><a href="#Python-中的垃圾回收机制？" class="headerlink" title="Python 中的垃圾回收机制？"></a>Python 中的垃圾回收机制？</h2><p><a href="https://www.jianshu.com/p/1e375fb40506">Python垃圾回收机制–完美讲解!</a></p>
+<h2 id="什么是装饰器？"><a href="#什么是装饰器？" class="headerlink" title="什么是装饰器？"></a>什么是装饰器？</h2><h2 id="Python-中的垃圾回收机制？"><a href="#Python-中的垃圾回收机制？" class="headerlink" title="Python 中的垃圾回收机制？"></a>Python 中的垃圾回收机制？</h2><p><a class="link"   href="https://www.jianshu.com/p/1e375fb40506" >Python垃圾回收机制–完美讲解!<i class="fas fa-external-link-alt"></i></a></p>
 <h2 id="什么是-lambda-表达式？"><a href="#什么是-lambda-表达式？" class="headerlink" title="什么是 lambda 表达式？"></a>什么是 lambda 表达式？</h2><p>简单来说，lambda表达式通常是当你需要使用一个函数，但是又不想费脑袋去命名一个函数的时候使用，也就是通常所说的匿名函数。</p>
 <p>lambda表达式一般的形式是：关键词lambda后面紧接一个或多个参数，紧接一个冒号“：”，紧接一个表达式</p>
 <h2 id="什么是深拷贝和浅拷贝？"><a href="#什么是深拷贝和浅拷贝？" class="headerlink" title="什么是深拷贝和浅拷贝？"></a>什么是深拷贝和浅拷贝？</h2><p>赋值（=），就是创建了对象的一个新的引用，修改其中任意一个变量都会影响到另一个。</p>
@@ -801,10 +801,10 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p>总结：非对称加密算法用于在握手过程中加密生成的密码；对称加密算法用于对真正传输的数据进行加密；HASH算法用于验证数据的完整性。</p>
 </details>
 
-<h5 id="输入-www-baidu-com，怎么变成-https-www-baidu-com-的，怎么确定用HTTP还是HTTPS？"><a href="#输入-www-baidu-com，怎么变成-https-www-baidu-com-的，怎么确定用HTTP还是HTTPS？" class="headerlink" title="输入 www.baidu.com，怎么变成 https://www.baidu.com 的，怎么确定用HTTP还是HTTPS？"></a>输入 <a href="http://www.baidu.com,怎么变成/">www.baidu.com，怎么变成</a> <a href="https://www.baidu.com/">https://www.baidu.com</a> 的，怎么确定用HTTP还是HTTPS？</h5><details>
+<h5 id="输入-www-baidu-com，怎么变成-https-www-baidu-com-的，怎么确定用HTTP还是HTTPS？"><a href="#输入-www-baidu-com，怎么变成-https-www-baidu-com-的，怎么确定用HTTP还是HTTPS？" class="headerlink" title="输入 www.baidu.com，怎么变成 https://www.baidu.com 的，怎么确定用HTTP还是HTTPS？"></a>输入 <a class="link"   href="http://www.baidu.com,怎么变成/" >www.baidu.com，怎么变成<i class="fas fa-external-link-alt"></i></a> <a class="link"   href="https://www.baidu.com/" >https://www.baidu.com<i class="fas fa-external-link-alt"></i></a> 的，怎么确定用HTTP还是HTTPS？</h5><details>
 <summary>展开</summary>
 
-<p><a href="https://www.sohu.com/a/136637876_487516">你访问的网站是如何自动切换到 HTTPS 的？</a></p>
+<p><a class="link"   href="https://www.sohu.com/a/136637876_487516" >你访问的网站是如何自动切换到 HTTPS 的？<i class="fas fa-external-link-alt"></i></a></p>
 <p>一种是原始的302跳转，服务器把所有的HTTp流量跳转到HTTPS。但这样有一个漏洞，就是中间人可能在第一次访问站点的时候就劫持。<br>解决方法是引入HSTS机制，用户浏览器在访问站点的时候强制使用HTTPS。</p>
 </details>
 
@@ -858,7 +858,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li>5xx状态码：服务端错误。500服务器内部错误；501服务不可用</li>
 </ol>
 <h3 id="什么是RIP-Routing-Information-Protocol-距离矢量路由协议-算法是什么？"><a href="#什么是RIP-Routing-Information-Protocol-距离矢量路由协议-算法是什么？" class="headerlink" title="什么是RIP (Routing Information Protocol, 距离矢量路由协议)? 算法是什么？"></a>什么是RIP (Routing Information Protocol, 距离矢量路由协议)? 算法是什么？</h3><p>每个路由器维护一张表，记录该路由器到其它网络的”跳数“，路由器到与其直接连接的网络的跳数是1，每多经过一个路由器跳数就加1；更新该表时和相邻路由器交换路由信息；路由器允许一个路径最多包含15个路由器，如果跳数为16，则不可达。交付数据报时优先选取距离最短的路径。</p>
-<p>（PS：RIP是应用层协议：<a href="https://www.zhihu.com/question/19645407">https://www.zhihu.com/question/19645407</a>）</p>
+<p>（PS：RIP是应用层协议：<a class="link"   href="https://www.zhihu.com/question/19645407" >https://www.zhihu.com/question/19645407<i class="fas fa-external-link-alt"></i></a>）</p>
 <details>
 <summary>优缺点</summary>
 
@@ -902,11 +902,11 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p>如果所要找的主机和源主机不在同一个局域网上，那么就要通过 ARP 找到一个位于本局域网上的某个路由器的硬件地址，然后把分组发送给这个路由器，让这个路由器把分组转发给下一个网络。剩下的工作就由下一个网络来做。</p>
 <h3 id="什么是NAT-Network-Address-Translation-网络地址转换-？"><a href="#什么是NAT-Network-Address-Translation-网络地址转换-？" class="headerlink" title="什么是NAT (Network Address Translation, 网络地址转换)？"></a>什么是NAT (Network Address Translation, 网络地址转换)？</h3><p>用于解决内网中的主机要和因特网上的主机通信。由NAT路由器将主机的本地IP地址转换为全球IP地址，分为静态转换（转换得到的全球IP地址固定不变）和动态NAT转换。</p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://blog.csdn.net/justloveyou_/article/details/78303617">面试/笔试第一弹 —— 计算机网络面试问题集锦</a></li>
-<li><a href="https://blog.csdn.net/yjxsdzx/article/details/71937886">什么时候选TCP、UDP？</a></li>
+<li><a class="link"   href="https://blog.csdn.net/justloveyou_/article/details/78303617" >面试/笔试第一弹 —— 计算机网络面试问题集锦<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://blog.csdn.net/yjxsdzx/article/details/71937886" >什么时候选TCP、UDP？<i class="fas fa-external-link-alt"></i></a></li>
 </ul>
 <h3 id="待完成"><a href="#待完成" class="headerlink" title="待完成"></a>待完成</h3><ul>
-<li><input disabled="" type="checkbox"> 发送窗口的大小，如何最大利用带宽，假设延迟100ms，发送端10Mb/s，接收端100Mb/s. <a href="https://blog.csdn.net/bad_sheep/article/details/6158676">reference</a></li>
+<li><input disabled="" type="checkbox"> 发送窗口的大小，如何最大利用带宽，假设延迟100ms，发送端10Mb/s，接收端100Mb/s. <a class="link"   href="https://blog.csdn.net/bad_sheep/article/details/6158676" >reference<i class="fas fa-external-link-alt"></i></a></li>
 </ul>
 ]]></content>
       <categories>
@@ -1131,7 +1131,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li>游标（Cursor）：用于定位在查询返回的<strong>结果集的特定行</strong>，以对特定行进行操作。使用游标可以方便地对结果集进行移动遍历，根据需要滚动或对浏览/修改任意行中的数据。主要用于交互式应用。</li>
 </ul>
 <hr>
-<h3 id="数据库索引的实现原理（B-树）"><a href="#数据库索引的实现原理（B-树）" class="headerlink" title="数据库索引的实现原理（B+树）"></a>数据库索引的实现原理（B+树）</h3><p>见<a href="https://github.com/wolverinn/Iridescent/blob/master/Data%20Structure.md#b%E6%A0%91">数据结构部分：B树，B+树</a></p>
+<h3 id="数据库索引的实现原理（B-树）"><a href="#数据库索引的实现原理（B-树）" class="headerlink" title="数据库索引的实现原理（B+树）"></a>数据库索引的实现原理（B+树）</h3><p>见<a class="link"   href="https://github.com/wolverinn/Iridescent/blob/master/Data%20Structure.md#b%E6%A0%91" >数据结构部分：B树，B+树<i class="fas fa-external-link-alt"></i></a></p>
 <h5 id="使用B树和B-树的比较"><a href="#使用B树和B-树的比较" class="headerlink" title="使用B树和B+树的比较"></a>使用B树和B+树的比较</h5><p>InnoDB的索引使用的是B+树实现，B+树对比B树的好处：</p>
 <ul>
 <li>IO次数少：B+树的中间结点只存放索引，数据都存在叶结点中，因此中间结点可以存更多的数据，让索引树更加矮胖；</li>
@@ -1286,27 +1286,27 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 </li>
 </ul>
 <h3 id="关系型数据库和非关系型数据库的区别？"><a href="#关系型数据库和非关系型数据库的区别？" class="headerlink" title="关系型数据库和非关系型数据库的区别？"></a>关系型数据库和非关系型数据库的区别？</h3><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://blog.csdn.net/weixin_43433032/article/details/89293663">数据库六大范式详解 – CSDN博客</a></li>
-<li><a href="https://www.cnblogs.com/alice-cj/p/10354737.html">delete，truncate 和 delete之间的区别 – 博客园</a></li>
-<li><a href="https://baijiahao.baidu.com/s?id=1617888740370098866&wfr=spider&for=pc">深度探索MySQL主从复制原理</a></li>
+<li><a class="link"   href="https://blog.csdn.net/weixin_43433032/article/details/89293663" >数据库六大范式详解 – CSDN博客<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://www.cnblogs.com/alice-cj/p/10354737.html" >delete，truncate 和 delete之间的区别 – 博客园<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://baijiahao.baidu.com/s?id=1617888740370098866&wfr=spider&for=pc" >深度探索MySQL主从复制原理<i class="fas fa-external-link-alt"></i></a></li>
 <li>数据库程序员面试笔试宝典-机械工业出版社</li>
-<li><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86.md">CS-Notes/数据库系统原理 – GitHub</a></li>
-<li><a href="https://blog.csdn.net/justloveyou_/article/details/78308460">面试/笔试第三弹 —— 数据库面试问题集锦 – CSDN博客</a></li>
-<li><a href="https://www.cnblogs.com/wenxiaofei/p/9853682.html">史上最全的数据库面试题，不看绝对后悔 – 博客园</a></li>
+<li><a class="link"   href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86.md" >CS-Notes/数据库系统原理 – GitHub<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://blog.csdn.net/justloveyou_/article/details/78308460" >面试/笔试第三弹 —— 数据库面试问题集锦 – CSDN博客<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://www.cnblogs.com/wenxiaofei/p/9853682.html" >史上最全的数据库面试题，不看绝对后悔 – 博客园<i class="fas fa-external-link-alt"></i></a></li>
 </ul>
 <h3 id="待完成"><a href="#待完成" class="headerlink" title="待完成"></a>待完成</h3><ul>
 <li><input disabled="" type="checkbox"> E-R 模型</li>
 <li><input disabled="" type="checkbox"> 数据库的三级模式和二级映像</li>
-<li><input disabled="" type="checkbox"> <a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/MySQL.md#%E5%9B%9B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B">数据类型</a>：VARCHAR和CHAR的区别，DATETIME和TIMESATMP的区别</li>
+<li><input disabled="" type="checkbox"> <a class="link"   href="https://github.com/CyC2018/CS-Notes/blob/master/notes/MySQL.md#%E5%9B%9B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B" >数据类型<i class="fas fa-external-link-alt"></i></a>：VARCHAR和CHAR的区别，DATETIME和TIMESATMP的区别</li>
 <li><input disabled="" type="checkbox"> Redis 面试<ul>
-<li><a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/Redis.md">CyC2018</a></li>
-<li><a href="https://blog.csdn.net/Butterfly_resting/article/details/89668661">几率大的Redis面试题（含答案） - CSDN</a></li>
-<li><a href="https://www.jianshu.com/p/65765dd10671">Redis面试题总结 - 简书</a></li>
-<li><a href="https://www.cnblogs.com/jasontec/p/9699242.html">Redis常见面试题 - 博客园</a></li>
-<li><a href="https://github.com/0voice/interview_internal_reference#10">0voice/interview_internal_reference</a></li>
+<li><a class="link"   href="https://github.com/CyC2018/CS-Notes/blob/master/notes/Redis.md" >CyC2018<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://blog.csdn.net/Butterfly_resting/article/details/89668661" >几率大的Redis面试题（含答案） - CSDN<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://www.jianshu.com/p/65765dd10671" >Redis面试题总结 - 简书<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://www.cnblogs.com/jasontec/p/9699242.html" >Redis常见面试题 - 博客园<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://github.com/0voice/interview_internal_reference#10" >0voice/interview_internal_reference<i class="fas fa-external-link-alt"></i></a></li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> <a href="https://www.cnblogs.com/wenxiaofei/p/9853682.html">史上最全的数据库面试题，不看绝对后悔 – 博客园</a></li>
+<li><input disabled="" type="checkbox"> <a class="link"   href="https://www.cnblogs.com/wenxiaofei/p/9853682.html" >史上最全的数据库面试题，不看绝对后悔 – 博客园<i class="fas fa-external-link-alt"></i></a></li>
 </ul>
 ]]></content>
       <categories>
@@ -1361,7 +1361,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li>线程之间的通信更方便，同一进程下的线程共享全局变量等数据，而进程之间的通信需要以进程间通信(IPC)的方式进行；</li>
 <li>多线程程序只要有一个线程崩溃，整个程序就崩溃了，但多进程程序中一个进程崩溃并不会对其它进程造成影响，因为进程有自己的独立地址空间，因此多进程更加健壮</li>
 </ul>
-<p>进程操作代码实现，可以参考：<a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017628290184064">多进程 - 廖雪峰的官方网站</a></p>
+<p>进程操作代码实现，可以参考：<a class="link"   href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017628290184064" >多进程 - 廖雪峰的官方网站<i class="fas fa-external-link-alt"></i></a></p>
 <h5 id="同一进程中的线程可以共享哪些数据？"><a href="#同一进程中的线程可以共享哪些数据？" class="headerlink" title="同一进程中的线程可以共享哪些数据？"></a>同一进程中的线程可以共享哪些数据？</h5><details>
 <summary>展开</summary>
 
@@ -1408,8 +1408,8 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 </ol>
 <p>更详细的可以参考（待整理）：</p>
 <ul>
-<li><a href="https://imageslr.github.io/2020/02/26/ipc.html">https://imageslr.github.io/2020/02/26/ipc.html</a></li>
-<li><a href="https://www.jianshu.com/p/c1015f5ffa74">https://www.jianshu.com/p/c1015f5ffa74</a></li>
+<li><a class="link"   href="https://imageslr.github.io/2020/02/26/ipc.html" >https://imageslr.github.io/2020/02/26/ipc.html<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://www.jianshu.com/p/c1015f5ffa74" >https://www.jianshu.com/p/c1015f5ffa74<i class="fas fa-external-link-alt"></i></a></li>
 </ul>
 <h3 id="进程同步问题"><a href="#进程同步问题" class="headerlink" title="进程同步问题"></a>进程同步问题</h3><blockquote>
 <p>进程的同步是目的，而进程间通信是实现进程同步的手段</p>
@@ -1779,11 +1779,11 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li>电梯算法：电梯总是保持一个方向运行，直到该方向没有请求为止，然后改变运行方向。</li>
 </ul>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://www.jianshu.com/p/c1015f5ffa74">进程间通信IPC – 简书</a></li>
-<li><a href="https://blog.csdn.net/justloveyou_/article/details/78304294">面试/笔试第二弹 —— 操作系统面试问题集锦 - CSDN博客</a></li>
-<li><a href="https://segmentfault.com/a/1190000018970361">线程同步与并发 - - SegmentFault</a></li>
-<li><a href="http://baijiahao.baidu.com/s?id=1641172494287388070&wfr=spider&for=pc">彻底搞懂epoll高效运行的原理</a></li>
-<li><a href="https://www.cnblogs.com/lirong21/p/4213028.html">用户态与内核态的切换</a></li>
+<li><a class="link"   href="https://www.jianshu.com/p/c1015f5ffa74" >进程间通信IPC – 简书<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://blog.csdn.net/justloveyou_/article/details/78304294" >面试/笔试第二弹 —— 操作系统面试问题集锦 - CSDN博客<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://segmentfault.com/a/1190000018970361" >线程同步与并发 - - SegmentFault<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="http://baijiahao.baidu.com/s?id=1641172494287388070&wfr=spider&for=pc" >彻底搞懂epoll高效运行的原理<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://www.cnblogs.com/lirong21/p/4213028.html" >用户态与内核态的切换<i class="fas fa-external-link-alt"></i></a></li>
 </ul>
 <h3 id="待完成"><a href="#待完成" class="headerlink" title="待完成"></a>待完成</h3><ul>
 <li><input disabled="" type="checkbox"> IPC</li>
@@ -3704,7 +3704,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p><strong>s</strong> 称为重新同步参数（Resynchronization Parameter）表示服务器将通过累加计数器，来尝试多次验证输入的一次性密码，而这个尝试的次数及为 <code>s</code>。该参数主要是有效的容忍用户在客户端无意中生成了额外不用于验证的验证码，导致客户端和服务端不一致，但同时也限制了用户无限制的生成不用于验证的一次性密码。</p>
 <h3 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h3><p><img src="/images/principles/HOTP_and_TOTP_2.png" alt="HOTP_and_TOTP_2"></p>
 <p>核心步骤主要是使用 K C 和 Digit。</p>
-<p>第一步：使用 <strong>HMAC-SHA-1</strong> 算法基于 K 和 C 生成一个20个字节的十六进制字符串（HS）。关于如何生成这个是另外一个协议来规定的，<a href="https://link.jianshu.com/?t=https://tools.ietf.org/html/rfc2104">RFC 2104 HMAC Keyed-Hashing for Message Authentication</a>. 实际上这里的算法并不唯一，还可以使用 <strong>HMAC-SHA-256</strong> 和 <strong>HMAC-SHA-512</strong> 生成更长的序列。对应到协议中的算法标识就是</p>
+<p>第一步：使用 <strong>HMAC-SHA-1</strong> 算法基于 K 和 C 生成一个20个字节的十六进制字符串（HS）。关于如何生成这个是另外一个协议来规定的，<a class="link"   href="https://link.jianshu.com/?t=https://tools.ietf.org/html/rfc2104" >RFC 2104 HMAC Keyed-Hashing for Message Authentication<i class="fas fa-external-link-alt"></i></a>. 实际上这里的算法并不唯一，还可以使用 <strong>HMAC-SHA-256</strong> 和 <strong>HMAC-SHA-512</strong> 生成更长的序列。对应到协议中的算法标识就是</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HS &#x3D; HMAC-SHA-1(K,C)</span><br></pre></td></tr></table></figure>
 
 
@@ -3814,7 +3814,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <h2 id="使用Volume"><a href="#使用Volume" class="headerlink" title="使用Volume"></a>使用Volume</h2><p>Volume可以为容器提供持久化存储，比如</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: redis</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: redis</span><br><span class="line">    image: redis</span><br><span class="line">    volumeMounts:</span><br><span class="line">    - name: redis-storage</span><br><span class="line">      mountPath: &#x2F;data&#x2F;redis</span><br><span class="line">  volumes:</span><br><span class="line">  - name: redis-storage</span><br><span class="line">    emptyDir: &#123;&#125;</span><br></pre></td></tr></table></figure>
 
-<p>更多挂载存储卷的方法参考<a href="https://feisky.gitbooks.io/kubernetes/concepts/volume.html">Volume</a>。</p>
+<p>更多挂载存储卷的方法参考<a class="link"   href="https://feisky.gitbooks.io/kubernetes/concepts/volume.html" >Volume<i class="fas fa-external-link-alt"></i></a>。</p>
 <h2 id="私有镜像"><a href="#私有镜像" class="headerlink" title="私有镜像"></a>私有镜像</h2><p>在使用私有镜像时，需要创建一个docker registry secret，并在容器中引用。</p>
 <p>创建docker registry secret：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kubectl create secret docker-registry regsecret --docker-server&#x3D;&lt;your-registry-server&gt; --docker-username&#x3D;&lt;your-name&gt; --docker-password&#x3D;&lt;your-pword&gt; --docker-email&#x3D;&lt;your-email&gt;</span><br></pre></td></tr></table></figure>
@@ -3895,7 +3895,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: nginx</span><br><span class="line">  labels:</span><br><span class="line">    env: test</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: nginx</span><br><span class="line">    image: nginx</span><br><span class="line">    imagePullPolicy: IfNotPresent</span><br><span class="line">  nodeSelector:</span><br><span class="line">    disktype: ssd</span><br></pre></td></tr></table></figure>
 
 <h2 id="使用Capabilities"><a href="#使用Capabilities" class="headerlink" title="使用Capabilities"></a>使用Capabilities</h2><p>默认情况下，容器都是以非特权容器的方式运行。比如，不能在容器中创建虚拟网卡、配置虚拟网络。</p>
-<p>Kubernetes提供了修改<a href="http://man7.org/linux/man-pages/man7/capabilities.7.html">Capabilities</a>的机制，可以按需要给给容器增加或删除。比如下面的配置给容器增加了<code>CAP_NET_ADMIN</code>并删除了<code>CAP_KILL</code>。</p>
+<p>Kubernetes提供了修改<a class="link"   href="http://man7.org/linux/man-pages/man7/capabilities.7.html" >Capabilities<i class="fas fa-external-link-alt"></i></a>的机制，可以按需要给给容器增加或删除。比如下面的配置给容器增加了<code>CAP_NET_ADMIN</code>并删除了<code>CAP_KILL</code>。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: hello-world</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: friendly-container</span><br><span class="line">    image: &quot;alpine:3.4&quot;</span><br><span class="line">    command: [&quot;&#x2F;bin&#x2F;echo&quot;, &quot;hello&quot;, &quot;world&quot;]</span><br><span class="line">    securityContext:</span><br><span class="line">      capabilities:</span><br><span class="line">        add:</span><br><span class="line">        - NET_ADMIN</span><br><span class="line">        drop:</span><br><span class="line">        - KILL</span><br></pre></td></tr></table></figure>
 
 <h2 id="限制网络带宽"><a href="#限制网络带宽" class="headerlink" title="限制网络带宽"></a>限制网络带宽</h2><p>可以通过给Pod增加<code>kubernetes.io/ingress-bandwidth</code>和<code>kubernetes.io/egress-bandwidth</code>这两个annotation来限制Pod的网络带宽</p>
@@ -3908,7 +3908,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p>kubenet的网络带宽限制其实是通过tc来实现的</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># setup qdisc (only once)</span><br><span class="line">tc qdisc add dev cbr0 root handle 1: htb default 30</span><br><span class="line"># download rate</span><br><span class="line">tc class add dev cbr0 parent 1: classid 1:2 htb rate 3Mbit</span><br><span class="line">tc filter add dev cbr0 protocol ip parent 1:0 prio 1 u32 match ip dst 10.1.0.3&#x2F;32 flowid 1:2</span><br><span class="line"># upload rate</span><br><span class="line">tc class add dev cbr0 parent 1: classid 1:3 htb rate 4Mbit</span><br><span class="line">tc filter add dev cbr0 protocol ip parent 1:0 prio 1 u32 match ip src 10.1.0.3&#x2F;32 flowid 1:3</span><br></pre></td></tr></table></figure>
 
-<h2 id="调度到指定的Node上"><a href="#调度到指定的Node上" class="headerlink" title="调度到指定的Node上"></a>调度到指定的Node上</h2><p>可以通过nodeSelector、nodeAffinity、podAffinity以及Taints和tolerations等来将Pod调度到需要的Node上。具体使用方法请参考<a href="https://feisky.gitbooks.io/kubernetes/components/scheduler.html">调度器章节</a>。</p>
+<h2 id="调度到指定的Node上"><a href="#调度到指定的Node上" class="headerlink" title="调度到指定的Node上"></a>调度到指定的Node上</h2><p>可以通过nodeSelector、nodeAffinity、podAffinity以及Taints和tolerations等来将Pod调度到需要的Node上。具体使用方法请参考<a class="link"   href="https://feisky.gitbooks.io/kubernetes/components/scheduler.html" >调度器章节<i class="fas fa-external-link-alt"></i></a>。</p>
 <h1 id="Labels"><a href="#Labels" class="headerlink" title="Labels"></a>Labels</h1><h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a><strong>标签</strong></h2><p>标签其实就一对 key/value ，被关联到对象上，比如Pod,标签的使用我们倾向于能够标示对象的特殊特点，并且对用户而言是有意义的（就是一眼就看出了这个Pod是尼玛数据库），但是标签对内核系统是没有直接意义的。标签可以用来划分特定组的对象（比如，所有女的），标签可以在创建一个对象的时候直接给与，也可以在后期随时修改，每一个对象可以拥有多个标签，但是，key值必须是唯一的</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;labels&quot;: &#123;</span><br><span class="line"> &quot;key1&quot; : &quot;value1&quot;,</span><br><span class="line"> &quot;key2&quot; : &quot;value2&quot;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 
@@ -4256,7 +4256,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p>下面是一些常量声明的例子：</p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> Pi = <span class="number">3.1415926</span></span><br><span class="line"><span class="keyword">const</span> i = <span class="number">10000</span></span><br><span class="line"><span class="keyword">const</span> MaxThread = <span class="number">10</span></span><br><span class="line"><span class="keyword">const</span> prefix = <span class="string">&quot;astaxie_&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>Go 常量和一般程序语言不同的是，可以指定相当多的小数位数(例如200位)，<br>若指定給float32自动缩短为32bit，指定给float64自动缩短为64bit，详情参考<a href="http://golang.org/ref/spec#Constants">链接</a></p>
+<p>Go 常量和一般程序语言不同的是，可以指定相当多的小数位数(例如200位)，<br>若指定給float32自动缩短为32bit，指定给float64自动缩短为64bit，详情参考<a class="link"   href="http://golang.org/ref/spec#Constants" >链接<i class="fas fa-external-link-alt"></i></a></p>
 <h2 id="内置基础类型"><a href="#内置基础类型" class="headerlink" title="内置基础类型"></a>内置基础类型</h2><h3 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h3><p>在Go中，布尔值的类型为<code>bool</code>，值是<code>true</code>或<code>false</code>，默认为<code>false</code>。</p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//示例代码</span></span><br><span class="line"><span class="keyword">var</span> isActive <span class="keyword">bool</span>  <span class="comment">// 全局变量声明</span></span><br><span class="line"><span class="keyword">var</span> enabled, disabled = <span class="literal">true</span>, <span class="literal">false</span>  <span class="comment">// 忽略类型的声明</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> available <span class="keyword">bool</span>  <span class="comment">// 一般声明</span></span><br><span class="line">	valid := <span class="literal">false</span>      <span class="comment">// 简短声明</span></span><br><span class="line">	available = <span class="literal">true</span>    <span class="comment">// 赋值操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -4297,7 +4297,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p>如果要声明一个多行的字符串怎么办？可以通过<code>``</code>来声明：</p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line">m := <span class="string">`hello</span></span><br><span class="line"><span class="string">world`</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><figcaption><span>`` ```` 括起的字符串为Raw字符串，即字符串在代码中的形式就是打印时的形式，它没有字符转义，换行也将原样输出。例如本例中会输出：</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">hello</span><br><span class="line"></span><br><span class="line">world</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 错误类型</span><br><span class="line">Go内置有一个&#96;error&#96;类型，专门用来处理错误信息，Go的&#96;package&#96;里面还专门有一个包&#96;errors&#96;来处理错误：</span><br><span class="line">&#96;&#96;&#96;Go</span><br><span class="line"></span><br><span class="line">err :&#x3D; errors.New(&quot;emit macho dwarf: elf header corrupted&quot;)</span><br><span class="line">if err !&#x3D; nil &#123;</span><br><span class="line">	fmt.Print(err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Go数据底层的存储"><a href="#Go数据底层的存储" class="headerlink" title="Go数据底层的存储"></a>Go数据底层的存储</h3><p>下面这张图来源于<a href="http://research.swtch.com/">Russ Cox Blog</a>中一篇介绍<a href="http://research.swtch.com/godata">Go数据结构</a>的文章，大家可以看到这些基础类型底层都是分配了一块内存，然后存储了相应的值。</p>
+<h3 id="Go数据底层的存储"><a href="#Go数据底层的存储" class="headerlink" title="Go数据底层的存储"></a>Go数据底层的存储</h3><p>下面这张图来源于<a class="link"   href="http://research.swtch.com/" >Russ Cox Blog<i class="fas fa-external-link-alt"></i></a>中一篇介绍<a class="link"   href="http://research.swtch.com/godata" >Go数据结构<i class="fas fa-external-link-alt"></i></a>的文章，大家可以看到这些基础类型底层都是分配了一块内存，然后存储了相应的值。</p>
 <p><img src="/images/golang/basic.png?raw=true"></p>
 <p>图2.1 Go数据格式的存储</p>
 <h2 id="一些技巧"><a href="#一些技巧" class="headerlink" title="一些技巧"></a>一些技巧</h2><h3 id="分组声明"><a href="#分组声明" class="headerlink" title="分组声明"></a>分组声明</h3><p>在Go语言中，同时声明多个常量、变量，或者导入多个包时，可采用分组的方式进行声明。</p>
@@ -4690,7 +4690,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">type</span> Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">	<span class="comment">// Len is the number of elements in the collection.</span></span><br><span class="line">	Len() <span class="keyword">int</span></span><br><span class="line">	<span class="comment">// Less returns whether the element with index i should sort</span></span><br><span class="line">	<span class="comment">// before the element with index j.</span></span><br><span class="line">	Less(i, j <span class="keyword">int</span>) <span class="keyword">bool</span></span><br><span class="line">	<span class="comment">// Swap swaps the elements with indexes i and j.</span></span><br><span class="line">	Swap(i, j <span class="keyword">int</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>另一个例子就是io包下面的 io.ReadWriter ，它包含了io包下面的Reader和Writer两个interface：</p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// io.ReadWriter</span></span><br><span class="line"><span class="keyword">type</span> ReadWriter <span class="keyword">interface</span> &#123;</span><br><span class="line">	Reader</span><br><span class="line">	Writer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h3><p>Go语言实现了反射，所谓反射就是能检查程序在运行时的状态。我们一般用到的包是reflect包。如何运用reflect包，官方的这篇文章详细的讲解了reflect包的实现原理，<a href="http://golang.org/doc/articles/laws_of_reflection.html">laws of reflection</a></p>
+<h3 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h3><p>Go语言实现了反射，所谓反射就是能检查程序在运行时的状态。我们一般用到的包是reflect包。如何运用reflect包，官方的这篇文章详细的讲解了reflect包的实现原理，<a class="link"   href="http://golang.org/doc/articles/laws_of_reflection.html" >laws of reflection<i class="fas fa-external-link-alt"></i></a></p>
 <p>使用reflect一般分成三步，下面简要的讲解一下：要去反射是一个类型的值(这些值都实现了空interface)，首先需要把它转化成reflect对象(reflect.Type或者reflect.Value，根据不同的情况调用不同的函数)。这两种获取方式如下：</p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">t := reflect.TypeOf(i)    <span class="comment">//得到类型的元数据,通过t我们能获取类型定义里面的所有元素</span></span><br><span class="line">v := reflect.ValueOf(i)   <span class="comment">//得到实际的值，通过v我们获取存储在里面的值，还可以去改变值</span></span><br></pre></td></tr></table></figure>
 <p>转化为reflect对象之后我们就可以进行一些操作了，也就是将reflect对象转化成相应的值，例如</p>
@@ -5129,32 +5129,32 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li>Client使用会话密钥解密响应的密文，得到“明文内容A”。</li>
 <li>Client再次发起HTTPS的请求，使用会话密钥加密请求的“明文内容B”，然后Server使用会话密钥解密密文，得到“明文内容B”。</li>
 </ol>
-<p>具体的格式可以参考MDN的一个说明<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format%E3%80%82">https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format。</a></p>
-<p>以上只是一个抽象的HTTPS的一个工作流程，实际上SSL/TLS所做的工作远不止这这些，更详细的解释请参考这篇文章：<a href="https://infoq.cn/article/HTTPS-Connection-Jeff-Moser">https://infoq.cn/article/HTTPS-Connection-Jeff-Moser</a></p>
+<p>具体的格式可以参考MDN的一个说明<a class="link"   href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format%E3%80%82" >https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format。<i class="fas fa-external-link-alt"></i></a></p>
+<p>以上只是一个抽象的HTTPS的一个工作流程，实际上SSL/TLS所做的工作远不止这这些，更详细的解释请参考这篇文章：<a class="link"   href="https://infoq.cn/article/HTTPS-Connection-Jeff-Moser" >https://infoq.cn/article/HTTPS-Connection-Jeff-Moser<i class="fas fa-external-link-alt"></i></a></p>
 <p>如有错误之处，欢迎指正！</p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><blockquote>
-<p>SSL/TLS：<a href="https://en.wikipedia.org/wiki/Transport_Layer_Security">https://en.wikipedia.org/wiki/Transport_Layer_Security</a></p>
+<p>SSL/TLS：<a class="link"   href="https://en.wikipedia.org/wiki/Transport_Layer_Security" >https://en.wikipedia.org/wiki/Transport_Layer_Security<i class="fas fa-external-link-alt"></i></a></p>
 </blockquote>
 <blockquote>
-<p>IETF：<a href="https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force">https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force</a></p>
+<p>IETF：<a class="link"   href="https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force" >https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force<i class="fas fa-external-link-alt"></i></a></p>
 </blockquote>
 <blockquote>
-<p>HTTPS：<a href="https://en.wikipedia.org/wiki/HTTPS">https://en.wikipedia.org/wiki/HTTPS</a></p>
+<p>HTTPS：<a class="link"   href="https://en.wikipedia.org/wiki/HTTPS" >https://en.wikipedia.org/wiki/HTTPS<i class="fas fa-external-link-alt"></i></a></p>
 </blockquote>
 <blockquote>
-<p>HTTPS 连接最初的若干毫秒：<a href="http://www.infoq.com/cn/articles/HTTPS-Connection-Jeff-Moser">http://www.infoq.com/cn/articles/HTTPS-Connection-Jeff-Moser</a></p>
+<p>HTTPS 连接最初的若干毫秒：<a class="link"   href="http://www.infoq.com/cn/articles/HTTPS-Connection-Jeff-Moser" >http://www.infoq.com/cn/articles/HTTPS-Connection-Jeff-Moser<i class="fas fa-external-link-alt"></i></a></p>
 </blockquote>
 <blockquote>
-<p>HTTPS on Stack Overflow: The End of a Long Road：<a href="https://nickcraver.com/blog/2017/05/22/https-on-stack-overflow/">https://nickcraver.com/blog/2017/05/22/https-on-stack-overflow/</a></p>
+<p>HTTPS on Stack Overflow: The End of a Long Road：<a class="link"   href="https://nickcraver.com/blog/2017/05/22/https-on-stack-overflow/" >https://nickcraver.com/blog/2017/05/22/https-on-stack-overflow/<i class="fas fa-external-link-alt"></i></a></p>
 </blockquote>
 <blockquote>
-<p>SSL/TLS部署最佳实践：<a href="https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices">https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices</a></p>
+<p>SSL/TLS部署最佳实践：<a class="link"   href="https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices" >https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices<i class="fas fa-external-link-alt"></i></a></p>
 </blockquote>
 <blockquote>
-<p>HTTP Over TLS：<a href="https://tools.ietf.org/html/rfc2818">https://tools.ietf.org/html/rfc2818</a></p>
+<p>HTTP Over TLS：<a class="link"   href="https://tools.ietf.org/html/rfc2818" >https://tools.ietf.org/html/rfc2818<i class="fas fa-external-link-alt"></i></a></p>
 </blockquote>
 <blockquote>
-<p>SSLKEYLOGFILE：<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format">https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format</a></p>
+<p>SSLKEYLOGFILE：<a class="link"   href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format" >https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format<i class="fas fa-external-link-alt"></i></a></p>
 </blockquote>
 ]]></content>
       <categories>
@@ -5879,22 +5879,22 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
     <content><![CDATA[<a id="more"></a>
 
 <h3 id="pip国内源"><a href="#pip国内源" class="headerlink" title="pip国内源"></a>pip国内源</h3><blockquote>
-<p>阿里云 <a href="https://mirrors.aliyun.com/pypi/simple/">https://mirrors.aliyun.com/pypi/simple/</a></p>
+<p>阿里云 <a class="link"   href="https://mirrors.aliyun.com/pypi/simple/" >https://mirrors.aliyun.com/pypi/simple/<i class="fas fa-external-link-alt"></i></a></p>
 </blockquote>
 <blockquote>
-<p>中国科技大学 <a href="https://pypi.mirrors.ustc.edu.cn/simple/">https://pypi.mirrors.ustc.edu.cn/simple/</a> </p>
+<p>中国科技大学 <a class="link"   href="https://pypi.mirrors.ustc.edu.cn/simple/" >https://pypi.mirrors.ustc.edu.cn/simple/<i class="fas fa-external-link-alt"></i></a> </p>
 </blockquote>
 <blockquote>
-<p>豆瓣(douban) <a href="https://pypi.douban.com/simple/">https://pypi.douban.com/simple/</a> </p>
+<p>豆瓣(douban) <a class="link"   href="https://pypi.douban.com/simple/" >https://pypi.douban.com/simple/<i class="fas fa-external-link-alt"></i></a> </p>
 </blockquote>
 <blockquote>
-<p>清华大学 <a href="https://pypi.tuna.tsinghua.edu.cn/simple/">https://pypi.tuna.tsinghua.edu.cn/simple/</a></p>
+<p>清华大学 <a class="link"   href="https://pypi.tuna.tsinghua.edu.cn/simple/" >https://pypi.tuna.tsinghua.edu.cn/simple/<i class="fas fa-external-link-alt"></i></a></p>
 </blockquote>
 <blockquote>
-<p>中国科学技术大学 <a href="http://pypi.mirrors.ustc.edu.cn/simple/">http://pypi.mirrors.ustc.edu.cn/simple/</a></p>
+<p>中国科学技术大学 <a class="link"   href="http://pypi.mirrors.ustc.edu.cn/simple/" >http://pypi.mirrors.ustc.edu.cn/simple/<i class="fas fa-external-link-alt"></i></a></p>
 </blockquote>
 <h3 id="如果是使用conda来安装，-执行这两条命令，可以将国内镜像源加入config文件"><a href="#如果是使用conda来安装，-执行这两条命令，可以将国内镜像源加入config文件" class="headerlink" title="如果是使用conda来安装， 执行这两条命令，可以将国内镜像源加入config文件"></a>如果是使用conda来安装， 执行这两条命令，可以将国内镜像源加入config文件</h3><h5 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h5><blockquote>
-<p>conda config –add channels <a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/">https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</a></p>
+<p>conda config –add channels <a class="link"   href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/" >https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/<i class="fas fa-external-link-alt"></i></a></p>
 </blockquote>
 <blockquote>
 <p>conda config –set show_channel_urls yes</p>
@@ -5903,7 +5903,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p>conda config –get channels </p>
 </blockquote>
 <blockquote>
-<p>conda config –add channels <a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/">https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</a></p>
+<p>conda config –add channels <a class="link"   href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/" >https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/<i class="fas fa-external-link-alt"></i></a></p>
 </blockquote>
 ]]></content>
       <categories>
@@ -6260,27 +6260,27 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p>选择要优化的内容以及何时优化，你可以在“软件质量”和“开发速度”之间移动滑块。</p>
 <p>人们无意识地重复说名言——“过早的优化是万恶之源”，但他们错过了它的主要内容。</p>
 <p>“程序员浪费了大量的时间来思考或者担心程序中非关键部分的速度，而这些效率的尝试实际上在考虑调试和维护时会产生很大的负面影响。我们应该忘记为了小的性能使用的97％的时间：过早的优化是万恶之源，但我们不应该在这个关键的3％中放弃我们的优化机会。“ - Knuth</p>
-<p>附：https : //<a href="http://www.youtube.com/watch?time_continue=429&amp;v=RT46MpK39rQ">www.youtube.com/watch?time_continue=429&amp;v=RT46MpK39rQ</a></p>
+<p>附：https : //<a class="link"   href="http://www.youtube.com/watch?time_continue=429&amp;v=RT46MpK39rQ" >www.youtube.com/watch?time_continue=429&amp;v=RT46MpK39rQ<i class="fas fa-external-link-alt"></i></a></p>
 <ul>
 <li>不要忽视简单的优化</li>
 <li>更多的算法和数据结构知识使得更多的优化变得“容易”或“明显”</li>
 </ul>
 <p>“你应该优化吗？”是的，但是只有当问题很重要时，程序真的太慢了​​，并且能够在保证正确性，稳健性和清晰度的同时变得更快。“ - 编程实践，Kernighan and Pike</p>
-<p><a href="http://bitfunnel.org/strangeloop">BitFunnel性能评估</a> 有一些数字可以使这种权衡更加明确。想象一下假设搜索引擎需要跨越多个数据中心的30,000台机器，这些机器每年的成本约为1,000美元。如果你可以将软件的速度提高一倍，这可以为公司节省每年1500万美元。即使只有一个开发人员花费整整一年时间才能将性能提高也只会付出1％的代价。</p>
+<p><a class="link"   href="http://bitfunnel.org/strangeloop" >BitFunnel性能评估<i class="fas fa-external-link-alt"></i></a> 有一些数字可以使这种权衡更加明确。想象一下假设搜索引擎需要跨越多个数据中心的30,000台机器，这些机器每年的成本约为1,000美元。如果你可以将软件的速度提高一倍，这可以为公司节省每年1500万美元。即使只有一个开发人员花费整整一年时间才能将性能提高也只会付出1％的代价。</p>
 <p>在绝大多数情况下，程序的大小和速度不是问题。最简单的优化不必这样做。第二个最简单的优化就是购买更快的硬件。</p>
 <p>如果你决定要改变你的程序，请继续阅读。</p>
 <h2 id="如何优化"><a href="#如何优化" class="headerlink" title="如何优化"></a>如何优化</h2><h3 id="优化工作流程"><a href="#优化工作流程" class="headerlink" title="优化工作流程"></a>优化工作流程</h3><p>在介绍具体细节之前，我们先谈谈优化的一般过程。</p>
 <p>优化是一种重构形式。但是，每一步不是改进源代码的某些方面（代码重复，清晰度等），而是可以提高性能的某些方面：降低CPU，内存使用率，延迟等。这种改进通常以可读性为代价。这意味着除了一套全面的单元测试（以确保你的更改没有破坏任何内容）之外，你还需要一套很好的基准测试，以确保您的更改对性能产生预期的影响。你必须能够验证您的更改是否真的在降低CPU。有时候你认为会改善性能的变化实际上会变成零或负变化。在这些情况下，务必确保撤消修改的程序。</p>
-<p><cite><a href="https://stackoverflow.com/questions/184618/what-is-the-best-comment-in-source-code-you-have-ever-encountered">源代码中遇到过的最好的评论是什么？- Stack Overflow</a></cite></p>
+<p><cite><a class="link"   href="https://stackoverflow.com/questions/184618/what-is-the-best-comment-in-source-code-you-have-ever-encountered" >源代码中遇到过的最好的评论是什么？- Stack Overflow<i class="fas fa-external-link-alt"></i></a></cite></p>
 <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//亲爱的维护者:</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//当你完成试图“优化”这个程序，</span></span><br><span class="line"><span class="comment">//并且已经意识到了什么可怕的错误时，</span></span><br><span class="line"><span class="comment">//请增加以下计数器作为给后人的警告：</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//total_hours_wasted_here = 42</span></span><br><span class="line"><span class="comment">//</span></span><br></pre></td></tr></table></figure>
 
-<p>你使用的基准测试必须正确，并为代表性工作负载提供可重复的数字。如果单个的运行差异太大，则会使得小的改进更难以发现。你将需要使用<a href="https://golang.org/x/perf/benchstat">benchstat</a>或等效的统计测试，而不能只是用眼睛去看(请注意，使用统计测试无论如何都是一个好主意)。应该记录运行基准测试的步骤，并且应该向存储库提交任何自定义脚本和工具，并提供如何运行它们的说明。要注意需要很长时间才能运行的大型基准测试套件:它会使开发迭代变慢。</p>
+<p>你使用的基准测试必须正确，并为代表性工作负载提供可重复的数字。如果单个的运行差异太大，则会使得小的改进更难以发现。你将需要使用<a class="link"   href="https://golang.org/x/perf/benchstat" >benchstat<i class="fas fa-external-link-alt"></i></a>或等效的统计测试，而不能只是用眼睛去看(请注意，使用统计测试无论如何都是一个好主意)。应该记录运行基准测试的步骤，并且应该向存储库提交任何自定义脚本和工具，并提供如何运行它们的说明。要注意需要很长时间才能运行的大型基准测试套件:它会使开发迭代变慢。</p>
 <p>还要注意，任何可以测量的东西都可以优化。确保你正在衡量正确的事情。</p>
 <p>下一步是决定你正在优化什么。如果目标是改进CPU，那么什么是可接受的速度。你想要将当前的性能提高2倍吗？10倍？你能否说它是“小于时间T的大小为N的问题”？你想减少内存使用量吗？多少钱？对于内存使用情况的变化，可以接受的速度有多慢？你愿意放弃什么来换取较低的空间需求？</p>
-<p>优化服务延迟是一个棘手的问题。整本书都是关于如何对Web服务器进行性能测试的。主要问题是：对于单个函数，对于给定的问题规模，性能相当一致。对于webservices，你没有一个单一的性能数字。一个适当的Web服务基准套件将为给定的需求/秒级别提供延迟分布。这篇演讲很好地概述了Gil Tene的一些问题：<a href="https://youtu.be/lJ8ydIuPFeU">“如何不去测量延迟” by Gil Tene</a></p>
+<p>优化服务延迟是一个棘手的问题。整本书都是关于如何对Web服务器进行性能测试的。主要问题是：对于单个函数，对于给定的问题规模，性能相当一致。对于webservices，你没有一个单一的性能数字。一个适当的Web服务基准套件将为给定的需求/秒级别提供延迟分布。这篇演讲很好地概述了Gil Tene的一些问题：<a class="link"   href="https://youtu.be/lJ8ydIuPFeU" >“如何不去测量延迟” by Gil Tene<i class="fas fa-external-link-alt"></i></a></p>
 <p>TODO：请参阅后面的关于优化Web服务的部分</p>
 <p>绩效目标必须具体。你会（几乎）总是能够更快地做出一些事情。优化往往是一个收益递减的游戏。你需要知道何时停止。你要付出多少努力才能完成最后一点工作。你愿意做出这样的代码是多么难以维护？</p>
-<p>Dan Luu之前提到的<a href="http://bitfunnel.org/strangeloop">BitFunnel性能评估</a>的演讲显示了一个使用粗略计算来确定目标性能数据是否合理的例子。</p>
+<p>Dan Luu之前提到的<a class="link"   href="http://bitfunnel.org/strangeloop" >BitFunnel性能评估<i class="fas fa-external-link-alt"></i></a>的演讲显示了一个使用粗略计算来确定目标性能数据是否合理的例子。</p>
 <p>TODO：编程珠玑有“Fermi Problems”。从Jeff Dean’s 幻灯片可以了解</p>
 <p>对于绿地开发，你不应该把所有的基准和性能数字都留到最后。很容易说“我们稍后会修复”，但如果性能非常重要，那么从一开始就将是一个设计考虑因素。在解决性能问题时所需的任何重大体系结构更改在截止日期前将过于冒险。请注意，在开发过程中，重点应放在合理的程序设计，算​​法和数据结构上。在更低层次的堆栈优化应该等到开发周期晚些时候才能获得更完整的系统性能视图。你在系统不完整时执行的任何完整系统配置文件都会对完成系统中瓶颈的位置给出偏斜视图。</p>
 <p>TODO：如何避免/发现软件写得不好的情况下的“凌迟”。</p>
@@ -6291,9 +6291,9 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p>良好的性能工作需要从系统设计，网络，硬件(CPU，缓存，存储)，算法，调整和调试等多个不同层面的知识。在时间和资源有限的情况下，考虑哪个级别能够提供最大的改进:它并不总是算法或程序调优。</p>
 <p>一般而言，优化应该从上到下进行。系统级别的优化将比表达级别的影响更大。确保你在适当的水平上解决问题。</p>
 <p>本书主要讨论如何减少CPU使用率，减少内存使用量并减少延迟。很高兴指出你很少能做到这三点。也许CPU时间更快，但现在你的程序使用更多的内存。也许你需要减少内存空间，但现在该程序需要更长的时间。</p>
-<p><a href="https://en.wikipedia.org/wiki/Amdahl%27s_law">阿姆达尔定律</a>告诉我们要关注瓶颈。如果你将运行时间仅占5％的例程速度提高一倍，那么整个挂钟的速度只有2.5％。另一方面，将80％的时间加速10％的例程将使运行时间提高近8％。配置文件将有助于确定实际花费的时间。</p>
+<p><a class="link"   href="https://en.wikipedia.org/wiki/Amdahl%27s_law" >阿姆达尔定律<i class="fas fa-external-link-alt"></i></a>告诉我们要关注瓶颈。如果你将运行时间仅占5％的例程速度提高一倍，那么整个挂钟的速度只有2.5％。另一方面，将80％的时间加速10％的例程将使运行时间提高近8％。配置文件将有助于确定实际花费的时间。</p>
 <p>优化时，你想减少CPU必须完成的工作量。Quicksort比气泡排序更快，因为它能以更少的步骤解决相同的问题(排序)。这是一个更高效的算法。你已经减少了CPU完成相同任务所需完成的工作。</p>
-<p>像编译器优化一样，程序调优通常只会在整个运行时间中造成一点小小的负担。大的胜利几乎总是来自算法改变或数据结构的改变，这是你的程序组织方式的根本转变。编译器技术有所改进，但速度很慢。Proebsting定律表明，编译器每18 年的性能翻倍，这与摩尔定律(稍微误解了解释)形成鲜明对比，该定律使处理器性能每18 个月翻一番。算法改进在更大的范围内工作。从1991年到2008年，混合器整数规划算法提高了30,000倍 有关更具体的示例，请考虑<a href="https://medium.com/@buckhx/unwinding-uber-s-most-efficient-service-406413c5871d">此故障</a>取代优步博客文章中描述的蛮力地理空间算法，使用更适合于所提交任务的更专业的算法。没有编译器开关可以提供相同的性能提升。</p>
+<p>像编译器优化一样，程序调优通常只会在整个运行时间中造成一点小小的负担。大的胜利几乎总是来自算法改变或数据结构的改变，这是你的程序组织方式的根本转变。编译器技术有所改进，但速度很慢。Proebsting定律表明，编译器每18 年的性能翻倍，这与摩尔定律(稍微误解了解释)形成鲜明对比，该定律使处理器性能每18 个月翻一番。算法改进在更大的范围内工作。从1991年到2008年，混合器整数规划算法提高了30,000倍 有关更具体的示例，请考虑<a class="link"   href="https://medium.com/@buckhx/unwinding-uber-s-most-efficient-service-406413c5871d" >此故障<i class="fas fa-external-link-alt"></i></a>取代优步博客文章中描述的蛮力地理空间算法，使用更适合于所提交任务的更专业的算法。没有编译器开关可以提供相同的性能提升。</p>
 <p>TODO：在gttse07.pdf中优化浮点FFT和MMM算法的差异</p>
 <p>分析器可能会告诉你，大量的时间都花在了特定的例程上。这可能是一个昂贵的例程，或者它可能是一个便宜的例程，只是被调用许多次。你可以先看看是否可以减少调用的次数或完全不调用，而不是立即尝试优化这个例程。我们将在下一节讨论更具体的优化策略。</p>
 <p>三个优化问题:</p>
@@ -6305,10 +6305,10 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <h2 id="具体的优化技巧"><a href="#具体的优化技巧" class="headerlink" title="具体的优化技巧"></a>具体的优化技巧</h2><p>Jon Bentley在1982年的作品“编写高效程序”将程序优化视为一个工程问题:基准。分析。提高。校验。迭代。他的一些技巧现在由编译器自动完成。程序员的工作是使用编译器无法做到的转换。</p>
 <p>本书的摘要如下:</p>
 <ul>
-<li><a href="http://www.crowl.org/lawrence/programming/Bentley82.html">http://www.crowl.org/lawrence/programming/Bentley82.html</a></li>
-<li><a href="http://www.geoffprewett.com/BookReviews/WritingEfficientPrograms.html">http://www.geoffprewett.com/BookReviews/WritingEfficientPrograms.html</a></li>
+<li><a class="link"   href="http://www.crowl.org/lawrence/programming/Bentley82.html" >http://www.crowl.org/lawrence/programming/Bentley82.html<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="http://www.geoffprewett.com/BookReviews/WritingEfficientPrograms.html" >http://www.geoffprewett.com/BookReviews/WritingEfficientPrograms.html<i class="fas fa-external-link-alt"></i></a></li>
 </ul>
-<p>和程序调整规则:<br><a href="https://web.archive.org/web/20080513070949/http://www.cs.bell-labs.com/cm/cs/pearls/apprules.html">https://web.archive.org/web/20080513070949/http://www.cs.bell-labs.com/cm/cs/pearls/apprules.html</a></p>
+<p>和程序调整规则:<br><a class="link"   href="https://web.archive.org/web/20080513070949/http://www.cs.bell-labs.com/cm/cs/pearls/apprules.html" >https://web.archive.org/web/20080513070949/http://www.cs.bell-labs.com/cm/cs/pearls/apprules.html<i class="fas fa-external-link-alt"></i></a></p>
 <p>在考虑对程序进行更改时，有两个基本选项:你可以更改数据，也可以更改代码。</p>
 <h3 id="数据的更改"><a href="#数据的更改" class="headerlink" title="数据的更改"></a>数据的更改</h3><p>改变你的数据意味着增加或改变你正在处理的数据的表示。从性能角度来看，其中一些最终会改变与数据结构的不同方面相关的O()。</p>
 <p>增加数据结构的想法:</p>
@@ -6328,9 +6328,9 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li>即使是单个项目也可以帮助(日志文件时间解析示例)</li>
 </ul>
 <p>TODO:“缓存”可能不是键值对，只是指向你工作的地方。这可以像“搜索手指”一样简单</p>
-<p>这些都是数据结构层面“做更少工作”的明确例子。他们都花费空间。大多数情况下，如果你针对CPU进行优化，程序将使用更多的内存。这是经典的<a href="https://en.wikipedia.org/wiki/Space%E2%80%93time_tradeoff">时空交易</a></p>
+<p>这些都是数据结构层面“做更少工作”的明确例子。他们都花费空间。大多数情况下，如果你针对CPU进行优化，程序将使用更多的内存。这是经典的<a class="link"   href="https://en.wikipedia.org/wiki/Space%E2%80%93time_tradeoff" >时空交易<i class="fas fa-external-link-alt"></i></a></p>
 <p>如果你的程序使用太多的内存，也可以换个方式。减少空间使用量以换取更多计算。而不是存储的东西，每次计算它们。你还可以压缩内存中的数据，并在需要时随时对其进行解压缩。</p>
-<p><a href="https://gamehacking.org/faqs/Small_Memory_Software.pdf">小内存软件</a>是一本网上可获取的书籍，涵盖了减少程序使用内存空间的技术。虽然它最初是针对嵌入式开发人员编写的，但这些想法适用于处理大量数据的现代硬件的程序。</p>
+<p><a class="link"   href="https://gamehacking.org/faqs/Small_Memory_Software.pdf" >小内存软件<i class="fas fa-external-link-alt"></i></a>是一本网上可获取的书籍，涵盖了减少程序使用内存空间的技术。虽然它最初是针对嵌入式开发人员编写的，但这些想法适用于处理大量数据的现代硬件的程序。</p>
 <ul>
 <li><p>重新排列你的数据<br>  消除结构填充。删除额外的字段。使用较小的数据类型</p>
 </li>
@@ -6341,7 +6341,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 </ul>
 <p>我们稍后会详细讨论数据布局。</p>
 <p>现代计算机和存储器层次结构使空间/时间的权衡不太明确。查找表很容易在内存中“远离”(因此访问成本很高)，使得每次需要时重新计算一次值都会更快。</p>
-<p>这也意味着基准测试通常会显示由于缓存争用而导致生产系统无法实现的改进(例如，查找表在基准测试期间位于处理器缓存中，但在真实系统中使用时总是会被“真实数据”冲刷。哈希表实际上直接解决了这个问题，比较了满足和无约束的处理器缓存上的性能。参见<a href="https://arxiv.org/pdf/1406.2294.pdf">Jump Hash paper</a>论文中的图4和图5。</p>
+<p>这也意味着基准测试通常会显示由于缓存争用而导致生产系统无法实现的改进(例如，查找表在基准测试期间位于处理器缓存中，但在真实系统中使用时总是会被“真实数据”冲刷。哈希表实际上直接解决了这个问题，比较了满足和无约束的处理器缓存上的性能。参见<a class="link"   href="https://arxiv.org/pdf/1406.2294.pdf" >Jump Hash paper<i class="fas fa-external-link-alt"></i></a>论文中的图4和图5。</p>
 <p>TODO:如何模拟满足的缓存，显示增量成本</p>
 <p>另一个要考虑的方面是数据传输时间。通常，网络和磁盘访问非常缓慢，因此能够加载压缩块的速度将比获取数据后解压缩数据所需的额外CPU时间快得多。一如既往，基准。二进制格式通常比文本格式更小且更快解析，但代价是不再是人类可读的格式。</p>
 <p>对于数据传输，转移到一个不那么有趣的协议，或者增加API以允许部分查询。例如，增量查询而不是每次都被迫获取整个数据集。</p>
@@ -6367,10 +6367,10 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li><p>O（b ^ n），O（n！）：指数上升<br>建议：如果你有十几个或两个数据点，祝您好运</p>
 </li>
 </ul>
-<p>链接:<a href="http://bigocheatsheet.com/">http://bigocheatsheet.com</a></p>
+<p>链接:<a class="link"   href="http://bigocheatsheet.com/" >http://bigocheatsheet.com<i class="fas fa-external-link-alt"></i></a></p>
 <p>假设你需要搜索未分类的数据集。“我应该用二分搜索”，你知道一个二分搜索O(log n)比O(n)线性扫描快。但是，二分查找需要对数据进行排序，这意味着你需要先对它进行排序，这将花费O(n log n)时间。如果你正在进行大量搜索，那么分类的前期成本将会得到回报。另一方面，如果你主要做查询，也许有一个数组是错误的选择，你最好支付O(1)查找地图的代价。</p>
 <p>选择最简单的合理数据结构并继续。这是用于编写“非慢速软件”的CS 101。这应该是您的默认开发模式。如果您知道需要随机访问，请不要选择链接列表。如果您知道需要按顺序遍历，请不要使用地图。需求变化，你不能总是猜测未来。对工作量做出合理的猜测。</p>
-<p><a href="http://daslab.seas.harvard.edu/rum-conjecture/">http://daslab.seas.harvard.edu/rum-conjecture/</a></p>
+<p><a class="link"   href="http://daslab.seas.harvard.edu/rum-conjecture/" >http://daslab.seas.harvard.edu/rum-conjecture/<i class="fas fa-external-link-alt"></i></a></p>
 <p>类似问题的数据结构在做一件工作时会有所不同。随着插入的发生，二叉树每次排序一次。未排序的数组插入速度更快但未排序:最后，“敲定”你需要一次完成排序。</p>
 <p>当编写一个供其他人使用的包时，避免每个用例都要优先考虑的诱惑。这将导致代码不可读。按设计的数据结构实际上是单一用途的。你既不能读懂头脑，也不能预测未来。如果用户说“你的软件包对于这个用例太慢”，一个合理的答案可能是“然后在这里使用这个软件包”。一揽子计划应该“做得很好”。</p>
 <p>有时混合数据结构将提供你需要的性能改进。例如，通过分段数据，你可以将搜索范围限制在一个存储桶中。这仍然支付O(n)的理论成本，但常数会更小。当我们进行编程调整时，我们将重新审视这些调整。</p>
@@ -6393,7 +6393,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p>另请注意，一旦部署到生产环境并且在40核心服务器上达到25万次/秒，笔记本电脑上可能看不到的一些问题就可以看到。</p>
 <p>编写好的基准测试可能很困难。<br>TODO：microbenchmarks显示速度减慢但宏观（现实世界）性能提高的情况。</p>
 <ul>
-<li><a href="https://timharris.uk/misc/five-ways.pdf">https://timharris.uk/misc/five-ways.pdf</a></li>
+<li><a class="link"   href="https://timharris.uk/misc/five-ways.pdf" >https://timharris.uk/misc/five-ways.pdf<i class="fas fa-external-link-alt"></i></a></li>
 </ul>
 <h2 id="程序调整"><a href="#程序调整" class="headerlink" title="程序调整"></a>程序调整</h2><p>程序调优曾经是一种艺术形式，但编译器变得更好。所以现在事实证明，编译器可以比复杂的代码更好地直接优化代码。Go编译器在匹配gcc和clang方面还有很长的路要走，但这确实意味着在调整时需要小心，特别是在升级Go版本时不要变得更糟。一旦编译器得到改进，肯定会出现一些针对缺少特定编译器优化工作的调整。</p>
 <p>TODO：https : //github.com/golang/go/commit/9eb219480e8de08d380ee052b7bff293856955f8）</p>
@@ -6431,9 +6431,9 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <ul>
 <li>如果可能，请保留旧的实现以进行测试。</li>
 <li>如果不可能，则生成足够的黄金测试用例来比较输出。<br>“足够”意味着包括边缘案例，因为这些可能会受到调优的影响，因为您旨在提高一般情况下的性能。</li>
-<li>利用数学身份：<br><a href="https://github.com/golang/go/commit/ed6c6c9c11496ed8e458f6e0731103126ce60223">https://github.com/golang/go/commit/ed6c6c9c11496ed8e458f6e0731103126ce60223</a><br><a href="https://gist.github.com/dgryski/67e6a7ff94c3a1add30eb26ec0ad8b0f">https://gist.github.com/dgryski/67e6a7ff94c3a1add30eb26ec0ad8b0f</a><ul>
+<li>利用数学身份：<br><a class="link"   href="https://github.com/golang/go/commit/ed6c6c9c11496ed8e458f6e0731103126ce60223" >https://github.com/golang/go/commit/ed6c6c9c11496ed8e458f6e0731103126ce60223<i class="fas fa-external-link-alt"></i></a><br><a class="link"   href="https://gist.github.com/dgryski/67e6a7ff94c3a1add30eb26ec0ad8b0f" >https://gist.github.com/dgryski/67e6a7ff94c3a1add30eb26ec0ad8b0f<i class="fas fa-external-link-alt"></i></a><ul>
 <li>与加法相乘</li>
-<li>使用WolframAlpha，Maxima，sympy和类似工具来专门化，优化或创建查找表<br>（另外，<a href="https://users.ece.cmu.edu/~franzf/papers/gttse07.pdf%EF%BC%89">https://users.ece.cmu.edu/~franzf/papers/gttse07.pdf）</a></li>
+<li>使用WolframAlpha，Maxima，sympy和类似工具来专门化，优化或创建查找表<br>（另外，<a class="link"   href="https://users.ece.cmu.edu/~franzf/papers/gttse07.pdf%EF%BC%89" >https://users.ece.cmu.edu/~franzf/papers/gttse07.pdf）<i class="fas fa-external-link-alt"></i></a></li>
 <li>“只为你使用的东西付费，而不是你可以使用的东西”</li>
 <li>零只是数组的一部分，而不是整个事物</li>
 <li>最好以微小的步骤完成，一次只做几个陈述</li>
@@ -6474,18 +6474,18 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li>确定你的表现目标，并确认你没有达到他们的目标</li>
 <li>配置文件来识别要改进的区域。</li>
 <li>这可以是CPU，堆分配或goroutine阻塞。</li>
-<li>基准来确定您的解决方案使用内置基准测试框架提供的加速<a href="http://golang.org/pkg/testing/">http://golang.org/pkg/testing/</a></li>
+<li>基准来确定您的解决方案使用内置基准测试框架提供的加速<a class="link"   href="http://golang.org/pkg/testing/" >http://golang.org/pkg/testing/<i class="fas fa-external-link-alt"></i></a></li>
 <li>确保您在目标操作系统和体系结构上进行正确的基准测试。</li>
 <li>之后再次进行配置以验证问题已消失</li>
-<li>使用<a href="https://godoc.org/golang.org/x/perf/benchstat">https://godoc.org/golang.org/x/perf/benchstat</a>或<a href="https://github.com/codahale/tinystat">https://github.com/codahale/tinystat</a>来验证一组时间“充分”不同，以便优化值得添加代码复杂性。</li>
-<li>使用<a href="https://github.com/tsenart/vegeta">https://github.com/tsenart/vegeta</a>负载测试http服务（+其他花哨的：k6，fortio，…）</li>
+<li>使用<a class="link"   href="https://godoc.org/golang.org/x/perf/benchstat" >https://godoc.org/golang.org/x/perf/benchstat<i class="fas fa-external-link-alt"></i></a>或<a class="link"   href="https://github.com/codahale/tinystat" >https://github.com/codahale/tinystat<i class="fas fa-external-link-alt"></i></a>来验证一组时间“充分”不同，以便优化值得添加代码复杂性。</li>
+<li>使用<a class="link"   href="https://github.com/tsenart/vegeta" >https://github.com/tsenart/vegeta<i class="fas fa-external-link-alt"></i></a>负载测试http服务（+其他花哨的：k6，fortio，…）</li>
 <li>确保你的延迟数字是有意义的</li>
 <li>第一步很重要。它会告诉您何时何地开始优化。更重要的是，它还会告诉你何时停止。几乎所有优化都会增加代码的复杂性以换取速度。而且你总是可以更快地编写代码。这是一个平衡的行为。</li>
 </ol>
 <h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><h3 id="介绍性分析"><a href="#介绍性分析" class="headerlink" title="介绍性分析"></a>介绍性分析</h3><p>一般适用于源代码的技术</p>
 <ol>
 <li>介绍pprof<ul>
-<li>Go工具pprof(<a href="https://github.com/google/pprof">https://github.com/google/pprof</a>)</li>
+<li>Go工具pprof(<a class="link"   href="https://github.com/google/pprof" >https://github.com/google/pprof<i class="fas fa-external-link-alt"></i></a>)</li>
 </ul>
 </li>
 <li>编写和运行(微)基准<ul>
@@ -6509,7 +6509,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li>一些更有趣的/先进的工具</li>
 <li>/x/perf中的其他工具</li>
 <li>perf（perf2pprof）</li>
-<li>英特尔vtune/amd codexl/instruments<br><a href="https://godoc.org/github.com/aclements/go-perf">https://godoc.org/github.com/aclements/go-perf</a></li>
+<li>英特尔vtune/amd codexl/instruments<br><a class="link"   href="https://godoc.org/github.com/aclements/go-perf" >https://godoc.org/github.com/aclements/go-perf<i class="fas fa-external-link-alt"></i></a></li>
 </ul>
 <h2 id="垃圾收集"><a href="#垃圾收集" class="headerlink" title="垃圾收集"></a>垃圾收集</h2><p>你不止一次支付内存分配。第一个显然是你分配它的时候。但是，每次垃圾收集运行时，你也要付出代价。</p>
 <p>减少回收再利用。 - @bboreham</p>
@@ -6537,14 +6537,14 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li>用于整数，字符串的特殊映射实现<ul>
 <li>byte/uint16的映射未优化; 改用切片。</li>
 <li>你可以使用math.Float{32,64}{from,}bits优化float64-optimized ，但要注意浮动平等问题</li>
-<li><a href="https://github.com/dgryski/go-gk/blob/master/exact.go">https://github.com/dgryski/go-gk/blob/master/exact.go</a> 据说快100倍; 需要基准测试</li>
+<li><a class="link"   href="https://github.com/dgryski/go-gk/blob/master/exact.go" >https://github.com/dgryski/go-gk/blob/master/exact.go<i class="fas fa-external-link-alt"></i></a> 据说快100倍; 需要基准测试</li>
 </ul>
 </li>
 <li>边界检查消除</li>
 <li>[]字节&lt;-&gt;字符串副本，Map优化</li>
 <li>双值的range将复制一个数组，使用sclice替代：<ul>
-<li><a href="https://play.golang.org/p/4b181zkB1O">https://play.golang.org/p/4b181zkB1O</a></li>
-<li><a href="https://github.com/mdempsky/rangerdanger">https://github.com/mdempsky/rangerdanger</a></li>
+<li><a class="link"   href="https://play.golang.org/p/4b181zkB1O" >https://play.golang.org/p/4b181zkB1O<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://github.com/mdempsky/rangerdanger" >https://github.com/mdempsky/rangerdanger<i class="fas fa-external-link-alt"></i></a></li>
 </ul>
 </li>
 <li>尽可能使用字符串连接而不是fmt.Sprintf; 运行时为它已经优化了例程</li>
@@ -6562,10 +6562,10 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li>string &lt;-&gt; slice 转换，[]byte &lt;-&gt; []uint32，…</li>
 <li>int到bool是不安全的hack (但 != 0是可以的)</li>
 <li>填充：<ul>
-<li><a href="https://dave.cheney.net/2015/10/09/padding-is-hard">https://dave.cheney.net/2015/10/09/padding-is-hard</a></li>
-<li><a href="http://www.catb.org/esr/structure-packing/#_go_and_rust">http://www.catb.org/esr/structure-packing/#_go_and_rust</a></li>
-<li><a href="https://golang.org/ref/spec#Size_and_alignment_guarantees">https://golang.org/ref/spec#Size_and_alignment_guarantees</a></li>
-<li><a href="https://github.com/dominikh/go-tools">https://github.com/dominikh/go-tools</a> 结构布局，结构布局优化</li>
+<li><a class="link"   href="https://dave.cheney.net/2015/10/09/padding-is-hard" >https://dave.cheney.net/2015/10/09/padding-is-hard<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="http://www.catb.org/esr/structure-packing/#_go_and_rust" >http://www.catb.org/esr/structure-packing/#_go_and_rust<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://golang.org/ref/spec#Size_and_alignment_guarantees" >https://golang.org/ref/spec#Size_and_alignment_guarantees<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="https://github.com/dominikh/go-tools" >https://github.com/dominikh/go-tools<i class="fas fa-external-link-alt"></i></a> 结构布局，结构布局优化</li>
 <li>通过Offsetof对结构布局进行编码以发现unsafe和asm破损</li>
 </ul>
 </li>
@@ -6587,8 +6587,8 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 </ul>
 </li>
 <li>序列化<ul>
-<li>encoding/gob - &gt; <a href="https://github.com/alecthomas/go_serialization_benchmarks">https://github.com/alecthomas/go_serialization_benchmarks</a></li>
-<li>protobuf - &gt; <a href="https://github.com/gogo/protobuf">https://github.com/gogo/protobuf</a></li>
+<li>encoding/gob - &gt; <a class="link"   href="https://github.com/alecthomas/go_serialization_benchmarks" >https://github.com/alecthomas/go_serialization_benchmarks<i class="fas fa-external-link-alt"></i></a></li>
+<li>protobuf - &gt; <a class="link"   href="https://github.com/gogo/protobuf" >https://github.com/gogo/protobuf<i class="fas fa-external-link-alt"></i></a></li>
 <li>所有格式都有权衡:选择一种符合你需要的编码空间，解码速度，语言/工具兼容性……</li>
 </ul>
 </li>
@@ -6697,7 +6697,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p>这将需要一些挖掘。你可能不想实现你找到的第一篇论文。</p>
 <ul>
 <li><p>确保你了解算法。这听起来很明显，但是否则无法进行调试。</p>
-<p><a href="https://blizzard.cs.uwaterloo.ca/keshav/home/Papers/data/07/paper-reading.pdf">https://blizzard.cs.uwaterloo.ca/keshav/home/Papers/data/07/paper-reading.pdf</a></p>
+<p><a class="link"   href="https://blizzard.cs.uwaterloo.ca/keshav/home/Papers/data/07/paper-reading.pdf" >https://blizzard.cs.uwaterloo.ca/keshav/home/Papers/data/07/paper-reading.pdf<i class="fas fa-external-link-alt"></i></a></p>
 </li>
 </ul>
 <p>一个良好的理解可能会让你从论文中提取关键的想法，并且可能将这个想法应用于你的问题，这可能比重新实现整个事情更简单。</p>
@@ -6715,8 +6715,8 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <p>还要注意GitHub上的其他实现：它们可能与您的bug相同（或不同）。</p>
 <p>有关此主题的其他资源：</p>
 <ul>
-<li><a href="https://www.youtube.com/watch?v=8eRx5Wo3xYA">https://www.youtube.com/watch?v=8eRx5Wo3xYA</a></li>
-<li><a href="http://codecapsule.com/2012/01/18/how-to-implement-a-paper/">http://codecapsule.com/2012/01/18/how-to-implement-a-paper/</a></li>
+<li><a class="link"   href="https://www.youtube.com/watch?v=8eRx5Wo3xYA" >https://www.youtube.com/watch?v=8eRx5Wo3xYA<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   href="http://codecapsule.com/2012/01/18/how-to-implement-a-paper/" >http://codecapsule.com/2012/01/18/how-to-implement-a-paper/<i class="fas fa-external-link-alt"></i></a></li>
 </ul>
 ]]></content>
       <categories>
@@ -7756,13 +7756,13 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
     <title>Git</title>
     <url>/2019/07/04/linux/git/</url>
     <content><![CDATA[<blockquote>
-<p>Git常用命令集合，Fork于<a href="https://github.com/git-tips/tips">tips</a>项目</p>
+<p>Git常用命令集合，Fork于<a class="link"   href="https://github.com/git-tips/tips" >tips<i class="fas fa-external-link-alt"></i></a>项目</p>
 </blockquote>
 <p>Git是一个 “分布式版本管理工具”，简单的理解版本管理工具：大家在写东西的时候都用过 “回撤” 这个功能，但是回撤只能回撤几步，假如想要找回我三天之前的修改，光用 “回撤” 是找不回来的。而 “版本管理工具” 能记录每次的修改，只要提交到版本仓库，你就可以找到之前任何时刻的状态（文本状态）。</p>
 <p>下面的内容就是列举了常用的 Git 命令和一些小技巧，可以通过 “页面内查找” 的方式进行快速查询：<code>Ctrl/Command+f</code>。</p>
 <a id="more"></a>
 
-<h2 id="开卷必读"><a href="#开卷必读" class="headerlink" title="开卷必读"></a>开卷必读</h2><p><em>如果之前未使用过 Git，可以学习 <a href="http://rogerdudler.github.io/git-guide/index.zh.html">Git 小白教程</a>入门</em></p>
+<h2 id="开卷必读"><a href="#开卷必读" class="headerlink" title="开卷必读"></a>开卷必读</h2><p><em>如果之前未使用过 Git，可以学习 <a class="link"   href="http://rogerdudler.github.io/git-guide/index.zh.html" >Git 小白教程<i class="fas fa-external-link-alt"></i></a>入门</em></p>
 <ol>
 <li><strong>一定要先测试命令的效果后</strong>，再用于工作环境中，以防造成不能弥补的后果！<strong>到时候别拿着砍刀来找我</strong></li>
 <li>所有的命令都在<code>git version 2.7.4 (Apple Git-66)</code>下测试通过</li>
@@ -7774,7 +7774,7 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 <li>commit-id：输出命令：<code>git log</code>，最上面那行 <code>commit xxxxxx</code>，后面的字符串就是 commit-id</li>
 </ul>
 </li>
-<li>如果喜欢这个项目，欢迎 Star、提交 Pr、<a href="https://github.com/521xueweihan/git-tips/issues">反馈问题</a>😊</li>
+<li>如果喜欢这个项目，欢迎 Star、提交 Pr、<a class="link"   href="https://github.com/521xueweihan/git-tips/issues" >反馈问题<i class="fas fa-external-link-alt"></i></a>😊</li>
 </ol>
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
 <li><a href="#%E5%B1%95%E7%A4%BA%E5%B8%AE%E5%8A%A9%E4%BF%A1%E6%81%AF">展示帮助信息</a></li>
@@ -7962,13 +7962,13 @@ HTTP不可以使用UDP，HTTP需要基于可靠的传输协议，而UDP不可靠
 
 <h2 id="查看两个星期内的改动"><a href="#查看两个星期内的改动" class="headerlink" title="查看两个星期内的改动"></a>查看两个星期内的改动</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git whatchanged --since=<span class="string">&#x27;2 weeks ago&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="把-A-分支的某一个-commit，放到-B-分支上"><a href="#把-A-分支的某一个-commit，放到-B-分支上" class="headerlink" title="把 A 分支的某一个 commit，放到 B 分支上"></a>把 A 分支的某一个 commit，放到 B 分支上</h2><p>这个过程需要 <code>cherry-pick</code> 命令，<a href="http://sg552.iteye.com/blog/1300713#bc2367928">参考</a></p>
+<h2 id="把-A-分支的某一个-commit，放到-B-分支上"><a href="#把-A-分支的某一个-commit，放到-B-分支上" class="headerlink" title="把 A 分支的某一个 commit，放到 B 分支上"></a>把 A 分支的某一个 commit，放到 B 分支上</h2><p>这个过程需要 <code>cherry-pick</code> 命令，<a class="link"   href="http://sg552.iteye.com/blog/1300713#bc2367928" >参考<i class="fas fa-external-link-alt"></i></a></p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git checkout &lt;branch-name&gt; &amp;&amp; git cherry-pick &lt;commit-id&gt;</span><br></pre></td></tr></table></figure>
 
 <h2 id="给-git-命令起别名"><a href="#给-git-命令起别名" class="headerlink" title="给 git 命令起别名"></a>给 git 命令起别名</h2><p>简化命令</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git config --global <span class="built_in">alias</span>.&lt;handle&gt; &lt;<span class="built_in">command</span>&gt;</span><br><span class="line"></span><br><span class="line">比如：git status 改成 git st，这样可以简化命令</span><br><span class="line"></span><br><span class="line">git config --global alias.st status</span><br></pre></td></tr></table></figure>
 
-<h2 id="存储当前的修改，但不用提交-commit"><a href="#存储当前的修改，但不用提交-commit" class="headerlink" title="存储当前的修改，但不用提交 commit"></a>存储当前的修改，但不用提交 commit</h2><p>详解可以参考<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137602359178794d966923e5c4134bc8bf98dfb03aea3000">廖雪峰老师的 git 教程</a></p>
+<h2 id="存储当前的修改，但不用提交-commit"><a href="#存储当前的修改，但不用提交-commit" class="headerlink" title="存储当前的修改，但不用提交 commit"></a>存储当前的修改，但不用提交 commit</h2><p>详解可以参考<a class="link"   href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137602359178794d966923e5c4134bc8bf98dfb03aea3000" >廖雪峰老师的 git 教程<i class="fas fa-external-link-alt"></i></a></p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git stash</span><br></pre></td></tr></table></figure>
 
 <h2 id="保存当前状态，包括-untracked-的文件"><a href="#保存当前状态，包括-untracked-的文件" class="headerlink" title="保存当前状态，包括 untracked 的文件"></a>保存当前状态，包括 untracked 的文件</h2><p>untracked 文件：新建的文件</p>

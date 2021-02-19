@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep team">
+    
+    <title>
+        
+            Shell技巧 |
+        
+        Keep Theme
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/logo.svg">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chazyu.com","root":"/","language":"zh-cn","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days age","week":"%s weeks age","month":"%s months age","year":"%s years age"};
+  </script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="南城旧梦" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">Shell技巧</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Keep team</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2019-07-08 02:02:56
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/linux/">linux</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <a id="more"></a>
+
+<h1 id="入参和默认变量"><a href="#入参和默认变量" class="headerlink" title="入参和默认变量"></a>入参和默认变量</h1><p>对于shell脚本而言，有些内容是专门用于处理参数的，他们都有特定的含义 ，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;root&#x2F;test.sh arg1 arg2</span><br><span class="line">$0  # 脚本名</span><br><span class="line">$1  # 第一个参数</span><br><span class="line">$2  # 第二个参数</span><br><span class="line">$#  # 脚本后面跟的参数个数</span><br><span class="line">$@  # 所有参数，并且可以被遍历</span><br><span class="line">$*  # 所有参数，且作为整体，和$*很像，但是有区别</span><br><span class="line">$$  # 当前脚本的进程ID</span><br><span class="line">$?  # 上一条命令的退出状态</span><br></pre></td></tr></table></figure>
+
+<h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><p>给变量赋值，使用等号即可，但是<em>等号两边千万不要有空格</em>，等号右边有空格的字符串也必须用引号引起来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arg1&#x3D;&quot;hello world&quot;  # 直接赋值</span><br><span class="line">unset arg1   # 取消赋值</span><br><span class="line">echo &quot;para1 is $arg1&quot;  # 调用变量</span><br><span class="line">echo &quot;para1 is $&#123;arg1&#125;&quot;  #调用变量</span><br></pre></td></tr></table></figure>
+
+<h1 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">a&#x3D;&#96;ls&#96;  # 直接执行</span><br><span class="line"># 或</span><br><span class="line">a&#x3D;$(a)</span><br><span class="line"></span><br><span class="line"># 计算</span><br><span class="line">echo &quot;1+1&#x3D;$((1+1))&quot;</span><br><span class="line"></span><br><span class="line"># 引用单条执行结果</span><br><span class="line">a&#x3D;&quot;ls&quot;</span><br><span class="line">echo &quot;$($a)&quot;</span><br><span class="line"></span><br><span class="line"># 引用多个执行结果</span><br><span class="line">a&#x3D;&quot;ls;pwd&quot;</span><br><span class="line">echo &quot;$(eval $a)&quot;  # 使用了eval，将a的内容都作为命令来执行。</span><br></pre></td></tr></table></figure>
+
+<h1 id="条件分支"><a href="#条件分支" class="headerlink" title="条件分支"></a>条件分支</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">if [ $? -eq 0 ];</span><br><span class="line">then</span><br><span class="line">    eho &quot;success&quot;</span><br><span class="line">elif [ $? -eq 1 ];</span><br><span class="line">then</span><br><span class="line">    echo &quot;failed,code is 1&quot;</span><br><span class="line">else</span><br><span class="line">    echo &quot;other code&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">name&#x3D;&quot;aa&quot;</span><br><span class="line">case $name in</span><br><span class="line">    &quot;aa&quot;)</span><br><span class="line">    echo &quot;name is aa&quot;</span><br><span class="line">    ;;</span><br><span class="line">    &quot;&quot;)</span><br><span class="line">    echo &quot;name is null&quot;</span><br><span class="line">    ;;</span><br><span class="line">    &quot;bb&quot;)</span><br><span class="line">    echo &quot;name is bb&quot;</span><br><span class="line">    ;;</span><br><span class="line">    *)</span><br><span class="line">    echo &quot;name is other&quot;</span><br><span class="line">    ;;</span><br><span class="line">esac</span><br><span class="line"></span><br><span class="line"># 多条件</span><br><span class="line"># -o或者||表示或。这里也有一些常见的条件判定。</span><br><span class="line">if [ 10 -gt 5 -o 10 -gt 4 ];then</span><br><span class="line">    echo &quot;10&gt;5 or 10&gt;4&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ 10 -gt 5 ] || [ 10 -gt 4 ];then</span><br><span class="line">    echo &quot;10&gt;5 or 10&gt;4&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h3><blockquote>
+<p>-o or 或者，同||<br>-a and 与，同&amp;&amp;<br>! 非</p>
+</blockquote>
+<h3 id="整数判断"><a href="#整数判断" class="headerlink" title="整数判断"></a>整数判断</h3><blockquote>
+<p>-eq 两数是否相等<br>-ne 两数是否不等<br>-gt 前者是否大于后者（greater then）<br>-lt 前面是否小于后者（less than）<br>-ge 前者是否大于等于后者（greater then or equal）<br>-le 前者是否小于等于后者（less than or equal）</p>
+</blockquote>
+<h3 id="字符串判断str1-exp-str2"><a href="#字符串判断str1-exp-str2" class="headerlink" title="字符串判断str1 exp str2"></a>字符串判断str1 exp str2</h3><blockquote>
+<p>-z “$str1” str1是否为空字符串<br>-n “$str1” str1是否不是空字符串<br>“$str1” == “$str2” str1是否与str2相等<br>“$str1” != “$str2” str1是否与str2不等<br>“$str1” =~ “str2” str1是否包含str2</p>
+</blockquote>
+<h3 id="文件目录判断：filename"><a href="#文件目录判断：filename" class="headerlink" title="文件目录判断：filename"></a>文件目录判断：filename</h3><blockquote>
+<p>-f $filename 是否为文件<br>-e $filename 是否存在<br>-d $filename 是否为目录<br>-s $filename 文件存在且不为空<br>! -s $filename 文件是否为空</p>
+</blockquote>
+<h1 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">#遍历输出脚本的参数</span><br><span class="line">for i in $@;do</span><br><span class="line">    echo $i</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for ((i &#x3D; 0 ; i &lt; 10 ; i++ ));do</span><br><span class="line">    echo $i</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for i in &#123;1..5&#125;;do</span><br><span class="line">    echo &quot;Welcome $i&quot;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">while[&quot;$ans&quot;!&#x3D;&quot;yes&quot;]</span><br><span class="line">do</span><br><span class="line">    read -p &quot;please input yes to exit loop:&quot; ans</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ans&#x3D;yes</span><br><span class="line">until[ $ans !&#x3D;&quot;yes&quot;]</span><br><span class="line">do</span><br><span class="line">    read -p &quot;please input yes to exit loop:&quot; ans</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for i in&#123;5..15..3&#125;;do</span><br><span class="line">    echo &quot;number is $i&quot;</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">myfunc()&#123;</span><br><span class="line">    echo &quot;hello world $1&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function myfunc()&#123;</span><br><span class="line">    echo &quot;hello world $1&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h1><p>通常函数的return返回值只支持0-255</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function myfunc()&#123;</span><br><span class="line">    local myresult&#x3D;&#39;some value&#39;</span><br><span class="line">    echo $myresult</span><br><span class="line">&#125;</span><br><span class="line">val&#x3D;$(myfunc) #val的值为some value</span><br></pre></td></tr></table></figure>
+
+<p>通过return的方式适用于判断函数的执行是否成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function myfunc()&#123;</span><br><span class="line">    #do something</span><br><span class="line">    return0</span><br><span class="line">&#125;</span><br><span class="line">if myfunc;then</span><br><span class="line">    echo &quot;success&quot;</span><br><span class="line">else</span><br><span class="line">    echo &quot;failed&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"># 这是一行注释</span><br><span class="line">:&#39;</span><br><span class="line">这是</span><br><span class="line">多行</span><br><span class="line">注释</span><br><span class="line">&#39;</span><br><span class="line">ls</span><br><span class="line">:&lt;&lt;EOF</span><br><span class="line">这也可以</span><br><span class="line">达到</span><br><span class="line">多行注释</span><br><span class="line">的目的</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h1 id="日志保存"><a href="#日志保存" class="headerlink" title="日志保存"></a>日志保存</h1><h3 id="方式一，将标准输出保存到文件中，打印标准错误："><a href="#方式一，将标准输出保存到文件中，打印标准错误：" class="headerlink" title="方式一，将标准输出保存到文件中，打印标准错误："></a>方式一，将标准输出保存到文件中，打印标准错误：</h3><blockquote>
+<p><code>./test.sh &gt; log.dat</code><br>这种情况下，如果命令执行出错，错误将会打印到控制台。所以如果你在程序中调用，这样将不会讲错误信息保存在日志中。</p>
+</blockquote>
+<h3 id="方式二，标准输出和标准错误都保存到日志文件中："><a href="#方式二，标准输出和标准错误都保存到日志文件中：" class="headerlink" title="方式二，标准输出和标准错误都保存到日志文件中："></a>方式二，标准输出和标准错误都保存到日志文件中：</h3><blockquote>
+<p><code>./test.sh &gt; log.dat 2&gt;&amp;1</code></p>
+</blockquote>
+<h3 id="方式三，保存日志文件的同时，也输出到控制台："><a href="#方式三，保存日志文件的同时，也输出到控制台：" class="headerlink" title="方式三，保存日志文件的同时，也输出到控制台："></a>方式三，保存日志文件的同时，也输出到控制台：</h3><blockquote>
+<p><code>./test.sh |tee log.dat</code></p>
+</blockquote>
+<h1 id="脚本执行"><a href="#脚本执行" class="headerlink" title="脚本执行"></a>脚本执行</h1><blockquote>
+<p><code>./test.sh</code> 直接执行<br><code>sh test.sh</code>  在子进程中执行<br><code>sh -x test.sh</code>  debug模式，会在终端打印执行到命令，适合调试<br><code>source test.sh</code> test.sh在父进程中执行<br><code>. test.sh</code> 不需要赋予执行权限，临时执行</p>
+</blockquote>
+<h1 id="脚本退出码"><a href="#脚本退出码" class="headerlink" title="脚本退出码"></a>脚本退出码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">function myfun()&#123;</span><br><span class="line">if[ $# -lt 2 ]</span><br><span class="line">then</span><br><span class="line">    echo &quot;para num error&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line">echo &quot;ok&quot;</span><br><span class="line">exit 2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if[ $# -lt 1 ]</span><br><span class="line">then</span><br><span class="line">    echo &quot;para num error&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">returnVal&#x3D;&#96;myfun aa&#96;</span><br><span class="line">echo &quot;end shell&quot;</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+
+<p>这里需要特别注意的一点是，使用 returnVal=`myfun aa`</p>
+<p>这样的句子执行函数，即便函数里面有exit，它也不会退出脚本执行，而只是会退出该函数，这是因为exit是退出当前进程，而这种方式执行函数，相当于fork了一个子进程，因此不会退出当前脚本。最终结果就会看到，无论你的函数参数是什么最后end shell都会打印。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2019/07/08/linux/top/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">top命令分析</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2019/07/04/python/python_sort/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">python实现排序算法</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Keep team</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.0</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+<script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/header-shrink.js"></script><script src="/js/back2top.js"></script><script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>

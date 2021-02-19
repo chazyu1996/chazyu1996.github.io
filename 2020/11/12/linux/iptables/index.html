@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep team">
+    
+    <title>
+        
+            iptables四个表与五个链 |
+        
+        Keep Theme
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/logo.svg">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"chazyu.com","root":"/","language":"zh-cn","path":"search.xml"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days age","week":"%s weeks age","month":"%s months age","year":"%s years age"};
+  </script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="南城旧梦" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">iptables四个表与五个链</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Keep team</span>
+                        
+                            <span class="author-label">Lv6</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2020-11-12 20:02:19
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/linux/">linux</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>netfilter/iptables IP 信息包过滤系统是一种功能强大的工具，可用于添加、编辑和除去规则，这些规则是在做信息包过滤决定时，防火墙所遵循和组成的规则。这些规则存储在专用的信息包过滤表中，而这些表集成在 Linux 内核中。在信息包过滤表中，规则被分组放在我们所谓的链（chain）中。<br> <a id="more"></a></p>
+<h1 id="netfilter和iptables"><a href="#netfilter和iptables" class="headerlink" title="netfilter和iptables"></a>netfilter和iptables</h1><blockquote>
+<p>netfilter 组件也称为内核空间（kernelspace），是内核的一部分，由一些信息包过滤表组成，这些表包含内核用来控制信息包过滤处理的规则集。</p>
+</blockquote>
+<blockquote>
+<p>iptables 组件是一种工具，也称为用户空间（userspace），它使插入、修改和除去信息包过滤表中的规则变得容易。</p>
+</blockquote>
+<p>iptables包含4个表，5个链。其中表是按照对数据包的操作区分的，链是按照不同的Hook点来区分的，表和链实际上是netfilter的两个维度。</p>
+<h2 id="4个表"><a href="#4个表" class="headerlink" title="4个表"></a>4个表</h2><p>默认表是filter（没有指定表的时候就是filter表）。</p>
+<blockquote>
+<p>表的处理优先级：raw&gt;mangle&gt;nat&gt;filter。</p>
+</blockquote>
+<h3 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h3><p>一般的过滤功能</p>
+<h3 id="nat"><a href="#nat" class="headerlink" title="nat"></a>nat</h3><p>用于nat功能（端口映射，地址映射等）</p>
+<h3 id="mangle"><a href="#mangle" class="headerlink" title="mangle"></a>mangle</h3><p>用于对特定数据包的修改</p>
+<h3 id="raw"><a href="#raw" class="headerlink" title="raw"></a>raw</h3><p>有限级最高，设置raw时一般是为了不再让iptables做数据包的链接跟踪处理，提高性能</p>
+<p>RAW 表只使用在PREROUTING链和OUTPUT链上,因为优先级最高，从而可以对收到的数据包在连接跟踪前进行处理。一但用户使用了RAW表,在某个链 上,RAW表处理完后,将跳过NAT表和 ip_conntrack处理,即不再做地址转换和数据包的链接跟踪处理了。</p>
+<p>RAW表可以应用在那些不需要做nat的情况下，以提高性能。如大量访问的web服务器，可以让80端口不再让iptables做数据包的链接跟踪处理，以提高用户的访问速度。</p>
+<h2 id="5个链"><a href="#5个链" class="headerlink" title="5个链"></a>5个链</h2><h3 id="PREROUTING"><a href="#PREROUTING" class="headerlink" title="PREROUTING"></a>PREROUTING</h3><p>数据包进入路由表之前</p>
+<h3 id="INPUT"><a href="#INPUT" class="headerlink" title="INPUT"></a>INPUT</h3><p>通过路由表后目的地为本机</p>
+<h3 id="FORWARDING"><a href="#FORWARDING" class="headerlink" title="FORWARDING"></a>FORWARDING</h3><p>通过路由表后，目的地不为本机</p>
+<h3 id="OUTPUT"><a href="#OUTPUT" class="headerlink" title="OUTPUT"></a>OUTPUT</h3><p>由本机产生，向外转发</p>
+<h3 id="POSTROUTIONG"><a href="#POSTROUTIONG" class="headerlink" title="POSTROUTIONG"></a>POSTROUTIONG</h3><p>发送到网卡接口之前。</p>
+<p><img src="/images/linux/iptables/iptable-1.png" alt="流量走向"></p>
+<h2 id="iptables的数据包的流程是怎样的？"><a href="#iptables的数据包的流程是怎样的？" class="headerlink" title="iptables的数据包的流程是怎样的？"></a>iptables的数据包的流程是怎样的？</h2><p><img src="/images/linux/iptables/iptable-2.png" alt="流量走向"></p>
+<p>基本步骤如下： </p>
+<ol>
+<li>数据包到达网络接口，比如 eth0。 </li>
+<li>进入 raw 表的 PREROUTING 链，这个链的作用是赶在连接跟踪之前处理数据包。 </li>
+<li>如果进行了连接跟踪，在此处理。 </li>
+<li>进入 mangle 表的 PREROUTING 链，在此可以修改数据包，比如 TOS 等。 </li>
+<li>进入 nat 表的 PREROUTING 链，可以在此做DNAT，但不要做过滤。 </li>
+<li>决定路由，看是交给本地主机还是转发给其它主机。 </li>
+</ol>
+<p>到了这里我们就得分两种不同的情况进行讨论了，一种情况就是数据包要转发给其它主机，这时候它会依次经过：<br>7. 进入 mangle 表的 FORWARD 链，这里也比较特殊，这是在第一次路由决定之后，在进行最后的路由决定之前，我们仍然可以对数据包进行某些修改。<br>8. 进入 filter 表的 FORWARD 链，在这里我们可以对所有转发的数据包进行过滤。需要注意的是：经过这里的数据包是转发的，方向是双向的。<br>9. 进入 mangle 表的 POSTROUTING 链，到这里已经做完了所有的路由决定，但数据包仍然在本地主机，我们还可以进行某些修改。<br>10. 进入 nat 表的 POSTROUTING 链，在这里一般都是用来做 SNAT ，不要在这里进行过滤。<br>11. 进入出去的网络接口。完毕。 </p>
+<p>另一种情况是，数据包就是发给本地主机的，那么它会依次穿过：<br>7. 进入 mangle 表的 INPUT 链，这里是在路由之后，交由本地主机之前，我们也可以进行一些相应的修改。<br>8. 进入 filter 表的 INPUT 链，在这里我们可以对流入的所有数据包进行过滤，无论它来自哪个网络接口。<br>9. 交给本地主机的应用程序进行处理。<br>10. 处理完毕后进行路由决定，看该往那里发出。<br>11. 进入 raw 表的 OUTPUT 链，这里是在连接跟踪处理本地的数据包之前。<br>12. 连接跟踪对本地的数据包进行处理。<br>13. 进入 mangle 表的 OUTPUT 链，在这里我们可以修改数据包，但不要做过滤。<br>14. 进入 nat 表的 OUTPUT 链，可以对防火墙自己发出的数据做 NAT 。<br>15. 再次进行路由决定。<br>16. 进入 filter 表的 OUTPUT 链，可以对本地出去的数据包进行过滤。<br>17. 进入 mangle 表的 POSTROUTING 链，同上一种情况的第9步。注意，这里不光对经过防火墙的数据包进行处理，还对防火墙自己产生的数据包进行处理。<br>18. 进入 nat 表的 POSTROUTING 链，同上一种情况的第10步。<br>19. 进入出去的网络接口。完毕。</p>
+<h2 id="iptables-raw表的使用"><a href="#iptables-raw表的使用" class="headerlink" title="iptables raw表的使用"></a>iptables raw表的使用</h2><p>增加raw表，在其他表处理之前，-j NOTRACK跳过其它表处理<br>状态除了以前的四个还增加了一个UNTRACKED</p>
+<p>例如：<br>可以使用 “NOTRACK” target 允许规则指定80端口的包不进入链接跟踪/NAT子系统</p>
+<p>iptables -t raw -A PREROUTING -d 1.2.3.4 -p tcp –dport 80 -j NOTRACK<br>iptables -t raw -A PREROUTING -s 1.2.3.4 -p tcp –sport 80 -j NOTRACK<br>iptables -A FORWARD -m state –state UNTRACKED -j ACCEPT</p>
+<h2 id="解决ip-conntrack-table-full-dropping-packet的问题"><a href="#解决ip-conntrack-table-full-dropping-packet的问题" class="headerlink" title="解决ip_conntrack: table full, dropping packet的问题"></a>解决ip_conntrack: table full, dropping packet的问题</h2><p>在启用了iptables web服务器上，流量高的时候经常会出现下面的错误：</p>
+<p>ip_conntrack: table full, dropping packet</p>
+<p>这个问题的原因是由于web服务器收到了大量的连接，在启用了iptables的情况下，iptables会把所有的连接都做链接跟踪处理，这样iptables就会有一个链接跟踪表，当这个表满的时候，就会出现上面的错误。</p>
+<p>iptables的链接跟踪表最大容量为/proc/sys/net/ipv4/ip_conntrack_max，链接碰到各种状态的超时后就会从表中删除。</p>
+<p>所以解決方法一般有两个：</p>
+<p>(1) 加大 ip_conntrack_max 值</p>
+<p>vi /etc/sysctl.conf</p>
+<p>net.ipv4.ip_conntrack_max = 393216<br>net.ipv4.netfilter.ip_conntrack_max = 393216</p>
+<p>(2): 降低 ip_conntrack timeout时间</p>
+<p>vi /etc/sysctl.conf</p>
+<p>net.ipv4.netfilter.ip_conntrack_tcp_timeout_established = 300<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait = 120<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait = 60<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait = 120</p>
+<p>上面两种方法打个比喻就是烧水水开的时候，换一个大锅。一般情况下都可以解决问题，但是在极端情况下，还是不够用，怎么办？</p>
+<p>这样就得反其道而行，用釜底抽薪的办法。iptables的raw表是不做数据包的链接跟踪处理的，我们就把那些连接量非常大的链接加入到iptables raw表。</p>
+<p>如一台web服务器可以这样：</p>
+<p>iptables -t raw -A PREROUTING -d 1.2.3.4 -p tcp –dport 80 -j NOTRACK<br>iptables -A FORWARD -m state –state UNTRACKED -j ACCEPT</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2020/11/19/harbor/login/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">harbor登录切换</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2020/11/08/k8s/kube-scheduler-extend/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">kube-scheduler 的扩展</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Keep team</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.0</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+<script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/header-shrink.js"></script><script src="/js/back2top.js"></script><script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>
