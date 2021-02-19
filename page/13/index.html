@@ -296,6 +296,48 @@ mjx-container[display="true"] + br {
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2019/07/04/golang/read_large_files_faster/">
+                        利用多线程在Go中更快地读取大文件
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        <h1 id="利用多线程在Go中更快地读取大文件"><a href="#利用多线程在Go中更快地读取大文件" class="headerlink" title="利用多线程在Go中更快地读取大文件"></a>利用多线程在Go中更快地读取大文件</h1><p>如何计算具有4gb RAM的50gb文件中单词的出现次数。窍门是不将整个文件加载到内存中，而是在继续移动文件指针时继续处理每个单词。这样，我们可以用最少的内存资源轻松处理整个文件。</p>
+<p>现在的后续问题是我们如何使用多线程来加快此过程？解决方案是我们在文件的不同部分保留多个指针，并且每个线程同时读取文件的块。</p>
+<p>最后，结果可以合并。</p>
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Jul 05 2019 02:03:48 GMT+0800">2019-07-05</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/golang/">golang</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2019/07/04/golang/read_large_files_faster/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2019/07/04/network/http_status_code/">
                         HTTP状态码
                     </a>
@@ -347,14 +389,15 @@ http 状态码对应表
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2019/07/04/python/django_script/">
-                        编写django脚本，使用django的数据库连接
+                    <a href="/2019/07/04/python/django_signal/">
+                        Django中内置的signal用法
                     </a>
                 </h3>
 
                 <div class="home-article-content markdown-body">
                     
-                        <p>针对django的项目，想编写脚本针对数据进行批量处理，通过导入以下几个包，即可编写python脚本来通过django的数据库连接操作</p>
+                        <p>Django中提供了”信号调度”,用于在框架执行操作时解耦.</p>
+<p>一些动作发生的时候,系统会根据信号定义的函数执行相应的操作</p>
                     
                 </div>
 
@@ -377,7 +420,7 @@ http 状态码对应表
         
     </div>
 
-    <a href="/2019/07/04/python/django_script/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a href="/2019/07/04/python/django_signal/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

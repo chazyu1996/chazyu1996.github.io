@@ -9,7 +9,7 @@
     
     <title>
         
-            136. 只出现一次的数字 |
+            dockerfile 的编写注意事项 |
         
         南城旧梦
     </title>
@@ -254,7 +254,7 @@ mjx-container[display="true"] + br {
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">136. 只出现一次的数字</span>
+            <span class="title-hover-animation">dockerfile 的编写注意事项</span>
         </div>
 
         
@@ -272,7 +272,7 @@ mjx-container[display="true"] + br {
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2019-07-05 02:03:48
+        <i class="fas fa-edit"></i>&nbsp;2020-07-19 21:27:02
     </span>
     
         <span class="article-categories article-meta-item">
@@ -280,7 +280,7 @@ mjx-container[display="true"] + br {
             <ul>
                 
                     <li>
-                        <a href="/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/">算法题解</a>&nbsp;
+                        <a href="/categories/%E8%B8%A9%E5%9D%91%E9%81%87%E9%9B%B7/">踩坑遇雷</a>&nbsp;
                     </li>
                 
             </ul>
@@ -292,7 +292,7 @@ mjx-container[display="true"] + br {
             <ul>
                 
                     <li>
-                        <a href="/tags/leetcode/">leetcode</a>&nbsp;
+                        <a href="/tags/docker/">docker</a>&nbsp;
                     </li>
                 
             </ul>
@@ -311,28 +311,45 @@ mjx-container[display="true"] + br {
         
 
         <div class="article-content markdown-body">
-            <p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
+            <p>在Dockerfile的编写中，可能会遇到各式各样的问题，列举了常见的几个注意事项</p>
 <a id="more"></a>
 
-<p>说明：</p>
-<p>你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？</p>
-<p>示例 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [2,2,1]</span><br><span class="line">输出: 1</span><br></pre></td></tr></table></figure>
-<p>示例 2:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [4,1,2,1,2]</span><br><span class="line">输出: 4</span><br></pre></td></tr></table></figure>
+<h1 id="CMD-和-ENTRYPOINT"><a href="#CMD-和-ENTRYPOINT" class="headerlink" title="CMD 和 ENTRYPOINT"></a>CMD 和 ENTRYPOINT</h1><p>CMD 和 ENTRYPOINT 指令都是用来指定容器启动时运行的命令。</p>
+<h2 id="exec-模式和-shell-模式"><a href="#exec-模式和-shell-模式" class="headerlink" title="exec 模式和 shell 模式"></a>exec 模式和 shell 模式</h2><h3 id="exec-模式"><a href="#exec-模式" class="headerlink" title="exec 模式"></a>exec 模式</h3><p>使用 exec 模式时，容器中的任务进程就是容器内的 1 号进程</p>
+<blockquote>
+<p>在docker场景下，当执行<code>docker stop</code> 或 <code>docker kill</code> 命令时，都是向进程id为<strong>1</strong> 的进程发送对应的signal信号</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu</span><br><span class="line">CMD [ &quot;top&quot; ]</span><br></pre></td></tr></table></figure>
 
-<h1 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h1><h2 id="golang"><a href="#golang" class="headerlink" title="golang"></a>golang</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">singleNumber</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	a:=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> _,n := <span class="keyword">range</span> nums&#123;</span><br><span class="line">	a^=n</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>exec 模式的特点是不会通过 shell 执行相关的命令，所以像 $HOME 这样的环境变量是取不到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu</span><br><span class="line">CMD [ &quot;echo&quot;, &quot;$HOME&quot; ]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>输出 <code>$HOME</code></p>
+</blockquote>
+<p>通过 exec 模式执行 shell 可以获得环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu</span><br><span class="line">CMD [ &quot;sh&quot;, &quot;-c&quot;, &quot;echo $HOME&quot; ]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>输出 <code>/root</code></p>
+</blockquote>
+<h3 id="shell-模式"><a href="#shell-模式" class="headerlink" title="shell 模式"></a>shell 模式</h3><p>使用 shell 模式时，docker 会以 /bin/sh -c “task command” 的方式执行任务命令。也就是说容器中的 1 号进程不是任务进程而是 bash 进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu</span><br><span class="line">CMD top</span><br></pre></td></tr></table></figure>
+<h2 id="ENTRYPOINT"><a href="#ENTRYPOINT" class="headerlink" title="ENTRYPOINT"></a>ENTRYPOINT</h2><p>ENTRYPOINT 指令的目的也是为容器指定默认执行的任务。</p>
+<h2 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h2><p>当只有CMD时，作为默认的执行命令</p>
+<p>当同时存在 ENTRYPOINT 和 CMD时，作为ENTRYPOINT 的传参</p>
+
         </div>
 
         
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li>Post title：136. 只出现一次的数字</li>
+        <li>Post title：dockerfile 的编写注意事项</li>
         <li>Post author：MorningFish</li>
-        <li>Create time：2019-07-05 02:03:48</li>
+        <li>Create time：2020-07-19 21:27:02</li>
         <li>
-            Post link：https://chazyu.com/2019/07/04/leetcode/136/
+            Post link：https://chazyu.com/2020/07/19/docker/dockerfile/
         </li>
         <li>
             Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
@@ -349,13 +366,13 @@ mjx-container[display="true"] + br {
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/2019/07/04/leetcode/172/"
+                           href="/2020/07/20/mysql/affair/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">172. 阶乘后的零</span>
+                                <span class="post-nav-title-item">事务</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -365,10 +382,10 @@ mjx-container[display="true"] + br {
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2019/07/04/linux/rsync/"
+                           href="/2020/04/09/network/Load_balancing/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">rsync同步工具的使用</span>
+                                <span class="post-nav-title-item">负载均衡的实现应用</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -547,7 +564,7 @@ mjx-container[display="true"] + br {
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E7%AD%94"><span class="nav-number">1.</span> <span class="nav-text">解答</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#golang"><span class="nav-number">1.1.</span> <span class="nav-text">golang</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CMD-%E5%92%8C-ENTRYPOINT"><span class="nav-number">1.</span> <span class="nav-text">CMD 和 ENTRYPOINT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#exec-%E6%A8%A1%E5%BC%8F%E5%92%8C-shell-%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">exec 模式和 shell 模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#exec-%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">exec 模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shell-%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.1.2.</span> <span class="nav-text">shell 模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ENTRYPOINT"><span class="nav-number">1.2.</span> <span class="nav-text">ENTRYPOINT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMD"><span class="nav-number">1.3.</span> <span class="nav-text">CMD</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
